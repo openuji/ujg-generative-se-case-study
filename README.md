@@ -12,7 +12,7 @@ The first implementation/evaluation slice should remain narrow: **waitlisted -> 
 
 - `ujg/workshop-registration.ujg.yaml` is the DX authoring representation.
 - `ujg/workshop-registration.ujg.jsonld` is the canonical UJG representation consumed by tools.
-- The YAML must compile/flatten losslessly into the canonical model. The current pair has exact 126/126 node and property parity.
+- The YAML must compile/flatten losslessly into the canonical model. 
 - Do not maintain independent semantic journey definitions in backend requirements, frontend prompts, Playwright tests, or Storybook.
 
 ## Quick start
@@ -22,27 +22,8 @@ Requirements: Node.js 22 and pnpm 10.14.
 ```bash
 corepack enable
 pnpm install
-pnpm check
-pnpm review:ujg
 ```
-
-`pnpm check` verifies YAML/JSON-LD parity and canonical reference integrity. `pnpm review:ujg` also reports known Graph/semantic review findings without failing the command. `pnpm check:ujg` is strict and currently fails on the two known missing `defaultEntryRef` values until those semantics are resolved.
-
 ## Current model status
-
-Good:
-
-- DX YAML and canonical JSON-LD are exactly equivalent after flattening.
-- 126 stable node IDs match.
-- no dangling canonical references were found.
-- User/touchpoint assignment covers the workshop app and email journey.
-- Effects are attached to the main mutating transitions.
-
-Open before domain-generation benchmarking:
-
-- `urn:ujg:journey:workshop-detail` has no required `defaultEntryRef`.
-- `urn:ujg:journey:offered-place-app` has no required `defaultEntryRef`.
-- domain-dependent branch predicates are currently expressed mostly through transition labels rather than the UJG Conditions module.
 
 See `docs/model-review.md`.
 

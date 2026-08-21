@@ -12,22 +12,6 @@ This review is intentionally narrow: it checks the supplied DX YAML and canonica
 - The email → workshop-app handoff is explicitly modeled with nested journeys and an exported child exit.
 - Mutating user actions are already separated with Effects for confirm registration, join waitlist, accept offered place, and decline offered place.
 
-## Blockers before calling the graph conformant
-
-The current Graph Editor's Draft requires every `Journey` to declare exactly one `defaultEntryRef`, and that entry must be listed in the journey's `entryRefs`.
-
-Two journeys currently omit it:
-
-1. `urn:ujg:journey:workshop-detail`
-2. `urn:ujg:journey:offered-place-app`
-
-This is not just a syntactic omission. Both journeys intentionally expose multiple entries whose selection depends on domain state:
-
-- workshop detail: registration open / waitlist open / registration closed
-- offered-place app: offer open / expired / unavailable
-
-Do not fix this by arbitrarily selecting a default without first deciding how domain-dependent materialization is meant to map into Graph entry semantics.
-
 ## Semantic under-specification relevant to domain generation
 
 The current document does not compose the UJG Conditions module. Several branches therefore encode important predicates only in labels:
