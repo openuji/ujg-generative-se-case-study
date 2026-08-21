@@ -1,0 +1,16 @@
+node_modules/
+.pnpm-store/
+.DS_Store
+*.log
+playwright-report/
+test-results/
+coverage/
+dist/
+.vite/
+
+# Journey Mesh is bootstrapped at a pinned commit, not committed here.
+.vendor/journey-mesh/
+
+# Generated experiment output stays local unless intentionally curated.
+experiments/domain-generation/runs/*
+!experiments/domain-generation/runs/.gitkeep

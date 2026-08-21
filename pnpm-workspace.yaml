@@ -1,0 +1,5 @@
+packages:
+  - "apps/*"
+  - "design-system"
+  - "tests/*"
+  - ".vendor/journey-mesh/packages/*"

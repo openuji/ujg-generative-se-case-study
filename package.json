@@ -1,0 +1,13 @@
+{
+  "name": "@openuji/workshop-registration-generative-se-case-study",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.14.0",
+  "scripts": {
+    "bootstrap:journey-mesh": "node scripts/bootstrap-journey-mesh.mjs"
+  },
+  "devDependencies": {
+    "yaml": "2.9.0"
+  }
+}
