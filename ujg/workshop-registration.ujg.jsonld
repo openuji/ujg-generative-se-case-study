@@ -4,7 +4,9 @@
     "https://ujg.specs.openuji.org/ed/ns/graph.context.jsonld",
     "https://ujg.specs.openuji.org/ed/ns/surface.context.jsonld",
     "https://ujg.specs.openuji.org/ed/ns/entry-binding.context.jsonld",
-    "https://ujg.specs.openuji.org/ed/ns/effect.context.jsonld"
+    "https://ujg.specs.openuji.org/ed/ns/condition.context.jsonld",
+    "https://ujg.specs.openuji.org/ed/ns/effect.context.jsonld",
+    "https://ujg.specs.openuji.org/ed/ns/domain-requirements.context.jsonld"
   ],
   "@id": "urn:ujg:document:workshop-registration-case-study",
   "@type": "UJGDocument",
@@ -39,6 +41,13 @@
       "label": "Offered-place email materialization",
       "entryRef": "urn:ujg:entry:offered-place-email",
       "value": "workshop.offer-email"
+    },
+    {
+      "@type": "EntryBinding",
+      "@id": "urn:ujg:entry-binding:offered-place-app",
+      "label": "Offered-place application materialization",
+      "entryRef": "urn:ujg:entry:offered-place-app",
+      "value": "workshop.offer"
     },
     {
       "@type": "Journey",
@@ -232,14 +241,16 @@
       "@id": "urn:ujg:transition:registration-details-valid",
       "label": "Continue with valid registration details",
       "from": "urn:ujg:state:registration-form",
-      "to": "urn:ujg:state:registration-review"
+      "to": "urn:ujg:state:registration-review",
+      "conditionRef": "urn:ujg:condition:registration-details-valid"
     },
     {
       "@type": "Transition",
       "@id": "urn:ujg:transition:registration-details-invalid",
       "label": "Continue with invalid registration details",
       "from": "urn:ujg:state:registration-form",
-      "to": "urn:ujg:state:registration-form-error"
+      "to": "urn:ujg:state:registration-form-error",
+      "conditionRef": "urn:ujg:condition:registration-details-invalid"
     },
     {
       "@type": "Transition",
@@ -261,14 +272,16 @@
       "label": "Confirm registration",
       "from": "urn:ujg:state:registration-review",
       "to": "urn:ujg:state:registration-confirmed",
-      "effectRef": "urn:ujg:effect:confirm-registration"
+      "effectRef": "urn:ujg:effect:confirm-registration",
+      "conditionRef": "urn:ujg:condition:registration-place-available"
     },
     {
       "@type": "Transition",
       "@id": "urn:ujg:transition:confirm-registration-place-unavailable",
       "label": "Confirm registration when the place is no longer available",
       "from": "urn:ujg:state:registration-review",
-      "to": "urn:ujg:exit:registration-place-unavailable"
+      "to": "urn:ujg:exit:registration-place-unavailable",
+      "conditionRef": "urn:ujg:condition:registration-place-unavailable"
     },
     {
       "@type": "Journey",
@@ -371,14 +384,16 @@
       "@id": "urn:ujg:transition:waitlist-details-valid",
       "label": "Continue with valid waitlist details",
       "from": "urn:ujg:state:waitlist-form",
-      "to": "urn:ujg:state:waitlist-review"
+      "to": "urn:ujg:state:waitlist-review",
+      "conditionRef": "urn:ujg:condition:waitlist-details-valid"
     },
     {
       "@type": "Transition",
       "@id": "urn:ujg:transition:waitlist-details-invalid",
       "label": "Continue with invalid waitlist details",
       "from": "urn:ujg:state:waitlist-form",
-      "to": "urn:ujg:state:waitlist-form-error"
+      "to": "urn:ujg:state:waitlist-form-error",
+      "conditionRef": "urn:ujg:condition:waitlist-details-invalid"
     },
     {
       "@type": "Transition",
@@ -400,14 +415,16 @@
       "label": "Join waitlist",
       "from": "urn:ujg:state:waitlist-review",
       "to": "urn:ujg:state:waitlisted",
-      "effectRef": "urn:ujg:effect:join-waitlist"
+      "effectRef": "urn:ujg:effect:join-waitlist",
+      "conditionRef": "urn:ujg:condition:participant-not-already-waitlisted"
     },
     {
       "@type": "Transition",
       "@id": "urn:ujg:transition:join-waitlist-already-listed",
       "label": "Join waitlist when already listed",
       "from": "urn:ujg:state:waitlist-review",
-      "to": "urn:ujg:state:already-waitlisted"
+      "to": "urn:ujg:state:already-waitlisted",
+      "conditionRef": "urn:ujg:condition:participant-already-waitlisted"
     },
     {
       "@type": "Transition",
@@ -446,7 +463,8 @@
       "userRef": "urn:ujg:user:workshop-participant",
       "defaultEntryRef": "urn:ujg:entry:offered-place-email",
       "entryRefs": [
-        "urn:ujg:entry:offered-place-email"
+        "urn:ujg:entry:offered-place-email",
+        "urn:ujg:entry:offered-place-app"
       ],
       "stateRefs": [
         "urn:ujg:composite:offered-place-email",
@@ -461,6 +479,12 @@
       "@id": "urn:ujg:entry:offered-place-email",
       "label": "Offered-place email entry",
       "stateRef": "urn:ujg:composite:offered-place-email"
+    },
+    {
+      "@type": "JourneyEntry",
+      "@id": "urn:ujg:entry:offered-place-app",
+      "label": "Offered-place application entry",
+      "stateRef": "urn:ujg:composite:offered-place-app"
     },
     {
       "@type": "CompositeState",
@@ -605,14 +629,16 @@
       "label": "Accept offered place",
       "from": "urn:ujg:state:offered-place-open",
       "to": "urn:ujg:state:offered-place-registration-confirmed",
-      "effectRef": "urn:ujg:effect:accept-offered-place"
+      "effectRef": "urn:ujg:effect:accept-offered-place",
+      "conditionRef": "urn:ujg:condition:offered-place-valid"
     },
     {
       "@type": "Transition",
       "@id": "urn:ujg:transition:accept-offered-place-after-expiry",
       "label": "Accept offered place after it has expired",
       "from": "urn:ujg:state:offered-place-open",
-      "to": "urn:ujg:state:offered-place-expired"
+      "to": "urn:ujg:state:offered-place-expired",
+      "conditionRef": "urn:ujg:condition:offered-place-expired"
     },
     {
       "@type": "Transition",
@@ -627,7 +653,8 @@
       "@id": "urn:ujg:transition:offered-place-expires",
       "label": "Offered place expires",
       "from": "urn:ujg:state:offered-place-open",
-      "to": "urn:ujg:state:offered-place-expired"
+      "to": "urn:ujg:state:offered-place-expired",
+      "conditionRef": "urn:ujg:condition:offered-place-expired"
     },
     {
       "@type": "Touchpoint",
@@ -900,6 +927,101 @@
       "@id": "urn:ujg:surface:action:decline-offered-place",
       "label": "Decline offered place action",
       "graphNodeRef": "urn:ujg:transition:decline-offered-place"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:registration-details-valid",
+      "label": "Registration details are valid"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:registration-details-invalid",
+      "label": "Registration details are invalid"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:registration-place-available",
+      "label": "A registration place is available"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:registration-place-unavailable",
+      "label": "A registration place is unavailable"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:waitlist-details-valid",
+      "label": "Waitlist details are valid"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:waitlist-details-invalid",
+      "label": "Waitlist details are invalid"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:participant-not-already-waitlisted",
+      "label": "Participant is not already waitlisted"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:participant-already-waitlisted",
+      "label": "Participant is already waitlisted"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:offered-place-valid",
+      "label": "Offered place is valid"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:offered-place-expired",
+      "label": "Offered place is expired"
+    },
+    {
+      "@type": "ConditionSet",
+      "@id": "urn:ujg:condition-set:registration-details-validation",
+      "label": "Resolve registration details validation",
+      "conditionTransitionRefs": [
+        "urn:ujg:transition:registration-details-valid",
+        "urn:ujg:transition:registration-details-invalid"
+      ]
+    },
+    {
+      "@type": "ConditionSet",
+      "@id": "urn:ujg:condition-set:registration-place-at-confirmation",
+      "label": "Resolve registration place availability at confirmation",
+      "conditionTransitionRefs": [
+        "urn:ujg:transition:confirm-registration",
+        "urn:ujg:transition:confirm-registration-place-unavailable"
+      ]
+    },
+    {
+      "@type": "ConditionSet",
+      "@id": "urn:ujg:condition-set:waitlist-details-validation",
+      "label": "Resolve waitlist details validation",
+      "conditionTransitionRefs": [
+        "urn:ujg:transition:waitlist-details-valid",
+        "urn:ujg:transition:waitlist-details-invalid"
+      ]
+    },
+    {
+      "@type": "ConditionSet",
+      "@id": "urn:ujg:condition-set:waitlist-membership-at-confirmation",
+      "label": "Resolve existing waitlist membership",
+      "conditionTransitionRefs": [
+        "urn:ujg:transition:join-waitlist",
+        "urn:ujg:transition:join-waitlist-already-listed"
+      ]
+    },
+    {
+      "@type": "ConditionSet",
+      "@id": "urn:ujg:condition-set:offered-place-acceptance-validity",
+      "label": "Resolve offered-place validity when accepting",
+      "conditionTransitionRefs": [
+        "urn:ujg:transition:accept-offered-place",
+        "urn:ujg:transition:accept-offered-place-after-expiry"
+      ]
     }
   ]
 }
