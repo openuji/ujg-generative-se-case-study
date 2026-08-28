@@ -724,17 +724,22 @@
       "@type": "Touchpoint",
       "@id": "urn:ujg:touchpoint:workshop-app",
       "label": "Workshop application",
-      "compositeStateRefs": [
-        "urn:ujg:composite:workshop-detail",
-        "urn:ujg:composite:offered-place-app"
+      "journeyRefs": [
+        "urn:ujg:journey:workshops",
+        "urn:ujg:journey:workshops-overview",
+        "urn:ujg:journey:workshop-detail",
+        "urn:ujg:journey:workshop-registration",
+        "urn:ujg:journey:workshop-waitlist",
+        "urn:ujg:journey:workshop-registration-closed",
+        "urn:ujg:journey:offered-place-app"
       ]
     },
     {
       "@type": "Touchpoint",
       "@id": "urn:ujg:touchpoint:email",
       "label": "Email",
-      "compositeStateRefs": [
-        "urn:ujg:composite:offered-place-email"
+      "journeyRefs": [
+        "urn:ujg:journey:offered-place-email"
       ]
     },
     {
@@ -870,7 +875,7 @@
       "@type": "Surface",
       "@id": "urn:ujg:surface:action:open-workshop",
       "label": "Open workshop action",
-      "graphNodeRef": "urn:ujg:transition:open-workshop"
+      "graphNodeRef": "urn:ujg:transition:open-workshop-teaser"
     },
     {
       "@type": "Surface",
@@ -880,33 +885,9 @@
     },
     {
       "@type": "Surface",
-      "@id": "urn:ujg:surface:action:registration-details-valid",
-      "label": "Continue registration action",
-      "graphNodeRef": "urn:ujg:transition:registration-details-valid"
-    },
-    {
-      "@type": "Surface",
-      "@id": "urn:ujg:surface:action:registration-details-invalid",
-      "label": "Continue registration action",
-      "graphNodeRef": "urn:ujg:transition:registration-details-invalid"
-    },
-    {
-      "@type": "Surface",
       "@id": "urn:ujg:surface:action:edit-registration-details",
       "label": "Edit registration action",
       "graphNodeRef": "urn:ujg:transition:edit-registration-details"
-    },
-    {
-      "@type": "Surface",
-      "@id": "urn:ujg:surface:action:confirm-registration",
-      "label": "Confirm registration action",
-      "graphNodeRef": "urn:ujg:transition:confirm-registration"
-    },
-    {
-      "@type": "Surface",
-      "@id": "urn:ujg:surface:action:confirm-registration-place-unavailable",
-      "label": "Confirm registration action",
-      "graphNodeRef": "urn:ujg:transition:confirm-registration-place-unavailable"
     },
     {
       "@type": "Surface",
@@ -922,33 +903,9 @@
     },
     {
       "@type": "Surface",
-      "@id": "urn:ujg:surface:action:waitlist-details-valid",
-      "label": "Continue waitlist action",
-      "graphNodeRef": "urn:ujg:transition:waitlist-details-valid"
-    },
-    {
-      "@type": "Surface",
-      "@id": "urn:ujg:surface:action:waitlist-details-invalid",
-      "label": "Continue waitlist action",
-      "graphNodeRef": "urn:ujg:transition:waitlist-details-invalid"
-    },
-    {
-      "@type": "Surface",
       "@id": "urn:ujg:surface:action:edit-waitlist-details",
       "label": "Edit waitlist action",
       "graphNodeRef": "urn:ujg:transition:edit-waitlist-details"
-    },
-    {
-      "@type": "Surface",
-      "@id": "urn:ujg:surface:action:join-waitlist",
-      "label": "Confirm waitlist action",
-      "graphNodeRef": "urn:ujg:transition:join-waitlist"
-    },
-    {
-      "@type": "Surface",
-      "@id": "urn:ujg:surface:action:join-waitlist-already-listed",
-      "label": "Confirm waitlist action",
-      "graphNodeRef": "urn:ujg:transition:join-waitlist-already-listed"
     },
     {
       "@type": "Surface",
@@ -961,18 +918,6 @@
       "@id": "urn:ujg:surface:action:open-offered-place-link",
       "label": "Open offered-place link",
       "graphNodeRef": "urn:ujg:transition:open-offered-place-link"
-    },
-    {
-      "@type": "Surface",
-      "@id": "urn:ujg:surface:action:accept-offered-place",
-      "label": "Accept offered place action",
-      "graphNodeRef": "urn:ujg:transition:accept-offered-place"
-    },
-    {
-      "@type": "Surface",
-      "@id": "urn:ujg:surface:action:accept-offered-place-after-expiry",
-      "label": "Accept offered place action",
-      "graphNodeRef": "urn:ujg:transition:accept-offered-place-after-expiry"
     },
     {
       "@type": "Surface",
@@ -1031,7 +976,7 @@
       "label": "Offered place is expired"
     },
     {
-      "@type": "ConditionSet",
+      "@type": "ConditionalTransitionSet",
       "@id": "urn:ujg:condition-set:registration-details-validation",
       "label": "Resolve registration details validation",
       "conditionTransitionRefs": [
@@ -1040,7 +985,7 @@
       ]
     },
     {
-      "@type": "ConditionSet",
+      "@type": "ConditionalTransitionSet",
       "@id": "urn:ujg:condition-set:corrected-registration-details-validation",
       "label": "Resolve corrected registration details validation",
       "conditionTransitionRefs": [
@@ -1049,7 +994,7 @@
       ]
     },
     {
-      "@type": "ConditionSet",
+      "@type": "ConditionalTransitionSet",
       "@id": "urn:ujg:condition-set:registration-place-at-confirmation",
       "label": "Resolve registration place availability at confirmation",
       "conditionTransitionRefs": [
@@ -1058,7 +1003,7 @@
       ]
     },
     {
-      "@type": "ConditionSet",
+      "@type": "ConditionalTransitionSet",
       "@id": "urn:ujg:condition-set:waitlist-details-validation",
       "label": "Resolve waitlist details validation",
       "conditionTransitionRefs": [
@@ -1067,7 +1012,7 @@
       ]
     },
     {
-      "@type": "ConditionSet",
+      "@type": "ConditionalTransitionSet",
       "@id": "urn:ujg:condition-set:corrected-waitlist-details-validation",
       "label": "Resolve corrected waitlist details validation",
       "conditionTransitionRefs": [
@@ -1076,7 +1021,7 @@
       ]
     },
     {
-      "@type": "ConditionSet",
+      "@type": "ConditionalTransitionSet",
       "@id": "urn:ujg:condition-set:waitlist-membership-at-confirmation",
       "label": "Resolve existing waitlist membership",
       "conditionTransitionRefs": [
@@ -1085,13 +1030,809 @@
       ]
     },
     {
-      "@type": "ConditionSet",
+      "@type": "ConditionalTransitionSet",
       "@id": "urn:ujg:condition-set:offered-place-acceptance-validity",
       "label": "Resolve offered-place validity when accepting",
       "conditionTransitionRefs": [
         "urn:ujg:transition:accept-offered-place",
         "urn:ujg:transition:accept-offered-place-after-expiry"
       ]
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:workshop-teaser",
+      "label": "Workshop teaser",
+      "graphNodeRef": "urn:ujg:state:workshop-teaser"
+    },
+    {
+      "@type": "TokenSource",
+      "@id": "urn:ujg:token-source:workshop-product",
+      "label": "Workshop product design tokens"
+    },
+    {
+      "@type": "Theme",
+      "@id": "urn:ujg:theme:workshop-product",
+      "label": "Workshop product theme",
+      "tokenSourceRefs": [
+        "urn:ujg:token-source:workshop-product"
+      ]
+    },
+    {
+      "@type": "Slot",
+      "@id": "urn:ujg:slot:main-content",
+      "label": "Main content"
+    },
+    {
+      "@type": "Slot",
+      "@id": "urn:ujg:slot:item",
+      "label": "Repeated item"
+    },
+    {
+      "@type": "Slot",
+      "@id": "urn:ujg:slot:primary-action",
+      "label": "Primary action"
+    },
+    {
+      "@type": "Slot",
+      "@id": "urn:ujg:slot:secondary-action",
+      "label": "Secondary action"
+    },
+    {
+      "@type": "Slot",
+      "@id": "urn:ujg:slot:destructive-action",
+      "label": "Destructive action"
+    },
+    {
+      "@type": "Template",
+      "@id": "urn:ujg:template:overview",
+      "label": "Overview layout",
+      "slotRefs": [
+        "urn:ujg:slot:main-content",
+        "urn:ujg:slot:item"
+      ]
+    },
+    {
+      "@type": "Template",
+      "@id": "urn:ujg:template:workshop-teaser-card",
+      "label": "Workshop teaser card layout",
+      "slotRefs": [
+        "urn:ujg:slot:main-content",
+        "urn:ujg:slot:primary-action"
+      ]
+    },
+    {
+      "@type": "Template",
+      "@id": "urn:ujg:template:detail-page",
+      "label": "Workshop detail page layout",
+      "slotRefs": [
+        "urn:ujg:slot:main-content",
+        "urn:ujg:slot:primary-action"
+      ]
+    },
+    {
+      "@type": "Template",
+      "@id": "urn:ujg:template:form-page",
+      "label": "Form page layout",
+      "slotRefs": [
+        "urn:ujg:slot:main-content",
+        "urn:ujg:slot:primary-action",
+        "urn:ujg:slot:secondary-action"
+      ]
+    },
+    {
+      "@type": "Template",
+      "@id": "urn:ujg:template:review-page",
+      "label": "Review page layout",
+      "slotRefs": [
+        "urn:ujg:slot:main-content",
+        "urn:ujg:slot:primary-action",
+        "urn:ujg:slot:secondary-action",
+        "urn:ujg:slot:destructive-action"
+      ]
+    },
+    {
+      "@type": "Template",
+      "@id": "urn:ujg:template:status-page",
+      "label": "Status page layout",
+      "slotRefs": [
+        "urn:ujg:slot:main-content",
+        "urn:ujg:slot:primary-action"
+      ]
+    },
+    {
+      "@type": "Template",
+      "@id": "urn:ujg:template:email-message",
+      "label": "Email message layout",
+      "slotRefs": [
+        "urn:ujg:slot:main-content",
+        "urn:ujg:slot:primary-action"
+      ]
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:overview-content",
+      "label": "Workshop overview content"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:workshop-teaser-card-content",
+      "label": "Workshop teaser card content"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:registration-open-content",
+      "label": "Registration-open workshop detail content"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:registration-form-fields",
+      "label": "Registration form fields"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:registration-form-error-fields",
+      "label": "Registration form fields with validation errors"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:registration-review-content",
+      "label": "Registration review content"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:registration-confirmed-content",
+      "label": "Registration confirmation content"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:waitlist-open-content",
+      "label": "Waitlist-open workshop detail content"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:waitlist-unavailable-content",
+      "label": "Registration unavailable waitlist content"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:waitlist-form-fields",
+      "label": "Waitlist form fields"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:waitlist-form-error-fields",
+      "label": "Waitlist form fields with validation errors"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:waitlist-review-content",
+      "label": "Waitlist review content"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:waitlisted-content",
+      "label": "Waitlisted status content"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:already-waitlisted-content",
+      "label": "Already waitlisted status content"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:registration-closed-content",
+      "label": "Closed registration content"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:offered-place-email-content",
+      "label": "Offered-place email content"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:offered-place-open-content",
+      "label": "Available offered-place content"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:offered-place-expired-content",
+      "label": "Expired offered-place content"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:offered-place-unavailable-content",
+      "label": "Unavailable offered-place content"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:offered-place-confirmed-content",
+      "label": "Offer acceptance confirmation content"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:offered-place-waitlisted-content",
+      "label": "Offer decline waitlisted content"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:primary-action-control",
+      "label": "Primary action control"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:secondary-action-control",
+      "label": "Secondary action control"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:destructive-action-control",
+      "label": "Destructive action control"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:card-link-control",
+      "label": "Card link control"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:email-link-control",
+      "label": "Email link control"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:workshops-overview-content",
+      "label": "Workshop overview content binding",
+      "slotRef": "urn:ujg:slot:main-content",
+      "targetComponentRef": "urn:ujg:component:overview-content"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:workshops-overview-teaser",
+      "label": "Workshop teaser binding",
+      "slotRef": "urn:ujg:slot:item",
+      "targetSurfaceRef": "urn:ujg:surface:workshop-teaser"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:workshops-overview",
+      "label": "Workshops overview realization",
+      "surfaceRef": "urn:ujg:surface:workshops-overview",
+      "templateRef": "urn:ujg:template:overview",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:workshops-overview-content",
+        "urn:ujg:slot-binding:workshops-overview-teaser"
+      ]
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:workshop-teaser-content",
+      "label": "Workshop teaser content binding",
+      "slotRef": "urn:ujg:slot:main-content",
+      "targetComponentRef": "urn:ujg:component:workshop-teaser-card-content"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:workshop-teaser-open-action",
+      "label": "Open workshop action binding",
+      "slotRef": "urn:ujg:slot:primary-action",
+      "targetSurfaceRef": "urn:ujg:surface:action:open-workshop"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:workshop-teaser",
+      "label": "Workshop teaser realization",
+      "surfaceRef": "urn:ujg:surface:workshop-teaser",
+      "templateRef": "urn:ujg:template:workshop-teaser-card",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:workshop-teaser-content",
+        "urn:ujg:slot-binding:workshop-teaser-open-action"
+      ]
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:registration-open-content",
+      "label": "Registration-open content binding",
+      "slotRef": "urn:ujg:slot:main-content",
+      "targetComponentRef": "urn:ujg:component:registration-open-content"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:registration-open-start-action",
+      "label": "Start registration action binding",
+      "slotRef": "urn:ujg:slot:primary-action",
+      "targetSurfaceRef": "urn:ujg:surface:action:start-registration"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:workshop-registration-open",
+      "label": "Registration-open detail realization",
+      "surfaceRef": "urn:ujg:surface:workshop-registration-open",
+      "templateRef": "urn:ujg:template:detail-page",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:registration-open-content",
+        "urn:ujg:slot-binding:registration-open-start-action"
+      ]
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:registration-form-fields",
+      "label": "Registration form fields binding",
+      "slotRef": "urn:ujg:slot:main-content",
+      "targetComponentRef": "urn:ujg:component:registration-form-fields"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:registration-form-continue-control",
+      "label": "Continue registration validation control binding",
+      "slotRef": "urn:ujg:slot:primary-action",
+      "targetComponentRef": "urn:ujg:component:primary-action-control"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:registration-form",
+      "label": "Registration form realization",
+      "surfaceRef": "urn:ujg:surface:registration-form",
+      "templateRef": "urn:ujg:template:form-page",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:registration-form-fields",
+        "urn:ujg:slot-binding:registration-form-continue-control"
+      ]
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:registration-error-fields",
+      "label": "Registration error fields binding",
+      "slotRef": "urn:ujg:slot:main-content",
+      "targetComponentRef": "urn:ujg:component:registration-form-error-fields"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:registration-error-continue-control",
+      "label": "Continue corrected registration validation control binding",
+      "slotRef": "urn:ujg:slot:primary-action",
+      "targetComponentRef": "urn:ujg:component:primary-action-control"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:registration-form-error",
+      "label": "Registration form error realization",
+      "surfaceRef": "urn:ujg:surface:registration-form-error",
+      "templateRef": "urn:ujg:template:form-page",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:registration-error-fields",
+        "urn:ujg:slot-binding:registration-error-continue-control"
+      ]
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:registration-review-content",
+      "label": "Registration review content binding",
+      "slotRef": "urn:ujg:slot:main-content",
+      "targetComponentRef": "urn:ujg:component:registration-review-content"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:registration-review-confirm-control",
+      "label": "Confirm registration conditional control binding",
+      "slotRef": "urn:ujg:slot:primary-action",
+      "targetComponentRef": "urn:ujg:component:primary-action-control"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:registration-review-edit-action",
+      "label": "Edit registration action binding",
+      "slotRef": "urn:ujg:slot:secondary-action",
+      "targetSurfaceRef": "urn:ujg:surface:action:edit-registration-details"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:registration-review",
+      "label": "Registration review realization",
+      "surfaceRef": "urn:ujg:surface:registration-review",
+      "templateRef": "urn:ujg:template:review-page",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:registration-review-content",
+        "urn:ujg:slot-binding:registration-review-confirm-control",
+        "urn:ujg:slot-binding:registration-review-edit-action"
+      ]
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:registration-confirmed-content",
+      "label": "Registration confirmation content binding",
+      "slotRef": "urn:ujg:slot:main-content",
+      "targetComponentRef": "urn:ujg:component:registration-confirmed-content"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:registration-confirmed",
+      "label": "Registration confirmation realization",
+      "surfaceRef": "urn:ujg:surface:registration-confirmed",
+      "templateRef": "urn:ujg:template:status-page",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:registration-confirmed-content"
+      ]
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:waitlist-open-content",
+      "label": "Waitlist-open content binding",
+      "slotRef": "urn:ujg:slot:main-content",
+      "targetComponentRef": "urn:ujg:component:waitlist-open-content"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:waitlist-open-start-action",
+      "label": "Start waitlist action binding",
+      "slotRef": "urn:ujg:slot:primary-action",
+      "targetSurfaceRef": "urn:ujg:surface:action:start-waitlist-registration"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:workshop-waitlist-open",
+      "label": "Waitlist-open detail realization",
+      "surfaceRef": "urn:ujg:surface:workshop-waitlist-open",
+      "templateRef": "urn:ujg:template:detail-page",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:waitlist-open-content",
+        "urn:ujg:slot-binding:waitlist-open-start-action"
+      ]
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:waitlist-unavailable-content",
+      "label": "Registration unavailable waitlist content binding",
+      "slotRef": "urn:ujg:slot:main-content",
+      "targetComponentRef": "urn:ujg:component:waitlist-unavailable-content"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:waitlist-unavailable-start-action",
+      "label": "Join waitlist instead action binding",
+      "slotRef": "urn:ujg:slot:primary-action",
+      "targetSurfaceRef": "urn:ujg:surface:action:start-waitlist-after-registration-unavailable"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:waitlist-after-registration-unavailable",
+      "label": "Registration unavailable waitlist realization",
+      "surfaceRef": "urn:ujg:surface:waitlist-after-registration-unavailable",
+      "templateRef": "urn:ujg:template:detail-page",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:waitlist-unavailable-content",
+        "urn:ujg:slot-binding:waitlist-unavailable-start-action"
+      ]
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:waitlist-form-fields",
+      "label": "Waitlist form fields binding",
+      "slotRef": "urn:ujg:slot:main-content",
+      "targetComponentRef": "urn:ujg:component:waitlist-form-fields"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:waitlist-form-continue-control",
+      "label": "Continue waitlist validation control binding",
+      "slotRef": "urn:ujg:slot:primary-action",
+      "targetComponentRef": "urn:ujg:component:primary-action-control"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:waitlist-form",
+      "label": "Waitlist form realization",
+      "surfaceRef": "urn:ujg:surface:waitlist-form",
+      "templateRef": "urn:ujg:template:form-page",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:waitlist-form-fields",
+        "urn:ujg:slot-binding:waitlist-form-continue-control"
+      ]
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:waitlist-error-fields",
+      "label": "Waitlist error fields binding",
+      "slotRef": "urn:ujg:slot:main-content",
+      "targetComponentRef": "urn:ujg:component:waitlist-form-error-fields"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:waitlist-error-continue-control",
+      "label": "Continue corrected waitlist validation control binding",
+      "slotRef": "urn:ujg:slot:primary-action",
+      "targetComponentRef": "urn:ujg:component:primary-action-control"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:waitlist-form-error",
+      "label": "Waitlist form error realization",
+      "surfaceRef": "urn:ujg:surface:waitlist-form-error",
+      "templateRef": "urn:ujg:template:form-page",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:waitlist-error-fields",
+        "urn:ujg:slot-binding:waitlist-error-continue-control"
+      ]
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:waitlist-review-content",
+      "label": "Waitlist review content binding",
+      "slotRef": "urn:ujg:slot:main-content",
+      "targetComponentRef": "urn:ujg:component:waitlist-review-content"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:waitlist-review-confirm-control",
+      "label": "Confirm waitlist conditional control binding",
+      "slotRef": "urn:ujg:slot:primary-action",
+      "targetComponentRef": "urn:ujg:component:primary-action-control"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:waitlist-review-edit-action",
+      "label": "Edit waitlist action binding",
+      "slotRef": "urn:ujg:slot:secondary-action",
+      "targetSurfaceRef": "urn:ujg:surface:action:edit-waitlist-details"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:waitlist-review",
+      "label": "Waitlist review realization",
+      "surfaceRef": "urn:ujg:surface:waitlist-review",
+      "templateRef": "urn:ujg:template:review-page",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:waitlist-review-content",
+        "urn:ujg:slot-binding:waitlist-review-confirm-control",
+        "urn:ujg:slot-binding:waitlist-review-edit-action"
+      ]
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:waitlisted-content",
+      "label": "Waitlisted status content binding",
+      "slotRef": "urn:ujg:slot:main-content",
+      "targetComponentRef": "urn:ujg:component:waitlisted-content"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:waitlisted",
+      "label": "Waitlisted status realization",
+      "surfaceRef": "urn:ujg:surface:waitlisted",
+      "templateRef": "urn:ujg:template:status-page",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:waitlisted-content"
+      ]
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:already-waitlisted-content",
+      "label": "Already waitlisted status content binding",
+      "slotRef": "urn:ujg:slot:main-content",
+      "targetComponentRef": "urn:ujg:component:already-waitlisted-content"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:already-waitlisted-continue-action",
+      "label": "Continue as waitlisted action binding",
+      "slotRef": "urn:ujg:slot:primary-action",
+      "targetSurfaceRef": "urn:ujg:surface:action:continue-as-waitlisted"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:already-waitlisted",
+      "label": "Already waitlisted status realization",
+      "surfaceRef": "urn:ujg:surface:already-waitlisted",
+      "templateRef": "urn:ujg:template:status-page",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:already-waitlisted-content",
+        "urn:ujg:slot-binding:already-waitlisted-continue-action"
+      ]
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:registration-closed-content",
+      "label": "Closed registration content binding",
+      "slotRef": "urn:ujg:slot:main-content",
+      "targetComponentRef": "urn:ujg:component:registration-closed-content"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:workshop-registration-closed",
+      "label": "Closed registration realization",
+      "surfaceRef": "urn:ujg:surface:workshop-registration-closed",
+      "templateRef": "urn:ujg:template:status-page",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:registration-closed-content"
+      ]
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:offered-place-email-content",
+      "label": "Offered-place email content binding",
+      "slotRef": "urn:ujg:slot:main-content",
+      "targetComponentRef": "urn:ujg:component:offered-place-email-content"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:offered-place-email-open-action",
+      "label": "Open offered-place link binding",
+      "slotRef": "urn:ujg:slot:primary-action",
+      "targetSurfaceRef": "urn:ujg:surface:action:open-offered-place-link"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:offered-place-email-visible",
+      "label": "Offered-place email realization",
+      "surfaceRef": "urn:ujg:surface:offered-place-email-visible",
+      "templateRef": "urn:ujg:template:email-message",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:offered-place-email-content",
+        "urn:ujg:slot-binding:offered-place-email-open-action"
+      ]
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:offered-place-open-content",
+      "label": "Available offered-place content binding",
+      "slotRef": "urn:ujg:slot:main-content",
+      "targetComponentRef": "urn:ujg:component:offered-place-open-content"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:offered-place-accept-control",
+      "label": "Accept offered place conditional control binding",
+      "slotRef": "urn:ujg:slot:primary-action",
+      "targetComponentRef": "urn:ujg:component:primary-action-control"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:offered-place-decline-action",
+      "label": "Decline offered place action binding",
+      "slotRef": "urn:ujg:slot:destructive-action",
+      "targetSurfaceRef": "urn:ujg:surface:action:decline-offered-place"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:offered-place-open",
+      "label": "Available offered-place realization",
+      "surfaceRef": "urn:ujg:surface:offered-place-open",
+      "templateRef": "urn:ujg:template:review-page",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:offered-place-open-content",
+        "urn:ujg:slot-binding:offered-place-accept-control",
+        "urn:ujg:slot-binding:offered-place-decline-action"
+      ]
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:offered-place-expired-content",
+      "label": "Expired offered-place content binding",
+      "slotRef": "urn:ujg:slot:main-content",
+      "targetComponentRef": "urn:ujg:component:offered-place-expired-content"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:offered-place-expired",
+      "label": "Expired offered-place realization",
+      "surfaceRef": "urn:ujg:surface:offered-place-expired",
+      "templateRef": "urn:ujg:template:status-page",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:offered-place-expired-content"
+      ]
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:offered-place-unavailable-content",
+      "label": "Unavailable offered-place content binding",
+      "slotRef": "urn:ujg:slot:main-content",
+      "targetComponentRef": "urn:ujg:component:offered-place-unavailable-content"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:offered-place-unavailable",
+      "label": "Unavailable offered-place realization",
+      "surfaceRef": "urn:ujg:surface:offered-place-unavailable",
+      "templateRef": "urn:ujg:template:status-page",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:offered-place-unavailable-content"
+      ]
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:offered-place-confirmed-content",
+      "label": "Offer acceptance confirmation content binding",
+      "slotRef": "urn:ujg:slot:main-content",
+      "targetComponentRef": "urn:ujg:component:offered-place-confirmed-content"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:offered-place-registration-confirmed",
+      "label": "Offer acceptance confirmation realization",
+      "surfaceRef": "urn:ujg:surface:offered-place-registration-confirmed",
+      "templateRef": "urn:ujg:template:status-page",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:offered-place-confirmed-content"
+      ]
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:offered-place-waitlisted-content",
+      "label": "Offer decline waitlisted content binding",
+      "slotRef": "urn:ujg:slot:main-content",
+      "targetComponentRef": "urn:ujg:component:offered-place-waitlisted-content"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:offered-place-waitlisted",
+      "label": "Offer decline waitlisted realization",
+      "surfaceRef": "urn:ujg:surface:offered-place-waitlisted",
+      "templateRef": "urn:ujg:template:status-page",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:offered-place-waitlisted-content"
+      ]
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:action:open-workshop",
+      "label": "Open workshop action realization",
+      "surfaceRef": "urn:ujg:surface:action:open-workshop",
+      "componentRef": "urn:ujg:component:card-link-control"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:action:start-registration",
+      "label": "Start registration action realization",
+      "surfaceRef": "urn:ujg:surface:action:start-registration",
+      "componentRef": "urn:ujg:component:primary-action-control"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:action:edit-registration-details",
+      "label": "Edit registration action realization",
+      "surfaceRef": "urn:ujg:surface:action:edit-registration-details",
+      "componentRef": "urn:ujg:component:secondary-action-control"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:action:start-waitlist-registration",
+      "label": "Start waitlist action realization",
+      "surfaceRef": "urn:ujg:surface:action:start-waitlist-registration",
+      "componentRef": "urn:ujg:component:primary-action-control"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:action:start-waitlist-after-registration-unavailable",
+      "label": "Join waitlist instead action realization",
+      "surfaceRef": "urn:ujg:surface:action:start-waitlist-after-registration-unavailable",
+      "componentRef": "urn:ujg:component:primary-action-control"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:action:edit-waitlist-details",
+      "label": "Edit waitlist action realization",
+      "surfaceRef": "urn:ujg:surface:action:edit-waitlist-details",
+      "componentRef": "urn:ujg:component:secondary-action-control"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:action:continue-as-waitlisted",
+      "label": "Continue as waitlisted action realization",
+      "surfaceRef": "urn:ujg:surface:action:continue-as-waitlisted",
+      "componentRef": "urn:ujg:component:primary-action-control"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:action:open-offered-place-link",
+      "label": "Open offered-place link realization",
+      "surfaceRef": "urn:ujg:surface:action:open-offered-place-link",
+      "componentRef": "urn:ujg:component:email-link-control"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:action:decline-offered-place",
+      "label": "Decline offered place action realization",
+      "surfaceRef": "urn:ujg:surface:action:decline-offered-place",
+      "componentRef": "urn:ujg:component:destructive-action-control"
     }
   ]
 }
