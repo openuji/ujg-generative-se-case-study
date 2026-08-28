@@ -10,9 +10,9 @@ The first implementation/evaluation slice should remain narrow: **waitlisted -> 
 
 ## Source-of-truth rule
 
-- `ujg/workshop-registration.ujg.yaml` is the DX authoring representation.
-- `ujg/workshop-registration.ujg.jsonld` is the canonical UJG representation consumed by tools.
-- The YAML must compile/flatten losslessly into the canonical model. 
+- `ujg/workshop-registration.ujg.jsonld` is the canonical UJG representation and the semantic source of truth.
+- `ujg/workshop-registration.ujg.yaml` is a derived DX projection generated from the canonical JSON-LD.
+- Regenerate the YAML with `pnpm sync:ujg-yaml`; do not add YAML-only semantic content.
 - Do not maintain independent semantic journey definitions in backend requirements, frontend prompts, Playwright tests, or Storybook.
 
 ## Quick start
@@ -22,6 +22,7 @@ Requirements: Node.js 22 and pnpm 10.14.
 ```bash
 corepack enable
 pnpm install
+pnpm validate:ujg-design-system
 ```
 ## Current model status
 
@@ -46,8 +47,8 @@ docs/                              model review and decisions
 
 ## Case-study sequence
 
-1. Resolve the two Graph entry-semantics blockers and decide which branches need explicit Conditions.
-2. Add the UJG Design System model/bindings and concrete component/template package.
+1. Keep the canonical JSON-LD, derived YAML, and validation scripts in sync.
+2. Implement the concrete design-system component/template package bound by the UJG Design System nodes.
 3. Run the domain-model generation experiment from the UJG.
 4. Review/freeze one reference domain artifact and implement the deterministic reference domain/service.
 5. Build one human reference frontend against the frozen domain and design system.

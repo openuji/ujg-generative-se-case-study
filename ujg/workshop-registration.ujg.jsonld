@@ -5,7 +5,8 @@
     "https://ujg.specs.openuji.org/ed/ns/surface.context.jsonld",
     "https://ujg.specs.openuji.org/ed/ns/entry-binding.context.jsonld",
     "https://ujg.specs.openuji.org/ed/ns/condition.context.jsonld",
-    "https://ujg.specs.openuji.org/ed/ns/effect.context.jsonld"
+    "https://ujg.specs.openuji.org/ed/ns/effect.context.jsonld",
+    "https://ujg.specs.openuji.org/ed/ns/design-system.context.jsonld"
   ],
   "@id": "urn:ujg:document:workshop-registration-case-study",
   "@type": "UJGDocument",
@@ -79,9 +80,10 @@
       "stateRef": "urn:ujg:composite:workshop-detail"
     },
     {
-      "@type": "State",
+      "@type": "CompositeState",
       "@id": "urn:ujg:state:workshops-overview",
-      "label": "Workshops overview"
+      "label": "Workshops overview",
+      "subjourneyId": "urn:ujg:journey:workshops-overview"
     },
     {
       "@type": "CompositeState",
@@ -94,7 +96,49 @@
       "@id": "urn:ujg:transition:open-workshop",
       "label": "Open workshop",
       "from": "urn:ujg:state:workshops-overview",
-      "to": "urn:ujg:composite:workshop-detail"
+      "to": "urn:ujg:composite:workshop-detail",
+      "fromExitRef": "urn:ujg:exit:workshop-teaser-opened"
+    },
+    {
+      "@type": "Journey",
+      "@id": "urn:ujg:journey:workshops-overview",
+      "label": "Workshops overview",
+      "defaultEntryRef": "urn:ujg:entry:workshops-overview-visible",
+      "entryRefs": [
+        "urn:ujg:entry:workshops-overview-visible"
+      ],
+      "stateRefs": [
+        "urn:ujg:state:workshop-teaser"
+      ],
+      "transitionRefs": [
+        "urn:ujg:transition:open-workshop-teaser"
+      ],
+      "exitRefs": [
+        "urn:ujg:exit:workshop-teaser-opened"
+      ]
+    },
+    {
+      "@type": "JourneyEntry",
+      "@id": "urn:ujg:entry:workshops-overview-visible",
+      "label": "Workshops overview visible",
+      "stateRef": "urn:ujg:state:workshop-teaser"
+    },
+    {
+      "@type": "State",
+      "@id": "urn:ujg:state:workshop-teaser",
+      "label": "Workshop teaser"
+    },
+    {
+      "@type": "JourneyExit",
+      "@id": "urn:ujg:exit:workshop-teaser-opened",
+      "label": "Workshop teaser opened"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:open-workshop-teaser",
+      "label": "Open workshop teaser",
+      "from": "urn:ujg:state:workshop-teaser",
+      "to": "urn:ujg:exit:workshop-teaser-opened"
     },
     {
       "@type": "Journey",

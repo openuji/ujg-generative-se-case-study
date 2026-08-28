@@ -1,443 +1,737 @@
-# Nested UJG authoring document aligned with the Editor's Draft dated 2026-08-21.
-# Compact authoring form; a compiler may expand it to canonical JSON-LD nodes.
-# Root Journeys are under `journeys`; child Journeys are nested under CompositeState `subjourney`.
-# Surfaces are nested on their owning State or Transition.
-
+# Derived DX projection of workshop-registration.ujg.jsonld.
+# Do not add YAML-only semantics; update the canonical JSON-LD and rerun pnpm sync:ujg-yaml.
 ujgTarget: ed-2026-08-21
+canonicalJsonld: workshop-registration.ujg.jsonld
+"@context":
+  - https://ujg.specs.openuji.org/ed/ns/core.context.jsonld
+  - https://ujg.specs.openuji.org/ed/ns/graph.context.jsonld
+  - https://ujg.specs.openuji.org/ed/ns/surface.context.jsonld
+  - https://ujg.specs.openuji.org/ed/ns/entry-binding.context.jsonld
+  - https://ujg.specs.openuji.org/ed/ns/condition.context.jsonld
+  - https://ujg.specs.openuji.org/ed/ns/effect.context.jsonld
+  - https://ujg.specs.openuji.org/ed/ns/design-system.context.jsonld
+"@id": urn:ujg:document:workshop-registration-case-study
+"@type": UJGDocument
+nodes:
 
-touchpoints:
-  urn:ujg:touchpoint:workshop-app:
+  - "@type": JourneyEntryIndex
+    "@id": urn:ujg:index:workshop-entry-points
+    label: Workshop product entry points
+    entryRefs:
+      - urn:ujg:entry:workshops-overview
+      - urn:ujg:entry:workshop-detail
+      - urn:ujg:entry:offered-place-email
+  - "@type": EntryBinding
+    "@id": urn:ujg:entry-binding:workshops-overview
+    label: Workshops overview materialization
+    entryRef: urn:ujg:entry:workshops-overview
+    value: workshops.overview
+  - "@type": EntryBinding
+    "@id": urn:ujg:entry-binding:workshop-detail
+    label: Workshop detail materialization
+    entryRef: urn:ujg:entry:workshop-detail
+    value: workshop.detail
+  - "@type": EntryBinding
+    "@id": urn:ujg:entry-binding:offered-place-email
+    label: Offered-place email materialization
+    entryRef: urn:ujg:entry:offered-place-email
+    value: workshop.offer-email
+  - "@type": EntryBinding
+    "@id": urn:ujg:entry-binding:offered-place-app
+    label: Offered-place application materialization
+    entryRef: urn:ujg:entry:offered-place-app
+    value: workshop.offer
+  - "@type": Journey
+    "@id": urn:ujg:journey:workshops
+    label: Browse workshops
+    userRef: urn:ujg:user:workshop-participant
+    defaultEntryRef: urn:ujg:entry:workshops-overview
+    entryRefs:
+      - urn:ujg:entry:workshops-overview
+      - urn:ujg:entry:workshop-detail
+    stateRefs:
+      - urn:ujg:state:workshops-overview
+      - urn:ujg:composite:workshop-detail
+    transitionRefs:
+      - urn:ujg:transition:open-workshop
+  - "@type": JourneyEntry
+    "@id": urn:ujg:entry:workshops-overview
+    label: Workshops overview entry
+    stateRef: urn:ujg:state:workshops-overview
+  - "@type": JourneyEntry
+    "@id": urn:ujg:entry:workshop-detail
+    label: Workshop detail entry
+    stateRef: urn:ujg:composite:workshop-detail
+  - "@type": CompositeState
+    "@id": urn:ujg:state:workshops-overview
+    label: Workshops overview
+    subjourneyId: urn:ujg:journey:workshops-overview
+  - "@type": CompositeState
+    "@id": urn:ujg:composite:workshop-detail
+    label: Workshop detail
+    subjourneyId: urn:ujg:journey:workshop-detail
+  - "@type": Transition
+    "@id": urn:ujg:transition:open-workshop
+    label: Open workshop
+    from: urn:ujg:state:workshops-overview
+    to: urn:ujg:composite:workshop-detail
+    fromExitRef: urn:ujg:exit:workshop-teaser-opened
+  - "@type": Journey
+    "@id": urn:ujg:journey:workshops-overview
+    label: Workshops overview
+    defaultEntryRef: urn:ujg:entry:workshops-overview-visible
+    entryRefs:
+      - urn:ujg:entry:workshops-overview-visible
+    stateRefs:
+      - urn:ujg:state:workshop-teaser
+    transitionRefs:
+      - urn:ujg:transition:open-workshop-teaser
+    exitRefs:
+      - urn:ujg:exit:workshop-teaser-opened
+  - "@type": JourneyEntry
+    "@id": urn:ujg:entry:workshops-overview-visible
+    label: Workshops overview visible
+    stateRef: urn:ujg:state:workshop-teaser
+  - "@type": State
+    "@id": urn:ujg:state:workshop-teaser
+    label: Workshop teaser
+  - "@type": JourneyExit
+    "@id": urn:ujg:exit:workshop-teaser-opened
+    label: Workshop teaser opened
+  - "@type": Transition
+    "@id": urn:ujg:transition:open-workshop-teaser
+    label: Open workshop teaser
+    from: urn:ujg:state:workshop-teaser
+    to: urn:ujg:exit:workshop-teaser-opened
+  - "@type": Journey
+    "@id": urn:ujg:journey:workshop-detail
+    label: Workshop detail
+    entryRefs:
+      - urn:ujg:entry:workshop-detail-registration-open
+      - urn:ujg:entry:workshop-detail-waitlist-open
+      - urn:ujg:entry:workshop-detail-registration-closed
+    stateRefs:
+      - urn:ujg:composite:workshop-registration
+      - urn:ujg:composite:workshop-waitlist
+      - urn:ujg:composite:workshop-registration-closed
+    transitionRefs:
+      - urn:ujg:transition:registration-place-unavailable-to-waitlist
+  - "@type": JourneyEntry
+    "@id": urn:ujg:entry:workshop-detail-registration-open
+    label: Workshop detail — registration open
+    stateRef: urn:ujg:composite:workshop-registration
+  - "@type": JourneyEntry
+    "@id": urn:ujg:entry:workshop-detail-waitlist-open
+    label: Workshop detail — waitlist open
+    stateRef: urn:ujg:composite:workshop-waitlist
+  - "@type": JourneyEntry
+    "@id": urn:ujg:entry:workshop-detail-registration-closed
+    label: Workshop detail — registration closed
+    stateRef: urn:ujg:composite:workshop-registration-closed
+  - "@type": CompositeState
+    "@id": urn:ujg:composite:workshop-registration
+    label: Regular workshop registration
+    subjourneyId: urn:ujg:journey:workshop-registration
+  - "@type": CompositeState
+    "@id": urn:ujg:composite:workshop-waitlist
+    label: Workshop waitlist registration
+    subjourneyId: urn:ujg:journey:workshop-waitlist
+  - "@type": CompositeState
+    "@id": urn:ujg:composite:workshop-registration-closed
+    label: Closed workshop registration
+    subjourneyId: urn:ujg:journey:workshop-registration-closed
+  - "@type": Transition
+    "@id": urn:ujg:transition:registration-place-unavailable-to-waitlist
+    label: Continue with waitlist after registration place became unavailable
+    from: urn:ujg:composite:workshop-registration
+    to: urn:ujg:composite:workshop-waitlist
+    fromExitRef: urn:ujg:exit:registration-place-unavailable
+    toEntryRef: urn:ujg:entry:waitlist-after-registration-unavailable
+  - "@type": Journey
+    "@id": urn:ujg:journey:workshop-registration
+    label: Regular workshop registration
+    defaultEntryRef: urn:ujg:entry:workshop-registration-open
+    entryRefs:
+      - urn:ujg:entry:workshop-registration-open
+    stateRefs:
+      - urn:ujg:state:workshop-registration-open
+      - urn:ujg:state:registration-form
+      - urn:ujg:state:registration-form-error
+      - urn:ujg:state:registration-review
+      - urn:ujg:state:registration-confirmed
+    transitionRefs:
+      - urn:ujg:transition:start-registration
+      - urn:ujg:transition:registration-details-valid
+      - urn:ujg:transition:registration-details-invalid
+      - urn:ujg:transition:correct-registration-details
+      - urn:ujg:transition:edit-registration-details
+      - urn:ujg:transition:confirm-registration
+      - urn:ujg:transition:confirm-registration-place-unavailable
+    exitRefs:
+      - urn:ujg:exit:registration-place-unavailable
+  - "@type": JourneyEntry
+    "@id": urn:ujg:entry:workshop-registration-open
+    label: Registration-open workshop detail
+    stateRef: urn:ujg:state:workshop-registration-open
+  - "@type": State
+    "@id": urn:ujg:state:workshop-registration-open
+    label: Workshop detail — registration open
+  - "@type": State
+    "@id": urn:ujg:state:registration-form
+    label: Registration form
+  - "@type": State
+    "@id": urn:ujg:state:registration-form-error
+    label: Registration form with errors
+  - "@type": State
+    "@id": urn:ujg:state:registration-review
+    label: Registration review
+  - "@type": State
+    "@id": urn:ujg:state:registration-confirmed
+    label: Registration confirmed
+  - "@type": JourneyExit
+    "@id": urn:ujg:exit:registration-place-unavailable
+    label: Registration place became unavailable
+  - "@type": Effect
+    "@id": urn:ujg:effect:confirm-registration
+    label: Confirm workshop registration
+  - "@type": Transition
+    "@id": urn:ujg:transition:start-registration
+    label: Start registration
+    from: urn:ujg:state:workshop-registration-open
+    to: urn:ujg:state:registration-form
+  - "@type": Transition
+    "@id": urn:ujg:transition:registration-details-valid
+    label: Continue with valid registration details
+    from: urn:ujg:state:registration-form
+    to: urn:ujg:state:registration-review
+    conditionRef: urn:ujg:condition:registration-details-valid
+  - "@type": Transition
+    "@id": urn:ujg:transition:registration-details-invalid
+    label: Continue with invalid registration details
+    from: urn:ujg:state:registration-form
+    to: urn:ujg:state:registration-form-error
+    conditionRef: urn:ujg:condition:registration-details-invalid
+  - "@type": Transition
+    "@id": urn:ujg:transition:correct-registration-details
+    label: Correct registration details
+    from: urn:ujg:state:registration-form-error
+    to: urn:ujg:state:registration-form
+  - "@type": Transition
+    "@id": urn:ujg:transition:edit-registration-details
+    label: Edit registration details
+    from: urn:ujg:state:registration-review
+    to: urn:ujg:state:registration-form
+  - "@type": Transition
+    "@id": urn:ujg:transition:confirm-registration
+    label: Confirm registration
+    from: urn:ujg:state:registration-review
+    to: urn:ujg:state:registration-confirmed
+    effectRef: urn:ujg:effect:confirm-registration
+    conditionRef: urn:ujg:condition:registration-place-available
+  - "@type": Transition
+    "@id": urn:ujg:transition:confirm-registration-place-unavailable
+    label: Confirm registration when the place is no longer available
+    from: urn:ujg:state:registration-review
+    to: urn:ujg:exit:registration-place-unavailable
+    conditionRef: urn:ujg:condition:registration-place-unavailable
+  - "@type": Journey
+    "@id": urn:ujg:journey:workshop-waitlist
+    label: Workshop waitlist registration
+    defaultEntryRef: urn:ujg:entry:workshop-waitlist-open
+    entryRefs:
+      - urn:ujg:entry:workshop-waitlist-open
+      - urn:ujg:entry:waitlist-after-registration-unavailable
+    stateRefs:
+      - urn:ujg:state:workshop-waitlist-open
+      - urn:ujg:state:waitlist-after-registration-unavailable
+      - urn:ujg:state:waitlist-form
+      - urn:ujg:state:waitlist-form-error
+      - urn:ujg:state:waitlist-review
+      - urn:ujg:state:waitlisted
+      - urn:ujg:state:already-waitlisted
+    transitionRefs:
+      - urn:ujg:transition:start-waitlist-registration
+      - urn:ujg:transition:start-waitlist-after-registration-unavailable
+      - urn:ujg:transition:waitlist-details-valid
+      - urn:ujg:transition:waitlist-details-invalid
+      - urn:ujg:transition:correct-waitlist-details
+      - urn:ujg:transition:edit-waitlist-details
+      - urn:ujg:transition:join-waitlist
+      - urn:ujg:transition:join-waitlist-already-listed
+      - urn:ujg:transition:continue-as-waitlisted
+  - "@type": JourneyEntry
+    "@id": urn:ujg:entry:workshop-waitlist-open
+    label: Waitlist-open workshop detail
+    stateRef: urn:ujg:state:workshop-waitlist-open
+  - "@type": JourneyEntry
+    "@id": urn:ujg:entry:waitlist-after-registration-unavailable
+    label: Waitlist after registration place became unavailable
+    stateRef: urn:ujg:state:waitlist-after-registration-unavailable
+  - "@type": State
+    "@id": urn:ujg:state:workshop-waitlist-open
+    label: Workshop detail — waitlist open
+  - "@type": State
+    "@id": urn:ujg:state:waitlist-after-registration-unavailable
+    label: Registration place unavailable — waitlist available
+  - "@type": State
+    "@id": urn:ujg:state:waitlist-form
+    label: Waitlist form
+  - "@type": State
+    "@id": urn:ujg:state:waitlist-form-error
+    label: Waitlist form with errors
+  - "@type": State
+    "@id": urn:ujg:state:waitlist-review
+    label: Waitlist review
+  - "@type": State
+    "@id": urn:ujg:state:waitlisted
+    label: Participant is waitlisted
+  - "@type": State
+    "@id": urn:ujg:state:already-waitlisted
+    label: Participant is already waitlisted
+  - "@type": Effect
+    "@id": urn:ujg:effect:join-waitlist
+    label: Join workshop waitlist
+  - "@type": Transition
+    "@id": urn:ujg:transition:start-waitlist-registration
+    label: Start waitlist registration
+    from: urn:ujg:state:workshop-waitlist-open
+    to: urn:ujg:state:waitlist-form
+  - "@type": Transition
+    "@id": urn:ujg:transition:start-waitlist-after-registration-unavailable
+    label: Join waitlist instead
+    from: urn:ujg:state:waitlist-after-registration-unavailable
+    to: urn:ujg:state:waitlist-form
+  - "@type": Transition
+    "@id": urn:ujg:transition:waitlist-details-valid
+    label: Continue with valid waitlist details
+    from: urn:ujg:state:waitlist-form
+    to: urn:ujg:state:waitlist-review
+    conditionRef: urn:ujg:condition:waitlist-details-valid
+  - "@type": Transition
+    "@id": urn:ujg:transition:waitlist-details-invalid
+    label: Continue with invalid waitlist details
+    from: urn:ujg:state:waitlist-form
+    to: urn:ujg:state:waitlist-form-error
+    conditionRef: urn:ujg:condition:waitlist-details-invalid
+  - "@type": Transition
+    "@id": urn:ujg:transition:correct-waitlist-details
+    label: Correct waitlist details
+    from: urn:ujg:state:waitlist-form-error
+    to: urn:ujg:state:waitlist-form
+  - "@type": Transition
+    "@id": urn:ujg:transition:edit-waitlist-details
+    label: Edit waitlist details
+    from: urn:ujg:state:waitlist-review
+    to: urn:ujg:state:waitlist-form
+  - "@type": Transition
+    "@id": urn:ujg:transition:join-waitlist
+    label: Join waitlist
+    from: urn:ujg:state:waitlist-review
+    to: urn:ujg:state:waitlisted
+    effectRef: urn:ujg:effect:join-waitlist
+    conditionRef: urn:ujg:condition:participant-not-already-waitlisted
+  - "@type": Transition
+    "@id": urn:ujg:transition:join-waitlist-already-listed
+    label: Join waitlist when already listed
+    from: urn:ujg:state:waitlist-review
+    to: urn:ujg:state:already-waitlisted
+    conditionRef: urn:ujg:condition:participant-already-waitlisted
+  - "@type": Transition
+    "@id": urn:ujg:transition:continue-as-waitlisted
+    label: Continue as waitlisted
+    from: urn:ujg:state:already-waitlisted
+    to: urn:ujg:state:waitlisted
+  - "@type": Journey
+    "@id": urn:ujg:journey:workshop-registration-closed
+    label: Closed workshop registration
+    defaultEntryRef: urn:ujg:entry:workshop-registration-closed
+    entryRefs:
+      - urn:ujg:entry:workshop-registration-closed
+    stateRefs:
+      - urn:ujg:state:workshop-registration-closed
+  - "@type": JourneyEntry
+    "@id": urn:ujg:entry:workshop-registration-closed
+    label: Registration-closed workshop detail
+    stateRef: urn:ujg:state:workshop-registration-closed
+  - "@type": State
+    "@id": urn:ujg:state:workshop-registration-closed
+    label: Workshop detail — registration closed
+  - "@type": Journey
+    "@id": urn:ujg:journey:offered-place
+    label: Respond to an offered workshop place
+    userRef: urn:ujg:user:workshop-participant
+    defaultEntryRef: urn:ujg:entry:offered-place-email
+    entryRefs:
+      - urn:ujg:entry:offered-place-email
+      - urn:ujg:entry:offered-place-app
+    stateRefs:
+      - urn:ujg:composite:offered-place-email
+      - urn:ujg:composite:offered-place-app
+    transitionRefs:
+      - urn:ujg:transition:continue-offer-from-email-to-app
+  - "@type": JourneyEntry
+    "@id": urn:ujg:entry:offered-place-email
+    label: Offered-place email entry
+    stateRef: urn:ujg:composite:offered-place-email
+  - "@type": JourneyEntry
+    "@id": urn:ujg:entry:offered-place-app
+    label: Offered-place application entry
+    stateRef: urn:ujg:composite:offered-place-app
+  - "@type": CompositeState
+    "@id": urn:ujg:composite:offered-place-email
+    label: Offered-place email
+    subjourneyId: urn:ujg:journey:offered-place-email
+  - "@type": CompositeState
+    "@id": urn:ujg:composite:offered-place-app
+    label: Offered place in workshop application
+    subjourneyId: urn:ujg:journey:offered-place-app
+  - "@type": Transition
+    "@id": urn:ujg:transition:continue-offer-from-email-to-app
+    label: Continue offered-place journey in workshop application
+    from: urn:ujg:composite:offered-place-email
+    to: urn:ujg:composite:offered-place-app
+    fromExitRef: urn:ujg:exit:offered-place-link-followed
+  - "@type": Journey
+    "@id": urn:ujg:journey:offered-place-email
+    label: Offered-place email
+    defaultEntryRef: urn:ujg:entry:offered-place-email-visible
+    entryRefs:
+      - urn:ujg:entry:offered-place-email-visible
+    stateRefs:
+      - urn:ujg:state:offered-place-email-visible
+    transitionRefs:
+      - urn:ujg:transition:open-offered-place-link
+    exitRefs:
+      - urn:ujg:exit:offered-place-link-followed
+  - "@type": JourneyEntry
+    "@id": urn:ujg:entry:offered-place-email-visible
+    label: Offered-place email visible
+    stateRef: urn:ujg:state:offered-place-email-visible
+  - "@type": State
+    "@id": urn:ujg:state:offered-place-email-visible
+    label: Offered-place email is visible
+  - "@type": JourneyExit
+    "@id": urn:ujg:exit:offered-place-link-followed
+    label: Offered-place link followed
+  - "@type": Transition
+    "@id": urn:ujg:transition:open-offered-place-link
+    label: Open offered place
+    from: urn:ujg:state:offered-place-email-visible
+    to: urn:ujg:exit:offered-place-link-followed
+  - "@type": Journey
+    "@id": urn:ujg:journey:offered-place-app
+    label: Resolve offered workshop place
+    entryRefs:
+      - urn:ujg:entry:offered-place-open
+      - urn:ujg:entry:offered-place-expired
+      - urn:ujg:entry:offered-place-unavailable
+    stateRefs:
+      - urn:ujg:state:offered-place-open
+      - urn:ujg:state:offered-place-expired
+      - urn:ujg:state:offered-place-unavailable
+      - urn:ujg:state:offered-place-registration-confirmed
+      - urn:ujg:state:offered-place-waitlisted
+    transitionRefs:
+      - urn:ujg:transition:accept-offered-place
+      - urn:ujg:transition:accept-offered-place-after-expiry
+      - urn:ujg:transition:decline-offered-place
+      - urn:ujg:transition:offered-place-expires
+  - "@type": JourneyEntry
+    "@id": urn:ujg:entry:offered-place-open
+    label: Offered place available
+    stateRef: urn:ujg:state:offered-place-open
+  - "@type": JourneyEntry
+    "@id": urn:ujg:entry:offered-place-expired
+    label: Offered place expired
+    stateRef: urn:ujg:state:offered-place-expired
+  - "@type": JourneyEntry
+    "@id": urn:ujg:entry:offered-place-unavailable
+    label: Offered place unavailable
+    stateRef: urn:ujg:state:offered-place-unavailable
+  - "@type": State
+    "@id": urn:ujg:state:offered-place-open
+    label: Offered place is available
+  - "@type": State
+    "@id": urn:ujg:state:offered-place-expired
+    label: Offered place has expired
+  - "@type": State
+    "@id": urn:ujg:state:offered-place-unavailable
+    label: Offered place is unavailable
+  - "@type": State
+    "@id": urn:ujg:state:offered-place-registration-confirmed
+    label: Offered place accepted — registration confirmed
+  - "@type": State
+    "@id": urn:ujg:state:offered-place-waitlisted
+    label: Offered place declined — participant remains waitlisted
+  - "@type": Effect
+    "@id": urn:ujg:effect:accept-offered-place
+    label: Accept offered workshop place
+  - "@type": Effect
+    "@id": urn:ujg:effect:decline-offered-place
+    label: Decline offered workshop place
+  - "@type": Transition
+    "@id": urn:ujg:transition:accept-offered-place
+    label: Accept offered place
+    from: urn:ujg:state:offered-place-open
+    to: urn:ujg:state:offered-place-registration-confirmed
+    effectRef: urn:ujg:effect:accept-offered-place
+    conditionRef: urn:ujg:condition:offered-place-valid
+  - "@type": Transition
+    "@id": urn:ujg:transition:accept-offered-place-after-expiry
+    label: Accept offered place after it has expired
+    from: urn:ujg:state:offered-place-open
+    to: urn:ujg:state:offered-place-expired
+    conditionRef: urn:ujg:condition:offered-place-expired
+  - "@type": Transition
+    "@id": urn:ujg:transition:decline-offered-place
+    label: Decline offered place
+    from: urn:ujg:state:offered-place-open
+    to: urn:ujg:state:offered-place-waitlisted
+    effectRef: urn:ujg:effect:decline-offered-place
+  - "@type": Transition
+    "@id": urn:ujg:transition:offered-place-expires
+    label: Offered place expires
+    from: urn:ujg:state:offered-place-open
+    to: urn:ujg:state:offered-place-expired
+    conditionRef: urn:ujg:condition:offered-place-expired
+  - "@type": Touchpoint
+    "@id": urn:ujg:touchpoint:workshop-app
     label: Workshop application
     compositeStateRefs:
       - urn:ujg:composite:workshop-detail
       - urn:ujg:composite:offered-place-app
-  urn:ujg:touchpoint:email:
+  - "@type": Touchpoint
+    "@id": urn:ujg:touchpoint:email
     label: Email
     compositeStateRefs:
       - urn:ujg:composite:offered-place-email
-
-users:
-  urn:ujg:user:workshop-participant:
+  - "@type": User
+    "@id": urn:ujg:user:workshop-participant
     label: Workshop participant
     touchpointRefs:
       - urn:ujg:touchpoint:workshop-app
       - urn:ujg:touchpoint:email
-
-effects:
-  urn:ujg:effect:confirm-registration:
-    label: Confirm workshop registration
-  urn:ujg:effect:join-waitlist:
-    label: Join workshop waitlist
-  urn:ujg:effect:accept-offered-place:
-    label: Accept offered workshop place
-  urn:ujg:effect:decline-offered-place:
-    label: Decline offered workshop place
-
-journeyEntryIndex:
-  id: urn:ujg:index:workshop-entry-points
-  label: Workshop product entry points
-  entryRefs:
-    - urn:ujg:entry:workshops-overview
-    - urn:ujg:entry:workshop-detail
-    - urn:ujg:entry:offered-place-email
-
-entryBindings:
-  urn:ujg:entry-binding:workshops-overview:
-    label: Workshops overview materialization
-    entryRef: urn:ujg:entry:workshops-overview
-    value: workshops.overview
-  urn:ujg:entry-binding:workshop-detail:
-    label: Workshop detail materialization
-    entryRef: urn:ujg:entry:workshop-detail
-    value: workshop.detail
-  urn:ujg:entry-binding:offered-place-email:
-    label: Offered-place email materialization
-    entryRef: urn:ujg:entry:offered-place-email
-    value: workshop.offer-email
-
-journeys:
-  urn:ujg:journey:workshops:
-    label: Browse workshops
-    userRef: urn:ujg:user:workshop-participant
-    defaultEntryRef: urn:ujg:entry:workshops-overview
-    entries:
-      urn:ujg:entry:workshops-overview:
-        label: Workshops overview entry
-        stateRef: urn:ujg:state:workshops-overview
-      urn:ujg:entry:workshop-detail:
-        label: Workshop detail entry
-        stateRef: urn:ujg:composite:workshop-detail
-    states:
-      urn:ujg:state:workshops-overview:
-        label: Workshops overview
-        surface:
-          id: urn:ujg:surface:workshops-overview
-          label: Workshops overview
-      urn:ujg:composite:workshop-detail:
-        type: CompositeState
-        label: Workshop detail
-        subjourney:
-          id: urn:ujg:journey:workshop-detail
-          label: Workshop detail
-          entries:
-            urn:ujg:entry:workshop-detail-registration-open:
-              label: Workshop detail — registration open
-              stateRef: urn:ujg:composite:workshop-registration
-            urn:ujg:entry:workshop-detail-waitlist-open:
-              label: Workshop detail — waitlist open
-              stateRef: urn:ujg:composite:workshop-waitlist
-            urn:ujg:entry:workshop-detail-registration-closed:
-              label: Workshop detail — registration closed
-              stateRef: urn:ujg:composite:workshop-registration-closed
-          states:
-            urn:ujg:composite:workshop-registration:
-              type: CompositeState
-              label: Regular workshop registration
-              subjourney:
-                id: urn:ujg:journey:workshop-registration
-                label: Regular workshop registration
-                defaultEntryRef: urn:ujg:entry:workshop-registration-open
-                entries:
-                  urn:ujg:entry:workshop-registration-open:
-                    label: Registration-open workshop detail
-                    stateRef: urn:ujg:state:workshop-registration-open
-                states:
-                  urn:ujg:state:workshop-registration-open:
-                    label: Workshop detail — registration open
-                    surface:
-                      id: urn:ujg:surface:workshop-registration-open
-                      label: Workshop detail — registration open
-                  urn:ujg:state:registration-form:
-                    label: Registration form
-                    surface:
-                      id: urn:ujg:surface:registration-form
-                      label: Registration form
-                  urn:ujg:state:registration-form-error:
-                    label: Registration form with errors
-                    surface:
-                      id: urn:ujg:surface:registration-form-error
-                      label: Registration form errors
-                  urn:ujg:state:registration-review:
-                    label: Registration review
-                    surface:
-                      id: urn:ujg:surface:registration-review
-                      label: Registration review
-                  urn:ujg:state:registration-confirmed:
-                    label: Registration confirmed
-                    surface:
-                      id: urn:ujg:surface:registration-confirmed
-                      label: Registration confirmation
-                exits:
-                  urn:ujg:exit:registration-place-unavailable:
-                    label: Registration place became unavailable
-                transitions:
-                  - id: urn:ujg:transition:start-registration
-                    label: Start registration
-                    from: urn:ujg:state:workshop-registration-open
-                    to: urn:ujg:state:registration-form
-                    surface:
-                      id: urn:ujg:surface:action:start-registration
-                      label: Register action
-                  - id: urn:ujg:transition:registration-details-valid
-                    label: Continue with valid registration details
-                    from: urn:ujg:state:registration-form
-                    to: urn:ujg:state:registration-review
-                    surface:
-                      id: urn:ujg:surface:action:registration-details-valid
-                      label: Continue registration action
-                  - id: urn:ujg:transition:registration-details-invalid
-                    label: Continue with invalid registration details
-                    from: urn:ujg:state:registration-form
-                    to: urn:ujg:state:registration-form-error
-                    surface:
-                      id: urn:ujg:surface:action:registration-details-invalid
-                      label: Continue registration action
-                  - id: urn:ujg:transition:correct-registration-details
-                    label: Correct registration details
-                    from: urn:ujg:state:registration-form-error
-                    to: urn:ujg:state:registration-form
-                    surface:
-                      id: urn:ujg:surface:action:correct-registration-details
-                      label: Correct registration action
-                  - id: urn:ujg:transition:edit-registration-details
-                    label: Edit registration details
-                    from: urn:ujg:state:registration-review
-                    to: urn:ujg:state:registration-form
-                    surface:
-                      id: urn:ujg:surface:action:edit-registration-details
-                      label: Edit registration action
-                  - id: urn:ujg:transition:confirm-registration
-                    label: Confirm registration
-                    from: urn:ujg:state:registration-review
-                    to: urn:ujg:state:registration-confirmed
-                    surface:
-                      id: urn:ujg:surface:action:confirm-registration
-                      label: Confirm registration action
-                    effectRef: urn:ujg:effect:confirm-registration
-                  - id: urn:ujg:transition:confirm-registration-place-unavailable
-                    label: Confirm registration when the place is no longer available
-                    from: urn:ujg:state:registration-review
-                    to: urn:ujg:exit:registration-place-unavailable
-                    surface:
-                      id: urn:ujg:surface:action:confirm-registration-place-unavailable
-                      label: Confirm registration action
-            urn:ujg:composite:workshop-waitlist:
-              type: CompositeState
-              label: Workshop waitlist registration
-              subjourney:
-                id: urn:ujg:journey:workshop-waitlist
-                label: Workshop waitlist registration
-                defaultEntryRef: urn:ujg:entry:workshop-waitlist-open
-                entries:
-                  urn:ujg:entry:workshop-waitlist-open:
-                    label: Waitlist-open workshop detail
-                    stateRef: urn:ujg:state:workshop-waitlist-open
-                  urn:ujg:entry:waitlist-after-registration-unavailable:
-                    label: Waitlist after registration place became unavailable
-                    stateRef: urn:ujg:state:waitlist-after-registration-unavailable
-                states:
-                  urn:ujg:state:workshop-waitlist-open:
-                    label: Workshop detail — waitlist open
-                    surface:
-                      id: urn:ujg:surface:workshop-waitlist-open
-                      label: Workshop detail — waitlist open
-                  urn:ujg:state:waitlist-after-registration-unavailable:
-                    label: Registration place unavailable — waitlist available
-                    surface:
-                      id: urn:ujg:surface:waitlist-after-registration-unavailable
-                      label: Registration unavailable — waitlist available
-                  urn:ujg:state:waitlist-form:
-                    label: Waitlist form
-                    surface:
-                      id: urn:ujg:surface:waitlist-form
-                      label: Waitlist form
-                  urn:ujg:state:waitlist-form-error:
-                    label: Waitlist form with errors
-                    surface:
-                      id: urn:ujg:surface:waitlist-form-error
-                      label: Waitlist form errors
-                  urn:ujg:state:waitlist-review:
-                    label: Waitlist review
-                    surface:
-                      id: urn:ujg:surface:waitlist-review
-                      label: Waitlist review
-                  urn:ujg:state:waitlisted:
-                    label: Participant is waitlisted
-                    surface:
-                      id: urn:ujg:surface:waitlisted
-                      label: Waitlisted status
-                  urn:ujg:state:already-waitlisted:
-                    label: Participant is already waitlisted
-                    surface:
-                      id: urn:ujg:surface:already-waitlisted
-                      label: Already waitlisted status
-                transitions:
-                  - id: urn:ujg:transition:start-waitlist-registration
-                    label: Start waitlist registration
-                    from: urn:ujg:state:workshop-waitlist-open
-                    to: urn:ujg:state:waitlist-form
-                    surface:
-                      id: urn:ujg:surface:action:start-waitlist-registration
-                      label: Join waitlist action
-                  - id: urn:ujg:transition:start-waitlist-after-registration-unavailable
-                    label: Join waitlist instead
-                    from: urn:ujg:state:waitlist-after-registration-unavailable
-                    to: urn:ujg:state:waitlist-form
-                    surface:
-                      id: urn:ujg:surface:action:start-waitlist-after-registration-unavailable
-                      label: Join waitlist instead action
-                  - id: urn:ujg:transition:waitlist-details-valid
-                    label: Continue with valid waitlist details
-                    from: urn:ujg:state:waitlist-form
-                    to: urn:ujg:state:waitlist-review
-                    surface:
-                      id: urn:ujg:surface:action:waitlist-details-valid
-                      label: Continue waitlist action
-                  - id: urn:ujg:transition:waitlist-details-invalid
-                    label: Continue with invalid waitlist details
-                    from: urn:ujg:state:waitlist-form
-                    to: urn:ujg:state:waitlist-form-error
-                    surface:
-                      id: urn:ujg:surface:action:waitlist-details-invalid
-                      label: Continue waitlist action
-                  - id: urn:ujg:transition:correct-waitlist-details
-                    label: Correct waitlist details
-                    from: urn:ujg:state:waitlist-form-error
-                    to: urn:ujg:state:waitlist-form
-                    surface:
-                      id: urn:ujg:surface:action:correct-waitlist-details
-                      label: Correct waitlist action
-                  - id: urn:ujg:transition:edit-waitlist-details
-                    label: Edit waitlist details
-                    from: urn:ujg:state:waitlist-review
-                    to: urn:ujg:state:waitlist-form
-                    surface:
-                      id: urn:ujg:surface:action:edit-waitlist-details
-                      label: Edit waitlist action
-                  - id: urn:ujg:transition:join-waitlist
-                    label: Join waitlist
-                    from: urn:ujg:state:waitlist-review
-                    to: urn:ujg:state:waitlisted
-                    surface:
-                      id: urn:ujg:surface:action:join-waitlist
-                      label: Confirm waitlist action
-                    effectRef: urn:ujg:effect:join-waitlist
-                  - id: urn:ujg:transition:join-waitlist-already-listed
-                    label: Join waitlist when already listed
-                    from: urn:ujg:state:waitlist-review
-                    to: urn:ujg:state:already-waitlisted
-                    surface:
-                      id: urn:ujg:surface:action:join-waitlist-already-listed
-                      label: Confirm waitlist action
-                  - id: urn:ujg:transition:continue-as-waitlisted
-                    label: Continue as waitlisted
-                    from: urn:ujg:state:already-waitlisted
-                    to: urn:ujg:state:waitlisted
-                    surface:
-                      id: urn:ujg:surface:action:continue-as-waitlisted
-                      label: Continue action
-            urn:ujg:composite:workshop-registration-closed:
-              type: CompositeState
-              label: Closed workshop registration
-              subjourney:
-                id: urn:ujg:journey:workshop-registration-closed
-                label: Closed workshop registration
-                defaultEntryRef: urn:ujg:entry:workshop-registration-closed
-                entries:
-                  urn:ujg:entry:workshop-registration-closed:
-                    label: Registration-closed workshop detail
-                    stateRef: urn:ujg:state:workshop-registration-closed
-                states:
-                  urn:ujg:state:workshop-registration-closed:
-                    label: Workshop detail — registration closed
-                    surface:
-                      id: urn:ujg:surface:workshop-registration-closed
-                      label: Workshop detail — registration closed
-          transitions:
-            - id: urn:ujg:transition:registration-place-unavailable-to-waitlist
-              label: Continue with waitlist after registration place became unavailable
-              from: urn:ujg:composite:workshop-registration
-              fromExitRef: urn:ujg:exit:registration-place-unavailable
-              to: urn:ujg:composite:workshop-waitlist
-              toEntryRef: urn:ujg:entry:waitlist-after-registration-unavailable
-    transitions:
-      - id: urn:ujg:transition:open-workshop
-        label: Open workshop
-        from: urn:ujg:state:workshops-overview
-        to: urn:ujg:composite:workshop-detail
-        surface:
-          id: urn:ujg:surface:action:open-workshop
-          label: Open workshop action
-  urn:ujg:journey:offered-place:
-    label: Respond to an offered workshop place
-    userRef: urn:ujg:user:workshop-participant
-    defaultEntryRef: urn:ujg:entry:offered-place-email
-    entries:
-      urn:ujg:entry:offered-place-email:
-        label: Offered-place email entry
-        stateRef: urn:ujg:composite:offered-place-email
-    states:
-      urn:ujg:composite:offered-place-email:
-        type: CompositeState
-        label: Offered-place email
-        subjourney:
-          id: urn:ujg:journey:offered-place-email
-          label: Offered-place email
-          defaultEntryRef: urn:ujg:entry:offered-place-email-visible
-          entries:
-            urn:ujg:entry:offered-place-email-visible:
-              label: Offered-place email visible
-              stateRef: urn:ujg:state:offered-place-email-visible
-          states:
-            urn:ujg:state:offered-place-email-visible:
-              label: Offered-place email is visible
-              surface:
-                id: urn:ujg:surface:offered-place-email-visible
-                label: Offered-place email
-          exits:
-            urn:ujg:exit:offered-place-link-followed:
-              label: Offered-place link followed
-          transitions:
-            - id: urn:ujg:transition:open-offered-place-link
-              label: Open offered place
-              from: urn:ujg:state:offered-place-email-visible
-              to: urn:ujg:exit:offered-place-link-followed
-              surface:
-                id: urn:ujg:surface:action:open-offered-place-link
-                label: Open offered-place link
-      urn:ujg:composite:offered-place-app:
-        type: CompositeState
-        label: Offered place in workshop application
-        subjourney:
-          id: urn:ujg:journey:offered-place-app
-          label: Resolve offered workshop place
-          entries:
-            urn:ujg:entry:offered-place-open:
-              label: Offered place available
-              stateRef: urn:ujg:state:offered-place-open
-            urn:ujg:entry:offered-place-expired:
-              label: Offered place expired
-              stateRef: urn:ujg:state:offered-place-expired
-            urn:ujg:entry:offered-place-unavailable:
-              label: Offered place unavailable
-              stateRef: urn:ujg:state:offered-place-unavailable
-          states:
-            urn:ujg:state:offered-place-open:
-              label: Offered place is available
-              surface:
-                id: urn:ujg:surface:offered-place-open
-                label: Available offered-place page
-            urn:ujg:state:offered-place-expired:
-              label: Offered place has expired
-              surface:
-                id: urn:ujg:surface:offered-place-expired
-                label: Expired offered-place page
-            urn:ujg:state:offered-place-unavailable:
-              label: Offered place is unavailable
-              surface:
-                id: urn:ujg:surface:offered-place-unavailable
-                label: Unavailable offered-place page
-            urn:ujg:state:offered-place-registration-confirmed:
-              label: Offered place accepted — registration confirmed
-              surface:
-                id: urn:ujg:surface:offered-place-registration-confirmed
-                label: Offer acceptance confirmation
-            urn:ujg:state:offered-place-waitlisted:
-              label: Offered place declined — participant remains waitlisted
-              surface:
-                id: urn:ujg:surface:offered-place-waitlisted
-                label: Waitlisted after declining offer
-          transitions:
-            - id: urn:ujg:transition:accept-offered-place
-              label: Accept offered place
-              from: urn:ujg:state:offered-place-open
-              to: urn:ujg:state:offered-place-registration-confirmed
-              surface:
-                id: urn:ujg:surface:action:accept-offered-place
-                label: Accept offered place action
-              effectRef: urn:ujg:effect:accept-offered-place
-            - id: urn:ujg:transition:accept-offered-place-after-expiry
-              label: Accept offered place after it has expired
-              from: urn:ujg:state:offered-place-open
-              to: urn:ujg:state:offered-place-expired
-              surface:
-                id: urn:ujg:surface:action:accept-offered-place-after-expiry
-                label: Accept offered place action
-            - id: urn:ujg:transition:decline-offered-place
-              label: Decline offered place
-              from: urn:ujg:state:offered-place-open
-              to: urn:ujg:state:offered-place-waitlisted
-              surface:
-                id: urn:ujg:surface:action:decline-offered-place
-                label: Decline offered place action
-              effectRef: urn:ujg:effect:decline-offered-place
-            - id: urn:ujg:transition:offered-place-expires
-              label: Offered place expires
-              from: urn:ujg:state:offered-place-open
-              to: urn:ujg:state:offered-place-expired
-    transitions:
-      - id: urn:ujg:transition:continue-offer-from-email-to-app
-        label: Continue offered-place journey in workshop application
-        from: urn:ujg:composite:offered-place-email
-        fromExitRef: urn:ujg:exit:offered-place-link-followed
-        to: urn:ujg:composite:offered-place-app
+  - "@type": Surface
+    "@id": urn:ujg:surface:workshops-overview
+    label: Workshops overview
+    graphNodeRef: urn:ujg:state:workshops-overview
+  - "@type": Surface
+    "@id": urn:ujg:surface:workshop-registration-open
+    label: Workshop detail — registration open
+    graphNodeRef: urn:ujg:state:workshop-registration-open
+  - "@type": Surface
+    "@id": urn:ujg:surface:registration-form
+    label: Registration form
+    graphNodeRef: urn:ujg:state:registration-form
+  - "@type": Surface
+    "@id": urn:ujg:surface:registration-form-error
+    label: Registration form errors
+    graphNodeRef: urn:ujg:state:registration-form-error
+  - "@type": Surface
+    "@id": urn:ujg:surface:registration-review
+    label: Registration review
+    graphNodeRef: urn:ujg:state:registration-review
+  - "@type": Surface
+    "@id": urn:ujg:surface:registration-confirmed
+    label: Registration confirmation
+    graphNodeRef: urn:ujg:state:registration-confirmed
+  - "@type": Surface
+    "@id": urn:ujg:surface:workshop-waitlist-open
+    label: Workshop detail — waitlist open
+    graphNodeRef: urn:ujg:state:workshop-waitlist-open
+  - "@type": Surface
+    "@id": urn:ujg:surface:waitlist-after-registration-unavailable
+    label: Registration unavailable — waitlist available
+    graphNodeRef: urn:ujg:state:waitlist-after-registration-unavailable
+  - "@type": Surface
+    "@id": urn:ujg:surface:waitlist-form
+    label: Waitlist form
+    graphNodeRef: urn:ujg:state:waitlist-form
+  - "@type": Surface
+    "@id": urn:ujg:surface:waitlist-form-error
+    label: Waitlist form errors
+    graphNodeRef: urn:ujg:state:waitlist-form-error
+  - "@type": Surface
+    "@id": urn:ujg:surface:waitlist-review
+    label: Waitlist review
+    graphNodeRef: urn:ujg:state:waitlist-review
+  - "@type": Surface
+    "@id": urn:ujg:surface:waitlisted
+    label: Waitlisted status
+    graphNodeRef: urn:ujg:state:waitlisted
+  - "@type": Surface
+    "@id": urn:ujg:surface:already-waitlisted
+    label: Already waitlisted status
+    graphNodeRef: urn:ujg:state:already-waitlisted
+  - "@type": Surface
+    "@id": urn:ujg:surface:workshop-registration-closed
+    label: Workshop detail — registration closed
+    graphNodeRef: urn:ujg:state:workshop-registration-closed
+  - "@type": Surface
+    "@id": urn:ujg:surface:offered-place-email-visible
+    label: Offered-place email
+    graphNodeRef: urn:ujg:state:offered-place-email-visible
+  - "@type": Surface
+    "@id": urn:ujg:surface:offered-place-open
+    label: Available offered-place page
+    graphNodeRef: urn:ujg:state:offered-place-open
+  - "@type": Surface
+    "@id": urn:ujg:surface:offered-place-expired
+    label: Expired offered-place page
+    graphNodeRef: urn:ujg:state:offered-place-expired
+  - "@type": Surface
+    "@id": urn:ujg:surface:offered-place-unavailable
+    label: Unavailable offered-place page
+    graphNodeRef: urn:ujg:state:offered-place-unavailable
+  - "@type": Surface
+    "@id": urn:ujg:surface:offered-place-registration-confirmed
+    label: Offer acceptance confirmation
+    graphNodeRef: urn:ujg:state:offered-place-registration-confirmed
+  - "@type": Surface
+    "@id": urn:ujg:surface:offered-place-waitlisted
+    label: Waitlisted after declining offer
+    graphNodeRef: urn:ujg:state:offered-place-waitlisted
+  - "@type": Surface
+    "@id": urn:ujg:surface:action:open-workshop
+    label: Open workshop action
+    graphNodeRef: urn:ujg:transition:open-workshop
+  - "@type": Surface
+    "@id": urn:ujg:surface:action:start-registration
+    label: Register action
+    graphNodeRef: urn:ujg:transition:start-registration
+  - "@type": Surface
+    "@id": urn:ujg:surface:action:registration-details-valid
+    label: Continue registration action
+    graphNodeRef: urn:ujg:transition:registration-details-valid
+  - "@type": Surface
+    "@id": urn:ujg:surface:action:registration-details-invalid
+    label: Continue registration action
+    graphNodeRef: urn:ujg:transition:registration-details-invalid
+  - "@type": Surface
+    "@id": urn:ujg:surface:action:correct-registration-details
+    label: Correct registration action
+    graphNodeRef: urn:ujg:transition:correct-registration-details
+  - "@type": Surface
+    "@id": urn:ujg:surface:action:edit-registration-details
+    label: Edit registration action
+    graphNodeRef: urn:ujg:transition:edit-registration-details
+  - "@type": Surface
+    "@id": urn:ujg:surface:action:confirm-registration
+    label: Confirm registration action
+    graphNodeRef: urn:ujg:transition:confirm-registration
+  - "@type": Surface
+    "@id": urn:ujg:surface:action:confirm-registration-place-unavailable
+    label: Confirm registration action
+    graphNodeRef: urn:ujg:transition:confirm-registration-place-unavailable
+  - "@type": Surface
+    "@id": urn:ujg:surface:action:start-waitlist-registration
+    label: Join waitlist action
+    graphNodeRef: urn:ujg:transition:start-waitlist-registration
+  - "@type": Surface
+    "@id": urn:ujg:surface:action:start-waitlist-after-registration-unavailable
+    label: Join waitlist instead action
+    graphNodeRef: urn:ujg:transition:start-waitlist-after-registration-unavailable
+  - "@type": Surface
+    "@id": urn:ujg:surface:action:waitlist-details-valid
+    label: Continue waitlist action
+    graphNodeRef: urn:ujg:transition:waitlist-details-valid
+  - "@type": Surface
+    "@id": urn:ujg:surface:action:waitlist-details-invalid
+    label: Continue waitlist action
+    graphNodeRef: urn:ujg:transition:waitlist-details-invalid
+  - "@type": Surface
+    "@id": urn:ujg:surface:action:correct-waitlist-details
+    label: Correct waitlist action
+    graphNodeRef: urn:ujg:transition:correct-waitlist-details
+  - "@type": Surface
+    "@id": urn:ujg:surface:action:edit-waitlist-details
+    label: Edit waitlist action
+    graphNodeRef: urn:ujg:transition:edit-waitlist-details
+  - "@type": Surface
+    "@id": urn:ujg:surface:action:join-waitlist
+    label: Confirm waitlist action
+    graphNodeRef: urn:ujg:transition:join-waitlist
+  - "@type": Surface
+    "@id": urn:ujg:surface:action:join-waitlist-already-listed
+    label: Confirm waitlist action
+    graphNodeRef: urn:ujg:transition:join-waitlist-already-listed
+  - "@type": Surface
+    "@id": urn:ujg:surface:action:continue-as-waitlisted
+    label: Continue action
+    graphNodeRef: urn:ujg:transition:continue-as-waitlisted
+  - "@type": Surface
+    "@id": urn:ujg:surface:action:open-offered-place-link
+    label: Open offered-place link
+    graphNodeRef: urn:ujg:transition:open-offered-place-link
+  - "@type": Surface
+    "@id": urn:ujg:surface:action:accept-offered-place
+    label: Accept offered place action
+    graphNodeRef: urn:ujg:transition:accept-offered-place
+  - "@type": Surface
+    "@id": urn:ujg:surface:action:accept-offered-place-after-expiry
+    label: Accept offered place action
+    graphNodeRef: urn:ujg:transition:accept-offered-place-after-expiry
+  - "@type": Surface
+    "@id": urn:ujg:surface:action:decline-offered-place
+    label: Decline offered place action
+    graphNodeRef: urn:ujg:transition:decline-offered-place
+  - "@type": Condition
+    "@id": urn:ujg:condition:registration-details-valid
+    label: Registration details are valid
+  - "@type": Condition
+    "@id": urn:ujg:condition:registration-details-invalid
+    label: Registration details are invalid
+  - "@type": Condition
+    "@id": urn:ujg:condition:registration-place-available
+    label: A registration place is available
+  - "@type": Condition
+    "@id": urn:ujg:condition:registration-place-unavailable
+    label: A registration place is unavailable
+  - "@type": Condition
+    "@id": urn:ujg:condition:waitlist-details-valid
+    label: Waitlist details are valid
+  - "@type": Condition
+    "@id": urn:ujg:condition:waitlist-details-invalid
+    label: Waitlist details are invalid
+  - "@type": Condition
+    "@id": urn:ujg:condition:participant-not-already-waitlisted
+    label: Participant is not already waitlisted
+  - "@type": Condition
+    "@id": urn:ujg:condition:participant-already-waitlisted
+    label: Participant is already waitlisted
+  - "@type": Condition
+    "@id": urn:ujg:condition:offered-place-valid
+    label: Offered place is valid
+  - "@type": Condition
+    "@id": urn:ujg:condition:offered-place-expired
+    label: Offered place is expired
+  - "@type": ConditionSet
+    "@id": urn:ujg:condition-set:registration-details-validation
+    label: Resolve registration details validation
+    conditionTransitionRefs:
+      - urn:ujg:transition:registration-details-valid
+      - urn:ujg:transition:registration-details-invalid
+  - "@type": ConditionSet
+    "@id": urn:ujg:condition-set:registration-place-at-confirmation
+    label: Resolve registration place availability at confirmation
+    conditionTransitionRefs:
+      - urn:ujg:transition:confirm-registration
+      - urn:ujg:transition:confirm-registration-place-unavailable
+  - "@type": ConditionSet
+    "@id": urn:ujg:condition-set:waitlist-details-validation
+    label: Resolve waitlist details validation
+    conditionTransitionRefs:
+      - urn:ujg:transition:waitlist-details-valid
+      - urn:ujg:transition:waitlist-details-invalid
+  - "@type": ConditionSet
+    "@id": urn:ujg:condition-set:waitlist-membership-at-confirmation
+    label: Resolve existing waitlist membership
+    conditionTransitionRefs:
+      - urn:ujg:transition:join-waitlist
+      - urn:ujg:transition:join-waitlist-already-listed
+  - "@type": ConditionSet
+    "@id": urn:ujg:condition-set:offered-place-acceptance-validity
+    label: Resolve offered-place validity when accepting
+    conditionTransitionRefs:
+      - urn:ujg:transition:accept-offered-place
+      - urn:ujg:transition:accept-offered-place-after-expiry

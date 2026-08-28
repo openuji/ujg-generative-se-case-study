@@ -5,7 +5,9 @@
   "type": "module",
   "packageManager": "pnpm@10.14.0",
   "scripts": {
-    "bootstrap:journey-mesh": "node scripts/bootstrap-journey-mesh.mjs"
+    "bootstrap:journey-mesh": "node scripts/bootstrap-journey-mesh.mjs",
+    "sync:ujg-yaml": "node scripts/sync-ujg-yaml.mjs",
+    "validate:ujg-design-system": "node scripts/validate-ujg-design-system.mjs"
   },
   "devDependencies": {
     "yaml": "2.9.0"
