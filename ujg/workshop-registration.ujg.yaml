@@ -95,6 +95,7 @@ nodes:
   - "@type": State
     "@id": urn:ujg:state:workshop-teaser
     label: Workshop teaser
+    multiInstance: true
   - "@type": JourneyExit
     "@id": urn:ujg:exit:workshop-teaser-opened
     label: Workshop teaser opened
@@ -163,7 +164,8 @@ nodes:
       - urn:ujg:transition:start-registration
       - urn:ujg:transition:registration-details-valid
       - urn:ujg:transition:registration-details-invalid
-      - urn:ujg:transition:correct-registration-details
+      - urn:ujg:transition:corrected-registration-details-valid
+      - urn:ujg:transition:corrected-registration-details-invalid
       - urn:ujg:transition:edit-registration-details
       - urn:ujg:transition:confirm-registration
       - urn:ujg:transition:confirm-registration-place-unavailable
@@ -212,10 +214,17 @@ nodes:
     to: urn:ujg:state:registration-form-error
     conditionRef: urn:ujg:condition:registration-details-invalid
   - "@type": Transition
-    "@id": urn:ujg:transition:correct-registration-details
-    label: Correct registration details
+    "@id": urn:ujg:transition:corrected-registration-details-valid
+    label: Continue with corrected valid registration details
     from: urn:ujg:state:registration-form-error
-    to: urn:ujg:state:registration-form
+    to: urn:ujg:state:registration-review
+    conditionRef: urn:ujg:condition:registration-details-valid
+  - "@type": Transition
+    "@id": urn:ujg:transition:corrected-registration-details-invalid
+    label: Continue with corrected invalid registration details
+    from: urn:ujg:state:registration-form-error
+    to: urn:ujg:state:registration-form-error
+    conditionRef: urn:ujg:condition:registration-details-invalid
   - "@type": Transition
     "@id": urn:ujg:transition:edit-registration-details
     label: Edit registration details
@@ -254,7 +263,8 @@ nodes:
       - urn:ujg:transition:start-waitlist-after-registration-unavailable
       - urn:ujg:transition:waitlist-details-valid
       - urn:ujg:transition:waitlist-details-invalid
-      - urn:ujg:transition:correct-waitlist-details
+      - urn:ujg:transition:corrected-waitlist-details-valid
+      - urn:ujg:transition:corrected-waitlist-details-invalid
       - urn:ujg:transition:edit-waitlist-details
       - urn:ujg:transition:join-waitlist
       - urn:ujg:transition:join-waitlist-already-listed
@@ -314,10 +324,17 @@ nodes:
     to: urn:ujg:state:waitlist-form-error
     conditionRef: urn:ujg:condition:waitlist-details-invalid
   - "@type": Transition
-    "@id": urn:ujg:transition:correct-waitlist-details
-    label: Correct waitlist details
+    "@id": urn:ujg:transition:corrected-waitlist-details-valid
+    label: Continue with corrected valid waitlist details
     from: urn:ujg:state:waitlist-form-error
-    to: urn:ujg:state:waitlist-form
+    to: urn:ujg:state:waitlist-review
+    conditionRef: urn:ujg:condition:waitlist-details-valid
+  - "@type": Transition
+    "@id": urn:ujg:transition:corrected-waitlist-details-invalid
+    label: Continue with corrected invalid waitlist details
+    from: urn:ujg:state:waitlist-form-error
+    to: urn:ujg:state:waitlist-form-error
+    conditionRef: urn:ujg:condition:waitlist-details-invalid
   - "@type": Transition
     "@id": urn:ujg:transition:edit-waitlist-details
     label: Edit waitlist details
@@ -608,10 +625,6 @@ nodes:
     label: Continue registration action
     graphNodeRef: urn:ujg:transition:registration-details-invalid
   - "@type": Surface
-    "@id": urn:ujg:surface:action:correct-registration-details
-    label: Correct registration action
-    graphNodeRef: urn:ujg:transition:correct-registration-details
-  - "@type": Surface
     "@id": urn:ujg:surface:action:edit-registration-details
     label: Edit registration action
     graphNodeRef: urn:ujg:transition:edit-registration-details
@@ -639,10 +652,6 @@ nodes:
     "@id": urn:ujg:surface:action:waitlist-details-invalid
     label: Continue waitlist action
     graphNodeRef: urn:ujg:transition:waitlist-details-invalid
-  - "@type": Surface
-    "@id": urn:ujg:surface:action:correct-waitlist-details
-    label: Correct waitlist action
-    graphNodeRef: urn:ujg:transition:correct-waitlist-details
   - "@type": Surface
     "@id": urn:ujg:surface:action:edit-waitlist-details
     label: Edit waitlist action
@@ -712,6 +721,12 @@ nodes:
       - urn:ujg:transition:registration-details-valid
       - urn:ujg:transition:registration-details-invalid
   - "@type": ConditionSet
+    "@id": urn:ujg:condition-set:corrected-registration-details-validation
+    label: Resolve corrected registration details validation
+    conditionTransitionRefs:
+      - urn:ujg:transition:corrected-registration-details-valid
+      - urn:ujg:transition:corrected-registration-details-invalid
+  - "@type": ConditionSet
     "@id": urn:ujg:condition-set:registration-place-at-confirmation
     label: Resolve registration place availability at confirmation
     conditionTransitionRefs:
@@ -723,6 +738,12 @@ nodes:
     conditionTransitionRefs:
       - urn:ujg:transition:waitlist-details-valid
       - urn:ujg:transition:waitlist-details-invalid
+  - "@type": ConditionSet
+    "@id": urn:ujg:condition-set:corrected-waitlist-details-validation
+    label: Resolve corrected waitlist details validation
+    conditionTransitionRefs:
+      - urn:ujg:transition:corrected-waitlist-details-valid
+      - urn:ujg:transition:corrected-waitlist-details-invalid
   - "@type": ConditionSet
     "@id": urn:ujg:condition-set:waitlist-membership-at-confirmation
     label: Resolve existing waitlist membership
