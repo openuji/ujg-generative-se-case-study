@@ -17,3 +17,8 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile=false
+      - run: pnpm validate:ds-bindings
+      - run: pnpm validate:ujg-design-system
+      - run: pnpm typecheck:design-system
+      - run: pnpm build:design-system
+      - run: pnpm build-storybook

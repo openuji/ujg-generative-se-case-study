@@ -6,8 +6,14 @@
   "packageManager": "pnpm@10.14.0",
   "scripts": {
     "bootstrap:journey-mesh": "node scripts/bootstrap-journey-mesh.mjs",
+    "generate:ds-bindings": "node scripts/generate-ds-bindings.mjs",
     "sync:ujg-yaml": "node scripts/sync-ujg-yaml.mjs",
-    "validate:ujg-design-system": "node scripts/validate-ujg-design-system.mjs"
+    "validate:ds-bindings": "node scripts/generate-ds-bindings.mjs --check",
+    "validate:ujg-design-system": "node scripts/validate-ujg-design-system.mjs",
+    "typecheck:design-system": "pnpm --filter @openuji/workshop-registration-design-system typecheck",
+    "build:design-system": "pnpm --filter @openuji/workshop-registration-design-system build",
+    "storybook": "pnpm --filter @openuji/workshop-registration-design-system storybook",
+    "build-storybook": "pnpm --filter @openuji/workshop-registration-design-system build-storybook"
   },
   "devDependencies": {
     "yaml": "2.9.0"
