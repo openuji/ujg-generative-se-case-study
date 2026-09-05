@@ -8,6 +8,7 @@ const config: StorybookConfig = {
   stories: [
     "../components/**/*.stories.tsx",
     "../primitives/**/*.stories.tsx",
+    "../tokens/**/*.stories.tsx",
     "../templates/**/*.stories.tsx"
   ]
 };

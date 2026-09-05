@@ -15,13 +15,15 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "ES2023",
-    "types": ["node"]
+    "types": ["node", "vite/client"]
   },
   "include": [
     ".storybook/**/*.ts",
     "components/**/*.tsx",
     "primitives/**/*.tsx",
     "src/**/*.ts",
+    "tokens/**/*.ts",
+    "tokens/**/*.tsx",
     "templates/**/*.tsx",
     "vite.config.ts"
   ]

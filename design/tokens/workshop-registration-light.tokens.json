@@ -1,0 +1,265 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "surface": {
+    "$type": "color",
+    "$extensions": {
+      "org.openuji.visual-evidence": {
+        "screens": [
+          "./changes/workshop-screeens/ChatGPT Image Aug 20, 2026, 01_44_14 PM.png",
+          "./changes/workshop-screeens/ChatGPT Image Aug 20, 2026, 01_44_24 PM (1).png",
+          "./changes/workshop-screeens/ChatGPT Image Aug 20, 2026, 01_44_24 PM (2).png",
+          "./changes/workshop-screeens/ChatGPT Image Aug 20, 2026, 01_44_24 PM (3).png"
+        ],
+        "basis": "Light canvas, white cards/inputs, subdued blue-lavender accents, and fine panel separation.",
+        "evidence": "direct"
+      }
+    },
+    "canvas": { "$value": "{color.neutral.50}" },
+    "default": { "$value": "{color.neutral.0}" },
+    "subtle": { "$value": "{color.neutral.100}" },
+    "accent": { "$value": "{color.lavender.50}" },
+    "accentStrong": { "$value": "{color.lavender.100}" }
+  },
+  "text": {
+    "$type": "color",
+    "$extensions": {
+      "org.openuji.visual-evidence": {
+        "screens": [
+          "./changes/workshop-screeens/ChatGPT Image Aug 20, 2026, 01_44_14 PM.png",
+          "./changes/workshop-screeens/ChatGPT Image Aug 20, 2026, 01_44_24 PM (1).png",
+          "./changes/workshop-screeens/ChatGPT Image Aug 20, 2026, 01_44_25 PM (4).png"
+        ],
+        "basis": "High-contrast headings, muted supporting copy, white text on primary actions, and blue links/actions.",
+        "evidence": "direct"
+      }
+    },
+    "default": { "$value": "{color.neutral.950}" },
+    "muted": { "$value": "{color.neutral.500}" },
+    "subtle": { "$value": "{color.neutral.700}" },
+    "inverse": { "$value": "{color.neutral.0}" },
+    "action": { "$value": "{color.blue.600}" }
+  },
+  "border": {
+    "$type": "color",
+    "$extensions": {
+      "org.openuji.visual-evidence": {
+        "screens": [
+          "./changes/workshop-screeens/ChatGPT Image Aug 20, 2026, 01_44_14 PM.png",
+          "./changes/workshop-screeens/ChatGPT Image Aug 20, 2026, 01_44_24 PM (2).png",
+          "./changes/workshop-screeens/ChatGPT Image Aug 20, 2026, 01_44_24 PM (3).png"
+        ],
+        "basis": "Cards, inputs, secondary buttons, and section separators use subtle neutral borders; focused/action borders use blue.",
+        "evidence": "direct"
+      }
+    },
+    "default": { "$value": "{color.neutral.200}" },
+    "strong": { "$value": "{color.neutral.300}" },
+    "accent": { "$value": "{color.blue.200}" }
+  },
+  "action": {
+    "background": {
+      "$type": "color",
+      "$value": "{color.blue.600}",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "screens": [
+            "./changes/workshop-screeens/ChatGPT Image Aug 20, 2026, 01_44_24 PM (1).png",
+            "./changes/workshop-screeens/ChatGPT Image Aug 20, 2026, 01_44_24 PM (2).png",
+            "./changes/workshop-screeens/ChatGPT Image Aug 20, 2026, 01_44_24 PM (3).png"
+          ],
+          "basis": "Primary button fill.",
+          "evidence": "direct"
+        }
+      }
+    },
+    "foreground": {
+      "$type": "color",
+      "$value": "{color.neutral.0}",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "screens": [
+            "./changes/workshop-screeens/ChatGPT Image Aug 20, 2026, 01_44_24 PM (2).png"
+          ],
+          "basis": "Primary button text and icons.",
+          "evidence": "direct"
+        }
+      }
+    },
+    "border": {
+      "$type": "color",
+      "$value": "{color.blue.600}"
+    },
+    "hover": {
+      "$type": "color",
+      "$value": "{color.blue.700}",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "screens": [],
+          "basis": "Interactive hover role inferred from the primary button treatment.",
+          "evidence": "inferred"
+        }
+      }
+    },
+    "secondaryBackground": {
+      "$type": "color",
+      "$value": "{color.neutral.0}",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "screens": [
+            "./changes/workshop-screeens/ChatGPT Image Aug 20, 2026, 01_44_24 PM (3).png",
+            "./changes/workshop-screeens/ChatGPT Image Aug 20, 2026, 01_44_25 PM (5).png"
+          ],
+          "basis": "Secondary action backgrounds are white with blue text or neutral text.",
+          "evidence": "direct"
+        }
+      }
+    },
+    "secondaryForeground": {
+      "$type": "color",
+      "$value": "{color.blue.600}"
+    },
+    "secondaryBorder": {
+      "$type": "color",
+      "$value": "{color.neutral.200}"
+    }
+  },
+  "control": {
+    "$type": "color",
+    "background": {
+      "$value": "{color.neutral.0}",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "screens": [
+            "./changes/workshop-screeens/ChatGPT Image Aug 20, 2026, 01_44_24 PM (2).png"
+          ],
+          "basis": "Text inputs and selects use white backgrounds.",
+          "evidence": "direct"
+        }
+      }
+    },
+    "border": {
+      "$value": "{color.neutral.200}",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "screens": [
+            "./changes/workshop-screeens/ChatGPT Image Aug 20, 2026, 01_44_24 PM (2).png"
+          ],
+          "basis": "Input and select outlines.",
+          "evidence": "direct"
+        }
+      }
+    },
+    "focus": {
+      "$value": "{color.blue.500}",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "screens": [],
+          "basis": "Focus color inferred from visible action/link blue.",
+          "evidence": "inferred"
+        }
+      }
+    },
+    "placeholder": {
+      "$value": "{color.neutral.500}",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "screens": [
+            "./changes/workshop-screeens/ChatGPT Image Aug 20, 2026, 01_44_24 PM (2).png"
+          ],
+          "basis": "Field value and supporting text contrast.",
+          "evidence": "direct"
+        }
+      }
+    }
+  },
+  "status": {
+    "success": {
+      "$type": "color",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "screens": [
+            "./changes/workshop-screeens/ChatGPT Image Aug 20, 2026, 01_44_14 PM.png",
+            "./changes/workshop-screeens/ChatGPT Image Aug 20, 2026, 01_44_25 PM (4).png"
+          ],
+          "basis": "Open and confirmed status chips.",
+          "evidence": "direct"
+        }
+      },
+      "background": { "$value": "{color.green.100}" },
+      "foreground": { "$value": "{color.green.700}" },
+      "border": { "$value": "{color.green.100}" },
+      "icon": { "$value": "{color.green.700}" }
+    },
+    "warning": {
+      "$type": "color",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "screens": [
+            "./changes/workshop-screeens/ChatGPT Image Aug 20, 2026, 01_44_14 PM.png",
+            "./changes/workshop-screeens/ChatGPT Image Aug 20, 2026, 01_44_24 PM (1).png",
+            "./changes/workshop-screeens/ChatGPT Image Aug 20, 2026, 01_44_24 PM (2).png"
+          ],
+          "basis": "Limited status chips.",
+          "evidence": "direct"
+        }
+      },
+      "background": { "$value": "{color.yellow.50}" },
+      "foreground": { "$value": "{color.yellow.700}" },
+      "border": { "$value": "{color.yellow.100}" },
+      "icon": { "$value": "{color.yellow.700}" }
+    },
+    "error": {
+      "$type": "color",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "screens": [],
+          "basis": "Error roles are inferred; no supplied screen shows an exact error treatment.",
+          "evidence": "inferred"
+        }
+      },
+      "background": { "$value": "{color.red.50}" },
+      "foreground": { "$value": "{color.red.700}" },
+      "border": { "$value": "{color.red.100}" },
+      "icon": { "$value": "{color.red.700}" }
+    },
+    "info": {
+      "$type": "color",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "screens": [
+            "./changes/workshop-screeens/ChatGPT Image Aug 20, 2026, 01_44_25 PM (5).png"
+          ],
+          "basis": "Waitlisted chip and notice treatment use pale blue fill with blue foreground.",
+          "evidence": "direct"
+        }
+      },
+      "background": { "$value": "{color.blue.50}" },
+      "foreground": { "$value": "{color.blue.600}" },
+      "border": { "$value": "{color.blue.100}" },
+      "icon": { "$value": "{color.blue.600}" }
+    }
+  },
+  "elevation": {
+    "$type": "shadow",
+    "$extensions": {
+      "org.openuji.visual-evidence": {
+        "screens": [
+          "./changes/workshop-screeens/ChatGPT Image Aug 20, 2026, 01_44_14 PM.png"
+        ],
+        "basis": "Subtle card elevation.",
+        "evidence": "direct"
+      }
+    },
+    "card": { "$value": "{shadow.card}" },
+    "focus": {
+      "$value": "{shadow.focus}",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "screens": [],
+          "basis": "Focus ring inferred from the blue action system.",
+          "evidence": "inferred"
+        }
+      }
+    }
+  }
+}

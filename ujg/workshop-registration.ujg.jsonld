@@ -1158,15 +1158,38 @@
     },
     {
       "@type": "TokenSource",
-      "@id": "urn:ujg:token-source:workshop-product",
-      "label": "Workshop product token source"
+      "@id": "urn:ujg:token-source:workshop-registration-foundation",
+      "label": "Workshop registration foundation token source",
+      "source": "design/tokens/workshop-registration-foundation.tokens.json"
+    },
+    {
+      "@type": "TokenSource",
+      "@id": "urn:ujg:token-source:workshop-registration-light",
+      "label": "Workshop registration light token source",
+      "source": "design/tokens/workshop-registration-light.tokens.json"
+    },
+    {
+      "@type": "TokenSource",
+      "@id": "urn:ujg:token-source:workshop-registration-dark",
+      "label": "Workshop registration dark token source",
+      "source": "design/tokens/workshop-registration-dark.tokens.json"
     },
     {
       "@type": "Theme",
-      "@id": "urn:ujg:theme:workshop-product",
-      "label": "Workshop product theme",
+      "@id": "urn:ujg:theme:workshop-registration-light",
+      "label": "Workshop registration light",
       "tokenSourceRefs": [
-        "urn:ujg:token-source:workshop-product"
+        "urn:ujg:token-source:workshop-registration-foundation",
+        "urn:ujg:token-source:workshop-registration-light"
+      ]
+    },
+    {
+      "@type": "Theme",
+      "@id": "urn:ujg:theme:workshop-registration-dark",
+      "label": "Workshop registration dark",
+      "tokenSourceRefs": [
+        "urn:ujg:token-source:workshop-registration-foundation",
+        "urn:ujg:token-source:workshop-registration-dark"
       ]
     },
     {
