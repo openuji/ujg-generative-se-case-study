@@ -1,0 +1,41 @@
+@reference "../../tokens/tailwind.css";
+
+.badge {
+  @apply inline-flex w-fit items-center gap-2 rounded-full border px-3 py-1 font-sans text-sm font-medium leading-tight;
+}
+
+.dot {
+  @apply h-1 w-1 rounded-full;
+}
+
+.success {
+  @apply border-status-success-border bg-status-success-background text-status-success-foreground;
+}
+
+.warning {
+  @apply border-status-warning-border bg-status-warning-background text-status-warning-foreground;
+}
+
+.error {
+  @apply border-status-error-border bg-status-error-background text-status-error-foreground;
+}
+
+.info {
+  @apply border-status-info-border bg-status-info-background text-status-info-foreground;
+}
+
+.success .dot {
+  @apply bg-status-success-foreground;
+}
+
+.warning .dot {
+  @apply bg-status-warning-foreground;
+}
+
+.error .dot {
+  @apply bg-status-error-foreground;
+}
+
+.info .dot {
+  @apply bg-status-info-foreground;
+}

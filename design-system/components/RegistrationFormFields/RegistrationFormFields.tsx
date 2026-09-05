@@ -1,4 +1,5 @@
 import { FieldControl } from "../../primitives/FieldControl/FieldControl";
+import styles from "../../primitives/shared/FormFields.module.css";
 
 export type RegistrationFormFieldsProps = {
   email?: string;
@@ -14,8 +15,8 @@ export function RegistrationFormFields({
   name
 }: RegistrationFormFieldsProps) {
   return (
-    <fieldset>
-      <legend>Registration details</legend>
+    <fieldset className={styles.fieldset}>
+      <legend className={styles.legend}>Registration details</legend>
       <FieldControl error={errors.name} label="Full name" name="registration-name" value={name} />
       <FieldControl
         error={errors.email}

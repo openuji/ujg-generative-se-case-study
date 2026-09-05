@@ -14,7 +14,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     acceptAction: <ActionControl label="Accept place" />,
-    declineAction: <ActionControl label="Decline place" />,
+    declineAction: <ActionControl label="Decline place" variant="secondary" />,
     summary: (
       <OfferResponseSummary
         expiresAt="18 October, 12:00"
@@ -23,5 +23,23 @@ export const Default: Story = {
         workshopTitle="Service Design Foundations"
       />
     )
+  }
+};
+
+export const Mobile: Story = {
+  args: Default.args,
+  parameters: {
+    viewport: {
+      defaultViewport: "ujgMobile"
+    }
+  }
+};
+
+export const Desktop: Story = {
+  args: Default.args,
+  parameters: {
+    viewport: {
+      defaultViewport: "ujgDesktop"
+    }
   }
 };

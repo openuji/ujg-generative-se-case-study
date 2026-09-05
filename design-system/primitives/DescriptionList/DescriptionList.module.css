@@ -1,0 +1,26 @@
+@reference "../../tokens/tailwind.css";
+
+.list {
+  @apply m-0 grid gap-0;
+}
+
+.item {
+  @apply grid gap-2 border-t border-border-default py-4 text-sm sm:grid-cols-[minmax(8rem,0.8fr)_minmax(0,1.2fr)] sm:items-start;
+}
+
+.item:first-child {
+  @apply pt-0;
+  border-top: 0;
+}
+
+.term {
+  @apply flex items-center gap-2 font-medium leading-normal text-text-muted;
+}
+
+.icon {
+  @apply h-4 w-4 shrink-0 text-text-muted;
+}
+
+.value {
+  @apply m-0 font-medium leading-normal text-text-default;
+}

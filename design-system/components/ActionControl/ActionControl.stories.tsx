@@ -21,3 +21,10 @@ export const Disabled: Story = {
     label: "Continue"
   }
 };
+
+export const Secondary: Story = {
+  args: {
+    label: "Edit details",
+    variant: "secondary"
+  }
+};

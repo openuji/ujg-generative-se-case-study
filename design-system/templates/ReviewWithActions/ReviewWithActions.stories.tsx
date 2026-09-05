@@ -14,7 +14,7 @@ type Story = StoryObj<typeof meta>;
 
 export const RegistrationReview: Story = {
   args: {
-    editAction: <ActionControl label="Edit details" />,
+    editAction: <ActionControl label="Edit details" variant="secondary" />,
     submitAction: <ActionControl label="Confirm registration" />,
     summary: (
       <RegistrationReviewSummary
@@ -28,7 +28,7 @@ export const RegistrationReview: Story = {
 
 export const WaitlistReview: Story = {
   args: {
-    editAction: <ActionControl label="Edit details" />,
+    editAction: <ActionControl label="Edit details" variant="secondary" />,
     submitAction: <ActionControl label="Join waitlist" />,
     summary: (
       <WaitlistReviewSummary
@@ -37,5 +37,23 @@ export const WaitlistReview: Story = {
         workshopTitle="Service Design Foundations"
       />
     )
+  }
+};
+
+export const RegistrationReviewMobile: Story = {
+  args: RegistrationReview.args,
+  parameters: {
+    viewport: {
+      defaultViewport: "ujgMobile"
+    }
+  }
+};
+
+export const RegistrationReviewDesktop: Story = {
+  args: RegistrationReview.args,
+  parameters: {
+    viewport: {
+      defaultViewport: "ujgDesktop"
+    }
   }
 };

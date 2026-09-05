@@ -26,6 +26,24 @@ export const RegistrationOpen: Story = {
   }
 };
 
+export const RegistrationOpenMobile: Story = {
+  args: RegistrationOpen.args,
+  parameters: {
+    viewport: {
+      defaultViewport: "ujgMobile"
+    }
+  }
+};
+
+export const RegistrationOpenDesktop: Story = {
+  args: RegistrationOpen.args,
+  parameters: {
+    viewport: {
+      defaultViewport: "ujgDesktop"
+    }
+  }
+};
+
 export const WaitlistOpen: Story = {
   args: {
     action: <ActionControl label="Join waitlist" />,

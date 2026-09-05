@@ -6,7 +6,10 @@ import { WorkshopsOverviewList } from "./WorkshopsOverviewList";
 
 const meta = {
   title: "Templates/WorkshopsOverviewList",
-  component: WorkshopsOverviewList
+  component: WorkshopsOverviewList,
+  parameters: {
+    ujgFrame: "list"
+  }
 } satisfies Meta<typeof WorkshopsOverviewList>;
 
 export default meta;
@@ -44,5 +47,23 @@ export const MultipleOccurrences: Story = {
         />
       </>
     )
+  }
+};
+
+export const Mobile: Story = {
+  args: MultipleOccurrences.args,
+  parameters: {
+    viewport: {
+      defaultViewport: "ujgMobile"
+    }
+  }
+};
+
+export const Desktop: Story = {
+  args: MultipleOccurrences.args,
+  parameters: {
+    viewport: {
+      defaultViewport: "ujgDesktop"
+    }
   }
 };

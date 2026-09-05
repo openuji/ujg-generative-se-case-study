@@ -1,4 +1,5 @@
 import { FieldControl } from "../../primitives/FieldControl/FieldControl";
+import styles from "../../primitives/shared/FormFields.module.css";
 
 export type WaitlistFormFieldsProps = {
   email?: string;
@@ -14,8 +15,8 @@ export function WaitlistFormFields({
   notes
 }: WaitlistFormFieldsProps) {
   return (
-    <fieldset>
-      <legend>Waitlist details</legend>
+    <fieldset className={styles.fieldset}>
+      <legend className={styles.legend}>Waitlist details</legend>
       <FieldControl error={errors.name} label="Full name" name="waitlist-name" value={name} />
       <FieldControl
         error={errors.email}

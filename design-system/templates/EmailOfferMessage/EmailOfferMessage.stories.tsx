@@ -24,3 +24,21 @@ export const Default: Story = {
     linkAction: <EmailLinkControl href="#" label="Open offered place" />
   }
 };
+
+export const Mobile: Story = {
+  args: Default.args,
+  parameters: {
+    viewport: {
+      defaultViewport: "ujgMobile"
+    }
+  }
+};
+
+export const Desktop: Story = {
+  args: Default.args,
+  parameters: {
+    viewport: {
+      defaultViewport: "ujgDesktop"
+    }
+  }
+};

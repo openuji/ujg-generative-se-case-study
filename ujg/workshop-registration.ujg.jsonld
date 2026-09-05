@@ -83,13 +83,17 @@
       "@type": "CompositeState",
       "@id": "urn:ujg:state:workshops-overview",
       "label": "Workshops overview",
-      "subjourneyId": "urn:ujg:journey:workshops-overview"
+      "subjourneyRefs": [
+        "urn:ujg:journey:workshops-overview"
+      ]
     },
     {
       "@type": "CompositeState",
       "@id": "urn:ujg:composite:workshop-detail",
       "label": "Workshop detail",
-      "subjourneyId": "urn:ujg:journey:workshop-detail"
+      "subjourneyRefs": [
+        "urn:ujg:journey:workshop-detail"
+      ]
     },
     {
       "@type": "Transition",
@@ -182,19 +186,25 @@
       "@type": "CompositeState",
       "@id": "urn:ujg:composite:workshop-registration",
       "label": "Regular workshop registration",
-      "subjourneyId": "urn:ujg:journey:workshop-registration"
+      "subjourneyRefs": [
+        "urn:ujg:journey:workshop-registration"
+      ]
     },
     {
       "@type": "CompositeState",
       "@id": "urn:ujg:composite:workshop-waitlist",
       "label": "Workshop waitlist registration",
-      "subjourneyId": "urn:ujg:journey:workshop-waitlist"
+      "subjourneyRefs": [
+        "urn:ujg:journey:workshop-waitlist"
+      ]
     },
     {
       "@type": "CompositeState",
       "@id": "urn:ujg:composite:workshop-registration-closed",
       "label": "Closed workshop registration",
-      "subjourneyId": "urn:ujg:journey:workshop-registration-closed"
+      "subjourneyRefs": [
+        "urn:ujg:journey:workshop-registration-closed"
+      ]
     },
     {
       "@type": "Transition",
@@ -573,13 +583,17 @@
       "@type": "CompositeState",
       "@id": "urn:ujg:composite:offered-place-email",
       "label": "Offered-place email",
-      "subjourneyId": "urn:ujg:journey:offered-place-email"
+      "subjourneyRefs": [
+        "urn:ujg:journey:offered-place-email"
+      ]
     },
     {
       "@type": "CompositeState",
       "@id": "urn:ujg:composite:offered-place-app",
       "label": "Offered place in workshop application",
-      "subjourneyId": "urn:ujg:journey:offered-place-app"
+      "subjourneyRefs": [
+        "urn:ujg:journey:offered-place-app"
+      ]
     },
     {
       "@type": "Transition",

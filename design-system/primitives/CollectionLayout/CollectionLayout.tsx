@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import styles from "./CollectionLayout.module.css";
 
 export type CollectionLayoutProps = {
   children: ReactNode;
@@ -7,8 +8,8 @@ export type CollectionLayoutProps = {
 
 export function CollectionLayout({ children, label }: CollectionLayoutProps) {
   return (
-    <section aria-label={label}>
-      <div>{children}</div>
+    <section aria-label={label} className={styles.root}>
+      <div className={styles.items}>{children}</div>
     </section>
   );
 }

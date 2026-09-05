@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Panel } from "../../primitives/Panel/Panel";
+import styles from "./FormWithSubmit.module.css";
 
 export type FormWithSubmitProps = {
   fields: ReactNode;
@@ -9,9 +10,9 @@ export type FormWithSubmitProps = {
 export function FormWithSubmit({ fields, submitAction }: FormWithSubmitProps) {
   return (
     <Panel>
-      <form>
+      <form className={styles.form}>
         {fields}
-        <div>{submitAction}</div>
+        <div className={styles.actions}>{submitAction}</div>
       </form>
     </Panel>
   );

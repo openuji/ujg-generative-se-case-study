@@ -1,0 +1,23 @@
+@reference "../../tokens/tailwind.css";
+
+.button {
+  @apply inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-sm border px-5 py-3 font-sans text-sm font-semibold leading-tight no-underline transition;
+}
+
+.primary {
+  @apply border-action-border bg-action-background text-action-foreground hover:bg-action-hover;
+}
+
+.secondary {
+  @apply border-action-secondary-border bg-action-secondary-background text-action-secondary-foreground hover:border-border-accent hover:bg-surface-accent;
+}
+
+.icon {
+  @apply h-4 w-4 shrink-0;
+}
+
+.button:disabled,
+.button[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.56;
+}

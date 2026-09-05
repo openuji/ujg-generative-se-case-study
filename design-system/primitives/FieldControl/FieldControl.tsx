@@ -1,3 +1,5 @@
+import styles from "./FieldControl.module.css";
+
 export type FieldControlProps = {
   error?: string;
   label: string;
@@ -16,14 +18,14 @@ export function FieldControl({
   const inputId = `${name}-field`;
 
   return (
-    <div>
-      <label htmlFor={inputId}>{label}</label>
+    <div className={styles.field}>
+      <label className={styles.label} htmlFor={inputId}>{label}</label>
       {type === "textarea" ? (
-        <textarea aria-invalid={Boolean(error)} defaultValue={value} id={inputId} name={name} />
+        <textarea aria-invalid={Boolean(error)} className={`${styles.control} ${styles.textarea}`} defaultValue={value} id={inputId} name={name} />
       ) : (
-        <input aria-invalid={Boolean(error)} defaultValue={value} id={inputId} name={name} type={type} />
+        <input aria-invalid={Boolean(error)} className={styles.control} defaultValue={value} id={inputId} name={name} type={type} />
       )}
-      {error ? <p role="alert">{error}</p> : null}
+      {error ? <p className={styles.error} role="alert">{error}</p> : null}
     </div>
   );
 }

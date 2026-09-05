@@ -1,0 +1,33 @@
+@reference "../../tokens/tailwind.css";
+
+.root {
+  @apply w-full rounded-md border border-border-default bg-surface-default p-5 shadow-card sm:p-6;
+}
+
+.header {
+  @apply mb-5 flex items-start gap-4;
+}
+
+.iconWell {
+  @apply flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-surface-accent text-text-action;
+}
+
+.icon {
+  @apply h-6 w-6;
+}
+
+.title {
+  @apply m-0 text-lg font-bold leading-tight text-text-default;
+}
+
+.body {
+  @apply grid gap-5 text-sm leading-relaxed text-text-subtle;
+}
+
+.body p {
+  @apply m-0;
+}
+
+.actions {
+  @apply mt-6 flex flex-col gap-3 border-t border-border-default pt-5 sm:flex-row sm:justify-end;
+}

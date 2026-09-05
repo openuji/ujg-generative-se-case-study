@@ -1,0 +1,30 @@
+@reference "../../tokens/tailwind.css";
+
+.field {
+  @apply grid gap-2;
+}
+
+.label {
+  @apply font-sans text-sm font-medium leading-normal text-text-subtle;
+}
+
+.control {
+  @apply min-h-12 w-full rounded-sm border border-control-border bg-control-background px-4 py-3 font-sans text-md leading-normal text-text-default transition;
+}
+
+.control::placeholder {
+  color: var(--ujg-control-placeholder);
+}
+
+.control[aria-invalid="true"] {
+  @apply border-status-error-border;
+}
+
+.textarea {
+  @apply resize-y;
+  min-height: calc(var(--ujg-space-16) + var(--ujg-space-4));
+}
+
+.error {
+  @apply m-0 text-sm font-medium leading-normal text-status-error-foreground;
+}

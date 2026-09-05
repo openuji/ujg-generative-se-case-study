@@ -1,0 +1,11 @@
+@reference "../../tokens/tailwind.css";
+
+.fieldset {
+  @apply grid gap-5 p-0;
+  border: 0;
+  margin: 0;
+}
+
+.legend {
+  @apply mb-1 p-0 font-sans text-lg font-bold leading-tight text-text-default;
+}

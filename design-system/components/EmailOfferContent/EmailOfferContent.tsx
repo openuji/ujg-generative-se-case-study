@@ -1,5 +1,6 @@
 import { DescriptionList } from "../../primitives/DescriptionList/DescriptionList";
-import { Panel } from "../../primitives/Panel/Panel";
+import { IconSymbol } from "../../primitives/IconSymbol/IconSymbol";
+import styles from "../../primitives/shared/SummaryContent.module.css";
 
 export type EmailOfferContentProps = {
   expiresAt: string;
@@ -15,14 +16,16 @@ export function EmailOfferContent({
   workshopTitle
 }: EmailOfferContentProps) {
   return (
-    <Panel as="article" title={title}>
-      <p>{message}</p>
+    <article className={styles.root}>
+      <IconSymbol name="mail" />
+      <h2>{title}</h2>
+      <p className={styles.intro}>{message}</p>
       <DescriptionList
         terms={[
-          { term: "Workshop", value: workshopTitle },
-          { term: "Offer expires", value: expiresAt }
+          { icon: "workshop", term: "Workshop", value: workshopTitle },
+          { icon: "clock", term: "Offer expires", value: expiresAt }
         ]}
       />
-    </Panel>
+    </article>
   );
 }

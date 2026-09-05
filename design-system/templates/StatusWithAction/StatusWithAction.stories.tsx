@@ -17,8 +17,27 @@ export const AlreadyWaitlisted: Story = {
     status: (
       <StatusMessage
         message="This email address is already on the waitlist for this workshop."
+        tone="info"
         title="Already waitlisted"
       />
     )
+  }
+};
+
+export const Mobile: Story = {
+  args: AlreadyWaitlisted.args,
+  parameters: {
+    viewport: {
+      defaultViewport: "ujgMobile"
+    }
+  }
+};
+
+export const Desktop: Story = {
+  args: AlreadyWaitlisted.args,
+  parameters: {
+    viewport: {
+      defaultViewport: "ujgDesktop"
+    }
   }
 };

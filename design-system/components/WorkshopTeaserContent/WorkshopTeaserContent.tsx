@@ -1,5 +1,6 @@
 import { DescriptionList } from "../../primitives/DescriptionList/DescriptionList";
-import { Panel } from "../../primitives/Panel/Panel";
+import { IconSymbol } from "../../primitives/IconSymbol/IconSymbol";
+import styles from "../../primitives/shared/SummaryContent.module.css";
 
 export type WorkshopTeaserContentProps = {
   date: string;
@@ -15,14 +16,16 @@ export function WorkshopTeaserContent({
   title
 }: WorkshopTeaserContentProps) {
   return (
-    <Panel as="article" title={title}>
-      <p>{summary}</p>
+    <article className={styles.root}>
+      <IconSymbol name="workshop" />
+      <h2>{title}</h2>
+      <p className={styles.intro}>{summary}</p>
       <DescriptionList
         terms={[
-          { term: "Date", value: date },
-          { term: "Location", value: location }
+          { icon: "calendar", term: "Date", value: date },
+          { icon: "map-pin", term: "Location", value: location }
         ]}
       />
-    </Panel>
+    </article>
   );
 }

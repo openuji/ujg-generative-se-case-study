@@ -6,7 +6,10 @@ import { FormWithSubmit } from "./FormWithSubmit";
 
 const meta = {
   title: "Templates/FormWithSubmit",
-  component: FormWithSubmit
+  component: FormWithSubmit,
+  parameters: {
+    ujgFrame: "wide"
+  }
 } satisfies Meta<typeof FormWithSubmit>;
 
 export default meta;
@@ -16,6 +19,24 @@ export const RegistrationForm: Story = {
   args: {
     fields: <RegistrationFormFields />,
     submitAction: <ActionControl label="Continue" type="submit" />
+  }
+};
+
+export const RegistrationFormMobile: Story = {
+  args: RegistrationForm.args,
+  parameters: {
+    viewport: {
+      defaultViewport: "ujgMobile"
+    }
+  }
+};
+
+export const RegistrationFormDesktop: Story = {
+  args: RegistrationForm.args,
+  parameters: {
+    viewport: {
+      defaultViewport: "ujgDesktop"
+    }
   }
 };
 

@@ -1,0 +1,5 @@
+@reference "../../tokens/tailwind.css";
+
+.root {
+  @apply max-w-full border-border-accent bg-surface-accent;
+}

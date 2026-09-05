@@ -15,6 +15,13 @@ export const Button: Story = {
   }
 };
 
+export const Secondary: Story = {
+  args: {
+    children: "Back",
+    variant: "secondary"
+  }
+};
+
 export const Link: Story = {
   args: {
     children: "Open message",

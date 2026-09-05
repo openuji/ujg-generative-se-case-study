@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import "./tailwind.css";
 import {
@@ -32,8 +32,8 @@ function PageShell({ children, themeId, title }: TokenPageProps & { children: Re
   const theme = resolveTheme(themeId);
 
   return (
-    <main className="min-h-screen bg-surface-canvas p-8 font-sans text-text-default">
-      <div style={{ maxWidth: "1180px", margin: "0 auto" }}>
+    <main className="min-h-screen bg-surface-canvas p-4 font-sans text-text-default sm:p-8">
+      <div className="mx-auto w-full">
         <header className="mb-8">
           <div className="mb-2 text-sm font-medium text-text-action">{themeSlug(theme.id)}</div>
           <h1 className="m-0 text-2xl font-bold leading-tight">{title}</h1>
@@ -46,10 +46,7 @@ function PageShell({ children, themeId, title }: TokenPageProps & { children: Re
 
 function Panel({ children }: { children: ReactNode }) {
   return (
-    <section
-      className="rounded-md bg-surface-default p-6 shadow-card"
-      style={{ border: "var(--ujg-border-width-thin) solid var(--ujg-border-default)" }}
-    >
+    <section className="rounded-md border border-border-default bg-surface-default p-5 shadow-card sm:p-6">
       {children}
     </section>
   );
@@ -66,7 +63,7 @@ function SectionHeading({ title, description }: { title: string; description?: s
 
 function TokenGrid({ tokens, variant }: { tokens: ResolvedToken[]; variant?: TokenGroupProps["variant"] }) {
   return (
-    <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))" }}>
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {tokens.map((token) => (
         <TokenCard key={token.path} token={token} variant={variant} />
       ))}
@@ -76,10 +73,7 @@ function TokenGrid({ tokens, variant }: { tokens: ResolvedToken[]; variant?: Tok
 
 function TokenCard({ token, variant }: { token: ResolvedToken; variant?: TokenGroupProps["variant"] }) {
   return (
-    <article
-      className="rounded-sm bg-surface-default p-4"
-      style={{ border: "var(--ujg-border-width-thin) solid var(--ujg-border-default)" }}
-    >
+    <article className="rounded-sm border border-border-default bg-surface-default p-4">
       <TokenPreview token={token} variant={variant} />
       <div className="mt-3 text-sm font-semibold leading-tight">{token.path}</div>
       <div className="mt-1 text-xs leading-normal text-text-muted">{token.type}</div>
@@ -153,7 +147,7 @@ export function OverviewPage({ themeId }: TokenPageProps) {
 
   return (
     <PageShell themeId={theme.id} title="Tokens Overview">
-      <div className="grid gap-6" style={{ gridTemplateColumns: "minmax(0, 1fr) minmax(280px, 360px)" }}>
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(280px,360px)]">
         <Panel>
           <SectionHeading
             title="Resolved Semantic Color Roles"
@@ -285,12 +279,4 @@ export function ThemesPage({ themeId }: TokenPageProps) {
       </Panel>
     </PageShell>
   );
-}
-
-export function tokenPageStyle(themeId: string): CSSProperties {
-  const theme = resolveTheme(themeId);
-
-  return {
-    colorScheme: themeSlug(theme.id).endsWith("-dark") ? "dark" : "light"
-  };
 }

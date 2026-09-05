@@ -15,3 +15,11 @@ export const Default: Story = {
     label: "Open offered place"
   }
 };
+
+export const Secondary: Story = {
+  args: {
+    href: "#",
+    label: "View my registrations",
+    variant: "secondary"
+  }
+};

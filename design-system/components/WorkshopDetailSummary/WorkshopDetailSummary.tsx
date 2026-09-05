@@ -1,5 +1,7 @@
 import { DescriptionList } from "../../primitives/DescriptionList/DescriptionList";
-import { Panel } from "../../primitives/Panel/Panel";
+import { IconSymbol } from "../../primitives/IconSymbol/IconSymbol";
+import { StatusBadge, type StatusBadgeTone } from "../../primitives/StatusBadge/StatusBadge";
+import styles from "../../primitives/shared/SummaryContent.module.css";
 
 export type WorkshopDetailSummaryProps = {
   availability: string;
@@ -9,6 +11,24 @@ export type WorkshopDetailSummaryProps = {
   title: string;
 };
 
+function availabilityTone(availability: string): StatusBadgeTone {
+  const normalizedAvailability = availability.toLowerCase();
+
+  if (normalizedAvailability.includes("waitlist")) {
+    return "info";
+  }
+
+  if (normalizedAvailability.includes("closed") || normalizedAvailability.includes("unavailable")) {
+    return "error";
+  }
+
+  if (normalizedAvailability.includes("limited")) {
+    return "warning";
+  }
+
+  return "success";
+}
+
 export function WorkshopDetailSummary({
   availability,
   date,
@@ -17,15 +37,21 @@ export function WorkshopDetailSummary({
   title
 }: WorkshopDetailSummaryProps) {
   return (
-    <Panel title={title}>
-      <p>{description}</p>
+    <article className={styles.root}>
+      <IconSymbol name="workshop" />
+      <h2>{title}</h2>
+      <p className={styles.intro}>{description}</p>
       <DescriptionList
         terms={[
-          { term: "Date", value: date },
-          { term: "Location", value: location },
-          { term: "Availability", value: availability }
+          { icon: "calendar", term: "Date", value: date },
+          { icon: "map-pin", term: "Location", value: location },
+          {
+            icon: "info",
+            term: "Availability",
+            value: <StatusBadge tone={availabilityTone(availability)}>{availability}</StatusBadge>
+          }
         ]}
       />
-    </Panel>
+    </article>
   );
 }

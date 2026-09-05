@@ -1,5 +1,6 @@
 import { DescriptionList } from "../../primitives/DescriptionList/DescriptionList";
-import { Panel } from "../../primitives/Panel/Panel";
+import { IconSymbol } from "../../primitives/IconSymbol/IconSymbol";
+import styles from "../../primitives/shared/SummaryContent.module.css";
 
 export type WaitlistReviewSummaryProps = {
   email: string;
@@ -13,14 +14,16 @@ export function WaitlistReviewSummary({
   workshopTitle
 }: WaitlistReviewSummaryProps) {
   return (
-    <Panel title="Review waitlist request">
+    <section className={styles.root}>
+      <IconSymbol name="user" />
+      <h2>Review waitlist request</h2>
       <DescriptionList
         terms={[
-          { term: "Workshop", value: workshopTitle },
-          { term: "Participant", value: name },
-          { term: "Email", value: email }
+          { icon: "workshop", term: "Workshop", value: workshopTitle },
+          { icon: "user", term: "Participant", value: name },
+          { icon: "mail", term: "Email", value: email }
         ]}
       />
-    </Panel>
+    </section>
   );
 }

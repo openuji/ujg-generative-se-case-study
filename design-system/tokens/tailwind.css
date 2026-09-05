@@ -1,7 +1,11 @@
+@import "tailwindcss/preflight";
 @import "tailwindcss/utilities";
 
 @theme inline {
   --*: initial;
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
   --font-sans: var(--ujg-font-family-sans);
   --text-xs: var(--ujg-font-size-xs);
   --text-sm: var(--ujg-font-size-sm);
@@ -17,6 +21,7 @@
   --leading-tight: var(--ujg-font-lineHeight-tight);
   --leading-normal: var(--ujg-font-lineHeight-normal);
   --leading-relaxed: var(--ujg-font-lineHeight-relaxed);
+  --spacing-0: 0px;
   --spacing-1: var(--ujg-space-1);
   --spacing-2: var(--ujg-space-2);
   --spacing-3: var(--ujg-space-3);
@@ -70,4 +75,37 @@
   --color-status-info-background: var(--ujg-status-info-background);
   --color-status-info-foreground: var(--ujg-status-info-foreground);
   --color-status-info-border: var(--ujg-status-info-border);
+}
+
+@layer base {
+  :where([data-ujg-theme]) {
+    min-height: 100%;
+    background: var(--ujg-surface-canvas);
+    color: var(--ujg-text-default);
+    font-family: var(--ujg-font-family-sans);
+    font-size: var(--ujg-font-size-md);
+    line-height: var(--ujg-font-lineHeight-normal);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :where([data-ujg-theme] *) {
+    box-sizing: border-box;
+  }
+
+  :where([data-ujg-theme] :focus-visible) {
+    outline: none;
+    box-shadow: var(--ujg-shadow-focus);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :where([data-ujg-theme] *),
+    :where([data-ujg-theme] *::before),
+    :where([data-ujg-theme] *::after) {
+      animation-duration: 1ms;
+      animation-iteration-count: 1;
+      scroll-behavior: auto;
+      transition-duration: 1ms;
+    }
+  }
 }
