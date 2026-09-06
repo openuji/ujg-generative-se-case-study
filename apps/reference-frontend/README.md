@@ -1,7 +1,12 @@
 # Reference frontend
 
-A human-written reference frontend will be added after the UJG, reference domain, and design-system bindings are stable.
+This directory is the target for the generated reference frontend selected by
+`ujg-implementation.yaml`.
 
-Its purpose is to prove that the case-study infrastructure is internally consistent before any generated frontend is evaluated.
+The realization workflow generates it from the canonical UJG, its external data
+schemas, the selected design-system implementation, and the generated OpenAPI
+contract. Generated application files are disposable and must not acquire
+manually maintained journey behavior.
 
-Recommended v1 stack: React + TypeScript + Vite. This is a recommendation, not a UJG requirement.
+The concrete runtime, framework, and build system are realization choices in
+the root manifest, not UJG semantics.

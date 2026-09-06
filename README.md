@@ -10,9 +10,8 @@ The first implementation/evaluation slice should remain narrow: **waitlisted -> 
 
 ## Source-of-truth rule
 
-- `ujg/workshop-registration.ujg.yaml` is the DX authoring representation.
 - `ujg/workshop-registration.ujg.jsonld` is the canonical UJG representation consumed by tools.
-- The YAML must compile/flatten losslessly into the canonical model. 
+- External schemas under `ujg/schemas/` are referenced data contracts.
 - Do not maintain independent semantic journey definitions in backend requirements, frontend prompts, Playwright tests, or Storybook.
 
 ## Quick start
@@ -35,24 +34,24 @@ before selecting implementation architecture.
 After Domain Model evaluation, record the implementation choices and workspace
 paths in [`ujg-implementation.yaml`](ujg-implementation.yaml), then use the
 [UJG Domain Model to Implementation Realization skill](docs/skills/ujg-domain-model-to-implementation-realization/SKILL.md).
-The skill reads that manifest, the complete UJG with its embedded Domain Model,
-and the selected frontend consumers before implementing the backend. Use
-`ujg-ed-domain-model-implementation` after code exists to audit implementation
-conformance against the full UJG.
+The skill reads that manifest and the complete UJG, validates the selected
+design system, derives the shared API contract, implements the backend, and
+generates the reference frontend. Use `ujg-ed-domain-model-implementation`
+after code exists to audit implementation conformance against the full UJG.
 
 ## Repository shape
 
 ```text
-ujg/                              upstream model: YAML + canonical JSON-LD
+ujg/                              canonical JSON-LD and referenced data schemas
 experiments/domain-generation/    UJG -> technology-neutral domain derivation
 experiments/domain-generation/reference/
                                   reviewed/frozen derivation
 
-domain/reference/                 target selected for the reference backend
+domain/reference/                 generated reference backend target
 
-design-system/                    later: components/templates bound via UJG DS
-apps/reference-frontend/          later: human reference implementation
-tests/journey-mesh/               later: UJG-derived execution, not duplicate flows
+design-system/                    selected UJG-bound presentation realization
+apps/reference-frontend/          generated reference frontend target
+tests/journey-mesh/               UJG-derived execution, not duplicate flows
 scripts/                           parity/review/bootstrap tooling
 docs/                              model review and decisions
 ```
@@ -64,10 +63,10 @@ docs/                              model review and decisions
 3. Run the domain-model generation experiment from the UJG.
 4. Evaluate and freeze one reference domain artifact.
 5. Freeze the root UJG implementation manifest.
-6. Execute the realization skill and audit the resulting reference backend.
-7. Build one human reference frontend against the frozen domain and design system.
+6. Execute the realization skill: derive OpenAPI, implement the backend, and generate the reference frontend.
+7. Audit backend, frontend, contract, and browser behavior against the complete UJG.
 8. Add Journey Mesh path selection/driver support so Playwright executes paths derived from the same UJG.
-9. Only then run frontend generation and agentic repair experiments.
+9. Repeat generation and agentic repair experiments against the frozen inputs and conformance gates.
 10. Runtime/OTel/Grafana remain a later extension, not part of repository v1.
 
 ## Journey Mesh

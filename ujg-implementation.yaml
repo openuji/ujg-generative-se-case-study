@@ -1,12 +1,16 @@
-manifest_version: 1
+manifest_version: 2
 
 ujg: ujg/workshop-registration.ujg.jsonld
 backend: domain/reference
-frontend:
-  - apps/reference-frontend
-  - design-system
+frontend: apps/reference-frontend
+design_system: design-system
 
-runtime: node
+backend_runtime: node
+frontend_runtime: browser
+frontend_framework: react
+frontend_build: vite
+frontend_mode: generated
+
 transport: http
 api_contract: openapi
 storage: sqlite
