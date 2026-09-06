@@ -27,6 +27,19 @@ pnpm install
 
 See `docs/model-review.md`.
 
+## Domain-model workflow
+
+Use the workspace-local [UJG topology to Domain Model derivation skill](docs/skills/ujg-topology-to-domain-model-derivation/SKILL.md)
+before selecting implementation architecture.
+
+After Domain Model evaluation, record the implementation choices and workspace
+paths in [`ujg-implementation.yaml`](ujg-implementation.yaml), then use the
+[UJG Domain Model to Implementation Realization skill](docs/skills/ujg-domain-model-to-implementation-realization/SKILL.md).
+The skill reads that manifest, the complete UJG with its embedded Domain Model,
+and the selected frontend consumers before implementing the backend. Use
+`ujg-ed-domain-model-implementation` after code exists to audit implementation
+conformance against the full UJG.
+
 ## Repository shape
 
 ```text
@@ -35,7 +48,7 @@ experiments/domain-generation/    UJG -> technology-neutral domain derivation
 experiments/domain-generation/reference/
                                   reviewed/frozen derivation
 
-domain/reference/                 later: deterministic reference backend
+domain/reference/                 target selected for the reference backend
 
 design-system/                    later: components/templates bound via UJG DS
 apps/reference-frontend/          later: human reference implementation
@@ -49,11 +62,13 @@ docs/                              model review and decisions
 1. Resolve the two Graph entry-semantics blockers and decide which branches need explicit Conditions.
 2. Add the UJG Design System model/bindings and concrete component/template package.
 3. Run the domain-model generation experiment from the UJG.
-4. Review/freeze one reference domain artifact and implement the deterministic reference domain/service.
-5. Build one human reference frontend against the frozen domain and design system.
-6. Add Journey Mesh path selection/driver support so Playwright executes paths derived from the same UJG.
-7. Only then run frontend generation and agentic repair experiments.
-8. Runtime/OTel/Grafana remain a later extension, not part of repository v1.
+4. Evaluate and freeze one reference domain artifact.
+5. Freeze the root UJG implementation manifest.
+6. Execute the realization skill and audit the resulting reference backend.
+7. Build one human reference frontend against the frozen domain and design system.
+8. Add Journey Mesh path selection/driver support so Playwright executes paths derived from the same UJG.
+9. Only then run frontend generation and agentic repair experiments.
+10. Runtime/OTel/Grafana remain a later extension, not part of repository v1.
 
 ## Journey Mesh
 

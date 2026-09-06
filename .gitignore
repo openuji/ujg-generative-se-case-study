@@ -7,6 +7,10 @@ test-results/
 coverage/
 dist/
 .vite/
+domain/reference/.data/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
 
 # Journey Mesh is bootstrapped at a pinned commit, not committed here.
 .vendor/journey-mesh/

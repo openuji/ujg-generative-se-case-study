@@ -1,12 +1,9 @@
-# Frozen reference domain implementation
+# Reference backend target
 
-This directory is intentionally empty at repository initialization.
+This directory is selected by `ujg-implementation.yaml` as the backend output
+path.
 
-After the domain-generation experiment:
-
-1. freeze a reviewed technology-neutral domain artifact;
-2. implement one deterministic reference domain/service from it;
-3. expose deterministic fixture/setup/reset controls for Journey Mesh;
-4. keep this implementation fixed across frontend-generation runs.
-
-The frontend experiment must not regenerate or mutate this domain implementation per model run.
+The implementation is intentionally absent until the manifest-driven
+realization step runs. That step must read the canonical UJG, its embedded
+Domain Model, and the frontend paths selected by the manifest before creating
+code, generated OpenAPI, tests, or a conformance trace here.

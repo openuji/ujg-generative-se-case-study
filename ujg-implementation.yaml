@@ -1,0 +1,16 @@
+manifest_version: 1
+
+ujg: ujg/workshop-registration.ujg.jsonld
+backend: domain/reference
+frontend:
+  - apps/reference-frontend
+  - design-system
+
+runtime: node
+transport: http
+api_contract: openapi
+storage: sqlite
+auth: fake-auth-adapter
+email: fake-client
+init_state: fixtures
+interaction_state: frontend
