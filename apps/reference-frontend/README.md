@@ -1,12 +1,19 @@
-# Reference frontend
+# Generated reference frontend
 
-This directory is the target for the generated reference frontend selected by
-`ujg-implementation.yaml`.
+This directory is generated from the root realization manifest, canonical UJG, generated OpenAPI, and design-system binding manifest. Do not hand-edit journey behavior here.
 
-The realization workflow generates it from the canonical UJG, its external data
-schemas, the selected design-system implementation, and the generated OpenAPI
-contract. Generated application files are disposable and must not acquire
-manually maintained journey behavior.
+Regenerate and check drift from the repository root:
 
-The concrete runtime, framework, and build system are realization choices in
-the root manifest, not UJG semantics.
+```sh
+pnpm generate:reference-frontend
+pnpm validate:reference-frontend
+```
+
+Run the backend and this app in separate terminals:
+
+```sh
+pnpm dev:backend
+pnpm --filter @openuji/workshop-registration-reference-frontend dev
+```
+
+The fake browser identity defaults to `token-alex`. Tests or local tools can select another fixture subject with `localStorage.setItem("referenceAuthToken", "token-blair")`.

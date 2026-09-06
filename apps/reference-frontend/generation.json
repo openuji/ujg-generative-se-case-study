@@ -1,0 +1,575 @@
+{
+  "generatedFrom": {
+    "manifest": "ujg-implementation.yaml",
+    "ujg": "ujg/workshop-registration.ujg.jsonld",
+    "openapi": "domain/reference/openapi/openapi.json",
+    "designSystemBindings": "design-system/generated/ds-bindings.manifest.json"
+  },
+  "hashes": {
+    "ujg": "ea7317f5e3cecdaab8118fa0bc66edb92b75d60556b2e2334cc16b6ffee29c99",
+    "openapi": "607094c44de89a6bd460b68a4a3403f0368794c2e283607dcab1910bcbee063e",
+    "designSystem": "28ec787f939f53994f8761b981ac6c80c20170f7e1afcb12d04ab2c719dad337"
+  },
+  "operations": [
+    {
+      "operationId": "listWorkshops",
+      "method": "GET",
+      "path": "/api/workshops",
+      "auth": false,
+      "entryRef": "urn:ujg:entry-binding:workshops-overview",
+      "commandRef": null,
+      "outcomes": [
+        {
+          "name": "overview",
+          "stateRef": "urn:ujg:state:workshops-overview",
+          "dataSchema": "WorkshopCollectionData"
+        }
+      ]
+    },
+    {
+      "operationId": "getWorkshop",
+      "method": "GET",
+      "path": "/api/workshops/{workshopId}",
+      "auth": false,
+      "entryRef": "urn:ujg:entry-binding:workshop-detail",
+      "commandRef": null,
+      "outcomes": [
+        {
+          "name": "registrationOpen",
+          "stateRef": "urn:ujg:state:workshop-registration-open",
+          "dataSchema": "WorkshopDetailData"
+        },
+        {
+          "name": "waitlistOpen",
+          "stateRef": "urn:ujg:state:workshop-waitlist-open",
+          "dataSchema": "WorkshopDetailData"
+        },
+        {
+          "name": "registrationClosed",
+          "stateRef": "urn:ujg:state:workshop-registration-closed",
+          "dataSchema": "StatusMessageData"
+        }
+      ]
+    },
+    {
+      "operationId": "confirmRegistration",
+      "method": "POST",
+      "path": "/api/workshops/{workshopId}/registrations",
+      "auth": true,
+      "entryRef": null,
+      "commandRef": "urn:ujg:command:confirm-registration",
+      "outcomes": [
+        {
+          "name": "confirmed",
+          "stateRef": "urn:ujg:state:registration-confirmed",
+          "transitionRef": "urn:ujg:transition:confirm-registration",
+          "dataSchema": "StatusMessageData"
+        },
+        {
+          "name": "waitlistOpen",
+          "stateRef": "urn:ujg:state:waitlist-after-registration-unavailable",
+          "transitionRef": "urn:ujg:transition:confirm-registration-place-unavailable",
+          "dataSchema": "WorkshopDetailData"
+        },
+        {
+          "name": "registrationClosed",
+          "stateRef": "urn:ujg:state:workshop-registration-closed",
+          "transitionRef": "urn:ujg:transition:confirm-registration-closed",
+          "dataSchema": "StatusMessageData"
+        }
+      ]
+    },
+    {
+      "operationId": "joinWaitlist",
+      "method": "POST",
+      "path": "/api/workshops/{workshopId}/waitlist",
+      "auth": true,
+      "entryRef": null,
+      "commandRef": "urn:ujg:command:join-waitlist",
+      "outcomes": [
+        {
+          "name": "waitlisted",
+          "stateRef": "urn:ujg:state:waitlisted",
+          "transitionRef": "urn:ujg:transition:join-waitlist",
+          "dataSchema": "StatusMessageData"
+        },
+        {
+          "name": "alreadyWaitlisted",
+          "stateRef": "urn:ujg:state:already-waitlisted",
+          "transitionRef": "urn:ujg:transition:join-waitlist-already-listed",
+          "dataSchema": "StatusMessageData"
+        },
+        {
+          "name": "registrationClosed",
+          "stateRef": "urn:ujg:state:workshop-registration-closed",
+          "transitionRef": "urn:ujg:transition:join-waitlist-after-closed",
+          "dataSchema": "StatusMessageData"
+        }
+      ]
+    },
+    {
+      "operationId": "getOffer",
+      "method": "GET",
+      "path": "/api/offers/{offerId}",
+      "auth": true,
+      "entryRef": "urn:ujg:entry-binding:offered-place-app",
+      "commandRef": null,
+      "outcomes": [
+        {
+          "name": "open",
+          "stateRef": "urn:ujg:state:offered-place-open",
+          "dataSchema": "OfferSummaryData"
+        },
+        {
+          "name": "expired",
+          "stateRef": "urn:ujg:state:offered-place-expired",
+          "dataSchema": "StatusMessageData"
+        },
+        {
+          "name": "unavailable",
+          "stateRef": "urn:ujg:state:offered-place-unavailable",
+          "dataSchema": "StatusMessageData"
+        },
+        {
+          "name": "accepted",
+          "stateRef": "urn:ujg:state:offered-place-registration-confirmed",
+          "dataSchema": "StatusMessageData"
+        },
+        {
+          "name": "declined",
+          "stateRef": "urn:ujg:state:offered-place-waitlisted",
+          "dataSchema": "StatusMessageData"
+        }
+      ]
+    },
+    {
+      "operationId": "acceptOffer",
+      "method": "POST",
+      "path": "/api/offers/{offerId}/accept",
+      "auth": true,
+      "entryRef": null,
+      "commandRef": "urn:ujg:command:accept-offered-place",
+      "outcomes": [
+        {
+          "name": "accepted",
+          "stateRef": "urn:ujg:state:offered-place-registration-confirmed",
+          "transitionRef": "urn:ujg:transition:accept-offered-place",
+          "dataSchema": "StatusMessageData"
+        },
+        {
+          "name": "expired",
+          "stateRef": "urn:ujg:state:offered-place-expired",
+          "transitionRef": "urn:ujg:transition:accept-offered-place-after-expiry",
+          "dataSchema": "StatusMessageData"
+        },
+        {
+          "name": "unavailable",
+          "stateRef": "urn:ujg:state:offered-place-unavailable",
+          "transitionRef": "urn:ujg:transition:accept-offered-place-after-unavailable",
+          "dataSchema": "StatusMessageData"
+        }
+      ]
+    },
+    {
+      "operationId": "declineOffer",
+      "method": "POST",
+      "path": "/api/offers/{offerId}/decline",
+      "auth": true,
+      "entryRef": null,
+      "commandRef": "urn:ujg:command:decline-offered-place",
+      "outcomes": [
+        {
+          "name": "declined",
+          "stateRef": "urn:ujg:state:offered-place-waitlisted",
+          "transitionRef": "urn:ujg:transition:decline-offered-place",
+          "dataSchema": "StatusMessageData"
+        },
+        {
+          "name": "expired",
+          "stateRef": "urn:ujg:state:offered-place-expired",
+          "transitionRef": "urn:ujg:transition:decline-offered-place-after-expiry",
+          "dataSchema": "StatusMessageData"
+        },
+        {
+          "name": "unavailable",
+          "stateRef": "urn:ujg:state:offered-place-unavailable",
+          "transitionRef": "urn:ujg:transition:decline-offered-place-after-unavailable",
+          "dataSchema": "StatusMessageData"
+        }
+      ]
+    }
+  ],
+  "localConditionSets": [
+    {
+      "id": "urn:ujg:condition-set:registration-details-validation",
+      "transitions": [
+        {
+          "id": "urn:ujg:transition:registration-details-valid",
+          "from": "urn:ujg:state:registration-form",
+          "to": "urn:ujg:state:registration-review",
+          "conditionRef": "urn:ujg:condition:registration-details-valid",
+          "commandRef": "urn:ujg:command:submit-registration-details"
+        },
+        {
+          "id": "urn:ujg:transition:registration-details-invalid",
+          "from": "urn:ujg:state:registration-form",
+          "to": "urn:ujg:state:registration-form-error",
+          "conditionRef": "urn:ujg:condition:registration-details-invalid",
+          "commandRef": "urn:ujg:command:submit-registration-details"
+        }
+      ]
+    },
+    {
+      "id": "urn:ujg:condition-set:corrected-registration-details-validation",
+      "transitions": [
+        {
+          "id": "urn:ujg:transition:corrected-registration-details-valid",
+          "from": "urn:ujg:state:registration-form-error",
+          "to": "urn:ujg:state:registration-review",
+          "conditionRef": "urn:ujg:condition:registration-details-valid",
+          "commandRef": "urn:ujg:command:submit-registration-details"
+        },
+        {
+          "id": "urn:ujg:transition:corrected-registration-details-invalid",
+          "from": "urn:ujg:state:registration-form-error",
+          "to": "urn:ujg:state:registration-form-error",
+          "conditionRef": "urn:ujg:condition:registration-details-invalid",
+          "commandRef": "urn:ujg:command:submit-registration-details"
+        }
+      ]
+    },
+    {
+      "id": "urn:ujg:condition-set:waitlist-details-validation",
+      "transitions": [
+        {
+          "id": "urn:ujg:transition:waitlist-details-valid",
+          "from": "urn:ujg:state:waitlist-form",
+          "to": "urn:ujg:state:waitlist-review",
+          "conditionRef": "urn:ujg:condition:waitlist-details-valid",
+          "commandRef": "urn:ujg:command:submit-waitlist-details"
+        },
+        {
+          "id": "urn:ujg:transition:waitlist-details-invalid",
+          "from": "urn:ujg:state:waitlist-form",
+          "to": "urn:ujg:state:waitlist-form-error",
+          "conditionRef": "urn:ujg:condition:waitlist-details-invalid",
+          "commandRef": "urn:ujg:command:submit-waitlist-details"
+        }
+      ]
+    },
+    {
+      "id": "urn:ujg:condition-set:corrected-waitlist-details-validation",
+      "transitions": [
+        {
+          "id": "urn:ujg:transition:corrected-waitlist-details-valid",
+          "from": "urn:ujg:state:waitlist-form-error",
+          "to": "urn:ujg:state:waitlist-review",
+          "conditionRef": "urn:ujg:condition:waitlist-details-valid",
+          "commandRef": "urn:ujg:command:submit-waitlist-details"
+        },
+        {
+          "id": "urn:ujg:transition:corrected-waitlist-details-invalid",
+          "from": "urn:ujg:state:waitlist-form-error",
+          "to": "urn:ujg:state:waitlist-form-error",
+          "conditionRef": "urn:ujg:condition:waitlist-details-invalid",
+          "commandRef": "urn:ujg:command:submit-waitlist-details"
+        }
+      ]
+    }
+  ],
+  "surfaceRealizations": [
+    {
+      "id": "urn:ujg:surface-realization:workshops-overview",
+      "surfaceRef": "urn:ujg:surface:workshops-overview",
+      "templateRef": "urn:ujg:template:workshops-overview-list",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:workshops-overview:workshop-teasers"
+      ]
+    },
+    {
+      "id": "urn:ujg:surface-realization:workshop-teaser",
+      "surfaceRef": "urn:ujg:surface:workshop-teaser",
+      "templateRef": "urn:ujg:template:workshop-teaser-card",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:workshop-teaser:content",
+        "urn:ujg:slot-binding:workshop-teaser:open-action"
+      ]
+    },
+    {
+      "id": "urn:ujg:surface-realization:workshop-registration-open",
+      "surfaceRef": "urn:ujg:surface:workshop-registration-open",
+      "templateRef": "urn:ujg:template:detail-with-action",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:workshop-registration-open:summary",
+        "urn:ujg:slot-binding:workshop-registration-open:start-action"
+      ]
+    },
+    {
+      "id": "urn:ujg:surface-realization:registration-form",
+      "surfaceRef": "urn:ujg:surface:registration-form",
+      "templateRef": "urn:ujg:template:form-with-submit",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:registration-form:fields",
+        "urn:ujg:slot-binding:registration-form:submit-action"
+      ]
+    },
+    {
+      "id": "urn:ujg:surface-realization:registration-form-error",
+      "surfaceRef": "urn:ujg:surface:registration-form-error",
+      "templateRef": "urn:ujg:template:form-with-submit",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:registration-form-error:fields",
+        "urn:ujg:slot-binding:registration-form-error:submit-action"
+      ]
+    },
+    {
+      "id": "urn:ujg:surface-realization:registration-review",
+      "surfaceRef": "urn:ujg:surface:registration-review",
+      "templateRef": "urn:ujg:template:review-with-actions",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:registration-review:summary",
+        "urn:ujg:slot-binding:registration-review:edit-action",
+        "urn:ujg:slot-binding:registration-review:confirm-action"
+      ]
+    },
+    {
+      "id": "urn:ujg:surface-realization:registration-confirmed",
+      "surfaceRef": "urn:ujg:surface:registration-confirmed",
+      "componentRef": "urn:ujg:component:status-message"
+    },
+    {
+      "id": "urn:ujg:surface-realization:workshop-waitlist-open",
+      "surfaceRef": "urn:ujg:surface:workshop-waitlist-open",
+      "templateRef": "urn:ujg:template:detail-with-action",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:workshop-waitlist-open:summary",
+        "urn:ujg:slot-binding:workshop-waitlist-open:start-action"
+      ]
+    },
+    {
+      "id": "urn:ujg:surface-realization:waitlist-after-registration-unavailable",
+      "surfaceRef": "urn:ujg:surface:waitlist-after-registration-unavailable",
+      "templateRef": "urn:ujg:template:detail-with-action",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:waitlist-after-registration-unavailable:summary",
+        "urn:ujg:slot-binding:waitlist-after-registration-unavailable:start-action"
+      ]
+    },
+    {
+      "id": "urn:ujg:surface-realization:waitlist-form",
+      "surfaceRef": "urn:ujg:surface:waitlist-form",
+      "templateRef": "urn:ujg:template:form-with-submit",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:waitlist-form:fields",
+        "urn:ujg:slot-binding:waitlist-form:submit-action"
+      ]
+    },
+    {
+      "id": "urn:ujg:surface-realization:waitlist-form-error",
+      "surfaceRef": "urn:ujg:surface:waitlist-form-error",
+      "templateRef": "urn:ujg:template:form-with-submit",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:waitlist-form-error:fields",
+        "urn:ujg:slot-binding:waitlist-form-error:submit-action"
+      ]
+    },
+    {
+      "id": "urn:ujg:surface-realization:waitlist-review",
+      "surfaceRef": "urn:ujg:surface:waitlist-review",
+      "templateRef": "urn:ujg:template:review-with-actions",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:waitlist-review:summary",
+        "urn:ujg:slot-binding:waitlist-review:edit-action",
+        "urn:ujg:slot-binding:waitlist-review:join-action"
+      ]
+    },
+    {
+      "id": "urn:ujg:surface-realization:waitlisted",
+      "surfaceRef": "urn:ujg:surface:waitlisted",
+      "componentRef": "urn:ujg:component:status-message"
+    },
+    {
+      "id": "urn:ujg:surface-realization:already-waitlisted",
+      "surfaceRef": "urn:ujg:surface:already-waitlisted",
+      "templateRef": "urn:ujg:template:status-with-action",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:already-waitlisted:status",
+        "urn:ujg:slot-binding:already-waitlisted:continue-action"
+      ]
+    },
+    {
+      "id": "urn:ujg:surface-realization:workshop-registration-closed",
+      "surfaceRef": "urn:ujg:surface:workshop-registration-closed",
+      "componentRef": "urn:ujg:component:status-message"
+    },
+    {
+      "id": "urn:ujg:surface-realization:offered-place-email-visible",
+      "surfaceRef": "urn:ujg:surface:offered-place-email-visible",
+      "templateRef": "urn:ujg:template:email-offer-message",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:offered-place-email:body",
+        "urn:ujg:slot-binding:offered-place-email:open-action"
+      ]
+    },
+    {
+      "id": "urn:ujg:surface-realization:offered-place-open",
+      "surfaceRef": "urn:ujg:surface:offered-place-open",
+      "templateRef": "urn:ujg:template:offered-place-response",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:offered-place-open:summary",
+        "urn:ujg:slot-binding:offered-place-open:accept-action",
+        "urn:ujg:slot-binding:offered-place-open:decline-action"
+      ]
+    },
+    {
+      "id": "urn:ujg:surface-realization:offered-place-expired",
+      "surfaceRef": "urn:ujg:surface:offered-place-expired",
+      "componentRef": "urn:ujg:component:status-message"
+    },
+    {
+      "id": "urn:ujg:surface-realization:offered-place-unavailable",
+      "surfaceRef": "urn:ujg:surface:offered-place-unavailable",
+      "componentRef": "urn:ujg:component:status-message"
+    },
+    {
+      "id": "urn:ujg:surface-realization:offered-place-registration-confirmed",
+      "surfaceRef": "urn:ujg:surface:offered-place-registration-confirmed",
+      "componentRef": "urn:ujg:component:status-message"
+    },
+    {
+      "id": "urn:ujg:surface-realization:offered-place-waitlisted",
+      "surfaceRef": "urn:ujg:surface:offered-place-waitlisted",
+      "componentRef": "urn:ujg:component:status-message"
+    },
+    {
+      "id": "urn:ujg:surface-realization:action:open-workshop",
+      "surfaceRef": "urn:ujg:surface:action:open-workshop",
+      "componentRef": "urn:ujg:component:action-control"
+    },
+    {
+      "id": "urn:ujg:surface-realization:action:start-registration",
+      "surfaceRef": "urn:ujg:surface:action:start-registration",
+      "componentRef": "urn:ujg:component:action-control"
+    },
+    {
+      "id": "urn:ujg:surface-realization:action:submit-registration-details",
+      "surfaceRef": "urn:ujg:surface:action:submit-registration-details",
+      "componentRef": "urn:ujg:component:action-control"
+    },
+    {
+      "id": "urn:ujg:surface-realization:action:edit-registration-details",
+      "surfaceRef": "urn:ujg:surface:action:edit-registration-details",
+      "componentRef": "urn:ujg:component:action-control"
+    },
+    {
+      "id": "urn:ujg:surface-realization:action:confirm-registration",
+      "surfaceRef": "urn:ujg:surface:action:confirm-registration",
+      "componentRef": "urn:ujg:component:action-control"
+    },
+    {
+      "id": "urn:ujg:surface-realization:action:start-waitlist-registration",
+      "surfaceRef": "urn:ujg:surface:action:start-waitlist-registration",
+      "componentRef": "urn:ujg:component:action-control"
+    },
+    {
+      "id": "urn:ujg:surface-realization:action:submit-waitlist-details",
+      "surfaceRef": "urn:ujg:surface:action:submit-waitlist-details",
+      "componentRef": "urn:ujg:component:action-control"
+    },
+    {
+      "id": "urn:ujg:surface-realization:action:edit-waitlist-details",
+      "surfaceRef": "urn:ujg:surface:action:edit-waitlist-details",
+      "componentRef": "urn:ujg:component:action-control"
+    },
+    {
+      "id": "urn:ujg:surface-realization:action:join-waitlist",
+      "surfaceRef": "urn:ujg:surface:action:join-waitlist",
+      "componentRef": "urn:ujg:component:action-control"
+    },
+    {
+      "id": "urn:ujg:surface-realization:action:continue-as-waitlisted",
+      "surfaceRef": "urn:ujg:surface:action:continue-as-waitlisted",
+      "componentRef": "urn:ujg:component:action-control"
+    },
+    {
+      "id": "urn:ujg:surface-realization:action:open-offered-place-link",
+      "surfaceRef": "urn:ujg:surface:action:open-offered-place-link",
+      "componentRef": "urn:ujg:component:email-link-control"
+    },
+    {
+      "id": "urn:ujg:surface-realization:action:accept-offered-place",
+      "surfaceRef": "urn:ujg:surface:action:accept-offered-place",
+      "componentRef": "urn:ujg:component:action-control"
+    },
+    {
+      "id": "urn:ujg:surface-realization:action:decline-offered-place",
+      "surfaceRef": "urn:ujg:surface:action:decline-offered-place",
+      "componentRef": "urn:ujg:component:action-control"
+    },
+    {
+      "id": "urn:ujg:surface-realization:content:workshop-teaser",
+      "surfaceRef": "urn:ujg:surface:content:workshop-teaser",
+      "componentRef": "urn:ujg:component:workshop-teaser-content"
+    },
+    {
+      "id": "urn:ujg:surface-realization:content:workshop-registration-open-summary",
+      "surfaceRef": "urn:ujg:surface:content:workshop-registration-open-summary",
+      "componentRef": "urn:ujg:component:workshop-detail-summary"
+    },
+    {
+      "id": "urn:ujg:surface-realization:content:registration-form-fields",
+      "surfaceRef": "urn:ujg:surface:content:registration-form-fields",
+      "componentRef": "urn:ujg:component:registration-form-fields"
+    },
+    {
+      "id": "urn:ujg:surface-realization:content:registration-form-error-fields",
+      "surfaceRef": "urn:ujg:surface:content:registration-form-error-fields",
+      "componentRef": "urn:ujg:component:registration-form-fields"
+    },
+    {
+      "id": "urn:ujg:surface-realization:content:registration-review-summary",
+      "surfaceRef": "urn:ujg:surface:content:registration-review-summary",
+      "componentRef": "urn:ujg:component:registration-review-summary"
+    },
+    {
+      "id": "urn:ujg:surface-realization:content:workshop-waitlist-open-summary",
+      "surfaceRef": "urn:ujg:surface:content:workshop-waitlist-open-summary",
+      "componentRef": "urn:ujg:component:workshop-detail-summary"
+    },
+    {
+      "id": "urn:ujg:surface-realization:content:waitlist-after-registration-unavailable-summary",
+      "surfaceRef": "urn:ujg:surface:content:waitlist-after-registration-unavailable-summary",
+      "componentRef": "urn:ujg:component:workshop-detail-summary"
+    },
+    {
+      "id": "urn:ujg:surface-realization:content:waitlist-form-fields",
+      "surfaceRef": "urn:ujg:surface:content:waitlist-form-fields",
+      "componentRef": "urn:ujg:component:waitlist-form-fields"
+    },
+    {
+      "id": "urn:ujg:surface-realization:content:waitlist-form-error-fields",
+      "surfaceRef": "urn:ujg:surface:content:waitlist-form-error-fields",
+      "componentRef": "urn:ujg:component:waitlist-form-fields"
+    },
+    {
+      "id": "urn:ujg:surface-realization:content:waitlist-review-summary",
+      "surfaceRef": "urn:ujg:surface:content:waitlist-review-summary",
+      "componentRef": "urn:ujg:component:waitlist-review-summary"
+    },
+    {
+      "id": "urn:ujg:surface-realization:content:already-waitlisted-status",
+      "surfaceRef": "urn:ujg:surface:content:already-waitlisted-status",
+      "componentRef": "urn:ujg:component:status-message"
+    },
+    {
+      "id": "urn:ujg:surface-realization:content:offered-place-email-body",
+      "surfaceRef": "urn:ujg:surface:content:offered-place-email-body",
+      "componentRef": "urn:ujg:component:email-offer-content"
+    },
+    {
+      "id": "urn:ujg:surface-realization:content:offered-place-open-summary",
+      "surfaceRef": "urn:ujg:surface:content:offered-place-open-summary",
+      "componentRef": "urn:ujg:component:offer-response-summary"
+    }
+  ]
+}

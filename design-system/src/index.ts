@@ -37,3 +37,5 @@ export { WorkshopTeaserCard } from "../templates/WorkshopTeaserCard/WorkshopTeas
 export type { WorkshopTeaserCardProps } from "../templates/WorkshopTeaserCard/WorkshopTeaserCard";
 export { WorkshopsOverviewList } from "../templates/WorkshopsOverviewList/WorkshopsOverviewList";
 export type { WorkshopsOverviewListProps } from "../templates/WorkshopsOverviewList/WorkshopsOverviewList";
+
+export { defaultThemeId, themeCssProperties, themeSlug } from "../tokens/token-system";

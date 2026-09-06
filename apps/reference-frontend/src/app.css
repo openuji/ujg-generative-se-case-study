@@ -1,0 +1,6 @@
+:root { color-scheme: light dark; }
+html, body, #root { min-height: 100%; margin: 0; }
+.app-shell { min-height: 100vh; padding: clamp(1rem, 4vw, 3rem); }
+.app-frame { width: min(100%, 80rem); margin: 0 auto; }
+.app-frame--focused { width: min(100%, 56rem); }
+.runtime-message { margin: 0; padding: 1rem; }
