@@ -6,6 +6,7 @@
     "https://ujg.specs.openuji.org/ed/ns/entry-binding.context.jsonld",
     "https://ujg.specs.openuji.org/ed/ns/condition.context.jsonld",
     "https://ujg.specs.openuji.org/ed/ns/effect.context.jsonld",
+    "https://ujg.specs.openuji.org/ed/ns/data-contract.context.jsonld",
     "https://ujg.specs.openuji.org/ed/ns/design-system.context.jsonld"
   ],
   "@id": "urn:ujg:document:workshop-registration-case-study",
@@ -1169,6 +1170,194 @@
       "@id": "urn:ujg:surface:action:accept-offered-place",
       "label": "Accept offered place action",
       "graphNodeRef": "urn:ujg:command:accept-offered-place"
+    },
+    {
+      "@type": "DataSchema",
+      "@id": "urn:ujg:data-schema:workshop-teaser-data",
+      "label": "Workshop teaser data",
+      "dataSchemaSource": "schemas/workshop-teaser-data.schema.json"
+    },
+    {
+      "@type": "DataSchema",
+      "@id": "urn:ujg:data-schema:workshop-detail-data",
+      "label": "Workshop detail data",
+      "dataSchemaSource": "schemas/workshop-detail-data.schema.json"
+    },
+    {
+      "@type": "DataSchema",
+      "@id": "urn:ujg:data-schema:registration-form-data",
+      "label": "Registration form data",
+      "dataSchemaSource": "schemas/registration-form-data.schema.json"
+    },
+    {
+      "@type": "DataSchema",
+      "@id": "urn:ujg:data-schema:waitlist-form-data",
+      "label": "Waitlist form data",
+      "dataSchemaSource": "schemas/waitlist-form-data.schema.json"
+    },
+    {
+      "@type": "DataSchema",
+      "@id": "urn:ujg:data-schema:registration-review-data",
+      "label": "Registration review data",
+      "dataSchemaSource": "schemas/registration-review-data.schema.json"
+    },
+    {
+      "@type": "DataSchema",
+      "@id": "urn:ujg:data-schema:waitlist-review-data",
+      "label": "Waitlist review data",
+      "dataSchemaSource": "schemas/waitlist-review-data.schema.json"
+    },
+    {
+      "@type": "DataSchema",
+      "@id": "urn:ujg:data-schema:offer-summary-data",
+      "label": "Offer summary data",
+      "dataSchemaSource": "schemas/offer-summary-data.schema.json"
+    },
+    {
+      "@type": "DataSchema",
+      "@id": "urn:ujg:data-schema:status-message-data",
+      "label": "Status message data",
+      "dataSchemaSource": "schemas/status-message-data.schema.json"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:workshop-teaser",
+      "label": "Workshop teaser data binding",
+      "dataSurfaceRef": "urn:ujg:surface:workshop-teaser",
+      "dataSchemaRef": "urn:ujg:data-schema:workshop-teaser-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:workshop-registration-open",
+      "label": "Registration-open workshop detail data binding",
+      "dataSurfaceRef": "urn:ujg:surface:workshop-registration-open",
+      "dataSchemaRef": "urn:ujg:data-schema:workshop-detail-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:workshop-waitlist-open",
+      "label": "Waitlist-open workshop detail data binding",
+      "dataSurfaceRef": "urn:ujg:surface:workshop-waitlist-open",
+      "dataSchemaRef": "urn:ujg:data-schema:workshop-detail-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:waitlist-after-registration-unavailable",
+      "label": "Waitlist-after-unavailable workshop detail data binding",
+      "dataSurfaceRef": "urn:ujg:surface:waitlist-after-registration-unavailable",
+      "dataSchemaRef": "urn:ujg:data-schema:workshop-detail-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:registration-form",
+      "label": "Registration form data binding",
+      "dataSurfaceRef": "urn:ujg:surface:registration-form",
+      "dataSchemaRef": "urn:ujg:data-schema:registration-form-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:registration-form-error",
+      "label": "Registration form error data binding",
+      "dataSurfaceRef": "urn:ujg:surface:registration-form-error",
+      "dataSchemaRef": "urn:ujg:data-schema:registration-form-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:waitlist-form",
+      "label": "Waitlist form data binding",
+      "dataSurfaceRef": "urn:ujg:surface:waitlist-form",
+      "dataSchemaRef": "urn:ujg:data-schema:waitlist-form-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:waitlist-form-error",
+      "label": "Waitlist form error data binding",
+      "dataSurfaceRef": "urn:ujg:surface:waitlist-form-error",
+      "dataSchemaRef": "urn:ujg:data-schema:waitlist-form-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:registration-review",
+      "label": "Registration review data binding",
+      "dataSurfaceRef": "urn:ujg:surface:registration-review",
+      "dataSchemaRef": "urn:ujg:data-schema:registration-review-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:waitlist-review",
+      "label": "Waitlist review data binding",
+      "dataSurfaceRef": "urn:ujg:surface:waitlist-review",
+      "dataSchemaRef": "urn:ujg:data-schema:waitlist-review-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:offered-place-email-visible",
+      "label": "Offered-place email data binding",
+      "dataSurfaceRef": "urn:ujg:surface:offered-place-email-visible",
+      "dataSchemaRef": "urn:ujg:data-schema:offer-summary-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:offered-place-open",
+      "label": "Offered-place response data binding",
+      "dataSurfaceRef": "urn:ujg:surface:offered-place-open",
+      "dataSchemaRef": "urn:ujg:data-schema:offer-summary-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:registration-confirmed",
+      "label": "Registration confirmation status data binding",
+      "dataSurfaceRef": "urn:ujg:surface:registration-confirmed",
+      "dataSchemaRef": "urn:ujg:data-schema:status-message-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:waitlisted",
+      "label": "Waitlisted status data binding",
+      "dataSurfaceRef": "urn:ujg:surface:waitlisted",
+      "dataSchemaRef": "urn:ujg:data-schema:status-message-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:already-waitlisted",
+      "label": "Already-waitlisted status data binding",
+      "dataSurfaceRef": "urn:ujg:surface:already-waitlisted",
+      "dataSchemaRef": "urn:ujg:data-schema:status-message-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:workshop-registration-closed",
+      "label": "Registration-closed status data binding",
+      "dataSurfaceRef": "urn:ujg:surface:workshop-registration-closed",
+      "dataSchemaRef": "urn:ujg:data-schema:status-message-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:offered-place-expired",
+      "label": "Offered-place expired status data binding",
+      "dataSurfaceRef": "urn:ujg:surface:offered-place-expired",
+      "dataSchemaRef": "urn:ujg:data-schema:status-message-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:offered-place-unavailable",
+      "label": "Offered-place unavailable status data binding",
+      "dataSurfaceRef": "urn:ujg:surface:offered-place-unavailable",
+      "dataSchemaRef": "urn:ujg:data-schema:status-message-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:offered-place-registration-confirmed",
+      "label": "Offer acceptance confirmation status data binding",
+      "dataSurfaceRef": "urn:ujg:surface:offered-place-registration-confirmed",
+      "dataSchemaRef": "urn:ujg:data-schema:status-message-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:offered-place-waitlisted",
+      "label": "Offer decline waitlisted status data binding",
+      "dataSurfaceRef": "urn:ujg:surface:offered-place-waitlisted",
+      "dataSchemaRef": "urn:ujg:data-schema:status-message-data"
     },
     {
       "@type": "TokenSource",

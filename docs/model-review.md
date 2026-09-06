@@ -1,19 +1,19 @@
-# Model review — 2026-08-27
+# Model review — 2026-09-06
 
 This review is intentionally narrow: it checks the canonical JSON-LD and derived DX YAML as the starting contract for the generative software engineering case study. It does not redesign the journey.
 
 ## What is already solid
 
 - The canonical JSON-LD is the semantic source of truth.
-- The derived YAML projection contains the same 232 addressable nodes as the canonical JSON-LD.
-- All 232 IDs match exactly between JSON-LD and YAML.
-- All serialized node properties match exactly; the YAML has no independent semantic content.
+- The canonical JSON-LD contains 291 addressable nodes.
 - No canonical UJG references are dangling.
 - The model has a single human `User` with both workshop-app and email touchpoints. The top-level journeys assign that user and child journeys inherit it.
 - The email → workshop-app handoff is explicitly modeled with nested journeys and an exported child exit.
 - Mutating user actions are already separated with Effects for confirm registration, join waitlist, accept offered place, and decline offered place.
 - Important branch predicates are now explicit `Condition` and `ConditionSet` nodes.
-- The UJG Design System layer now realizes all 31 modeled surfaces with 31 `SurfaceRealization` nodes, backed by standalone templates, slots, slot bindings, components, and one token source reference.
+- The UJG Design System layer realizes all 34 modeled surfaces with 34 `SurfaceRealization` nodes, backed by standalone templates, slots, slot bindings, components, and token source references.
+- The UJG Data Contract layer declares 8 external `DataSchema` references and 20 `DataBinding` nodes for realized non-action surfaces that directly display or collect represented UX data.
+- The workshops overview composition surface and all action/command surfaces intentionally have no Data Contract binding in this pass.
 
 ## Design System status
 

@@ -8,11 +8,14 @@ import {
   manifestPath,
   nodesOfType,
   readUjg,
+  ujgPath,
   stableJson
 } from "./ds-utils.mjs";
 
 const errors = [];
 const ujg = readUjg();
+const dataContractContext = "https://ujg.specs.openuji.org/ed/ns/data-contract.context.jsonld";
+const jsonSchemaDraft202012 = "https://json-schema.org/draft/2020-12/schema";
 
 function fail(message) {
   errors.push(message);
@@ -39,6 +42,26 @@ function walkFiles(dir) {
 
 function relative(filePath) {
   return path.relative(process.cwd(), filePath);
+}
+
+function isNonEmptyString(value) {
+  return typeof value === "string" && value.length > 0;
+}
+
+function resolveDataSchemaSource(source) {
+  if (!isNonEmptyString(source) || /^[A-Za-z][A-Za-z0-9+.-]*:/.test(source)) {
+    return null;
+  }
+
+  const schemasDir = path.join(path.dirname(ujgPath), "schemas");
+  const schemaPath = path.resolve(path.dirname(ujgPath), source);
+  const relativeToSchemasDir = path.relative(schemasDir, schemaPath);
+
+  if (relativeToSchemasDir.startsWith("..") || path.isAbsolute(relativeToSchemasDir)) {
+    return null;
+  }
+
+  return schemaPath;
 }
 
 function validateArtifact(type, rootDirName) {
@@ -105,6 +128,114 @@ function validateNoUjgIdsInReactFiles() {
     const content = read(filePath);
     if (/urn:ujg:|ujg\/workshop-registration\.ujg\.jsonld|https:\/\/ujg\.specs\.openuji\.org/.test(content)) {
       fail(`UJG identity leaked into React source or stories: ${relative(filePath)}.`);
+    }
+  }
+}
+
+function validateDataContracts() {
+  const context = new Set(Array.isArray(ujg["@context"]) ? ujg["@context"] : [ujg["@context"]].filter(Boolean));
+  const dataSchemas = nodesOfType(ujg, "DataSchema");
+  const dataBindings = nodesOfType(ujg, "DataBinding");
+  const surfaces = new Map(nodesOfType(ujg, "Surface").map((node) => [node["@id"], node]));
+  const schemas = new Map(dataSchemas.map((node) => [node["@id"], node]));
+  const graphNodes = new Map(ujg.nodes.map((node) => [node["@id"], node]));
+  const bindingsBySurface = new Map();
+
+  if ((dataSchemas.length > 0 || dataBindings.length > 0) && !context.has(dataContractContext)) {
+    fail("UJG document uses Data Contract nodes without the Data Contract context.");
+  }
+
+  for (const schema of dataSchemas) {
+    if (!isNonEmptyString(schema["@id"])) {
+      fail("DataSchema is missing an @id.");
+    }
+
+    if (Array.isArray(schema.label)) {
+      fail(`DataSchema ${schema["@id"]} must not declare multiple labels.`);
+    }
+
+    if (!isNonEmptyString(schema.dataSchemaSource)) {
+      fail(`DataSchema ${schema["@id"]} must declare exactly one dataSchemaSource string.`);
+      continue;
+    }
+
+    for (const key of ["$schema", "$id", "$defs", "additionalProperties", "items", "properties", "required", "type"]) {
+      if (Object.hasOwn(schema, key)) {
+        fail(`DataSchema ${schema["@id"]} embeds JSON Schema field ${key}; use dataSchemaSource only.`);
+      }
+    }
+
+    const schemaPath = resolveDataSchemaSource(schema.dataSchemaSource);
+
+    if (!schemaPath) {
+      fail(`DataSchema ${schema["@id"]} must resolve dataSchemaSource under ujg/schemas/.`);
+      continue;
+    }
+
+    if (!exists(schemaPath)) {
+      fail(`DataSchema ${schema["@id"]} references missing schema file ${relative(schemaPath)}.`);
+      continue;
+    }
+
+    try {
+      const schemaDocument = JSON.parse(read(schemaPath));
+      if (schemaDocument.$schema !== jsonSchemaDraft202012) {
+        fail(`Schema file ${relative(schemaPath)} must declare JSON Schema Draft 2020-12.`);
+      }
+    } catch (error) {
+      fail(`Schema file ${relative(schemaPath)} is not valid JSON: ${error.message}`);
+    }
+  }
+
+  for (const binding of dataBindings) {
+    if (!isNonEmptyString(binding["@id"])) {
+      fail("DataBinding is missing an @id.");
+    }
+
+    if (Array.isArray(binding.label)) {
+      fail(`DataBinding ${binding["@id"]} must not declare multiple labels.`);
+    }
+
+    if (!isNonEmptyString(binding.dataSurfaceRef)) {
+      fail(`DataBinding ${binding["@id"]} must declare exactly one dataSurfaceRef string.`);
+      continue;
+    }
+
+    if (!isNonEmptyString(binding.dataSchemaRef)) {
+      fail(`DataBinding ${binding["@id"]} must declare exactly one dataSchemaRef string.`);
+      continue;
+    }
+
+    for (const key of ["commandRef", "dataSchemaSource", "inputSchemaRef", "outputSchemaRef", "stateRef"]) {
+      if (Object.hasOwn(binding, key)) {
+        fail(`DataBinding ${binding["@id"]} declares unsupported field ${key}.`);
+      }
+    }
+
+    bindingsBySurface.set(binding.dataSurfaceRef, (bindingsBySurface.get(binding.dataSurfaceRef) ?? 0) + 1);
+
+    if (binding.dataSurfaceRef === "urn:ujg:surface:workshops-overview") {
+      fail(`DataBinding ${binding["@id"]} must not bind the workshops overview composition surface.`);
+    }
+
+    const surface = surfaces.get(binding.dataSurfaceRef);
+    if (!surface) {
+      fail(`DataBinding ${binding["@id"]} references missing Surface ${binding.dataSurfaceRef}.`);
+    } else {
+      const graphNode = graphNodes.get(surface.graphNodeRef);
+      if (graphNode?.["@type"] === "Command") {
+        fail(`DataBinding ${binding["@id"]} must not bind action surface ${binding.dataSurfaceRef}.`);
+      }
+    }
+
+    if (!schemas.has(binding.dataSchemaRef)) {
+      fail(`DataBinding ${binding["@id"]} references missing DataSchema ${binding.dataSchemaRef}.`);
+    }
+  }
+
+  for (const [surfaceRef, count] of bindingsBySurface.entries()) {
+    if (count > 1) {
+      fail(`Surface ${surfaceRef} has ${count} DataBindings; expected at most one.`);
     }
   }
 }
@@ -216,6 +347,7 @@ validateNoUjgIdsInReactFiles();
 validatePrimitiveImports();
 validateComponentIsolation();
 validateSurfaceRealizations();
+validateDataContracts();
 
 if (errors.length > 0) {
   for (const error of errors) {

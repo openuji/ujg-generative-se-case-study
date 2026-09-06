@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ujg:data-schema:workshop-detail-data",
+  "title": "Workshop detail data",
+  "type": "object",
+  "required": ["title", "description", "date", "location", "availability"],
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "date": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "availability": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}
