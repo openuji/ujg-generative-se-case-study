@@ -14,6 +14,8 @@
     "validate:ujg-design-system": "node scripts/validate-ujg-design-system.mjs",
     "typecheck:design-system": "pnpm --filter @openuji/workshop-registration-design-system typecheck",
     "build:design-system": "pnpm --filter @openuji/workshop-registration-design-system build",
+    "dev:backend": "pnpm --filter @openuji/workshop-registration-reference-backend dev",
+    "test:backend": "pnpm --filter @openuji/workshop-registration-reference-backend test",
     "storybook": "pnpm --filter @openuji/workshop-registration-design-system storybook",
     "build-storybook": "pnpm --filter @openuji/workshop-registration-design-system build-storybook"
   },

@@ -1,0 +1,18 @@
+{
+  "name": "@openuji/workshop-registration-reference-backend",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.5"
+  },
+  "scripts": {
+    "dev": "node --watch src/main.mjs",
+    "start": "node src/main.mjs",
+    "fixtures": "node src/fixture-cli.mjs",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "ajv": "8.17.1"
+  }
+}
