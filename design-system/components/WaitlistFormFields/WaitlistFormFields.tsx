@@ -17,15 +17,15 @@ export function WaitlistFormFields({
   return (
     <fieldset className={styles.fieldset}>
       <legend className={styles.legend}>Waitlist details</legend>
-      <FieldControl error={errors.name} label="Full name" name="waitlist-name" value={name} />
+      <FieldControl error={errors.name} label="Full name" name="name" value={name} />
       <FieldControl
         error={errors.email}
         label="Email address"
-        name="waitlist-email"
+        name="email"
         type="email"
         value={email}
       />
-      <FieldControl error={errors.notes} label="Notes" name="waitlist-notes" type="textarea" value={notes} />
+      <FieldControl error={errors.notes} label="Notes" name="notes" type="textarea" value={notes} />
     </fieldset>
   );
 }

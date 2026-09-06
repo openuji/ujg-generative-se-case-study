@@ -83,6 +83,14 @@ Do not hide domain-specific structures in generic shared helpers. If a structure
 
 Do not use a UJG Component as an aggregate renderer for modeled child Surfaces. If a component receives collection-shaped props, verify that the UJG does not already represent the repeated item as a `Surface` slotted into the aggregate realization. If it does, move item rendering to the slotted item Surface composition and keep the aggregate component to aggregate-only content.
 
+### Data-bound form controls
+
+When a Component is data-bound to an external DataSchema, resolve that schema before generating editable controls.
+
+For every editable schema property, use the exact property name as the control's HTML `name`, the corresponding React value prop, and the validation-error key. Do not add component, form, journey, or state prefixes. A different control name is allowed only when the generation input contains an explicit, validated mapping between the control name and the canonical schema property.
+
+Schema properties that represent validation metadata, such as `errors`, are not successful editable controls and must not be serialized as user input.
+
 ## Primitives
 
 Create reusable primitive components only for repeated structural HTML patterns.
@@ -128,6 +136,16 @@ Templates/...
 
 Fixtures are only for representative structural rendering. They are not a second journey specification, backend contract, runtime model, or source of UJG semantics.
 
+For each data-bound form Component, add an interaction story that:
+
+- renders the Component inside a real HTML form;
+- fills every editable control through its accessible label;
+- serializes the form with `FormData`;
+- asserts that the serialized key set exactly matches the editable property set of the bound DataSchema;
+- asserts the submitted value for every editable schema property.
+
+Derive the expected property set from the bound external schema rather than duplicating it in the story. Provide a non-watch command that executes these stories in CI. A successful static Storybook build alone does not prove the form serialization contract.
+
 ## Manifest
 
 Generate:
@@ -167,9 +185,11 @@ Add or update validation so it checks:
 - primitives do not import UJG Components or Templates;
 - no UJG Component renders or imports another UJG Component or Template when the UJG composition requires a `targetSurfaceRef` slot;
 - no aggregate content component renders a domain collection whose item boundary is already modeled as a slotted Surface.
+- every editable control in a data-bound form uses its canonical DataSchema property name unless an explicit validated mapping exists;
+- every data-bound form has an executable interaction story proving its exact `FormData` key and value contract.
 
 ## Test plan
 
-Run the repository's install, manifest generation, validation, type-check, and Storybook build commands.
+Run the repository's install, manifest generation, validation, type-check, Storybook interaction-test, and Storybook build commands.
 
 Start Storybook and inspect representative Primitive, Component, and Template stories.

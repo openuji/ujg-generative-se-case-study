@@ -17,18 +17,18 @@ export function RegistrationFormFields({
   return (
     <fieldset className={styles.fieldset}>
       <legend className={styles.legend}>Registration details</legend>
-      <FieldControl error={errors.name} label="Full name" name="registration-name" value={name} />
+      <FieldControl error={errors.name} label="Full name" name="name" value={name} />
       <FieldControl
         error={errors.email}
         label="Email address"
-        name="registration-email"
+        name="email"
         type="email"
         value={email}
       />
       <FieldControl
         error={errors.accessibilityNotes}
         label="Accessibility notes"
-        name="registration-accessibility-notes"
+        name="accessibilityNotes"
         type="textarea"
         value={accessibilityNotes}
       />

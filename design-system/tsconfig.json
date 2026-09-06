@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
+    "allowImportingTsExtensions": true,
     "esModuleInterop": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
@@ -12,6 +13,7 @@
     "noImplicitOverride": true,
     "noImplicitReturns": true,
     "noUncheckedIndexedAccess": true,
+    "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
     "target": "ES2023",
@@ -25,6 +27,8 @@
     "tokens/**/*.ts",
     "tokens/**/*.tsx",
     "templates/**/*.tsx",
-    "vite.config.ts"
+    "test/**/*.tsx",
+    "vite.config.ts",
+    "vitest.config.ts"
   ]
 }

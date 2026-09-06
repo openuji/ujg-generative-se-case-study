@@ -240,6 +240,78 @@ function validateDataContracts() {
   }
 }
 
+function validateDataBoundFormControls() {
+  const schemas = new Map(nodesOfType(ujg, "DataSchema").map((node) => [node["@id"], node]));
+  const realizations = new Map(
+    nodesOfType(ujg, "SurfaceRealization").map((node) => [node.surfaceRef, node])
+  );
+
+  for (const binding of nodesOfType(ujg, "DataBinding")) {
+    const realization = realizations.get(binding.dataSurfaceRef);
+    const schema = schemas.get(binding.dataSchemaRef);
+
+    if (!realization?.componentRef || !schema?.dataSchemaSource) {
+      continue;
+    }
+
+    const componentName = artifactName(realization.componentRef);
+    const componentPath = path.join(
+      designSystemPath,
+      "components",
+      componentName,
+      `${componentName}.tsx`
+    );
+
+    if (!exists(componentPath)) {
+      continue;
+    }
+
+    const controlNames = [
+      ...read(componentPath).matchAll(
+        /<(?:FieldControl|input|select|textarea)\b[^>]*?\bname="([^"]+)"/g
+      )
+    ].map((match) => match[1]);
+
+    if (controlNames.length === 0) {
+      continue;
+    }
+
+    const schemaPath = resolveDataSchemaSource(schema.dataSchemaSource);
+    if (!schemaPath || !exists(schemaPath)) {
+      continue;
+    }
+
+    let schemaDocument;
+    try {
+      schemaDocument = JSON.parse(read(schemaPath));
+    } catch {
+      continue;
+    }
+
+    const editableProperties = Object.entries(schemaDocument.properties ?? {})
+      .filter(([property, definition]) => property !== "errors" && definition?.type !== "object")
+      .map(([property]) => property)
+      .sort();
+    const serializedProperties = [...controlNames].sort();
+
+    if (JSON.stringify(serializedProperties) !== JSON.stringify(editableProperties)) {
+      fail(
+        `Data-bound form ${componentName} serializes [${serializedProperties.join(", ")}]; expected canonical schema properties [${editableProperties.join(", ")}].`
+      );
+    }
+
+    const storyPath = path.join(
+      designSystemPath,
+      "components",
+      componentName,
+      `${componentName}.stories.tsx`
+    );
+    if (exists(storyPath) && !/export const CanonicalSchemaSerialization\b/.test(read(storyPath))) {
+      fail(`Data-bound form ${componentName} is missing its CanonicalSchemaSerialization story.`);
+    }
+  }
+}
+
 function validatePrimitiveImports() {
   for (const filePath of walkFiles(path.join(designSystemPath, "primitives")).filter((file) => /\.tsx$/.test(file))) {
     const content = read(filePath);
@@ -376,6 +448,7 @@ validateComponentIsolation();
 validateSurfaces();
 validateSurfaceRealizations();
 validateDataContracts();
+validateDataBoundFormControls();
 
 if (errors.length > 0) {
   for (const error of errors) {
