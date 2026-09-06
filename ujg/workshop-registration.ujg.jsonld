@@ -37,7 +37,9 @@
                 "urn:ujg:state:workshop-registration-closed",
                 "urn:ujg:condition:registration-place-available",
                 "urn:ujg:condition:registration-place-unavailable",
-                "urn:ujg:condition:registration-closed-at-confirmation"
+                "urn:ujg:condition:registration-closed-at-confirmation",
+                "urn:ujg:condition:waitlist-open-and-participant-not-already-waitlisted",
+                "urn:ujg:condition:registration-closed-and-participant-not-already-waitlisted"
               ],
               "valueType": "string",
               "allowedValues": [
@@ -83,7 +85,9 @@
                 "urn:ujg:state:offered-place-registration-confirmed",
                 "urn:ujg:state:offered-place-waitlisted",
                 "urn:ujg:condition:participant-not-already-waitlisted",
-                "urn:ujg:condition:participant-already-waitlisted"
+                "urn:ujg:condition:participant-already-waitlisted",
+                "urn:ujg:condition:waitlist-open-and-participant-not-already-waitlisted",
+                "urn:ujg:condition:registration-closed-and-participant-not-already-waitlisted"
               ],
               "valueType": "string",
               "allowedValues": [
@@ -208,7 +212,7 @@
           "description": "Establish waitlisted participation for a participant when the workshop is accepting waitlist registrations.",
           "ujgRefs": [
             "urn:ujg:transition:join-waitlist",
-            "urn:ujg:condition:participant-not-already-waitlisted",
+            "urn:ujg:condition:waitlist-open-and-participant-not-already-waitlisted",
             "urn:ujg:effect:join-waitlist",
             "urn:ujg:state:waitlisted"
           ],
@@ -218,6 +222,7 @@
             "urn:domain:entity:workshop-participation"
           ],
           "preconditions": [
+            "The workshop's registration availability is waitlistOpen when waitlist join is evaluated.",
             "The participant does not already have waitlisted participation for the workshop."
           ],
           "postconditions": [
@@ -459,7 +464,8 @@
       ],
       "transitionRefs": [
         "urn:ujg:transition:registration-place-unavailable-to-waitlist",
-        "urn:ujg:transition:registration-closed-at-confirmation-to-closed"
+        "urn:ujg:transition:registration-closed-at-confirmation-to-closed",
+        "urn:ujg:transition:waitlist-closed-at-join-to-closed"
       ]
     },
     {
@@ -520,6 +526,15 @@
       "from": "urn:ujg:composite:workshop-registration",
       "to": "urn:ujg:composite:workshop-registration-closed",
       "fromExitRef": "urn:ujg:exit:registration-closed-at-confirmation",
+      "toEntryRef": "urn:ujg:entry:workshop-registration-closed"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:waitlist-closed-at-join-to-closed",
+      "label": "Continue with closed registration after waitlist closed at join",
+      "from": "urn:ujg:composite:workshop-waitlist",
+      "to": "urn:ujg:composite:workshop-registration-closed",
+      "fromExitRef": "urn:ujg:exit:waitlist-closed-at-join",
       "toEntryRef": "urn:ujg:entry:workshop-registration-closed"
     },
     {
@@ -707,7 +722,11 @@
         "urn:ujg:transition:edit-waitlist-details",
         "urn:ujg:transition:join-waitlist",
         "urn:ujg:transition:join-waitlist-already-listed",
+        "urn:ujg:transition:join-waitlist-after-closed",
         "urn:ujg:transition:continue-as-waitlisted"
+      ],
+      "exitRefs": [
+        "urn:ujg:exit:waitlist-closed-at-join"
       ]
     },
     {
@@ -756,6 +775,11 @@
       "@type": "State",
       "@id": "urn:ujg:state:already-waitlisted",
       "label": "Participant is already waitlisted"
+    },
+    {
+      "@type": "JourneyExit",
+      "@id": "urn:ujg:exit:waitlist-closed-at-join",
+      "label": "Waitlist closed at join"
     },
     {
       "@type": "Effect",
@@ -829,7 +853,7 @@
       "from": "urn:ujg:state:waitlist-review",
       "to": "urn:ujg:state:waitlisted",
       "effectRef": "urn:ujg:effect:join-waitlist",
-      "conditionRef": "urn:ujg:condition:participant-not-already-waitlisted",
+      "conditionRef": "urn:ujg:condition:waitlist-open-and-participant-not-already-waitlisted",
       "commandRef": "urn:ujg:command:join-waitlist"
     },
     {
@@ -839,6 +863,15 @@
       "from": "urn:ujg:state:waitlist-review",
       "to": "urn:ujg:state:already-waitlisted",
       "conditionRef": "urn:ujg:condition:participant-already-waitlisted",
+      "commandRef": "urn:ujg:command:join-waitlist"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:join-waitlist-after-closed",
+      "label": "Join waitlist after registration has closed",
+      "from": "urn:ujg:state:waitlist-review",
+      "to": "urn:ujg:exit:waitlist-closed-at-join",
+      "conditionRef": "urn:ujg:condition:registration-closed-and-participant-not-already-waitlisted",
       "commandRef": "urn:ujg:command:join-waitlist"
     },
     {
@@ -1436,6 +1469,16 @@
     },
     {
       "@type": "Condition",
+      "@id": "urn:ujg:condition:waitlist-open-and-participant-not-already-waitlisted",
+      "label": "Waitlist is open and participant is not already waitlisted"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:registration-closed-and-participant-not-already-waitlisted",
+      "label": "Registration is closed and participant is not already waitlisted"
+    },
+    {
+      "@type": "Condition",
       "@id": "urn:ujg:condition:offered-place-valid",
       "label": "Offered place is available"
     },
@@ -1497,11 +1540,12 @@
     },
     {
       "@type": "ConditionalTransitionSet",
-      "@id": "urn:ujg:condition-set:waitlist-membership-at-confirmation",
-      "label": "Resolve existing waitlist membership",
+      "@id": "urn:ujg:condition-set:waitlist-join-at-submission",
+      "label": "Resolve waitlist join at submission",
       "conditionTransitionRefs": [
         "urn:ujg:transition:join-waitlist",
-        "urn:ujg:transition:join-waitlist-already-listed"
+        "urn:ujg:transition:join-waitlist-already-listed",
+        "urn:ujg:transition:join-waitlist-after-closed"
       ]
     },
     {
