@@ -1,12 +1,12 @@
 # UJG Generative Software Engineering Case Study — Workshop Registration
 
-Initial repository scaffold for evaluating UJG as an upstream semantic contract for domain derivation, frontend generation, and executable verification.
+Executable case study for evaluating UJG as an upstream semantic contract for domain derivation, full-stack generation, and verification.
 
 ## Current scope
 
 The checked-in model describes the workshop-registration landscape, including regular registration, waitlisting, and the cross-touchpoint offered-place flow (email -> workshop application).
 
-The first implementation/evaluation slice should remain narrow: **waitlisted -> offered place -> email -> app -> accept / decline / expire**.
+The reference implementation covers workshop browsing, registration, waitlist submission, and the cross-touchpoint offered-place flow.
 
 ## Source-of-truth rule
 
@@ -24,6 +24,110 @@ pnpm install
 pnpm validate:ujg-source
 pnpm validate:ujg-design-system
 ```
+
+## Run the reference application
+
+The application uses a Node.js backend, SQLite fixture database, fake authentication,
+a fake email outbox, and the generated React/Vite frontend.
+
+Initialize or reset all fixture state:
+
+```bash
+pnpm fixtures:backend
+```
+
+Start the backend in one terminal:
+
+```bash
+pnpm dev:backend
+```
+
+Start the generated frontend in another terminal:
+
+```bash
+pnpm dev:reference-frontend
+```
+
+Open [http://127.0.0.1:5173](http://127.0.0.1:5173). The frontend proxies
+API calls to the backend at `http://127.0.0.1:3000`.
+
+Running `pnpm fixtures:backend` again restores the initial state. Stop the
+backend before resetting its database, then restart it afterward.
+
+### Included fixtures
+
+| Fixture | Initial state | What it demonstrates |
+|---|---|---|
+| Service Design Foundations | Registration open | Successful workshop registration |
+| Facilitation Practice | Waitlist open | New, repeated, and already-waitlisted submissions |
+| Research Operations | Registration closed | Closed-registration outcome |
+| Alex Nguyen / `token-alex` | Already waitlisted for Facilitation Practice | Default browser identity and offered-place flows |
+| Blair Jensen / `token-blair` | No participation | Creating a fresh registration or waitlist participation |
+| `offer-alex-open` | Available until 2099 | Accepting or declining an offer |
+| `offer-alex-expired` | Expired by its timestamp | Expired-offer materialization |
+| `offer-alex-unavailable` | Unavailable | Unavailable-offer materialization |
+
+The SQLite database and fake email outbox are generated under
+`domain/reference/.data/`. The outbox contains the offered-place email and its
+link into the application. This directory is local runtime state and is not
+committed.
+
+### Register for a workshop
+
+The browser defaults to the fake Alex identity.
+
+1. Open the workshops overview.
+2. Open **Service Design Foundations**.
+3. Select **Register** and enter a name and valid email address.
+4. Select **Continue**, review the details, then select **Confirm registration**.
+
+The backend checks availability again when confirmation is submitted. The
+successful fixture outcome is **Registration confirmed**.
+
+### Join a waitlist
+
+With the default Alex identity, submitting **Facilitation Practice** produces
+the modeled **Already waitlisted** outcome. To create a new waitlist entry,
+select the clean Blair fixture identity in the browser console:
+
+```js
+localStorage.setItem("referenceAuthToken", "token-blair")
+```
+
+Then:
+
+1. Open **Facilitation Practice** from the overview.
+2. Select **Join waitlist** and enter a name and valid email address.
+3. Select **Continue**, review the details, then select **Join waitlist**.
+
+The result is **Waitlisted**. Repeating the same submission produces
+**Already waitlisted** without creating a duplicate participation.
+
+To switch back to Alex, run:
+
+```js
+localStorage.setItem("referenceAuthToken", "token-alex")
+```
+
+### Respond to an offered place
+
+Reset fixtures if you have already resolved the offer, switch back to Alex,
+and open:
+
+- [http://127.0.0.1:5173/offers/offer-alex-open](http://127.0.0.1:5173/offers/offer-alex-open)
+
+Select **Accept place** to change Alex's participation from waitlisted to
+confirmed, or **Decline place** to leave Alex waitlisted. An offer can be
+resolved only once; reset fixtures to try the other choice.
+
+The other materialized offer outcomes can be inspected at:
+
+- [Expired offer](http://127.0.0.1:5173/offers/offer-alex-expired)
+- [Unavailable offer](http://127.0.0.1:5173/offers/offer-alex-unavailable)
+
+Possession of an offer ID is not authorization. Offer routes use the fake
+authenticated identity, and an offer belonging to Alex is hidden from Blair.
+
 ## Current model status
 
 See the canonical UJG and the resolved decisions under `docs/gates/`.
