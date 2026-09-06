@@ -1,0 +1,1295 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Workshop registration reference API",
+    "version": "1.0.0",
+    "description": "Generated realization contract. The canonical UJG remains the behavioral source of truth."
+  },
+  "x-ujg-source": "ujg/workshop-registration.ujg.jsonld",
+  "x-ujg-source-sha256": "ea7317f5e3cecdaab8118fa0bc66edb92b75d60556b2e2334cc16b6ffee29c99",
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "paths": {
+    "/api/workshops": {
+      "get": {
+        "operationId": "listWorkshops",
+        "summary": "Materialize the workshops overview",
+        "x-ujg-entry-ref": "urn:ujg:entry-binding:workshops-overview",
+        "x-ujg-outcomes": [
+          {
+            "name": "overview",
+            "stateRef": "urn:ujg:state:workshops-overview",
+            "dataSchema": "WorkshopCollectionData"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Modeled outcome resolved from current facts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkshopCollectionResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not exposed to the authenticated subject",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/workshops/{workshopId}": {
+      "get": {
+        "operationId": "getWorkshop",
+        "summary": "Materialize the current workshop detail entry",
+        "x-ujg-entry-ref": "urn:ujg:entry-binding:workshop-detail",
+        "x-ujg-outcomes": [
+          {
+            "name": "registrationOpen",
+            "stateRef": "urn:ujg:state:workshop-registration-open",
+            "dataSchema": "WorkshopDetailData"
+          },
+          {
+            "name": "waitlistOpen",
+            "stateRef": "urn:ujg:state:workshop-waitlist-open",
+            "dataSchema": "WorkshopDetailData"
+          },
+          {
+            "name": "registrationClosed",
+            "stateRef": "urn:ujg:state:workshop-registration-closed",
+            "dataSchema": "StatusMessageData"
+          }
+        ],
+        "parameters": [
+          {
+            "name": "workshopId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Modeled outcome resolved from current facts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkshopDetailResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not exposed to the authenticated subject",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/workshops/{workshopId}/registrations": {
+      "post": {
+        "operationId": "confirmRegistration",
+        "summary": "Confirm registration against current workshop facts",
+        "x-ujg-command-ref": "urn:ujg:command:confirm-registration",
+        "x-ujg-condition-set-ref": "urn:ujg:condition-set:registration-place-at-confirmation",
+        "x-ujg-input-data-schema-ref": "urn:ujg:data-schema:registration-form-data",
+        "x-ujg-outcomes": [
+          {
+            "name": "confirmed",
+            "stateRef": "urn:ujg:state:registration-confirmed",
+            "transitionRef": "urn:ujg:transition:confirm-registration",
+            "dataSchema": "StatusMessageData"
+          },
+          {
+            "name": "waitlistOpen",
+            "stateRef": "urn:ujg:state:waitlist-after-registration-unavailable",
+            "transitionRef": "urn:ujg:transition:confirm-registration-place-unavailable",
+            "dataSchema": "WorkshopDetailData"
+          },
+          {
+            "name": "registrationClosed",
+            "stateRef": "urn:ujg:state:workshop-registration-closed",
+            "transitionRef": "urn:ujg:transition:confirm-registration-closed",
+            "dataSchema": "StatusMessageData"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "workshopId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationDetailsInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Modeled outcome resolved from current facts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationOutcomeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not exposed to the authenticated subject",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The command cannot resolve from the current domain facts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/workshops/{workshopId}/waitlist": {
+      "post": {
+        "operationId": "joinWaitlist",
+        "summary": "Join the waitlist against current workshop and participation facts",
+        "x-ujg-command-ref": "urn:ujg:command:join-waitlist",
+        "x-ujg-condition-set-ref": "urn:ujg:condition-set:waitlist-join-at-submission",
+        "x-ujg-input-data-schema-ref": "urn:ujg:data-schema:waitlist-form-data",
+        "x-ujg-outcomes": [
+          {
+            "name": "waitlisted",
+            "stateRef": "urn:ujg:state:waitlisted",
+            "transitionRef": "urn:ujg:transition:join-waitlist",
+            "dataSchema": "StatusMessageData"
+          },
+          {
+            "name": "alreadyWaitlisted",
+            "stateRef": "urn:ujg:state:already-waitlisted",
+            "transitionRef": "urn:ujg:transition:join-waitlist-already-listed",
+            "dataSchema": "StatusMessageData"
+          },
+          {
+            "name": "registrationClosed",
+            "stateRef": "urn:ujg:state:workshop-registration-closed",
+            "transitionRef": "urn:ujg:transition:join-waitlist-after-closed",
+            "dataSchema": "StatusMessageData"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "workshopId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WaitlistDetailsInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Modeled outcome resolved from current facts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WaitlistOutcomeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not exposed to the authenticated subject",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The command cannot resolve from the current domain facts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/offers/{offerId}": {
+      "get": {
+        "operationId": "getOffer",
+        "summary": "Materialize an offered place for its authenticated subject",
+        "x-ujg-entry-ref": "urn:ujg:entry-binding:offered-place-app",
+        "x-ujg-outcomes": [
+          {
+            "name": "open",
+            "stateRef": "urn:ujg:state:offered-place-open",
+            "dataSchema": "OfferSummaryData"
+          },
+          {
+            "name": "expired",
+            "stateRef": "urn:ujg:state:offered-place-expired",
+            "dataSchema": "StatusMessageData"
+          },
+          {
+            "name": "unavailable",
+            "stateRef": "urn:ujg:state:offered-place-unavailable",
+            "dataSchema": "StatusMessageData"
+          },
+          {
+            "name": "accepted",
+            "stateRef": "urn:ujg:state:offered-place-registration-confirmed",
+            "dataSchema": "StatusMessageData"
+          },
+          {
+            "name": "declined",
+            "stateRef": "urn:ujg:state:offered-place-waitlisted",
+            "dataSchema": "StatusMessageData"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "offerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Modeled outcome resolved from current facts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OfferResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not exposed to the authenticated subject",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/offers/{offerId}/accept": {
+      "post": {
+        "operationId": "acceptOffer",
+        "summary": "Accept an offered place when it is currently valid",
+        "x-ujg-command-ref": "urn:ujg:command:accept-offered-place",
+        "x-ujg-condition-set-ref": "urn:ujg:condition-set:offered-place-acceptance-validity",
+        "x-ujg-outcomes": [
+          {
+            "name": "accepted",
+            "stateRef": "urn:ujg:state:offered-place-registration-confirmed",
+            "transitionRef": "urn:ujg:transition:accept-offered-place",
+            "dataSchema": "StatusMessageData"
+          },
+          {
+            "name": "expired",
+            "stateRef": "urn:ujg:state:offered-place-expired",
+            "transitionRef": "urn:ujg:transition:accept-offered-place-after-expiry",
+            "dataSchema": "StatusMessageData"
+          },
+          {
+            "name": "unavailable",
+            "stateRef": "urn:ujg:state:offered-place-unavailable",
+            "transitionRef": "urn:ujg:transition:accept-offered-place-after-unavailable",
+            "dataSchema": "StatusMessageData"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "offerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Modeled outcome resolved from current facts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcceptOfferOutcomeResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not exposed to the authenticated subject",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The command cannot resolve from the current domain facts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/offers/{offerId}/decline": {
+      "post": {
+        "operationId": "declineOffer",
+        "summary": "Decline an offered place when it is currently valid",
+        "x-ujg-command-ref": "urn:ujg:command:decline-offered-place",
+        "x-ujg-condition-set-ref": "urn:ujg:condition-set:offered-place-decline-status",
+        "x-ujg-outcomes": [
+          {
+            "name": "declined",
+            "stateRef": "urn:ujg:state:offered-place-waitlisted",
+            "transitionRef": "urn:ujg:transition:decline-offered-place",
+            "dataSchema": "StatusMessageData"
+          },
+          {
+            "name": "expired",
+            "stateRef": "urn:ujg:state:offered-place-expired",
+            "transitionRef": "urn:ujg:transition:decline-offered-place-after-expiry",
+            "dataSchema": "StatusMessageData"
+          },
+          {
+            "name": "unavailable",
+            "stateRef": "urn:ujg:state:offered-place-unavailable",
+            "transitionRef": "urn:ujg:transition:decline-offered-place-after-unavailable",
+            "dataSchema": "StatusMessageData"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "offerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Modeled outcome resolved from current facts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeclineOfferOutcomeResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not exposed to the authenticated subject",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The command cannot resolve from the current domain facts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Fake fixture identity token for the reference realization."
+      }
+    },
+    "schemas": {
+      "WorkshopTeaserData": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:ujg:data-schema:workshop-teaser-data",
+        "title": "Workshop teaser data",
+        "type": "object",
+        "required": [
+          "title",
+          "summary",
+          "date",
+          "location"
+        ],
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "WorkshopDetailData": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:ujg:data-schema:workshop-detail-data",
+        "title": "Workshop detail data",
+        "type": "object",
+        "required": [
+          "title",
+          "description",
+          "date",
+          "location",
+          "availability"
+        ],
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "availability": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RegistrationFormData": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:ujg:data-schema:registration-form-data",
+        "title": "Registration form data",
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "accessibilityNotes": {
+            "type": "string"
+          },
+          "errors": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "accessibilityNotes": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "WaitlistFormData": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:ujg:data-schema:waitlist-form-data",
+        "title": "Waitlist form data",
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "errors": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "notes": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "RegistrationReviewData": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:ujg:data-schema:registration-review-data",
+        "title": "Registration review data",
+        "type": "object",
+        "required": [
+          "workshopTitle",
+          "name",
+          "email"
+        ],
+        "properties": {
+          "workshopTitle": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "WaitlistReviewData": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:ujg:data-schema:waitlist-review-data",
+        "title": "Waitlist review data",
+        "type": "object",
+        "required": [
+          "workshopTitle",
+          "name",
+          "email"
+        ],
+        "properties": {
+          "workshopTitle": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OfferSummaryData": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:ujg:data-schema:offer-summary-data",
+        "title": "Offer summary data",
+        "type": "object",
+        "required": [
+          "title",
+          "message",
+          "workshopTitle",
+          "expiresAt"
+        ],
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "workshopTitle": {
+            "type": "string"
+          },
+          "expiresAt": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "StatusMessageData": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:ujg:data-schema:status-message-data",
+        "title": "Status message data",
+        "type": "object",
+        "required": [
+          "title",
+          "message"
+        ],
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "tone": {
+            "enum": [
+              "error",
+              "info",
+              "success",
+              "warning"
+            ]
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "term",
+                "value"
+              ],
+              "properties": {
+                "term": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "RegistrationDetailsInput": {
+        "type": "object",
+        "required": [
+          "name",
+          "email"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "accessibilityNotes": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "WaitlistDetailsInput": {
+        "type": "object",
+        "required": [
+          "name",
+          "email"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "WorkshopCollectionData": {
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "workshopId",
+                "data"
+              ],
+              "properties": {
+                "workshopId": {
+                  "type": "string"
+                },
+                "data": {
+                  "$ref": "#/components/schemas/WorkshopTeaserData"
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "WorkshopCollectionResponse": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "outcome",
+              "data"
+            ],
+            "properties": {
+              "outcome": {
+                "type": "string",
+                "const": "overview"
+              },
+              "data": {
+                "$ref": "#/components/schemas/WorkshopCollectionData"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      },
+      "WorkshopDetailResponse": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "outcome",
+              "data"
+            ],
+            "properties": {
+              "outcome": {
+                "type": "string",
+                "const": "registrationOpen"
+              },
+              "data": {
+                "$ref": "#/components/schemas/WorkshopDetailData"
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": [
+              "outcome",
+              "data"
+            ],
+            "properties": {
+              "outcome": {
+                "type": "string",
+                "const": "waitlistOpen"
+              },
+              "data": {
+                "$ref": "#/components/schemas/WorkshopDetailData"
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": [
+              "outcome",
+              "data"
+            ],
+            "properties": {
+              "outcome": {
+                "type": "string",
+                "const": "registrationClosed"
+              },
+              "data": {
+                "$ref": "#/components/schemas/StatusMessageData"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      },
+      "RegistrationOutcomeResponse": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "outcome",
+              "data"
+            ],
+            "properties": {
+              "outcome": {
+                "type": "string",
+                "const": "confirmed"
+              },
+              "data": {
+                "$ref": "#/components/schemas/StatusMessageData"
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": [
+              "outcome",
+              "data"
+            ],
+            "properties": {
+              "outcome": {
+                "type": "string",
+                "const": "waitlistOpen"
+              },
+              "data": {
+                "$ref": "#/components/schemas/WorkshopDetailData"
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": [
+              "outcome",
+              "data"
+            ],
+            "properties": {
+              "outcome": {
+                "type": "string",
+                "const": "registrationClosed"
+              },
+              "data": {
+                "$ref": "#/components/schemas/StatusMessageData"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      },
+      "WaitlistOutcomeResponse": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "outcome",
+              "data"
+            ],
+            "properties": {
+              "outcome": {
+                "type": "string",
+                "const": "waitlisted"
+              },
+              "data": {
+                "$ref": "#/components/schemas/StatusMessageData"
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": [
+              "outcome",
+              "data"
+            ],
+            "properties": {
+              "outcome": {
+                "type": "string",
+                "const": "alreadyWaitlisted"
+              },
+              "data": {
+                "$ref": "#/components/schemas/StatusMessageData"
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": [
+              "outcome",
+              "data"
+            ],
+            "properties": {
+              "outcome": {
+                "type": "string",
+                "const": "registrationClosed"
+              },
+              "data": {
+                "$ref": "#/components/schemas/StatusMessageData"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      },
+      "OfferResponse": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "outcome",
+              "data"
+            ],
+            "properties": {
+              "outcome": {
+                "type": "string",
+                "const": "open"
+              },
+              "data": {
+                "$ref": "#/components/schemas/OfferSummaryData"
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": [
+              "outcome",
+              "data"
+            ],
+            "properties": {
+              "outcome": {
+                "type": "string",
+                "const": "expired"
+              },
+              "data": {
+                "$ref": "#/components/schemas/StatusMessageData"
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": [
+              "outcome",
+              "data"
+            ],
+            "properties": {
+              "outcome": {
+                "type": "string",
+                "const": "unavailable"
+              },
+              "data": {
+                "$ref": "#/components/schemas/StatusMessageData"
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": [
+              "outcome",
+              "data"
+            ],
+            "properties": {
+              "outcome": {
+                "type": "string",
+                "const": "accepted"
+              },
+              "data": {
+                "$ref": "#/components/schemas/StatusMessageData"
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": [
+              "outcome",
+              "data"
+            ],
+            "properties": {
+              "outcome": {
+                "type": "string",
+                "const": "declined"
+              },
+              "data": {
+                "$ref": "#/components/schemas/StatusMessageData"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      },
+      "AcceptOfferOutcomeResponse": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "outcome",
+              "data"
+            ],
+            "properties": {
+              "outcome": {
+                "type": "string",
+                "const": "accepted"
+              },
+              "data": {
+                "$ref": "#/components/schemas/StatusMessageData"
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": [
+              "outcome",
+              "data"
+            ],
+            "properties": {
+              "outcome": {
+                "type": "string",
+                "const": "expired"
+              },
+              "data": {
+                "$ref": "#/components/schemas/StatusMessageData"
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": [
+              "outcome",
+              "data"
+            ],
+            "properties": {
+              "outcome": {
+                "type": "string",
+                "const": "unavailable"
+              },
+              "data": {
+                "$ref": "#/components/schemas/StatusMessageData"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      },
+      "DeclineOfferOutcomeResponse": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "outcome",
+              "data"
+            ],
+            "properties": {
+              "outcome": {
+                "type": "string",
+                "const": "declined"
+              },
+              "data": {
+                "$ref": "#/components/schemas/StatusMessageData"
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": [
+              "outcome",
+              "data"
+            ],
+            "properties": {
+              "outcome": {
+                "type": "string",
+                "const": "expired"
+              },
+              "data": {
+                "$ref": "#/components/schemas/StatusMessageData"
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": [
+              "outcome",
+              "data"
+            ],
+            "properties": {
+              "outcome": {
+                "type": "string",
+                "const": "unavailable"
+              },
+              "data": {
+                "$ref": "#/components/schemas/StatusMessageData"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    }
+  }
+}
