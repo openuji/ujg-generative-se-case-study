@@ -25,14 +25,13 @@ Before implementing React files, derive a realization map from the UJG:
 
 - every `SurfaceRealization`;
 - every `SlotBinding`;
-- every `targetSurfaceRef`;
-- every `targetComponentRef`.
+- every `targetSurfaceRef`.
 
 Preserve that map in the React composition.
 
 A UJG `Component` implementation may render only the domain content or control represented by its own UJG `Component` node. It must not render another modeled `Surface`, instantiate another UJG `Component` or `Template`, or hide a `targetSurfaceRef` boundary behind collection/list props.
 
-When a `SurfaceRealization` has a slot binding whose target is another `Surface`, compose that nested Surface through the owning `Template` slot in stories and examples. Do not duplicate the nested Surface's content inside a sibling `targetComponentRef` component.
+When a `SurfaceRealization` has a slot binding whose target is another `Surface`, compose that nested Surface through the owning `Template` slot in stories and examples. Do not bypass the nested Surface by rendering its realizing Component directly in the parent slot.
 
 For `multiInstance` Graph states, keep the implementation aligned with the authored model:
 

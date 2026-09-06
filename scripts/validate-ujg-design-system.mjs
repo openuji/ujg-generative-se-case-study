@@ -262,6 +262,32 @@ function validateComponentIsolation() {
   }
 }
 
+function validateSurfaces() {
+  const graphNodes = new Map(ujg.nodes.map((node) => [node["@id"], node]));
+  const allowedGraphNodeTypes = new Set(["Command", "CompositeState", "State"]);
+
+  for (const surface of nodesOfType(ujg, "Surface")) {
+    if (!isNonEmptyString(surface["@id"])) {
+      fail("Surface is missing an @id.");
+    }
+
+    if (!isNonEmptyString(surface.graphNodeRef)) {
+      fail(`Surface ${surface["@id"]} must declare exactly one graphNodeRef string.`);
+      continue;
+    }
+
+    const graphNode = graphNodes.get(surface.graphNodeRef);
+    if (!graphNode) {
+      fail(`Surface ${surface["@id"]} references missing Graph node ${surface.graphNodeRef}.`);
+      continue;
+    }
+
+    if (!allowedGraphNodeTypes.has(graphNode["@type"])) {
+      fail(`Surface ${surface["@id"]} graphNodeRef must reference a State, CompositeState, or Command.`);
+    }
+  }
+}
+
 function validateSurfaceRealizations() {
   const surfaces = new Set(nodesOfType(ujg, "Surface").map((node) => node["@id"]));
   const components = new Set(nodesOfType(ujg, "Component").map((node) => node["@id"]));
@@ -269,23 +295,24 @@ function validateSurfaceRealizations() {
   const slots = new Set(nodesOfType(ujg, "Slot").map((node) => node["@id"]));
   const slotBindings = new Map(nodesOfType(ujg, "SlotBinding").map((node) => [node["@id"], node]));
   const realizationsBySurface = new Map();
+  const componentSlotTargetField = ["target", "Component", "Ref"].join("");
 
   for (const binding of slotBindings.values()) {
     if (!slots.has(binding.slotRef)) {
       fail(`SlotBinding ${binding["@id"]} references missing Slot ${binding.slotRef}.`);
     }
 
-    const targets = [binding.targetSurfaceRef, binding.targetComponentRef].filter(Boolean);
-    if (targets.length !== 1) {
-      fail(`SlotBinding ${binding["@id"]} must have exactly one target.`);
+    if (Object.hasOwn(binding, componentSlotTargetField)) {
+      fail(`SlotBinding ${binding["@id"]} declares an unsupported component target field; use targetSurfaceRef.`);
     }
 
-    if (binding.targetSurfaceRef && !surfaces.has(binding.targetSurfaceRef)) {
+    if (!isNonEmptyString(binding.targetSurfaceRef)) {
+      fail(`SlotBinding ${binding["@id"]} must declare exactly one targetSurfaceRef string.`);
+      continue;
+    }
+
+    if (!surfaces.has(binding.targetSurfaceRef)) {
       fail(`SlotBinding ${binding["@id"]} references missing Surface ${binding.targetSurfaceRef}.`);
-    }
-
-    if (binding.targetComponentRef && !components.has(binding.targetComponentRef)) {
-      fail(`SlotBinding ${binding["@id"]} references missing Component ${binding.targetComponentRef}.`);
     }
   }
 
@@ -346,6 +373,7 @@ validateManifest();
 validateNoUjgIdsInReactFiles();
 validatePrimitiveImports();
 validateComponentIsolation();
+validateSurfaces();
 validateSurfaceRealizations();
 validateDataContracts();
 
