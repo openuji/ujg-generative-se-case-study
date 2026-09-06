@@ -1,0 +1,60 @@
+{
+  "evaluation_version": "token-foundation-core-v1",
+  "quality_score_5": 4.4167,
+  "quality_score_100": 88.33,
+  "scores": {
+    "token_model_quality": 4.5,
+    "source_of_truth_integrity": 4.5,
+    "theme_portability": 4.5,
+    "traceability": 4.5,
+    "visual_foundation_fidelity": 4,
+    "inspectability": 4.5
+  },
+  "complexity": {
+    "classification": "moderate",
+    "implementation_file_count": 24,
+    "infrastructure_loc": 1065,
+    "new_dependency_count": 2
+  },
+  "scope_preserved": "PASS",
+  "ujg_contract": "PASS",
+  "metrics": {
+    "total_token_count": 151,
+    "foundation_token_count": 67,
+    "semantic_token_count": 84,
+    "unresolved_alias_count": 0,
+    "invalid_token_count": 0,
+    "raw_value_leak_count": 4,
+    "parallel_token_catalog_count": 0,
+    "parallel_theme_registry_count": 0,
+    "theme_count": 2,
+    "hardcoded_theme_branch_count": 1,
+    "data_driven_themes": true,
+    "provenance_coverage_ratio": 0.9801,
+    "direct_token_count": 88,
+    "inferred_token_count": 60,
+    "unclassified_token_count": 3,
+    "invalid_reference_count": 0,
+    "documentation_present": true,
+    "documented_group_count": 11,
+    "duplicated_documentation_value_count": 0
+  },
+  "findings": [
+    {
+      "severity": "MEDIUM",
+      "summary": "Three semantic action tokens lack provenance metadata."
+    },
+    {
+      "severity": "MEDIUM",
+      "summary": "Token documentation infrastructure contains four raw layout values outside canonical token files."
+    },
+    {
+      "severity": "LOW",
+      "summary": "Color scheme selection includes one suffix-based dark-theme branch."
+    },
+    {
+      "severity": "LOW",
+      "summary": "Dark-theme visual fidelity is inferred because only light screenshots are supplied."
+    }
+  ]
+}

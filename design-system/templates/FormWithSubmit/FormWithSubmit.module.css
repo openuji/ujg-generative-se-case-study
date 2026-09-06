@@ -1,0 +1,9 @@
+@reference "../../tokens/tailwind.css";
+
+.form {
+  @apply grid gap-6;
+}
+
+.actions {
+  @apply flex flex-col gap-3 border-t border-border-default pt-5 sm:flex-row sm:justify-end;
+}

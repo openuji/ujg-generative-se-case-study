@@ -10,7 +10,7 @@ The first implementation/evaluation slice should remain narrow: **waitlisted -> 
 
 ## Source-of-truth rule
 
-- `ujg/workshop-registration.ujg.jsonld` is the canonical UJG representation consumed by tools.
+- `ujg/workshop-registration.ujg.jsonld` is the canonical UJG representation and semantic source of truth.
 - External schemas under `ujg/schemas/` are referenced data contracts.
 - Do not maintain independent semantic journey definitions in backend requirements, frontend prompts, Playwright tests, or Storybook.
 
@@ -21,10 +21,12 @@ Requirements: Node.js 22 and pnpm 10.14.
 ```bash
 corepack enable
 pnpm install
+pnpm validate:ujg-source
+pnpm validate:ujg-design-system
 ```
 ## Current model status
 
-See `docs/model-review.md`.
+See the canonical UJG and the resolved decisions under `docs/gates/`.
 
 ## Domain-model workflow
 
@@ -58,8 +60,8 @@ docs/                              model review and decisions
 
 ## Case-study sequence
 
-1. Resolve the two Graph entry-semantics blockers and decide which branches need explicit Conditions.
-2. Add the UJG Design System model/bindings and concrete component/template package.
+1. Keep the canonical JSON-LD, referenced schemas, and validation scripts in sync.
+2. Implement the concrete design-system component/template package bound by the UJG Design System nodes.
 3. Run the domain-model generation experiment from the UJG.
 4. Evaluate and freeze one reference domain artifact.
 5. Freeze the root UJG implementation manifest.

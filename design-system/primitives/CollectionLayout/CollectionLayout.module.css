@@ -1,0 +1,9 @@
+@reference "../../tokens/tailwind.css";
+
+.root {
+  @apply w-full;
+}
+
+.items {
+  @apply grid gap-4 sm:grid-cols-2 lg:grid-cols-3;
+}

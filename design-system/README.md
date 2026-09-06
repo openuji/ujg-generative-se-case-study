@@ -1,12 +1,15 @@
-# Design system
+# Workshop registration design system
 
-This directory will contain the concrete component/template implementation used by the UJG Design System module.
+This package contains the concrete React implementation used by the UJG Design System module in `../ujg/workshop-registration.ujg.jsonld`.
 
-Sequence:
+The UJG remains the semantic source of truth. React files provide structural rendering only; generated bindings and validation scripts are the only files that keep UJG node IDs.
 
-1. extend the UJG with Design System module nodes and SurfaceRealizations;
-2. implement the referenced components/templates here;
-3. develop isolated component/template states in Storybook;
-4. keep journey flow semantics in UJG, not in Storybook stories.
+Useful commands:
 
-Do not introduce an independent presentation-flow specification here.
+```bash
+pnpm generate:ds-bindings
+pnpm validate:ujg-design-system
+pnpm typecheck:design-system
+pnpm build:design-system
+pnpm build-storybook
+```

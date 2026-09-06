@@ -1,0 +1,104 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "$extensions": {
+    "org.openuji.visual-evidence": {
+      "screens": [],
+      "basis": "Dark-theme semantic roles are inferred from the light visual system; supplied screenshots only evidence light styling.",
+      "evidence": "inferred"
+    }
+  },
+  "surface": {
+    "$type": "color",
+    "canvas": { "$value": "{color.neutral.950}" },
+    "default": { "$value": "{color.neutral.900}" },
+    "subtle": { "$value": "{color.neutral.800}" },
+    "accent": { "$value": "{color.neutral.800}" },
+    "accentStrong": { "$value": "{color.neutral.700}" }
+  },
+  "text": {
+    "$type": "color",
+    "default": { "$value": "{color.neutral.50}" },
+    "muted": { "$value": "{color.neutral.300}" },
+    "subtle": { "$value": "{color.neutral.200}" },
+    "inverse": { "$value": "{color.neutral.950}" },
+    "action": { "$value": "{color.blue.200}" }
+  },
+  "border": {
+    "$type": "color",
+    "default": { "$value": "{color.neutral.700}" },
+    "strong": { "$value": "{color.neutral.500}" },
+    "accent": { "$value": "{color.blue.500}" }
+  },
+  "action": {
+    "background": {
+      "$type": "color",
+      "$value": "{color.blue.500}"
+    },
+    "foreground": {
+      "$type": "color",
+      "$value": "{color.neutral.0}"
+    },
+    "border": {
+      "$type": "color",
+      "$value": "{color.blue.500}"
+    },
+    "hover": {
+      "$type": "color",
+      "$value": "{color.blue.200}"
+    },
+    "secondaryBackground": {
+      "$type": "color",
+      "$value": "{color.neutral.900}"
+    },
+    "secondaryForeground": {
+      "$type": "color",
+      "$value": "{color.blue.200}"
+    },
+    "secondaryBorder": {
+      "$type": "color",
+      "$value": "{color.neutral.700}"
+    }
+  },
+  "control": {
+    "$type": "color",
+    "background": { "$value": "{color.neutral.900}" },
+    "border": { "$value": "{color.neutral.700}" },
+    "focus": { "$value": "{color.blue.200}" },
+    "placeholder": { "$value": "{color.neutral.300}" }
+  },
+  "status": {
+    "success": {
+      "$type": "color",
+      "background": { "$value": "{color.green.900}" },
+      "foreground": { "$value": "{color.green.300}" },
+      "border": { "$value": "{color.green.700}" },
+      "icon": { "$value": "{color.green.300}" }
+    },
+    "warning": {
+      "$type": "color",
+      "background": { "$value": "{color.yellow.900}" },
+      "foreground": { "$value": "{color.yellow.300}" },
+      "border": { "$value": "{color.yellow.700}" },
+      "icon": { "$value": "{color.yellow.300}" }
+    },
+    "error": {
+      "$type": "color",
+      "background": { "$value": "{color.red.900}" },
+      "foreground": { "$value": "{color.red.300}" },
+      "border": { "$value": "{color.red.700}" },
+      "icon": { "$value": "{color.red.300}" }
+    },
+    "info": {
+      "$type": "color",
+      "background": { "$value": "{color.neutral.800}" },
+      "foreground": { "$value": "{color.blue.200}" },
+      "border": { "$value": "{color.blue.500}" },
+      "icon": { "$value": "{color.blue.200}" }
+    }
+  },
+  "elevation": {
+    "$type": "shadow",
+    "card": { "$value": "{shadow.card}" },
+    "focus": { "$value": "{shadow.focus}" }
+  }
+}

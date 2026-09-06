@@ -1,0 +1,19 @@
+@reference "../../tokens/tailwind.css";
+
+.root {
+  @apply grid gap-5;
+}
+
+.root > svg {
+  @apply flex h-12 w-12 rounded-full bg-surface-accent p-3 text-text-action;
+}
+
+.root h2 {
+  @apply text-lg font-bold leading-tight text-text-default;
+  margin: 0;
+}
+
+.intro {
+  @apply text-sm leading-relaxed text-text-subtle;
+  margin: 0;
+}

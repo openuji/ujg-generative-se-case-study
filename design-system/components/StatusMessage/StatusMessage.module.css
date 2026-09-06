@@ -1,0 +1,41 @@
+@reference "../../tokens/tailwind.css";
+
+.root {
+  @apply grid justify-items-center gap-5 text-center;
+}
+
+.iconWell {
+  @apply flex h-16 w-16 items-center justify-center rounded-full border;
+}
+
+.icon {
+  @apply h-8 w-8;
+}
+
+.success {
+  @apply border-status-success-border bg-status-success-background text-status-success-foreground;
+}
+
+.warning {
+  @apply border-status-warning-border bg-status-warning-background text-status-warning-foreground;
+}
+
+.error {
+  @apply border-status-error-border bg-status-error-background text-status-error-foreground;
+}
+
+.info {
+  @apply border-status-info-border bg-status-info-background text-status-info-foreground;
+}
+
+.title {
+  @apply m-0 text-xl font-bold leading-tight text-text-default sm:text-2xl;
+}
+
+.message {
+  @apply m-0 text-sm leading-relaxed text-text-muted;
+}
+
+.details {
+  @apply w-full text-left;
+}

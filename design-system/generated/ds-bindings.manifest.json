@@ -1,0 +1,119 @@
+{
+  "source": "ujg/workshop-registration.ujg.jsonld",
+  "artifacts": [
+    {
+      "ujgRef": "urn:ujg:component:workshop-teaser-content",
+      "type": "Component",
+      "module": "components/WorkshopTeaserContent/WorkshopTeaserContent.tsx",
+      "export": "WorkshopTeaserContent"
+    },
+    {
+      "ujgRef": "urn:ujg:component:workshop-detail-summary",
+      "type": "Component",
+      "module": "components/WorkshopDetailSummary/WorkshopDetailSummary.tsx",
+      "export": "WorkshopDetailSummary"
+    },
+    {
+      "ujgRef": "urn:ujg:component:registration-form-fields",
+      "type": "Component",
+      "module": "components/RegistrationFormFields/RegistrationFormFields.tsx",
+      "export": "RegistrationFormFields"
+    },
+    {
+      "ujgRef": "urn:ujg:component:waitlist-form-fields",
+      "type": "Component",
+      "module": "components/WaitlistFormFields/WaitlistFormFields.tsx",
+      "export": "WaitlistFormFields"
+    },
+    {
+      "ujgRef": "urn:ujg:component:registration-review-summary",
+      "type": "Component",
+      "module": "components/RegistrationReviewSummary/RegistrationReviewSummary.tsx",
+      "export": "RegistrationReviewSummary"
+    },
+    {
+      "ujgRef": "urn:ujg:component:waitlist-review-summary",
+      "type": "Component",
+      "module": "components/WaitlistReviewSummary/WaitlistReviewSummary.tsx",
+      "export": "WaitlistReviewSummary"
+    },
+    {
+      "ujgRef": "urn:ujg:component:status-message",
+      "type": "Component",
+      "module": "components/StatusMessage/StatusMessage.tsx",
+      "export": "StatusMessage"
+    },
+    {
+      "ujgRef": "urn:ujg:component:email-offer-content",
+      "type": "Component",
+      "module": "components/EmailOfferContent/EmailOfferContent.tsx",
+      "export": "EmailOfferContent"
+    },
+    {
+      "ujgRef": "urn:ujg:component:offer-response-summary",
+      "type": "Component",
+      "module": "components/OfferResponseSummary/OfferResponseSummary.tsx",
+      "export": "OfferResponseSummary"
+    },
+    {
+      "ujgRef": "urn:ujg:component:action-control",
+      "type": "Component",
+      "module": "components/ActionControl/ActionControl.tsx",
+      "export": "ActionControl"
+    },
+    {
+      "ujgRef": "urn:ujg:component:email-link-control",
+      "type": "Component",
+      "module": "components/EmailLinkControl/EmailLinkControl.tsx",
+      "export": "EmailLinkControl"
+    },
+    {
+      "ujgRef": "urn:ujg:template:workshops-overview-list",
+      "type": "Template",
+      "module": "templates/WorkshopsOverviewList/WorkshopsOverviewList.tsx",
+      "export": "WorkshopsOverviewList"
+    },
+    {
+      "ujgRef": "urn:ujg:template:workshop-teaser-card",
+      "type": "Template",
+      "module": "templates/WorkshopTeaserCard/WorkshopTeaserCard.tsx",
+      "export": "WorkshopTeaserCard"
+    },
+    {
+      "ujgRef": "urn:ujg:template:detail-with-action",
+      "type": "Template",
+      "module": "templates/DetailWithAction/DetailWithAction.tsx",
+      "export": "DetailWithAction"
+    },
+    {
+      "ujgRef": "urn:ujg:template:form-with-submit",
+      "type": "Template",
+      "module": "templates/FormWithSubmit/FormWithSubmit.tsx",
+      "export": "FormWithSubmit"
+    },
+    {
+      "ujgRef": "urn:ujg:template:review-with-actions",
+      "type": "Template",
+      "module": "templates/ReviewWithActions/ReviewWithActions.tsx",
+      "export": "ReviewWithActions"
+    },
+    {
+      "ujgRef": "urn:ujg:template:status-with-action",
+      "type": "Template",
+      "module": "templates/StatusWithAction/StatusWithAction.tsx",
+      "export": "StatusWithAction"
+    },
+    {
+      "ujgRef": "urn:ujg:template:email-offer-message",
+      "type": "Template",
+      "module": "templates/EmailOfferMessage/EmailOfferMessage.tsx",
+      "export": "EmailOfferMessage"
+    },
+    {
+      "ujgRef": "urn:ujg:template:offered-place-response",
+      "type": "Template",
+      "module": "templates/OfferedPlaceResponse/OfferedPlaceResponse.tsx",
+      "export": "OfferedPlaceResponse"
+    }
+  ]
+}
