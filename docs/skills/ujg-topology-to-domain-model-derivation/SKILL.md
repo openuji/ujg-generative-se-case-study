@@ -19,10 +19,10 @@ constraint, retrieve the active Editor's Draft before deriving:
 - `https://ujg.specs.openuji.org/ed/extensions/domain-model`
 - the Domain Model JSON Schema linked by that extension page
 
-Read the active Condition, Effect, and Entry Binding modules only when the UJG
-uses them. Do not silently rely on repository snapshots, examples, or a prior
-run. If the live specification is unavailable, ask for an explicit schema or
-state that derivation is blocked.
+Read the active Condition, Effect, Entry Binding, and Data Contract modules
+only when the UJG uses them. Do not silently rely on repository snapshots,
+examples, or a prior run. If the live specification is unavailable, ask for an
+explicit schema or state that derivation is blocked.
 
 The canonical payload is only
 `UJGDocument.extensions["org.openuji.domain-model"]`. Apply the live schema
@@ -107,6 +107,12 @@ flow does not alone justify a ValueObject or DomainOperation. Model one only
 when explicit business knowledge, a stated business rule, or a domain-relevant
 effect requires the underlying data or validation behavior. Do not create an
 otherwise empty ValueObject solely to mirror a condition.
+
+When UJG uses `DataSchema` or `DataBinding`, treat external schema fields and
+JSON constraints as surface materialization or command-invocation contracts,
+not domain facts. Do not copy or trace them into the Domain Model solely
+because they overlap; model a property or ValueObject only when UJG behavior or
+supplied business knowledge establishes stable domain meaning.
 
 When a UJG condition requires a distinction but leaves its determining
 mechanism open, do not present a chosen mechanism as UJG fact. Model the least
