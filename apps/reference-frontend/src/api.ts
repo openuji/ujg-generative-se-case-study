@@ -9,7 +9,7 @@ import type {
   WorkshopCollectionResponse,
   WorkshopDetailResponse
 } from "./contracts";
-// localStorage.setItem("referenceAuthToken", "token-blair")
+//localStorage.setItem("referenceAuthToken", "token-blair")
 const token = () => localStorage.getItem("referenceAuthToken") ?? "token-alex";
 
 async function request<T>(path: string, { method = "GET", body, authenticated = false }: {
