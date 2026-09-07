@@ -53,10 +53,11 @@ label, and an evaluator label. Invoke:
    interface and runtime boundary selected by the run manifest.
 
 The first design-system profile is fixed in the orchestrator's shared stack
-reference. Interface kinds, transports, delivery mechanisms, state ownership,
-adapters, runtime, targets, bootstrap, and documentation are always discovered
-from the run manifest. The reusable workflow does not assume the choices in the
-current case-study manifest.
+reference. Its machine-readable frontmatter is the sole authority for stack,
+Theme, and executable-gate requirements. Interface kinds, transports, delivery
+mechanisms, state ownership, adapters, runtime, targets, bootstrap, and
+documentation are always discovered from the run manifest. The reusable
+workflow does not assume the choices in the current case-study manifest.
 
 The token phase may mutate only the run-local UJG itself and only by adding valid
 Theme/TokenSource nodes. This is not a projection: the enriched UJG becomes the
@@ -74,6 +75,17 @@ The design-system orchestrator requests a static evaluation after each passing
 structure, token, and styling gate. The application skill requests its static
 evaluation after all manifest-selected targets pass verification. A quality
 score does not replace a realization gate.
+
+For every phase, first run static conformance and then executable verification:
+
+```bash
+pnpm validate:full-application-run -- model-a --phase <phase>
+pnpm verify:full-application-run -- model-a --phase <phase>
+```
+
+The executable verifier installs the frozen run workspace and invokes the tools
+and commands selected by the canonical profile. Generated wrappers cannot
+substitute for these checks.
 
 Rubrics are independent of generation:
 
@@ -101,19 +113,27 @@ Evaluator labels are lowercase sanitized identifiers. Never overwrite a result;
 use a new evaluator label for each repeat. Record `null` for unknown model names.
 Existing evaluation JSON is immutable comparison evidence.
 
-## Complete-run validation and retention
-
-After application realization and its normal verification have completed, run:
+After creating a result, validate it independently:
 
 ```bash
-pnpm validate:full-application-run -- model-a
+pnpm validate:evaluation-result -- model-a <phase>
 ```
 
-This validates immutable seeded facts, byte-identical referenced schemas and
-manifest, the Theme/TokenSource-only enrichment boundary, run-relative DTCG
-files, generic manifest coverage, selected targets, exact design-system bindings,
-prohibited projections, and UJG identifier containment. It does not replace
-target-specific tests and builds.
+## Complete-run validation and retention
+
+After application realization passes executable verification and all four
+evaluation results exist, run:
+
+```bash
+pnpm verify:full-application-run -- model-a --phase application
+pnpm validate:full-application-run -- model-a --phase complete
+```
+
+Static completion validates immutable inputs, controlled UJG enrichment,
+profile conformance, generated token sources, manifest coverage, real binding
+modules, selected-target integration, evaluation results, prohibited
+projections, and identifier containment. Executable verification separately
+proves the selected compilers, tests, builders, and inspection build.
 
 Completed run source and evaluation JSON are checked in. Dependencies, local
 databases, build output, Storybook output, coverage, and other runtime artifacts

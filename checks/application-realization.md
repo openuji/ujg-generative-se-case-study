@@ -4,6 +4,10 @@ Evaluate all manifest-selected application targets in one clean-room realization
 run. This rubric is evaluation-only and contains no assumptions about interface
 kinds, protocols, delivery mechanisms, adapters, runtimes, or target paths.
 
+Read the canonical realization requirements from
+`docs/skills/ujg-to-design-system-realization/references/v1-stack.md`. Apply its
+target contract only through the evaluated run's manifest selections.
+
 ## Inputs and mutation boundary
 
 The caller supplies the repository root, run name, implementation-model label,

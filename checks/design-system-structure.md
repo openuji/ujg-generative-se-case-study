@@ -3,6 +3,10 @@
 Evaluate the design-system structure phase of one clean-room realization run.
 This rubric is evaluation-only and deliberately independent from generation.
 
+Read the canonical realization requirements from
+`docs/skills/ujg-to-design-system-realization/references/v1-stack.md`. Do not
+restate or infer a separate stack contract.
+
 ## Inputs and mutation boundary
 
 The caller supplies the repository root, run name, implementation-model label,
@@ -34,7 +38,7 @@ Reject an empty result. The canonical result path is
 Score exactly these six metrics from 0 to 5. Use static absence as evidence; do
 not use `null` for a score. Use `null` for an unmeasurable supporting count.
 
-1. `artifact_coverage`: one maintained React implementation and one colocated
+1. `artifact_coverage`: one maintained profile-conformant implementation and one colocated
    story for every UJG Component and Template; primitives remain separate;
    bindings cover exactly those artifacts.
 2. `composition_fidelity`: Templates expose modeled Slots, SlotBindings and

@@ -1,6 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
 import YAML from "yaml";
+import { loadRealizationProfile } from "./realization-profile.mjs";
+import { validateProfileConformance } from "./run-conformance.mjs";
 
 const runNamePattern = /^[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?$/;
 const generatedTokenNodeTypes = new Set(["Theme", "TokenSource"]);
@@ -254,7 +256,7 @@ function validateTokenSources(ujg, runUjgPath, runRoot, phase) {
   );
   const themes = (ujg.nodes ?? []).filter((node) => node?.["@type"] === "Theme");
 
-  if (phase === "seed") {
+  if (phase === "seed" || phase === "structure") {
     if (tokenSources.size > 0 || themes.length > 0) {
       fail("A seeded run must not contain generated Theme or TokenSource nodes.");
     }
@@ -423,9 +425,12 @@ export function seedFullApplicationRun({ repoRoot, runsRoot, runName }) {
   return target;
 }
 
-export function validateFullApplicationRun({ repoRoot, runsRoot, runName, phase = "complete" }) {
+export function validateFullApplicationRun({ repoRoot, runsRoot, runName, phase = "complete", requireEvaluations = true }) {
   assertRunName(runName);
-  if (!new Set(["seed", "complete"]).has(phase)) fail("Validation phase must be seed or complete.");
+  if (!new Set(["seed", "structure", "tokens", "styling", "application", "complete"]).has(phase)) {
+    fail("Validation phase must be seed, structure, tokens, styling, application, or complete.");
+  }
+  const normalizedPhase = phase === "application" ? "complete" : phase;
   const runRoot = assertInside(runsRoot, path.join(runsRoot, runName), "run target");
   if (!fs.statSync(runRoot, { throwIfNoEntry: false })?.isDirectory()) fail(`Run does not exist: ${runRoot}`);
 
@@ -458,10 +463,10 @@ export function validateFullApplicationRun({ repoRoot, runsRoot, runName, phase 
   } catch (error) {
     fail(`Run manifest is not valid YAML: ${error.message}`);
   }
-  validateManifest(manifest, ujg, runRoot, phase);
-  validateTokenSources(ujg, runUjgPath, runRoot, phase);
+  validateManifest(manifest, ujg, runRoot, normalizedPhase);
+  validateTokenSources(ujg, runUjgPath, runRoot, normalizedPhase);
 
-  if (phase === "seed") {
+  if (normalizedPhase === "seed") {
     const allowedRootEntries = new Set(["ujg", "ujg-implementation.yaml"]);
     for (const entry of fs.readdirSync(runRoot)) {
       if (!allowedRootEntries.has(entry)) fail(`Seed contains non-input artifact: ${entry}`);
@@ -469,6 +474,17 @@ export function validateFullApplicationRun({ repoRoot, runsRoot, runName, phase 
   } else {
     validateBindings(ujg, manifest, runRoot);
     validateNoIdentifierLeaks(runRoot, runUjgPath, runManifestPath, ujg);
+    validateProfileConformance({
+      repoRoot,
+      runRoot,
+      runName,
+      phase: normalizedPhase,
+      manifest,
+      ujg,
+      runUjgPath,
+      profile: loadRealizationProfile(repoRoot),
+      requireEvaluations
+    });
   }
 
   return runRoot;

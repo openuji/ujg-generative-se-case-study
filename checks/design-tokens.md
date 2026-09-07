@@ -3,6 +3,10 @@
 Evaluate the visual-foundation/design-token phase of one clean-room realization
 run. This is an evaluation-only, static comparison rubric.
 
+Read the canonical realization and Theme requirements from
+`docs/skills/ujg-to-design-system-realization/references/v1-stack.md`. Score the
+run against that profile without copying its inventory into this rubric.
+
 ## Inputs and mutation boundary
 
 The caller supplies the repository root, run name, implementation-model label,
@@ -14,7 +18,7 @@ compare seeded facts after removing its existing reference-realization `Theme`
 and `TokenSource` nodes; do not inspect any root implementation.
 
 Do not inspect the root reference implementation or another run. Do not execute
-builds, tests, servers, Storybook, validators, package managers, or application
+builds, tests, servers, component explorers, validators, package managers, or application
 code. Do not modify implementation files. The only permitted write is the
 requested result JSON. Refuse to overwrite it.
 
@@ -34,7 +38,7 @@ cannot establish them.
    unnecessary component-specific tokens are avoided. Also count total,
    foundation, semantic, unresolved-alias, and invalid tokens.
 2. `source_of_truth_integrity`: token files have one durable owner and no raw
-   visual values, token catalogues, Theme registries, Tailwind config, or docs
+   visual values, token catalogues, Theme registries, styling-tool config, or docs
    duplicate canonical data. Generated Theme/TokenSource nodes exist in the
    run-local UJG, point to the generated DTCG sources, and no other seeded UJG
    fact changed. CSS-variable aliases are not duplication. Count raw leaks and
@@ -50,7 +54,7 @@ cannot establish them.
    radii/borders/elevation, and semantic hierarchy against references. Do not
    score whole-screen similarity or penalize absent unsupported structure.
 6. `inspectability`: canonical token groups and Themes are understandable in
-   Storybook or an equivalent static documentation surface without copied values.
+   the profile-selected static documentation surface without copied values.
    Count documented groups and duplicated documentation values.
 
 Calculate `quality_score_5` as the arithmetic mean of all six scores, rounded to

@@ -20,7 +20,8 @@ They are not assumptions in the reusable skills or evaluation rubrics.
 
 ## Start a run
 
-Requirements: Node.js 22 and pnpm 10.14.
+Runtime and package-manager requirements are defined only in the canonical
+[realization profile](docs/skills/ujg-to-design-system-realization/references/v1-stack.md).
 
 ```bash
 corepack enable
@@ -40,15 +41,34 @@ The token phase generates DTCG token files and adds the corresponding Theme and
 TokenSource nodes to the run-local UJG. The application skill realizes every
 interface and runtime boundary selected by the copied manifest.
 
+Each realization phase must pass static validation and the profile-driven
+executable verifier before its evaluation is written:
+
+```bash
+pnpm validate:full-application-run -- <run-name> --phase <phase>
+pnpm verify:full-application-run -- <run-name> --phase <phase>
+```
+
+The profile is the only owner of package versions, target toolchains, Theme
+inventory, and verification commands. Skills and checks consume it rather than
+restating those requirements.
+
 After realization:
 
 ```bash
-pnpm validate:full-application-run -- <run-name>
+pnpm verify:full-application-run -- <run-name> --phase application
+pnpm validate:full-application-run -- <run-name> --phase complete
 ```
 
 Each phase has an independent, evaluation-only rubric in `checks/`. Evaluators
 write only a new JSON result under `checks/evaluation/<run-name>/`; an evaluator
-label can never overwrite an existing result. See
+label can never overwrite an existing result. Validate each result with:
+
+```bash
+pnpm validate:evaluation-result -- <run-name> <phase>
+```
+
+See
 `experiments/full-application-generation/README.md` for the full protocol,
 isolation rules, skill gates, and result naming.
 

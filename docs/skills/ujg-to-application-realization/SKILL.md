@@ -10,6 +10,10 @@ Realize the complete UJG within the boundaries selected by the supplied
 selects architecture; prepared design-system bindings identify authored visual
 exports.
 
+Read [the v1 realization profile](../ujg-to-design-system-realization/references/v1-stack.md)
+and apply an interface target profile only when its manifest-declared kind is
+selected there. The profile is the sole stack and executable-gate authority.
+
 Require the token-enriched run-local UJG produced by the design-system workflow
 and treat it as immutable. Theme/TokenSource generation is outside this skill.
 
@@ -116,13 +120,15 @@ when they do not become another semantic authority.
 Derive verification from the UJG in memory. Test applicable entry eligibility,
 every condition branch, effect and no-effect outcome, invariant, invalid mutation,
 idempotency, concurrency, subject authority, boundary continuation, data shape,
-and design-system composition. Run relevant tests, typechecks, builds, and
-documentation checks.
+and design-system composition. Run the profile-selected application verifier
+plus any manifest-selected documentation checks.
 
 After verification, evaluate the run using `checks/application-realization.md`.
 Write only its JSON result to
 `checks/evaluation/<run-name>/application.<evaluator>.json`, using a sanitized
 lowercase evaluator label. Refuse to overwrite an existing result.
+Validate the new result with `validate:evaluation-result`, then run static
+`complete` validation.
 
 Report manifest-selected targets, implementation changes, verification evidence,
 evaluation path, and gaps. Do not claim full realization while any selected

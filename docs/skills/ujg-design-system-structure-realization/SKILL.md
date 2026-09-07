@@ -1,6 +1,6 @@
 ---
 name: ujg-design-system-structure-realization
-description: Realize the structural React design system defined by UJG Components, Templates, Surfaces, realizations, slots, and data contracts. Use before tokens or styling; do not implement application flow or visual styling.
+description: Realize the structural design system defined by UJG Components, Templates, Surfaces, realizations, slots, and data contracts. Use before tokens or styling; do not implement application flow or visual styling.
 ---
 
 # UJG Design System Structure Realization
@@ -44,7 +44,7 @@ generated/
   ds-bindings.manifest.json
 ```
 
-Create exactly one React implementation and one colocated story for every UJG
+Create exactly one profile-conformant implementation and one colocated story for every UJG
 Component and Template. Reserve `components/` and `templates/` for UJG artifacts;
 put only domain-neutral repeated HTML structures in `primitives/`.
 
@@ -66,7 +66,7 @@ put only domain-neutral repeated HTML structures in `primitives/`.
 ## Data contracts
 
 For a data-bound Component, derive props from the bound external JSON Schema.
-Editable controls use the exact schema property names as HTML `name`, React value,
+Editable controls use the exact schema property names as HTML `name`, implementation value,
 and error keys. Validation metadata such as `errors` is not submitted as input.
 Do not create a second schema, field dictionary, or checked-in generated type file.
 
@@ -74,13 +74,13 @@ For every data-bound form, add an interaction story that renders a real form,
 fills controls by accessible label, serializes `FormData`, and proves the exact
 editable key/value contract derived from the schema.
 
-## Storybook
+## Isolated inspection
 
 Provide local representative fixtures for isolated inspection. Fixtures are
 examples, not journey definitions or backend contracts. Template stories must
 assemble representative SurfaceRealizations through the modeled SlotBindings.
-Provide a non-watch command for interaction stories and a production Storybook
-build command.
+Provide the profile-selected non-watch interaction command and production
+inspection build command.
 
 ## Bindings manifest
 
@@ -110,6 +110,6 @@ Before returning:
 - validate schema-bound form serialization;
 - validate that primitives do not import UJG artifacts;
 - scan implementation source and stories for UJG identifiers;
-- run typecheck, interaction tests, package build, and Storybook build.
+- run the profile-selected static and executable structure gates.
 
 Report failures and stop. Do not proceed into token or styling work.

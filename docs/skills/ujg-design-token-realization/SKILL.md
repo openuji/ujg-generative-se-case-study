@@ -1,6 +1,6 @@
 ---
 name: ujg-design-token-realization
-description: Generate UJG Theme and TokenSource nodes, DTCG token foundations, and Storybook token documentation from a token-unrealized UJG plus visual references. Use after structural realization and before component styling.
+description: Generate UJG Theme and TokenSource nodes, DTCG token foundations, and inspectable token documentation from a token-unrealized UJG plus visual references. Use after structural realization and before component styling.
 ---
 
 # UJG Design Token Realization
@@ -30,11 +30,11 @@ or behavior from screenshots.
 
 ## Generate the UJG token structure
 
-Infer the smallest useful Theme inventory from distinguishable visual evidence.
-If the references show no reliable theme variation, generate one default Theme;
-do not invent an unevidenced alternate Theme. Create reusable foundation and
-semantic TokenSources as needed, and share a foundation source across Themes
-when the evidence supports it.
+Generate exactly the Theme inventory, source topology, semantic-role coverage,
+and evidence classifications selected by the loaded profile. Visual references
+may determine values but never override that inventory. When the profile requires
+a Theme not shown in the references, infer its values and use the profile's
+evidence classification rather than claiming direct evidence.
 
 Mint collision-free UJG identifiers using the document's existing identifier
 convention. Each generated `TokenSource` contains only `@type`, `@id`, optional
@@ -81,7 +81,7 @@ Do not claim direct evidence for unshown states or for dark-theme decisions when
 only light references exist. Evidence metadata is informative and must not affect
 resolution.
 
-## Tailwind and Theme resolution
+## Theme resolution
 
 Implement this direct pipeline:
 
@@ -90,8 +90,8 @@ UJG Theme
   -> ordered TokenSource references
   -> TokenSource.source DTCG manifests
   -> type-aware resolved CSS custom properties
-  -> Tailwind v4 aliases and utilities
-  -> Storybook token visualizers
+  -> profile-selected styling adapter
+  -> profile-selected inspection surface
 ```
 
 Resolve the newly written relative TokenSource locations from the UJG document.
@@ -99,11 +99,11 @@ Do not maintain an authored token-source catalogue or Theme registry elsewhere.
 File discovery may load the selected sources but may not become another identity
 source.
 
-Tailwind contains variable aliases, not duplicated raw values. Serialize each
+The styling adapter contains variable aliases, not duplicated raw values. Serialize each
 DTCG type explicitly. Generated resolved CSS is build output only. Do not commit
 generated token catalogues, generated Theme metadata, or resolver manifests.
 
-## Storybook
+## Inspection surface
 
 Create model-driven token visualizers under `Tokens/`, grouped by existing source
 groups: overview, foundation groups, semantic groups, and Themes. Only create
@@ -123,8 +123,7 @@ Before returning:
 - validate every UJG Theme and TokenSource reference and source file;
 - validate token types, aliases, evidence paths, and Theme resolution;
 - confirm no parallel token/Theme registry or raw-value catalogue exists;
-- typecheck and build the design-system package;
-- run its tests and production Storybook build;
+- run the profile-selected static and executable token gates;
 - inspect already-rendered token pages under every Theme when render artifacts are
   available.
 

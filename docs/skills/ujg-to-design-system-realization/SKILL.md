@@ -37,7 +37,7 @@ inspect application or design-system implementations outside the selected run.
 - Temporary in-memory analysis is allowed and must be discarded.
 - `generated/ds-bindings.manifest.json` is the only permitted UJG-to-code mapping.
   It contains Component and Template bindings only.
-- Keep UJG identifiers out of implementation source, Storybook, CSS, the rendered
+- Keep UJG identifiers out of implementation source, component-explorer content, CSS, the rendered
   DOM, and public component APIs. The bindings manifest is the only design-system
   exception.
 
@@ -60,6 +60,10 @@ The structure phase reads the token-unrealized UJG. The token phase enriches tha
 same UJG in place. Styling and application phases consume the enriched UJG as
 their immutable authority.
 
+At each phase, run the repository's static phase validation followed by
+`verify:full-application-run` for that phase. Both commands load the profile;
+never replace them with generated wrapper scripts or claims of success.
+
 After each passing phase, evaluate the current run using the matching static
 rubric:
 
@@ -75,10 +79,12 @@ label to lowercase ASCII letters, digits, and hyphens. Refuse to overwrite an
 existing result; the caller must supply a distinct evaluator label for a repeat.
 An evaluation score records quality but is not a conformance gate. A malformed or
 missing evaluation result is a workflow failure.
+Validate each newly written result with `validate:evaluation-result` before
+starting the next phase.
 
 ## Handoff
 
-Finish with the prepared design systems, their tests and Storybook surfaces, and
+Finish with the prepared design systems, their tests and inspection surfaces, and
 their generated bindings. Report the selected targets, phase verification, and
 evaluation result paths. Do not implement domain behavior or any manifest
 interface in this skill.

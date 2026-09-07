@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { normalizeForwardedArgs } from "./cli-args.mjs";
 import { seedFullApplicationRun } from "./full-application-run-utils.mjs";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const runsRoot = path.join(repoRoot, "experiments", "full-application-generation", "runs");
-const args = process.argv.slice(2);
+const args = normalizeForwardedArgs(process.argv.slice(2));
 const runName = args[0];
 
 if (!runName || args.length !== 1) {

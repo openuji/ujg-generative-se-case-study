@@ -9,6 +9,7 @@ node_modules/
 **/.vite/
 **/coverage/
 **/dist/
+**/build/
 **/playwright-report/
 **/storybook-static/
 **/test-results/

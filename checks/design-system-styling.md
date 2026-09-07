@@ -3,16 +3,20 @@
 Evaluate the styling phase of one clean-room realization run. This is an
 evaluation-only, static comparison rubric.
 
+Read the canonical realization and Theme requirements from
+`docs/skills/ujg-to-design-system-realization/references/v1-stack.md`. Score the
+run against that profile without restating its stack or Theme inventory.
+
 ## Inputs and mutation boundary
 
 The caller supplies the repository root, run name, implementation-model label,
 evaluator-model label, and requested result path. Treat a missing model label as
 JSON `null`. Read only the selected run, its UJG and schemas, manifest-selected
 design systems, shared visual references, and already-existing screenshots,
-Storybook output, test output, or build artifacts.
+component-explorer output, test output, or build artifacts.
 
 Do not inspect the root reference implementation or another run. Do not execute
-builds, tests, servers, Storybook, validators, package managers, or application
+builds, tests, servers, component explorers, validators, package managers, or application
 code. Do not modify implementation files. The only permitted write is the
 requested result JSON. Refuse to overwrite it.
 
@@ -35,7 +39,7 @@ report confidence honestly.
    density, borders/radii/elevation, controls, and hierarchy transfer to the
    modeled structure. Do not penalize omitted reference content absent from the
    UJG.
-2. `token_theme_adherence`: reusable values consume the DTCG/Theme/Tailwind
+2. `token_theme_adherence`: reusable values consume the profile-selected DTCG/Theme/styling
    pipeline, without raw-value duplication, hardcoded Theme branches, or
    Theme-specific artifact implementations. Do not count CSS mechanics such as
    zero, percentages, auto, fractions, layout, overflow, or positioning.
@@ -51,7 +55,7 @@ report confidence honestly.
    relationships; Component modules own internal presentation. Penalize global
    artifact selectors, misplaced ownership, and unjustified duplication.
 6. `inspectability`: actual styled artifacts, Themes, and relevant responsive
-   views are inspectable in Storybook or an equivalent static documentation
+   views are inspectable in the profile-selected static documentation
    surface without a duplicate styling system.
 
 Calculate `quality_score_5` as the arithmetic mean of all six scores, rounded to
