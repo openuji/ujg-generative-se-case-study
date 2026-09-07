@@ -1,0 +1,19 @@
+node_modules/
+.pnpm-store/
+.DS_Store
+*.log
+
+# Generated-run dependencies and runtime artifacts.
+**/node_modules/
+**/.data/
+**/.vite/
+**/coverage/
+**/dist/
+**/playwright-report/
+**/storybook-static/
+**/test-results/
+**/*.sqlite
+**/*.sqlite-shm
+**/*.sqlite-wal
+
+# Run source and evaluations are evidence and remain tracked.

@@ -1,0 +1,22 @@
+{
+  "name": "@openuji/full-application-generation-experiment",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.14.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "validate:ujg-source": "node scripts/validate-ujg-source.mjs",
+    "seed:full-application-run": "node scripts/seed-full-application-run.mjs",
+    "validate:full-application-run": "node scripts/validate-full-application-run.mjs",
+    "test:full-application-workflow": "node --test scripts/full-application-run.test.mjs",
+    "validate:evaluation-rubrics": "node scripts/validate-evaluation-rubrics.mjs",
+    "check": "pnpm validate:ujg-source && pnpm test:full-application-workflow && pnpm validate:evaluation-rubrics"
+  },
+  "devDependencies": {
+    "ajv": "8.17.1",
+    "yaml": "2.9.0"
+  }
+}

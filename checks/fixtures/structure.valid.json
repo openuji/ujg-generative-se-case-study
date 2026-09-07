@@ -1,0 +1,36 @@
+{
+  "evaluation_version": "ds-structure-core-v1",
+  "run_id": "fixture-run",
+  "evaluated_phase": "structure",
+  "implementation_model": "fixture-implementation-model",
+  "evaluator_model": "fixture-evaluator-model",
+  "quality_score_5": 4,
+  "quality_score_100": 80,
+  "scores": {
+    "artifact_coverage": 4,
+    "composition_fidelity": 4,
+    "data_contract_fidelity": 3,
+    "identity_containment": 5,
+    "implementation_modularity": 4,
+    "storybook_inspectability": 4
+  },
+  "complexity": {
+    "classification": "moderate",
+    "implementation_file_count": 40,
+    "infrastructure_loc": 500,
+    "new_dependency_count": 8
+  },
+  "metrics": {
+    "expected_component_count": 10,
+    "implemented_component_count": 10,
+    "expected_template_count": 3,
+    "implemented_template_count": 3,
+    "missing_story_count": 0,
+    "binding_mismatch_count": 0,
+    "composition_violation_count": 1,
+    "data_contract_violation_count": 1,
+    "identifier_leak_count": 0,
+    "interaction_story_coverage_ratio": 0.75
+  },
+  "findings": []
+}

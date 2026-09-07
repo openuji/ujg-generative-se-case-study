@@ -1,0 +1,47 @@
+{
+  "evaluation_version": "token-foundation-core-v1",
+  "run_id": "fixture-run",
+  "evaluated_phase": "tokens",
+  "implementation_model": null,
+  "evaluator_model": "fixture-evaluator-model",
+  "quality_score_5": 4.5,
+  "quality_score_100": 90,
+  "scores": {
+    "token_model_quality": 5,
+    "source_of_truth_integrity": 4,
+    "theme_portability": 5,
+    "traceability": 4,
+    "visual_foundation_fidelity": 4,
+    "inspectability": 5
+  },
+  "complexity": {
+    "classification": "moderate",
+    "implementation_file_count": 20,
+    "infrastructure_loc": 350,
+    "new_dependency_count": 2
+  },
+  "scope_preserved": "PASS",
+  "ujg_contract": "PASS",
+  "metrics": {
+    "total_token_count": 100,
+    "foundation_token_count": 40,
+    "semantic_token_count": 60,
+    "unresolved_alias_count": 0,
+    "invalid_token_count": 0,
+    "raw_value_leak_count": 1,
+    "parallel_token_catalog_count": 0,
+    "parallel_theme_registry_count": 0,
+    "theme_count": 2,
+    "hardcoded_theme_branch_count": 0,
+    "data_driven_themes": true,
+    "provenance_coverage_ratio": 0.9,
+    "direct_token_count": 70,
+    "inferred_token_count": 20,
+    "unclassified_token_count": 10,
+    "invalid_reference_count": 0,
+    "documentation_present": true,
+    "documented_group_count": 8,
+    "duplicated_documentation_value_count": 0
+  },
+  "findings": []
+}
