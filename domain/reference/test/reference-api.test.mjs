@@ -1,10 +1,21 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import { afterEach, beforeEach, test } from "node:test";
+
+import Ajv2020 from "ajv/dist/2020.js";
 
 import { MemoryFakeEmailClient } from "../src/adapters/fake-email-client.mjs";
 import { SqliteStore } from "../src/adapters/sqlite-store.mjs";
 import { loadFixtures } from "../src/fixtures.mjs";
+import { operations } from "../src/http/contract.mjs";
+import { openApiDocument, stableOpenApiJson } from "../src/http/openapi.mjs";
 import { createReferenceServer } from "../src/http/server.mjs";
+
+const offerSummarySchema = JSON.parse(
+  await readFile(new URL("../../../ujg/schemas/offer-summary-data.schema.json", import.meta.url), "utf8")
+);
+const ajv = new Ajv2020({ allErrors: true, strict: false });
+const validateOfferSummary = ajv.compile(offerSummarySchema);
 
 const fixedNow = () => new Date("2026-09-06T10:00:00.000Z");
 let store;
@@ -73,7 +84,56 @@ test("fixtures materialize all workshop contextual entries and one email continu
   assert.equal(waitlistOpen.body.outcome, "waitlistOpen");
   assert.equal(closed.body.outcome, "registrationClosed");
   assert.equal(emailClient.messages.length, 1);
-  assert.equal(emailClient.messages[0].action.href, "http://localhost:5173/offers/offer-alex-open");
+  assert.equal(validateOfferSummary(emailClient.messages[0].body), true, ajv.errorsText(validateOfferSummary.errors));
+  assert.deepEqual(emailClient.messages[0].body, {
+    title: "A workshop place is available",
+    message: "A place has opened for you from the waitlist.",
+    workshopTitle: "Facilitation Practice",
+    expiresAt: "2099-10-18T12:00:00.000Z"
+  });
+  assert.deepEqual(emailClient.messages[0].action, {
+    label: "Open offered place",
+    href: "http://localhost:5173/offers/offer-alex-open"
+  });
+});
+
+test("OpenAPI output is generated from the HTTP operation registry", async () => {
+  const generated = await readFile(new URL("../openapi/openapi.json", import.meta.url), "utf8");
+  assert.equal(generated, stableOpenApiJson());
+
+  const document = openApiDocument();
+  for (const operation of operations) {
+    const openApiOperation = document.paths[operation.path]?.[operation.method.toLowerCase()];
+    assert.ok(openApiOperation, `${operation.method} ${operation.path} is missing from OpenAPI output`);
+    assert.equal(openApiOperation.operationId, operation.operationId);
+    assert.equal(openApiOperation["x-auth-required"], operation.auth);
+
+    if (operation.auth) {
+      assert.deepEqual(openApiOperation.security, [{ bearerAuth: [] }]);
+    } else {
+      assert.equal("security" in openApiOperation, false);
+    }
+
+    const declaredVariants = operation.responseSchema.oneOf.map((variant) => variant.properties.outcome.const);
+    const documentedVariants = openApiOperation.responses[200].content["application/json"].schema.oneOf
+      .map((variant) => variant.properties.outcome.const);
+    assert.deepEqual(documentedVariants, declaredVariants);
+  }
+});
+
+test("OpenAPI JSON and Swagger UI are served by the backend", async () => {
+  const openApi = await request("/api/openapi.json");
+  assert.equal(openApi.status, 200);
+  assert.deepEqual(openApi.body, openApiDocument());
+  assert.equal(openApi.body.components.securitySchemes.bearerAuth.type, "http");
+  assert.equal(openApi.body.paths["/api/workshops/{workshopId}"].get.responses[200].content["application/json"].schema.oneOf[0].properties.outcome.const, "alreadyRegistered");
+
+  const docsResponse = await fetch(`${baseUrl}/api/docs`);
+  assert.equal(docsResponse.status, 200);
+  assert.match(docsResponse.headers.get("content-type"), /^text\/html/);
+  const docs = await docsResponse.text();
+  assert.match(docs, /SwaggerUIBundle/);
+  assert.match(docs, /\/api\/openapi\.json/);
 });
 
 test("confirmation evaluates all four modeled outcomes and mutates only effectful branches", async () => {

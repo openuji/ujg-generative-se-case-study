@@ -6,6 +6,7 @@ import { FakeAuthAdapter } from "../adapters/fake-auth-adapter.mjs";
 import { DomainError } from "../domain/errors.mjs";
 import { WorkshopService } from "../domain/workshop-service.mjs";
 import { operations } from "./contract.mjs";
+import { openApiDocument, swaggerUiHtml } from "./openapi.mjs";
 
 const ajv = new Ajv({ allErrors: true, strict: false });
 
@@ -30,13 +31,21 @@ const routes = operations.map((operation) => {
   return { ...operation, names, regex: new RegExp(`^${expression}$`), validate, validateResponse };
 });
 
-const send = (response, status, body) => {
+const sendJson = (response, status, body) => {
   const payload = `${JSON.stringify(body)}\n`;
   response.writeHead(status, {
     "content-type": "application/json; charset=utf-8",
     "content-length": Buffer.byteLength(payload)
   });
   response.end(payload);
+};
+
+const sendText = (response, status, body, contentType) => {
+  response.writeHead(status, {
+    "content-type": contentType,
+    "content-length": Buffer.byteLength(body)
+  });
+  response.end(body);
 };
 
 const readJson = async (request) => {
@@ -61,28 +70,35 @@ export function createReferenceServer({ store, now } = {}) {
   return createServer(async (request, response) => {
     try {
       const url = new URL(request.url, "http://reference.local");
+      if (request.method === "GET" && url.pathname === "/api/openapi.json") {
+        return sendJson(response, 200, openApiDocument());
+      }
+      if (request.method === "GET" && ["/api/docs", "/api/docs/"].includes(url.pathname)) {
+        return sendText(response, 200, swaggerUiHtml(), "text/html; charset=utf-8");
+      }
+
       const route = routes.find((candidate) => candidate.method.toUpperCase() === request.method && candidate.regex.test(url.pathname));
-      if (!route) return send(response, 404, { error: "Route not found." });
+      if (!route) return sendJson(response, 404, { error: "Route not found." });
 
       const match = route.regex.exec(url.pathname);
       const params = Object.fromEntries(route.names.map((name, index) => [name, decodeURIComponent(match[index + 1])]));
       const participant = route.auth ? auth.authenticate(request.headers.authorization) : undefined;
-      if (route.auth && !participant) return send(response, 401, { error: "Authentication required." });
+      if (route.auth && !participant) return sendJson(response, 401, { error: "Authentication required." });
 
       const body = route.requestSchema ? await readJson(request) : undefined;
       if (route.validate && !route.validate(body)) {
-        return send(response, 400, { error: "Request data does not match the operation contract." });
+        return sendJson(response, 400, { error: "Request data does not match the operation contract." });
       }
 
       const result = await handlers[route.operationId]({ service, participant, params, body });
       if (!route.validateResponse(result)) {
         throw new Error(`Operation ${route.operationId} produced a response outside its HTTP contract.`);
       }
-      return send(response, 200, result);
+      return sendJson(response, 200, result);
     } catch (error) {
-      if (error instanceof DomainError) return send(response, error.status, { error: error.message });
+      if (error instanceof DomainError) return sendJson(response, error.status, { error: error.message });
       console.error(error);
-      return send(response, 500, { error: "Internal server error." });
+      return sendJson(response, 500, { error: "Internal server error." });
     }
   });
 }

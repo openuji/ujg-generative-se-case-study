@@ -58,10 +58,10 @@ backend before resetting its database, then restart it afterward.
 
 | Fixture | Initial state | What it demonstrates |
 |---|---|---|
-| Service Design Foundations | Registration open | Successful workshop registration |
+| Service Design Foundations | Registration open | Fresh registration with Blair; already-registered with Alex |
 | Facilitation Practice | Waitlist open | New, repeated, and already-waitlisted submissions |
 | Research Operations | Registration closed | Closed-registration outcome |
-| Alex Nguyen / `token-alex` | Already waitlisted for Facilitation Practice | Default browser identity and offered-place flows |
+| Alex Nguyen / `token-alex` | Already confirmed for Service Design Foundations; already waitlisted for Facilitation Practice | Already-registered, already-waitlisted, and offered-place flows |
 | Blair Jensen / `token-blair` | No participation | Creating a fresh registration or waitlist participation |
 | `offer-alex-open` | Available until 2099 | Accepting or declining an offer |
 | `offer-alex-expired` | Expired by its timestamp | Expired-offer materialization |
@@ -74,15 +74,22 @@ committed.
 
 ### Register for a workshop
 
-The browser defaults to the fake Alex identity.
+The browser defaults to the fake Alex identity. Alex is already registered for
+**Service Design Foundations**, so opening that workshop demonstrates the
+modeled **Already registered** branch. To create a fresh registration, select
+the clean Blair fixture identity in the browser console:
+
+```js
+localStorage.setItem("referenceAuthToken", "token-blair")
+```
 
 1. Open the workshops overview.
 2. Open **Service Design Foundations**.
 3. Select **Register** and enter a name and valid email address.
 4. Select **Continue**, review the details, then select **Confirm registration**.
 
-The backend checks availability again when confirmation is submitted. The
-successful fixture outcome is **Registration confirmed**.
+The backend checks availability again when confirmation is submitted. With
+Blair, the successful fixture outcome is **Registration confirmed**.
 
 ### Join a waitlist
 
@@ -127,6 +134,20 @@ The other materialized offer outcomes can be inspected at:
 
 Possession of an offer ID is not authorization. Offer routes use the fake
 authenticated identity, and an offer belonging to Alex is hidden from Blair.
+
+### Inspect API documentation
+
+The backend serves generated OpenAPI documentation from the same operation
+registry used by the HTTP server:
+
+- [OpenAPI JSON](http://127.0.0.1:3000/api/openapi.json)
+- [Swagger UI](http://127.0.0.1:3000/api/docs)
+
+Regenerate the checked-in document with:
+
+```bash
+pnpm generate:openapi
+```
 
 ## Domain-model workflow
 

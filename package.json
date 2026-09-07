@@ -7,9 +7,11 @@
   "scripts": {
     "bootstrap:journey-mesh": "node scripts/bootstrap-journey-mesh.mjs",
     "generate:ds-bindings": "node scripts/generate-ds-bindings.mjs",
+    "generate:openapi": "pnpm --filter @openuji/workshop-registration-reference-backend generate:openapi",
     "validate:ujg-source": "node scripts/validate-ujg-source.mjs",
     "validate:ds-bindings": "node scripts/generate-ds-bindings.mjs --check",
     "validate:ujg-design-system": "node scripts/validate-ujg-design-system.mjs",
+    "validate:openapi": "pnpm --filter @openuji/workshop-registration-reference-backend validate:openapi",
     "typecheck:design-system": "pnpm --filter @openuji/workshop-registration-design-system typecheck",
     "build:design-system": "pnpm --filter @openuji/workshop-registration-design-system build",
     "test:storybook": "pnpm --filter @openuji/workshop-registration-design-system test-storybook",

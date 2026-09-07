@@ -10,6 +10,8 @@
     "dev": "node --watch src/main.mjs",
     "start": "node src/main.mjs",
     "fixtures": "node src/fixture-cli.mjs",
+    "generate:openapi": "node src/http/openapi.mjs",
+    "validate:openapi": "node src/http/openapi.mjs --check",
     "test": "node --test"
   },
   "dependencies": {
