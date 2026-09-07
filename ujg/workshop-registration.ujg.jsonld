@@ -1742,8 +1742,8 @@
     },
     {
       "@type": "Surface",
-      "@id": "urn:ujg:surface:content:workshop-already-registered-status",
-      "label": "Already-registered workshop status",
+      "@id": "urn:ujg:surface:content:workshop-already-registered-notice",
+      "label": "Already-registered workshop notice",
       "graphNodeRef": "urn:ujg:state:workshop-already-registered"
     },
     {
@@ -1754,8 +1754,8 @@
     },
     {
       "@type": "Surface",
-      "@id": "urn:ujg:surface:content:workshop-already-waitlisted-status",
-      "label": "Already-waitlisted workshop status",
+      "@id": "urn:ujg:surface:content:workshop-already-waitlisted-notice",
+      "label": "Already-waitlisted workshop notice",
       "graphNodeRef": "urn:ujg:state:workshop-already-waitlisted"
     },
     {
@@ -1873,6 +1873,12 @@
       "dataSchemaSource": "schemas/status-message-data.schema.json"
     },
     {
+      "@type": "DataSchema",
+      "@id": "urn:ujg:data-schema:status-notice-data",
+      "label": "Status notice data",
+      "dataSchemaSource": "schemas/status-notice-data.schema.json"
+    },
+    {
       "@type": "DataBinding",
       "@id": "urn:ujg:data-binding:workshop-teaser",
       "label": "Workshop teaser data binding",
@@ -1895,10 +1901,10 @@
     },
     {
       "@type": "DataBinding",
-      "@id": "urn:ujg:data-binding:workshop-already-registered-status",
-      "label": "Already-registered workshop status data binding",
-      "dataSurfaceRef": "urn:ujg:surface:content:workshop-already-registered-status",
-      "dataSchemaRef": "urn:ujg:data-schema:status-message-data"
+      "@id": "urn:ujg:data-binding:workshop-already-registered-notice",
+      "label": "Already-registered workshop notice data binding",
+      "dataSurfaceRef": "urn:ujg:surface:content:workshop-already-registered-notice",
+      "dataSchemaRef": "urn:ujg:data-schema:status-notice-data"
     },
     {
       "@type": "DataBinding",
@@ -1909,10 +1915,10 @@
     },
     {
       "@type": "DataBinding",
-      "@id": "urn:ujg:data-binding:workshop-already-waitlisted-status",
-      "label": "Already-waitlisted workshop status data binding",
-      "dataSurfaceRef": "urn:ujg:surface:content:workshop-already-waitlisted-status",
-      "dataSchemaRef": "urn:ujg:data-schema:status-message-data"
+      "@id": "urn:ujg:data-binding:workshop-already-waitlisted-notice",
+      "label": "Already-waitlisted workshop notice data binding",
+      "dataSurfaceRef": "urn:ujg:surface:content:workshop-already-waitlisted-notice",
+      "dataSchemaRef": "urn:ujg:data-schema:status-notice-data"
     },
     {
       "@type": "DataBinding",
@@ -2120,6 +2126,11 @@
     },
     {
       "@type": "Component",
+      "@id": "urn:ujg:component:status-notice",
+      "label": "Status notice"
+    },
+    {
+      "@type": "Component",
       "@id": "urn:ujg:component:email-offer-content",
       "label": "Offered-place email content"
     },
@@ -2162,6 +2173,11 @@
       "@type": "Slot",
       "@id": "urn:ujg:slot:detail-action",
       "label": "Detail action"
+    },
+    {
+      "@type": "Slot",
+      "@id": "urn:ujg:slot:detail-notice",
+      "label": "Detail notice"
     },
     {
       "@type": "Slot",
@@ -2251,11 +2267,11 @@
     },
     {
       "@type": "Template",
-      "@id": "urn:ujg:template:detail-with-status",
-      "label": "Detail with status",
+      "@id": "urn:ujg:template:detail-with-notice",
+      "label": "Detail with notice",
       "slotRefs": [
         "urn:ujg:slot:detail-summary",
-        "urn:ujg:slot:status-content"
+        "urn:ujg:slot:detail-notice"
       ]
     },
     {
@@ -2349,10 +2365,10 @@
     },
     {
       "@type": "SlotBinding",
-      "@id": "urn:ujg:slot-binding:workshop-already-registered:status",
-      "label": "Already-registered workshop status binding",
-      "slotRef": "urn:ujg:slot:status-content",
-      "targetSurfaceRef": "urn:ujg:surface:content:workshop-already-registered-status"
+      "@id": "urn:ujg:slot-binding:workshop-already-registered:notice",
+      "label": "Already-registered workshop notice binding",
+      "slotRef": "urn:ujg:slot:detail-notice",
+      "targetSurfaceRef": "urn:ujg:surface:content:workshop-already-registered-notice"
     },
     {
       "@type": "SlotBinding",
@@ -2363,10 +2379,10 @@
     },
     {
       "@type": "SlotBinding",
-      "@id": "urn:ujg:slot-binding:workshop-already-waitlisted:status",
-      "label": "Already-waitlisted workshop status binding",
-      "slotRef": "urn:ujg:slot:status-content",
-      "targetSurfaceRef": "urn:ujg:surface:content:workshop-already-waitlisted-status"
+      "@id": "urn:ujg:slot-binding:workshop-already-waitlisted:notice",
+      "label": "Already-waitlisted workshop notice binding",
+      "slotRef": "urn:ujg:slot:detail-notice",
+      "targetSurfaceRef": "urn:ujg:surface:content:workshop-already-waitlisted-notice"
     },
     {
       "@type": "SlotBinding",
@@ -2580,10 +2596,10 @@
       "@id": "urn:ujg:surface-realization:workshop-already-registered",
       "label": "Already-registered workshop detail realization",
       "surfaceRef": "urn:ujg:surface:workshop-already-registered",
-      "templateRef": "urn:ujg:template:detail-with-status",
+      "templateRef": "urn:ujg:template:detail-with-notice",
       "slotBindingRefs": [
         "urn:ujg:slot-binding:workshop-already-registered:summary",
-        "urn:ujg:slot-binding:workshop-already-registered:status"
+        "urn:ujg:slot-binding:workshop-already-registered:notice"
       ]
     },
     {
@@ -2591,10 +2607,10 @@
       "@id": "urn:ujg:surface-realization:workshop-already-waitlisted",
       "label": "Already-waitlisted workshop detail realization",
       "surfaceRef": "urn:ujg:surface:workshop-already-waitlisted",
-      "templateRef": "urn:ujg:template:detail-with-status",
+      "templateRef": "urn:ujg:template:detail-with-notice",
       "slotBindingRefs": [
         "urn:ujg:slot-binding:workshop-already-waitlisted:summary",
-        "urn:ujg:slot-binding:workshop-already-waitlisted:status"
+        "urn:ujg:slot-binding:workshop-already-waitlisted:notice"
       ]
     },
     {
@@ -2891,10 +2907,10 @@
     },
     {
       "@type": "SurfaceRealization",
-      "@id": "urn:ujg:surface-realization:content:workshop-already-registered-status",
-      "label": "Already-registered workshop status realization",
-      "surfaceRef": "urn:ujg:surface:content:workshop-already-registered-status",
-      "componentRef": "urn:ujg:component:status-message"
+      "@id": "urn:ujg:surface-realization:content:workshop-already-registered-notice",
+      "label": "Already-registered workshop notice realization",
+      "surfaceRef": "urn:ujg:surface:content:workshop-already-registered-notice",
+      "componentRef": "urn:ujg:component:status-notice"
     },
     {
       "@type": "SurfaceRealization",
@@ -2905,10 +2921,10 @@
     },
     {
       "@type": "SurfaceRealization",
-      "@id": "urn:ujg:surface-realization:content:workshop-already-waitlisted-status",
-      "label": "Already-waitlisted workshop status realization",
-      "surfaceRef": "urn:ujg:surface:content:workshop-already-waitlisted-status",
-      "componentRef": "urn:ujg:component:status-message"
+      "@id": "urn:ujg:surface-realization:content:workshop-already-waitlisted-notice",
+      "label": "Already-waitlisted workshop notice realization",
+      "surfaceRef": "urn:ujg:surface:content:workshop-already-waitlisted-notice",
+      "componentRef": "urn:ujg:component:status-notice"
     },
     {
       "@type": "SurfaceRealization",

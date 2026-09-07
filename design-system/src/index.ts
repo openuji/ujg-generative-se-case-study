@@ -12,6 +12,8 @@ export { RegistrationReviewSummary } from "../components/RegistrationReviewSumma
 export type { RegistrationReviewSummaryProps } from "../components/RegistrationReviewSummary/RegistrationReviewSummary";
 export { StatusMessage } from "../components/StatusMessage/StatusMessage";
 export type { StatusMessageProps } from "../components/StatusMessage/StatusMessage";
+export { StatusNotice } from "../components/StatusNotice/StatusNotice";
+export type { StatusNoticeProps } from "../components/StatusNotice/StatusNotice";
 export { WaitlistFormFields } from "../components/WaitlistFormFields/WaitlistFormFields";
 export type { WaitlistFormFieldsProps } from "../components/WaitlistFormFields/WaitlistFormFields";
 export { WaitlistReviewSummary } from "../components/WaitlistReviewSummary/WaitlistReviewSummary";
@@ -23,8 +25,8 @@ export type { WorkshopTeaserContentProps } from "../components/WorkshopTeaserCon
 
 export { DetailWithAction } from "../templates/DetailWithAction/DetailWithAction";
 export type { DetailWithActionProps } from "../templates/DetailWithAction/DetailWithAction";
-export { DetailWithStatus } from "../templates/DetailWithStatus/DetailWithStatus";
-export type { DetailWithStatusProps } from "../templates/DetailWithStatus/DetailWithStatus";
+export { DetailWithNotice } from "../templates/DetailWithNotice/DetailWithNotice";
+export type { DetailWithNoticeProps } from "../templates/DetailWithNotice/DetailWithNotice";
 export { EmailOfferMessage } from "../templates/EmailOfferMessage/EmailOfferMessage";
 export type { EmailOfferMessageProps } from "../templates/EmailOfferMessage/EmailOfferMessage";
 export { FormWithSubmit } from "../templates/FormWithSubmit/FormWithSubmit";

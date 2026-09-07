@@ -1,191 +1,189 @@
 ---
 name: ujg-domain-model-to-implementation-realization
-description: Implement and verify a backend and frontend from a root UJG implementation manifest, a canonical UJG JSON-LD document with an evaluated Domain Model extension, and a prepared design-system realization. Use for full-stack implementation rather than code generation, Domain Model derivation, or post-implementation review alone.
+description: Build or complete an application from a UJG JSON-LD model, realization manifest, and prepared design-system bindings. Use when UJG is the behavioral implementation reference, not for source-code generation or UJG modeling alone.
 ---
 
-# UJG Domain Model to Implementation Realization
+# UJG Model to Application Implementation
 
-Implement the application described by `ujg-implementation.yaml`.
+Build the application selected by the realization manifest. The UJG is the
+behavioral reference, the manifest is the desired implementation boundary, and
+design-system bindings identify the authored visual exports to compose.
 
-The complete UJG is the behavioral source of truth. Its embedded Domain Model
-is the domain source. The selected design system is the presentation source.
-The manifest selects the workspace and technology. The agent writes and
-maintains the backend, frontend, HTTP boundary, tests, and conformance trace as
-ordinary source code.
+The primary mode is implementation from scratch. When selected targets already
+contain code, use the same process to catch up: preserve correct in-scope work,
+identify differences from the manifest and UJG, and complete or adjust it.
+Never treat existing application source as disposable.
 
-This is an implementation skill, not a source-code generator. Do not create a
-generator for the backend, frontend, HTTP contract, client types, routes, or
-trace metadata. Do not make application source disposable or require a
-regeneration/check command for it. The only generated artifact in this case
-study is the design-system binding manifest, because it is an inventory that
-verifies UJG Design System references against already-authored components and
-templates.
+## Manifest
 
-## Read the manifest
-
-Use `ujg-implementation.yaml` in the workspace root unless the user supplies a
-different manifest path. Resolve every relative path from the manifest's
-directory.
-
-The supported manifest is one mapping:
+Read the manifest supplied by the user, or `ujg-implementation.yaml` at the
+workspace root. Resolve all relative paths from its directory. New manifests
+use version 4:
 
 ```yaml
-manifest_version: 3
+manifest_version: 4
 ujg: path/to/model.ujg.jsonld
+
 backend: path/to/backend
-frontend: path/to/frontend
-design_system: path/to/design-system
-backend_runtime: runtime-family
-frontend_runtime: runtime-family
-frontend_framework: framework
-frontend_build: build-system
-transport: transport-family
-storage: storage-adapter
-auth: authentication-adapter
-email: email-adapter
-init_state: initialization-source
-interaction_state: interaction-owner
+
+interfaces:
+  - touchpoint_ref: urn:ujg:touchpoint:application
+    target: path/to/interface
+    kind: browser
+    design_systems: [path/to/design-system]
+    interaction_state_owner: client
+    transport:
+      protocol: http
+      documentation:
+        format: openapi
+        output: path/to/backend/openapi/openapi.json
+        ui: swagger-ui
+  - touchpoint_ref: urn:ujg:touchpoint:email
+    kind: email
+    design_systems: [path/to/design-system]
+    interaction_state_owner: external
+    delivery:
+      adapter: adapter-choice
+
+adapters:
+  persistence: adapter-choice
+  identity: adapter-choice
+
+bootstrap: initialization-choice
 ```
 
-Require `manifest_version: 3` and every listed key. The UJG and design-system
-paths must exist. The backend and frontend are implementation targets: inspect
-and preserve existing code, then make deliberate edits. Do not obtain
-implementation inputs from unrelated branches, worktrees, or old generated
-artifacts.
+`backend`, `interfaces`, `adapters`, and `bootstrap` are optional when the
+selected UJG and requested application do not need them. Every modeled
+Touchpoint selected for realization needs exactly one matching
+`touchpoint_ref`; do not assume a browser implementation covers email or other
+touchpoints. An interface may be a browser, CLI, native, desktop, email, voice,
+embedded, or another user-facing touchpoint. `target` is required when the
+touchpoint has its own implementation target and omitted when its realization
+lives in the root backend, such as an email delivery adapter.
 
-Manifest values are authoritative technology choices. For choices not in the
-manifest, follow existing repository conventions and lockfiles. Introduce the
-smallest dependency that satisfies the source contracts.
+`transport` is an interface property: omit it for direct in-process use, and
+declare it independently for interfaces that cross a backend boundary. Use
+`delivery` for a touchpoint such as email, where the backend renders and sends a
+message through a selected adapter rather than exposing an interactive transport.
 
-## Validate and map the semantic source
+`interaction_state_owner` is one of `client`, `server`, `external`, or
+`shared`. Use `shared` only when the model or manifest specifies the split.
+`kind`, transport, and adapters are explicit choices; framework, runtime,
+build tooling, and package manager are deliberately absent.
 
-Read the entire UJG, including `extensions["org.openuji.domain-model"]`. Record
-its content hash in the hand-maintained conformance trace, not in application
-source.
+Treat the manifest as desired state. Every selected target, interface,
+design-system path, adapter, and transport requirement must be inspected and
+either implemented or reported as blocked. Do not silently ignore a manifest
+parameter because an existing target predates it.
 
-Before implementation:
+Resolve every declared `touchpoint_ref` against the UJG and ensure that no
+Touchpoint is assigned to more than one interface. Report a modeled touchpoint
+that has no realization decision instead of silently omitting it.
 
-- validate the Domain Model schema and every internal reference;
-- validate journey ownership, transition locality, conditional sets, effects,
-  entries, exits, and parent continuations;
-- validate Surface, DataBinding, DataSchema, SurfaceRealization, Slot, and
-  SlotBinding references;
-- resolve every external DataSchema and selected design-system artifact; and
-- stop if a missing predicate, branch, invariant, authority decision, external
-  owner, or presentation binding would require invented observable behavior.
+When the manifest version or shape changes, find and update every in-scope
+manifest reader, validator, script, and documentation reference before relying
+on it. If the model requires authoritative effects and no backend target is
+selected, report the missing output boundary rather than placing those effects
+in an interface.
 
-Use `ujg-ed-domain-model-implementation` for the semantic implementation rules
-and the relevant UJG module skills when the model crosses their boundaries.
+## Discover implementation technology
 
-Create or update `docs/gates/implementation-conformance-trace.md`. It must
-contain one row for every domain-relevant UJG element with these columns:
+Determine implementation technology in this order:
 
-| UJG node ID | Node type | Semantic intent | Owning layer | Realization decision | Implementation evidence | Verification evidence | Status | Justification |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+1. An explicit applicable manifest choice.
+2. The selected target's package metadata, configuration, and source.
+3. The selected design system's package metadata, exports, and bindings.
+4. Existing workspace conventions and lockfiles.
 
-Use `implemented`, `reduced`, or `out_of_scope` for the realization decision;
-use `passed`, `failed`, `blocked`, or `not_applicable` for status. Explain every
-reduction or excluded layer. This trace is the auditable mapping between the
-UJG and code. Do not put UJG IDs, source hashes, or topology metadata into
-ordinary React components or runtime client state.
+An explicit choice wins over discovery. If selected inputs conflict, report the
+conflict before changing architecture. If a target is empty, use the framework
+required by its design system; if the design system is framework-neutral, use
+the established workspace convention. Ask for a decision only when neither
+source provides a safe choice.
 
-## Inspect the design-system input
+Read the full UJG, its local data schemas, the selected design-system packages
+and binding manifests, selected targets, and relevant package/test/runtime
+configuration before coding. Do not use unrelated worktrees, previous apps, or
+generated artifacts as behavioral input.
 
-Inspect the selected design-system path before implementation. Read its artifact
-registry, component props, templates, generated binding manifest, tests, and
-package conventions. Verify Components, Templates, Slots, and bindings against
-the UJG SurfaceRealizations. Use UJG DataBindings and external JSON Schemas as
-the canonical visible data shapes.
+## Discover the model
 
-The generated binding manifest is an index, not an application compiler. Use it
-to locate the component or template selected by each UJG realization, then
-compose those exports in authored frontend code. Do not generate look-alike
-components, opaque wrappers, or a parallel component library.
+Parse the complete UJG and resolve internal references. Discover the semantics
+present in the document rather than expecting fixed identifiers, journey names,
+routes, outcome names, or artifact names.
 
-Design-system code is evidence about rendering integration; it cannot override
-Graph, domain, data-contract, or authority semantics. Report a conflict instead
-of compensating for it in application code.
+Build a temporary working map that covers, where present:
 
-## Implement the backend boundary
+- journeys, entries, exits, states, and transitions;
+- commands, conditions, conditional transition sets, effects, and invariants;
+- surfaces, surface realizations, slots, slot bindings, data bindings, and data
+  schemas; and
+- optional extensions, including a Domain Model.
 
-Implement domain facts, Domain Operations, authoritative Conditions, Effects,
-and Invariants assigned to the backend. Derive each effectful application
-command from its Command and complete conditional Transition set. Preserve one
-observable result variant for every modeled branch.
+This map is reasoning context only. Do not check it in as a trace, gate, or
+runtime metadata. Keep UJG IDs out of ordinary application code unless the
+product explicitly needs them.
 
-Write the HTTP routes, request validation, response validation, and DTO shapes
-as maintained adapter source. A normal backend route contract is useful: it
-allows the server to validate its boundary and gives tests one explicit place to
-inspect transport behavior. It is not generated from UJG and it must not turn
-into a second semantic workflow definition. Keep the code-level contract free
-of UJG topology identifiers; link it to UJG nodes from the conformance trace.
+Unknown or incomplete semantics are not permission to invent behavior. State
+the missing decision and implement only the modeled scope. A model without
+domain authority can still produce an interface; do not invent backend
+workflows, persistence, or authorization for it.
 
-Do not require OpenAPI unless the user asks for a published API description. If
-an OpenAPI document is needed later, author and version it as a real public
-contract; do not use it to generate the frontend.
+## Compose interfaces
 
-Honor `interaction_state`. When it is `frontend`, form entry, editing,
-validation feedback, review, navigation, and current UJG position remain in
-the frontend. Do not persist journey sessions, transition history, review
-proofs, or continuation tokens unless another explicit input makes them
-authoritative.
+Use each binding manifest as an index from UJG artifact references to authored
+component or template exports. Resolve every selected `SurfaceRealization` and
+its slot bindings for each declared touchpoint before composing an interface.
 
-Resolve authenticated identity through the selected `auth` adapter. A resource
-identifier locates a resource but does not authorize access. Reconstruct
-refresh and direct-entry materializations from authenticated identity and
-current domain facts when the UJG and authority decisions permit them.
+With multiple design systems, each artifact must resolve to exactly one selected
+binding. Report missing or ambiguous bindings instead of substituting a
+look-alike component. Application code owns composition, data flow, and
+interaction wiring; the design system owns reusable visual primitives.
 
-At each effect boundary, atomically re-evaluate mutable availability,
-eligibility, uniqueness, expiry, subject binding, and other modeled predicates.
-Commit only the Effect belonging to the selected branch. Define safe repeated
-request behavior and ensure competing commands cannot violate invariants.
+Implement client-owned navigation, editing, validation, correction, review,
+and refresh/direct-entry materialization as local state. Client code may
+validate input, but it must not choose authoritative availability, eligibility,
+uniqueness, expiry, identity binding, or effect outcomes.
 
-## Implement the frontend
+## Implement authoritative boundaries
 
-Implement the selected frontend as maintained application source. Read the UJG
-for entries, states, Commands, transitions, conditional sets, exits, Surfaces,
-SurfaceRealizations, Slots, SlotBindings, DataBindings, and external JSON
-Schemas. Use those inputs to make explicit decisions in the app; do not parse
-them at runtime and do not write a generator around them.
+For backend-owned behavior, implement authoritative conditions, effects,
+invariants, and identity/authorization checks at the state-changing boundary.
+Preserve every modeled conditional branch as an observable result. Re-evaluate
+mutable facts atomically when committing an effect. Repeated and competing
+commands must not violate modeled invariants.
 
-Compose the prepared design-system exports selected by the binding manifest.
-Implement browser routes, local form state, validation feedback, review and
-edit flows, API calls, backend-outcome handling, refresh, and direct-entry
-materialization as normal frontend code. Keep the implementation readable by
-expressing the state model in application terms rather than embedding UJG
-identifiers.
+Keep transport contracts explicit and maintained next to the adapters that use
+them. A transport contract is an implementation boundary, not a second journey
+definition and not input for generating interface code.
 
-The frontend owns local editing, correction, review, and navigation when
-`interaction_state` is `frontend`. It must not decide authoritative
-availability, uniqueness, expiry, subject binding, or effect outcomes. It
-invokes a backend command, accepts the backend-selected result variant, and
-renders the modeled surface.
+When an HTTP interface requests OpenAPI documentation, maintain one route
+registry that the HTTP server actually uses. Generate the declared OpenAPI JSON
+from that implemented registry, including its methods, paths, authentication,
+request schemas, and response variants. Serve Swagger UI when requested. The
+generated OpenAPI document describes the running API; it does not determine
+application behavior or generate application code.
 
-Maintain client DTO types and API methods next to the frontend adapter. They
-are a deliberately maintained representation of the HTTP boundary, not a
-generated projection. Update them with the server and verify the integration
-whenever the model requires a changed observable result.
+The only permitted generated artifacts are design-system binding manifests and
+requested implementation documentation such as OpenAPI. Do not create source
+code generators, disposable application source, generated clients or types,
+generated realization metadata, or permanent gate/trace documents.
 
-## Verify and finish
+## Verify
 
-Derive tests from the UJG and conformance trace, not only from implementation
-happy paths. Verify:
+Validate the UJG and selected design-system bindings with repository tooling
+when available. Derive focused tests from the discovered model:
 
-- every branch of every backend-relevant conditional set;
-- every effect and invariant at its transaction boundary;
-- non-effect branches leave domain state unchanged;
-- wrong-subject, unauthenticated, and unmodeled mutation attempts fail safely;
-- repeated and competing requests preserve the modeled result;
-- response materializations satisfy their referenced DataSchemas;
-- every frontend-owned transition and validation branch;
-- every required SurfaceRealization and SlotBinding composition;
-- every backend result variant selects the modeled frontend materialization; and
-- direct browser entry and refresh reconstruct from current domain facts.
+- cover modeled conditional branches and effectful transitions assigned to an
+  implementation boundary;
+- verify modeled invariants, idempotency, authority checks, and invalid mutation
+  rejection;
+- verify client-owned validation, correction, review, and outcome rendering;
+- verify relevant data shapes and design-system composition; and
+- when OpenAPI is requested, verify it is reproducible from the implemented
+  route registry and describes the served routes.
 
-Run the relevant validation, typecheck, build, and test commands. Record exact
-commands and results in the trace. A blocked test environment is a verification
-gap, not evidence of conformance.
-
-After code exists, apply `ujg-ed-domain-model-implementation` and complete the
-trace. Do not claim conformance while a required trace row or test is failed or
-blocked.
+Run relevant tests, typechecks, builds, and documentation checks. Report what
+ran, what passed, what changed to catch up an existing target, and any
+verification that could not run. Do not create a gate document or claim
+behavior that the selected UJG does not model.

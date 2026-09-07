@@ -1,18 +1,33 @@
-manifest_version: 3
+manifest_version: 4
 
 ujg: ujg/workshop-registration.ujg.jsonld
+
 backend: domain/reference
-frontend: apps/reference-frontend
-design_system: design-system
 
-backend_runtime: node
-frontend_runtime: browser
-frontend_framework: react
-frontend_build: vite
+interfaces:
+  - touchpoint_ref: urn:ujg:touchpoint:workshop-app
+    target: apps/reference-frontend
+    kind: browser
+    design_systems:
+      - design-system
+    interaction_state_owner: client
+    transport:
+      protocol: http
+      documentation:
+        format: openapi
+        output: domain/reference/openapi/openapi.json
+        ui: swagger-ui
 
-transport: http
-storage: sqlite
-auth: fake-auth-adapter
-email: fake-client
-init_state: fixtures
-interaction_state: frontend
+  - touchpoint_ref: urn:ujg:touchpoint:email
+    kind: email
+    design_systems:
+      - design-system
+    interaction_state_owner: external
+    delivery:
+      adapter: fake-client
+
+adapters:
+  persistence: sqlite
+  identity: fake-auth-adapter
+
+bootstrap: fixtures

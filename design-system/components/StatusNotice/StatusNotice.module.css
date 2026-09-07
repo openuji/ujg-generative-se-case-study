@@ -1,0 +1,30 @@
+@reference "../../tokens/tailwind.css";
+
+.root {
+  @apply flex items-start gap-3 rounded-md border px-4 py-3 text-sm leading-relaxed;
+}
+
+.icon {
+  @apply h-5 w-5 shrink-0;
+  margin-top: 0.125rem;
+}
+
+.message {
+  @apply m-0 font-medium;
+}
+
+.success {
+  @apply border-status-success-border bg-status-success-background text-status-success-foreground;
+}
+
+.warning {
+  @apply border-status-warning-border bg-status-warning-background text-status-warning-foreground;
+}
+
+.error {
+  @apply border-status-error-border bg-status-error-background text-status-error-foreground;
+}
+
+.info {
+  @apply border-status-info-border bg-status-info-background text-status-info-foreground;
+}

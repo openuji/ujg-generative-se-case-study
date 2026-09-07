@@ -39,6 +39,11 @@ const statusMessageData = object(["title", "message"], {
   }
 });
 
+const statusNoticeData = object(["message"], {
+  message: string,
+  tone: { type: "string", enum: ["error", "info", "success", "warning"] }
+});
+
 const offerSummaryData = object(["title", "message", "workshopTitle", "expiresAt"], {
   title: string,
   message: string,
@@ -68,9 +73,9 @@ const workshopCollectionData = object(["items"], {
   }
 });
 
-const workshopDetailWithStatusData = object(["summary", "status"], {
+const workshopDetailWithNoticeData = object(["summary", "notice"], {
   summary: workshopDetailData,
-  status: statusMessageData
+  notice: statusNoticeData
 });
 
 export const operations = [
@@ -87,8 +92,8 @@ export const operations = [
     path: "/api/workshops/{workshopId}",
     auth: true,
     responseSchema: outcomes(
-      outcome("alreadyRegistered", workshopDetailWithStatusData),
-      outcome("alreadyWaitlisted", workshopDetailWithStatusData),
+      outcome("alreadyRegistered", workshopDetailWithNoticeData),
+      outcome("alreadyWaitlisted", workshopDetailWithNoticeData),
       outcome("registrationOpen", workshopDetailData),
       outcome("waitlistOpen", workshopDetailData),
       outcome("registrationClosed", statusMessageData)

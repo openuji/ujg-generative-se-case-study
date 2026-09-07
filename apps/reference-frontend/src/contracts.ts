@@ -23,6 +23,11 @@ export type StatusMessageData = {
   }>;
 };
 
+export type StatusNoticeData = {
+  message: string;
+  tone?: "error" | "info" | "success" | "warning";
+};
+
 export type RegistrationDetailsInput = {
   name: string;
   email: string;
@@ -42,9 +47,9 @@ export type WorkshopCollectionData = {
   }>;
 };
 
-export type WorkshopDetailWithStatusData = {
+export type WorkshopDetailWithNoticeData = {
   summary: WorkshopDetailData;
-  status: StatusMessageData;
+  notice: StatusNoticeData;
 };
 
 export type WorkshopCollectionResponse = {
@@ -53,8 +58,8 @@ export type WorkshopCollectionResponse = {
 };
 
 export type WorkshopDetailResponse =
-  | { outcome: "alreadyRegistered"; data: WorkshopDetailWithStatusData }
-  | { outcome: "alreadyWaitlisted"; data: WorkshopDetailWithStatusData }
+  | { outcome: "alreadyRegistered"; data: WorkshopDetailWithNoticeData }
+  | { outcome: "alreadyWaitlisted"; data: WorkshopDetailWithNoticeData }
   | { outcome: "registrationOpen"; data: WorkshopDetailData }
   | { outcome: "waitlistOpen"; data: WorkshopDetailData }
   | { outcome: "registrationClosed"; data: StatusMessageData };

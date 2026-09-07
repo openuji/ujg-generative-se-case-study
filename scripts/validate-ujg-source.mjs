@@ -9,8 +9,8 @@ const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), ".."
 const manifestPath = path.join(repoRoot, "ujg-implementation.yaml");
 const manifest = YAML.parse(fs.readFileSync(manifestPath, "utf8"));
 
-if (manifest?.manifest_version !== 3 || typeof manifest.ujg !== "string") {
-  throw new Error("ujg-implementation.yaml must be a version 3 manifest with a UJG path");
+if (![3, 4].includes(manifest?.manifest_version) || typeof manifest.ujg !== "string") {
+  throw new Error("ujg-implementation.yaml must be a version 3 or 4 manifest with a UJG path");
 }
 
 const ujgPath = path.resolve(repoRoot, manifest.ujg);

@@ -1,26 +1,18 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { StatusMessage } from "../../components/StatusMessage/StatusMessage";
+import { StatusNotice } from "../../components/StatusNotice/StatusNotice";
 import { WorkshopDetailSummary } from "../../components/WorkshopDetailSummary/WorkshopDetailSummary";
-import { DetailWithStatus } from "./DetailWithStatus";
+import { DetailWithNotice } from "./DetailWithNotice";
 
 const meta = {
-  title: "Templates/DetailWithStatus",
-  component: DetailWithStatus
-} satisfies Meta<typeof DetailWithStatus>;
+  title: "Templates/DetailWithNotice",
+  component: DetailWithNotice
+} satisfies Meta<typeof DetailWithNotice>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const AlreadyRegistered: Story = {
   args: {
-    status: (
-      <StatusMessage
-        details={[{ icon: "workshop", term: "Workshop", value: "Service Design Foundations" }]}
-        message="You are already registered for this workshop."
-        tone="success"
-        title="Already registered"
-      />
-    ),
     summary: (
       <WorkshopDetailSummary
         availability="Already registered"
@@ -29,20 +21,13 @@ export const AlreadyRegistered: Story = {
         location="Berlin studio"
         title="Service Design Foundations"
       />
-    )
+    ),
+    notice: <StatusNotice message="You are already registered for this workshop." tone="success" />
   }
 };
 
 export const AlreadyWaitlisted: Story = {
   args: {
-    status: (
-      <StatusMessage
-        details={[{ icon: "workshop", term: "Workshop", value: "Facilitation Practice" }]}
-        message="You are already on the waitlist for this workshop."
-        tone="info"
-        title="Already waitlisted"
-      />
-    ),
     summary: (
       <WorkshopDetailSummary
         availability="Already waitlisted"
@@ -51,12 +36,13 @@ export const AlreadyWaitlisted: Story = {
         location="Berlin studio"
         title="Facilitation Practice"
       />
-    )
+    ),
+    notice: <StatusNotice message="You are already on the waitlist for this workshop." tone="info" />
   }
 };
 
 export const Mobile: Story = {
-  args: AlreadyRegistered.args,
+  args: AlreadyWaitlisted.args,
   parameters: {
     viewport: {
       defaultViewport: "ujgMobile"
@@ -65,7 +51,7 @@ export const Mobile: Story = {
 };
 
 export const Desktop: Story = {
-  args: AlreadyRegistered.args,
+  args: AlreadyWaitlisted.args,
   parameters: {
     viewport: {
       defaultViewport: "ujgDesktop"

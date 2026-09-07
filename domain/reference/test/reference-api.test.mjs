@@ -54,13 +54,17 @@ test("fixtures materialize all workshop contextual entries and one email continu
   assert.equal(alreadyRegistered.status, 200);
   assert.equal(alreadyRegistered.body.outcome, "alreadyRegistered");
   assert.equal(alreadyRegistered.body.data.summary.availability, "Already registered");
-  assert.equal(alreadyRegistered.body.data.status.title, "Already registered");
+  assert.equal(alreadyRegistered.body.data.notice.message, "You are already registered for this workshop.");
+  assert.equal("status" in alreadyRegistered.body.data, false);
+  assert.equal("details" in alreadyRegistered.body.data.notice, false);
 
   const alreadyWaitlisted = await request("/api/workshops/facilitation-practice", { token: "token-alex" });
   assert.equal(alreadyWaitlisted.status, 200);
   assert.equal(alreadyWaitlisted.body.outcome, "alreadyWaitlisted");
   assert.equal(alreadyWaitlisted.body.data.summary.availability, "Already waitlisted");
-  assert.equal(alreadyWaitlisted.body.data.status.title, "Already waitlisted");
+  assert.equal(alreadyWaitlisted.body.data.notice.message, "You are already on the waitlist for this workshop.");
+  assert.equal("status" in alreadyWaitlisted.body.data, false);
+  assert.equal("details" in alreadyWaitlisted.body.data.notice, false);
 
   const open = await request("/api/workshops/service-design-foundations", { token: "token-blair" });
   const waitlistOpen = await request("/api/workshops/facilitation-practice", { token: "token-blair" });

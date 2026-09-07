@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState, type CSSProperties, type MouseEvent }
 import {
   ActionControl,
   DetailWithAction,
-  DetailWithStatus,
+  DetailWithNotice,
   FormWithSubmit,
   OfferedPlaceResponse,
   OfferResponseSummary,
@@ -10,6 +10,7 @@ import {
   RegistrationReviewSummary,
   ReviewWithActions,
   StatusMessage,
+  StatusNotice,
   StatusWithAction,
   WaitlistFormFields,
   WaitlistReviewSummary,
@@ -29,18 +30,18 @@ import type {
   WaitlistDetailsInput,
   WorkshopCollectionData,
   WorkshopDetailData,
-  WorkshopDetailWithStatusData
+  WorkshopDetailWithNoticeData
 } from "./contracts";
 
 type Errors = { name?: string; email?: string; accessibilityNotes?: string; notes?: string };
 type DetailActionView = { kind: "detailAction"; workshopId: string; outcome: "registrationOpen" | "waitlistOpen"; data: WorkshopDetailData; afterUnavailable?: boolean };
-type DetailStatusView = { kind: "detailStatus"; data: WorkshopDetailWithStatusData };
+type DetailNoticeView = { kind: "detailNotice"; data: WorkshopDetailWithNoticeData };
 type View =
   | { kind: "loading" }
   | { kind: "error"; message: string }
   | { kind: "overview"; data: WorkshopCollectionData }
   | DetailActionView
-  | DetailStatusView
+  | DetailNoticeView
   | { kind: "registrationForm"; workshopId: string; workshop: WorkshopDetailData; details: RegistrationDetailsInput; errors: Errors }
   | { kind: "registrationReview"; workshopId: string; workshop: WorkshopDetailData; details: RegistrationDetailsInput }
   | { kind: "waitlistForm"; workshopId: string; workshop: WorkshopDetailData; details: WaitlistDetailsInput; errors: Errors }
@@ -52,10 +53,10 @@ const emptyRegistration: RegistrationDetailsInput = { name: "", email: "", acces
 const emptyWaitlist: WaitlistDetailsInput = { name: "", email: "", notes: "" };
 const messageFrom = (error: unknown) => error instanceof Error ? error.message : "An unexpected error occurred.";
 const statusData = (data: StatusMessageData) => <StatusMessage {...data} />;
-const detailStatusData = (data: WorkshopDetailWithStatusData) => (
-  <DetailWithStatus
+const detailNoticeData = (data: WorkshopDetailWithNoticeData) => (
+  <DetailWithNotice
     summary={<WorkshopDetailSummary {...data.summary} />}
-    status={<StatusMessage {...data.status} />}
+    notice={<StatusNotice {...data.notice} />}
   />
 );
 
@@ -104,7 +105,7 @@ export function App() {
           setView(result.outcome === "registrationClosed"
             ? { kind: "status", data: result.data }
             : result.outcome === "alreadyRegistered" || result.outcome === "alreadyWaitlisted"
-              ? { kind: "detailStatus", data: result.data }
+              ? { kind: "detailNotice", data: result.data }
               : { kind: "detailAction", workshopId, outcome: result.outcome, data: result.data });
           return;
         }
@@ -187,7 +188,7 @@ export function App() {
       />}
     />
   );
-  else if (view.kind === "detailStatus") content = detailStatusData(view.data);
+  else if (view.kind === "detailNotice") content = detailNoticeData(view.data);
   else if (view.kind === "registrationForm") content = (
     <FormWithSubmit
       fields={<RegistrationFormFields {...view.details} errors={view.errors} />}

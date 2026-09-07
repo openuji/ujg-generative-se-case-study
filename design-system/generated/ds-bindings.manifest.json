@@ -44,6 +44,12 @@
       "export": "StatusMessage"
     },
     {
+      "ujgRef": "urn:ujg:component:status-notice",
+      "type": "Component",
+      "module": "components/StatusNotice/StatusNotice.tsx",
+      "export": "StatusNotice"
+    },
+    {
       "ujgRef": "urn:ujg:component:email-offer-content",
       "type": "Component",
       "module": "components/EmailOfferContent/EmailOfferContent.tsx",
@@ -86,10 +92,10 @@
       "export": "DetailWithAction"
     },
     {
-      "ujgRef": "urn:ujg:template:detail-with-status",
+      "ujgRef": "urn:ujg:template:detail-with-notice",
       "type": "Template",
-      "module": "templates/DetailWithStatus/DetailWithStatus.tsx",
-      "export": "DetailWithStatus"
+      "module": "templates/DetailWithNotice/DetailWithNotice.tsx",
+      "export": "DetailWithNotice"
     },
     {
       "ujgRef": "urn:ujg:template:form-with-submit",

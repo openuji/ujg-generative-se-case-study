@@ -128,10 +128,6 @@ The other materialized offer outcomes can be inspected at:
 Possession of an offer ID is not authorization. Offer routes use the fake
 authenticated identity, and an offer belonging to Alex is hidden from Blair.
 
-## Current model status
-
-See the canonical UJG and the resolved decisions under `docs/gates/`.
-
 ## Domain-model workflow
 
 Use the workspace-local [UJG topology to Domain Model derivation skill](docs/skills/ujg-topology-to-domain-model-derivation/SKILL.md)
@@ -141,9 +137,10 @@ After Domain Model evaluation, record the implementation choices and workspace
 paths in [`ujg-implementation.yaml`](ujg-implementation.yaml), then use the
 [UJG Domain Model to Implementation Realization skill](docs/skills/ujg-domain-model-to-implementation-realization/SKILL.md).
 The skill reads that manifest and the complete UJG, validates the selected
-design system, implements the backend and frontend as maintained source, and
-records the UJG-to-code trace. Use `ujg-ed-domain-model-implementation` after
-code exists to audit implementation conformance against the full UJG.
+design system, then implements the backend and frontend as maintained source.
+Use `ujg-ed-domain-model-implementation` after code exists to audit
+implementation conformance against the full UJG when that level of review is
+needed.
 
 ## Repository shape
 
