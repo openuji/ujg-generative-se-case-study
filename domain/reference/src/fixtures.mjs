@@ -74,14 +74,23 @@ export async function loadFixtures(store, emailClient, { appBaseUrl = "http://lo
   );
   for (const item of participants) insertParticipant.run(item.id, item.name, item.email, item.token);
 
-  store.saveParticipation({
-    participantId: "participant-alex",
-    workshopId: "facilitation-practice",
-    status: "waitlisted",
-    name: "Alex Nguyen",
-    email: "alex@example.com",
-    now: "2026-01-01T00:00:00.000Z"
-  });
+  // store.saveParticipation({
+  //   participantId: "participant-alex",
+  //   workshopId: "service-design-foundations",
+  //   status: "confirmed",
+  //   name: "Alex Nguyen",
+  //   email: "alex@example.com",
+  //   now: "2026-01-01T00:00:00.000Z"
+  // });
+
+  // store.saveParticipation({
+  //   participantId: "participant-alex",
+  //   workshopId: "facilitation-practice",
+  //   status: "waitlisted",
+  //   name: "Alex Nguyen",
+  //   email: "alex@example.com",
+  //   now: "2026-01-01T00:00:00.000Z"
+  // });
 
   const insertOffer = db.prepare(`
     INSERT INTO offers (id, participant_id, workshop_id, status, expires_at, updated_at)

@@ -1,8 +1,8 @@
 # Workshop registration reference backend
 
-This Node.js reference realization consumes the generated OpenAPI contract in
-`openapi/openapi.json`. Its HTTP router uses the same maintained operation
-definitions that generate that contract.
+This Node.js reference realization owns an explicit HTTP adapter contract in
+`src/http/contract.mjs`. The adapter validates request and response DTOs at the
+transport boundary without depending on generated API artifacts.
 
 The implementation deliberately stores domain facts only. Browser journey
 history, current form/review state, and prior traversal are frontend-owned as

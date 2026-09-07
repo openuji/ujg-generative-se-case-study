@@ -1,7 +1,4 @@
 import { createServer } from "node:http";
-import { readFile } from "node:fs/promises";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 
 import Ajv from "ajv";
 
@@ -10,14 +7,11 @@ import { DomainError } from "../domain/errors.mjs";
 import { WorkshopService } from "../domain/workshop-service.mjs";
 import { operations } from "./contract.mjs";
 
-const backendRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
-const openapi = JSON.parse(await readFile(path.join(backendRoot, "openapi/openapi.json"), "utf8"));
 const ajv = new Ajv({ allErrors: true, strict: false });
-ajv.addSchema(openapi, "openapi");
 
 const handlers = {
   listWorkshops: ({ service }) => service.listWorkshops(),
-  getWorkshop: ({ service, params }) => service.getWorkshop(params.workshopId),
+  getWorkshop: ({ service, participant, params }) => service.getWorkshop(participant, params.workshopId),
   confirmRegistration: ({ service, participant, params, body }) => service.confirmRegistration(participant, params.workshopId, body),
   joinWaitlist: ({ service, participant, params, body }) => service.joinWaitlist(participant, params.workshopId, body),
   getOffer: ({ service, participant, params }) => service.getOffer(participant, params.offerId),
@@ -31,10 +25,8 @@ const routes = operations.map((operation) => {
     names.push(name);
     return "([^/]+)";
   });
-  const validate = operation.requestSchema
-    ? ajv.compile({ $ref: `openapi#/components/schemas/${operation.requestSchema}` })
-    : undefined;
-  const validateResponse = ajv.compile({ $ref: `openapi#/components/schemas/${operation.responseSchema}` });
+  const validate = operation.requestSchema ? ajv.compile(operation.requestSchema) : undefined;
+  const validateResponse = ajv.compile(operation.responseSchema);
   return { ...operation, names, regex: new RegExp(`^${expression}$`), validate, validateResponse };
 });
 
@@ -69,8 +61,6 @@ export function createReferenceServer({ store, now } = {}) {
   return createServer(async (request, response) => {
     try {
       const url = new URL(request.url, "http://reference.local");
-      if (request.method === "GET" && url.pathname === "/openapi.json") return send(response, 200, openapi);
-
       const route = routes.find((candidate) => candidate.method.toUpperCase() === request.method && candidate.regex.test(url.pathname));
       if (!route) return send(response, 404, { error: "Route not found." });
 
@@ -86,7 +76,7 @@ export function createReferenceServer({ store, now } = {}) {
 
       const result = await handlers[route.operationId]({ service, participant, params, body });
       if (!route.validateResponse(result)) {
-        throw new Error(`Operation ${route.operationId} produced a response outside its OpenAPI contract.`);
+        throw new Error(`Operation ${route.operationId} produced a response outside its HTTP contract.`);
       }
       return send(response, 200, result);
     } catch (error) {

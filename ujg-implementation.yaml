@@ -1,4 +1,4 @@
-manifest_version: 2
+manifest_version: 3
 
 ujg: ujg/workshop-registration.ujg.jsonld
 backend: domain/reference
@@ -9,10 +9,8 @@ backend_runtime: node
 frontend_runtime: browser
 frontend_framework: react
 frontend_build: vite
-frontend_mode: generated
 
 transport: http
-api_contract: openapi
 storage: sqlite
 auth: fake-auth-adapter
 email: fake-client

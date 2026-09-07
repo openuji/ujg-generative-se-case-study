@@ -1,13 +1,9 @@
-# Generated reference frontend
+# Workshop registration reference frontend
 
-This directory is generated from the root realization manifest, canonical UJG, generated OpenAPI, and design-system binding manifest. Do not hand-edit journey behavior here.
-
-Regenerate and check drift from the repository root:
-
-```sh
-pnpm generate:reference-frontend
-pnpm validate:reference-frontend
-```
+This is maintained React application code. The canonical UJG defines behavior;
+the prepared design-system binding manifest identifies the components and
+templates this app composes. The app owns browser-local form, review, and
+navigation state while the backend owns domain outcomes.
 
 Run the backend and this app in separate terminals:
 

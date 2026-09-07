@@ -1,6 +1,6 @@
 # UJG Generative Software Engineering Case Study — Workshop Registration
 
-Executable case study for evaluating UJG as an upstream semantic contract for domain derivation, full-stack generation, and verification.
+Executable case study for evaluating UJG as an upstream semantic contract for domain derivation, full-stack implementation, and verification.
 
 ## Current scope
 
@@ -28,7 +28,7 @@ pnpm validate:ujg-design-system
 ## Run the reference application
 
 The application uses a Node.js backend, SQLite fixture database, fake authentication,
-a fake email outbox, and the generated React/Vite frontend.
+a fake email outbox, and an authored React/Vite frontend.
 
 Initialize or reset all fixture state:
 
@@ -42,7 +42,7 @@ Start the backend in one terminal:
 pnpm dev:backend
 ```
 
-Start the generated frontend in another terminal:
+Start the frontend in another terminal:
 
 ```bash
 pnpm dev:reference-frontend
@@ -141,9 +141,9 @@ After Domain Model evaluation, record the implementation choices and workspace
 paths in [`ujg-implementation.yaml`](ujg-implementation.yaml), then use the
 [UJG Domain Model to Implementation Realization skill](docs/skills/ujg-domain-model-to-implementation-realization/SKILL.md).
 The skill reads that manifest and the complete UJG, validates the selected
-design system, derives the shared API contract, implements the backend, and
-generates the reference frontend. Use `ujg-ed-domain-model-implementation`
-after code exists to audit implementation conformance against the full UJG.
+design system, implements the backend and frontend as maintained source, and
+records the UJG-to-code trace. Use `ujg-ed-domain-model-implementation` after
+code exists to audit implementation conformance against the full UJG.
 
 ## Repository shape
 
@@ -153,10 +153,10 @@ experiments/domain-generation/    UJG -> technology-neutral domain derivation
 experiments/domain-generation/reference/
                                   reviewed/frozen derivation
 
-domain/reference/                 generated reference backend target
+domain/reference/                 authored reference backend
 
 design-system/                    selected UJG-bound presentation realization
-apps/reference-frontend/          generated reference frontend target
+apps/reference-frontend/          authored reference frontend
 tests/journey-mesh/               UJG-derived execution, not duplicate flows
 scripts/                           parity/review/bootstrap tooling
 docs/                              model review and decisions
@@ -169,10 +169,10 @@ docs/                              model review and decisions
 3. Run the domain-model generation experiment from the UJG.
 4. Evaluate and freeze one reference domain artifact.
 5. Freeze the root UJG implementation manifest.
-6. Execute the realization skill: derive OpenAPI, implement the backend, and generate the reference frontend.
+6. Execute the realization skill: implement the backend and frontend from the UJG and prepared design system.
 7. Audit backend, frontend, contract, and browser behavior against the complete UJG.
 8. Add Journey Mesh path selection/driver support so Playwright executes paths derived from the same UJG.
-9. Repeat generation and agentic repair experiments against the frozen inputs and conformance gates.
+9. Repeat implementation and agentic repair experiments against the frozen inputs and conformance gates.
 10. Runtime/OTel/Grafana remain a later extension, not part of repository v1.
 
 ## Journey Mesh

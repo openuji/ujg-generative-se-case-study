@@ -86,6 +86,12 @@
       "export": "DetailWithAction"
     },
     {
+      "ujgRef": "urn:ujg:template:detail-with-status",
+      "type": "Template",
+      "module": "templates/DetailWithStatus/DetailWithStatus.tsx",
+      "export": "DetailWithStatus"
+    },
+    {
       "ujgRef": "urn:ujg:template:form-with-submit",
       "type": "Template",
       "module": "templates/FormWithSubmit/FormWithSubmit.tsx",

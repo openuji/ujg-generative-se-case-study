@@ -1,5 +1,8 @@
 import { DomainError } from "./errors.mjs";
 import {
+  alreadyConfirmed,
+  alreadyRegisteredDetail,
+  alreadyWaitlistedDetail,
   confirmed,
   offerStatus,
   offerSummary,
@@ -26,8 +29,11 @@ export class WorkshopService {
     });
   }
 
-  getWorkshop(workshopId) {
+  getWorkshop(participant, workshopId) {
     const workshop = this.#requireWorkshop(workshopId);
+    const existing = this.store.getParticipation(participant.id, workshopId);
+    if (existing?.status === "confirmed") return outcome("alreadyRegistered", alreadyRegisteredDetail(workshop));
+    if (existing?.status === "waitlisted") return outcome("alreadyWaitlisted", alreadyWaitlistedDetail(workshop));
     if (workshop.availability === "placeAvailable") return outcome("registrationOpen", workshopDetail(workshop));
     if (workshop.availability === "waitlistOpen") return outcome("waitlistOpen", workshopDetail(workshop));
     return outcome("registrationClosed", registrationClosed());
@@ -36,6 +42,8 @@ export class WorkshopService {
   confirmRegistration(participant, workshopId, details) {
     return this.store.transaction(() => {
       const workshop = this.#requireWorkshop(workshopId);
+      const existing = this.store.getParticipation(participant.id, workshopId);
+      if (existing?.status === "confirmed") return outcome("alreadyConfirmed", alreadyConfirmed(workshop));
       if (workshop.availability === "placeAvailable") {
         this.store.saveParticipation({
           participantId: participant.id,

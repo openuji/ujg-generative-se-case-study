@@ -11,12 +11,12 @@ export const workshopTeaser = (workshop) => ({
   location: workshop.location
 });
 
-export const workshopDetail = (workshop) => ({
+export const workshopDetail = (workshop, availability = availabilityLabel[workshop.availability]) => ({
   title: workshop.title,
   description: workshop.description,
   date: workshop.date,
   location: workshop.location,
-  availability: availabilityLabel[workshop.availability]
+  availability
 });
 
 export const registrationClosed = () => ({
@@ -32,6 +32,20 @@ export const confirmed = (workshop) => ({
   details: [{ term: "Workshop", value: workshop.title }]
 });
 
+export const alreadyRegistered = (workshop) => ({
+  title: "Already registered",
+  message: "You are already registered for this workshop.",
+  tone: "success",
+  details: [{ term: "Workshop", value: workshop.title }]
+});
+
+export const alreadyConfirmed = (workshop) => ({
+  title: "Registration already confirmed",
+  message: "You are already registered for this workshop.",
+  tone: "success",
+  details: [{ term: "Workshop", value: workshop.title }]
+});
+
 export const waitlisted = (workshop, already = false) => ({
   title: already ? "Already waitlisted" : "Waitlisted",
   message: already
@@ -39,6 +53,16 @@ export const waitlisted = (workshop, already = false) => ({
     : "You are on the waitlist for this workshop.",
   tone: "info",
   details: [{ term: "Workshop", value: workshop.title }]
+});
+
+export const alreadyRegisteredDetail = (workshop) => ({
+  summary: workshopDetail(workshop, "Already registered"),
+  status: alreadyRegistered(workshop)
+});
+
+export const alreadyWaitlistedDetail = (workshop) => ({
+  summary: workshopDetail(workshop, "Already waitlisted"),
+  status: waitlisted(workshop, true)
 });
 
 export const offerSummary = (offer, workshop) => ({

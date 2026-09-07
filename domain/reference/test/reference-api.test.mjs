@@ -47,9 +47,24 @@ test("fixtures materialize all workshop contextual entries and one email continu
   assert.equal(list.body.outcome, "overview");
   assert.equal(list.body.data.items.length, 3);
 
-  const open = await request("/api/workshops/service-design-foundations");
-  const waitlistOpen = await request("/api/workshops/facilitation-practice");
-  const closed = await request("/api/workshops/research-operations");
+  const unauthenticated = await request("/api/workshops/service-design-foundations");
+  assert.equal(unauthenticated.status, 401);
+
+  const alreadyRegistered = await request("/api/workshops/service-design-foundations", { token: "token-alex" });
+  assert.equal(alreadyRegistered.status, 200);
+  assert.equal(alreadyRegistered.body.outcome, "alreadyRegistered");
+  assert.equal(alreadyRegistered.body.data.summary.availability, "Already registered");
+  assert.equal(alreadyRegistered.body.data.status.title, "Already registered");
+
+  const alreadyWaitlisted = await request("/api/workshops/facilitation-practice", { token: "token-alex" });
+  assert.equal(alreadyWaitlisted.status, 200);
+  assert.equal(alreadyWaitlisted.body.outcome, "alreadyWaitlisted");
+  assert.equal(alreadyWaitlisted.body.data.summary.availability, "Already waitlisted");
+  assert.equal(alreadyWaitlisted.body.data.status.title, "Already waitlisted");
+
+  const open = await request("/api/workshops/service-design-foundations", { token: "token-blair" });
+  const waitlistOpen = await request("/api/workshops/facilitation-practice", { token: "token-blair" });
+  const closed = await request("/api/workshops/research-operations", { token: "token-blair" });
   assert.equal(open.body.outcome, "registrationOpen");
   assert.equal(waitlistOpen.body.outcome, "waitlistOpen");
   assert.equal(closed.body.outcome, "registrationClosed");
@@ -57,7 +72,15 @@ test("fixtures materialize all workshop contextual entries and one email continu
   assert.equal(emailClient.messages[0].action.href, "http://localhost:5173/offers/offer-alex-open");
 });
 
-test("confirmation evaluates all three modeled outcomes and mutates only the success branch", async () => {
+test("confirmation evaluates all four modeled outcomes and mutates only effectful branches", async () => {
+  const before = store.getParticipation("participant-alex", "service-design-foundations");
+  const alreadyConfirmed = await request("/api/workshops/service-design-foundations/registrations", {
+    token: "token-alex",
+    body: registration
+  });
+  assert.equal(alreadyConfirmed.body.outcome, "alreadyConfirmed");
+  assert.deepEqual(store.getParticipation("participant-alex", "service-design-foundations"), before);
+
   const confirmed = await request("/api/workshops/service-design-foundations/registrations", {
     token: "token-blair",
     body: registration
@@ -78,6 +101,24 @@ test("confirmation evaluates all three modeled outcomes and mutates only the suc
   });
   assert.equal(closed.body.outcome, "registrationClosed");
   assert.equal(store.getParticipation("participant-blair", "research-operations"), undefined);
+});
+
+test("confirmation can promote an existing waitlisted participant when a place is available", async () => {
+  store.saveParticipation({
+    participantId: "participant-blair",
+    workshopId: "service-design-foundations",
+    status: "waitlisted",
+    name: "Blair Jensen",
+    email: "blair@example.com",
+    now: "2026-01-01T00:00:00.000Z"
+  });
+
+  const promoted = await request("/api/workshops/service-design-foundations/registrations", {
+    token: "token-blair",
+    body: registration
+  });
+  assert.equal(promoted.body.outcome, "confirmed");
+  assert.equal(store.getParticipation("participant-blair", "service-design-foundations").status, "confirmed");
 });
 
 test("waitlist joining is idempotent and preserves closed as a no-effect outcome", async () => {

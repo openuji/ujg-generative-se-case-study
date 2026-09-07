@@ -18,7 +18,7 @@
         {
           "id": "urn:domain:entity:workshop",
           "label": "Workshop",
-          "description": "Participant-facing workshop whose registration availability determines detail entry and confirmation outcomes.",
+          "description": "Participant-facing workshop whose registration availability contributes to detail entry and confirmation outcomes.",
           "ujgRefs": [
             "urn:ujg:state:workshop-teaser",
             "urn:ujg:state:workshop-registration-open",
@@ -35,9 +35,9 @@
                 "urn:ujg:state:workshop-waitlist-open",
                 "urn:ujg:state:waitlist-after-registration-unavailable",
                 "urn:ujg:state:workshop-registration-closed",
-                "urn:ujg:condition:registration-place-available",
-                "urn:ujg:condition:registration-place-unavailable",
-                "urn:ujg:condition:registration-closed-at-confirmation",
+                "urn:ujg:condition:registration-place-available-and-participant-not-already-registered",
+                "urn:ujg:condition:registration-place-unavailable-and-participant-not-already-registered",
+                "urn:ujg:condition:registration-closed-and-participant-not-already-registered",
                 "urn:ujg:condition:waitlist-open-and-participant-not-already-waitlisted",
                 "urn:ujg:condition:registration-closed-and-participant-not-already-waitlisted"
               ],
@@ -55,9 +55,13 @@
           "label": "Participant",
           "description": "The domain subject whose registration, waitlist, and offered-place outcomes are evaluated.",
           "ujgRefs": [
+            "urn:ujg:state:workshop-already-registered",
+            "urn:ujg:state:workshop-already-waitlisted",
             "urn:ujg:state:registration-confirmed",
+            "urn:ujg:state:registration-already-confirmed",
             "urn:ujg:state:waitlisted",
             "urn:ujg:state:already-waitlisted",
+            "urn:ujg:state:offered-place-registration-confirmed",
             "urn:ujg:state:offered-place-waitlisted"
           ],
           "properties": []
@@ -67,7 +71,10 @@
           "label": "Workshop participation",
           "description": "A participant's current outcome for a workshop.",
           "ujgRefs": [
+            "urn:ujg:state:workshop-already-registered",
+            "urn:ujg:state:workshop-already-waitlisted",
             "urn:ujg:state:registration-confirmed",
+            "urn:ujg:state:registration-already-confirmed",
             "urn:ujg:state:waitlisted",
             "urn:ujg:state:already-waitlisted",
             "urn:ujg:state:offered-place-registration-confirmed",
@@ -79,12 +86,18 @@
               "label": "Participation status",
               "description": "The participant's current modeled outcome for the workshop.",
               "ujgRefs": [
+                "urn:ujg:state:workshop-already-registered",
+                "urn:ujg:state:workshop-already-waitlisted",
                 "urn:ujg:state:registration-confirmed",
+                "urn:ujg:state:registration-already-confirmed",
                 "urn:ujg:state:waitlisted",
                 "urn:ujg:state:already-waitlisted",
                 "urn:ujg:state:offered-place-registration-confirmed",
                 "urn:ujg:state:offered-place-waitlisted",
-                "urn:ujg:condition:participant-not-already-waitlisted",
+                "urn:ujg:condition:participant-already-registered",
+                "urn:ujg:condition:registration-place-available-and-participant-not-already-registered",
+                "urn:ujg:condition:registration-place-unavailable-and-participant-not-already-registered",
+                "urn:ujg:condition:registration-closed-and-participant-not-already-registered",
                 "urn:ujg:condition:participant-already-waitlisted",
                 "urn:ujg:condition:waitlist-open-and-participant-not-already-waitlisted",
                 "urn:ujg:condition:registration-closed-and-participant-not-already-waitlisted"
@@ -141,11 +154,18 @@
           "label": "Workshop participation participant",
           "description": "A workshop participation records the outcome for a participant.",
           "ujgRefs": [
+            "urn:ujg:state:workshop-already-registered",
+            "urn:ujg:state:workshop-already-waitlisted",
             "urn:ujg:state:registration-confirmed",
+            "urn:ujg:state:registration-already-confirmed",
             "urn:ujg:state:waitlisted",
             "urn:ujg:state:already-waitlisted",
+            "urn:ujg:state:offered-place-registration-confirmed",
+            "urn:ujg:state:offered-place-waitlisted",
+            "urn:ujg:condition:participant-already-registered",
             "urn:ujg:condition:participant-already-waitlisted",
-            "urn:ujg:condition:participant-not-already-waitlisted"
+            "urn:ujg:condition:registration-place-available-and-participant-not-already-registered",
+            "urn:ujg:condition:waitlist-open-and-participant-not-already-waitlisted"
           ],
           "sourceRef": "urn:domain:entity:workshop-participation",
           "targetRef": "urn:domain:entity:participant"
@@ -155,8 +175,13 @@
           "label": "Workshop participation workshop",
           "description": "A workshop participation concerns the workshop whose registration or waitlist outcome is recorded.",
           "ujgRefs": [
+            "urn:ujg:state:workshop-already-registered",
+            "urn:ujg:state:workshop-already-waitlisted",
             "urn:ujg:state:registration-confirmed",
+            "urn:ujg:state:registration-already-confirmed",
             "urn:ujg:state:waitlisted",
+            "urn:ujg:state:offered-place-registration-confirmed",
+            "urn:ujg:state:offered-place-waitlisted",
             "urn:ujg:effect:confirm-registration",
             "urn:ujg:effect:join-waitlist"
           ],
@@ -166,7 +191,13 @@
         {
           "id": "urn:domain:relationship:offered-place-participant",
           "label": "Offered-place participant",
-          "description": "An offered place is subject-bound to the participant authorized to resolve it.",
+          "description": "An offered place concerns the participant whose workshop participation is changed or preserved by the response.",
+          "ujgRefs": [
+            "urn:ujg:state:offered-place-registration-confirmed",
+            "urn:ujg:state:offered-place-waitlisted",
+            "urn:ujg:effect:accept-offered-place",
+            "urn:ujg:effect:decline-offered-place"
+          ],
           "sourceRef": "urn:domain:entity:offered-place",
           "targetRef": "urn:domain:entity:participant"
         },
@@ -187,10 +218,10 @@
         {
           "id": "urn:domain:operation:confirm-workshop-registration",
           "label": "Confirm workshop registration",
-          "description": "Establish confirmed participation for a participant when the selected workshop still has a registration place available.",
+          "description": "Establish confirmed participation for a participant when the selected workshop still has a registration place available and the participant is not already registered.",
           "ujgRefs": [
             "urn:ujg:transition:confirm-registration",
-            "urn:ujg:condition:registration-place-available",
+            "urn:ujg:condition:registration-place-available-and-participant-not-already-registered",
             "urn:ujg:effect:confirm-registration",
             "urn:ujg:state:registration-confirmed"
           ],
@@ -200,7 +231,8 @@
             "urn:domain:entity:workshop-participation"
           ],
           "preconditions": [
-            "The workshop's registration availability is placeAvailable when confirmation is evaluated."
+            "The workshop's registration availability is placeAvailable when confirmation is evaluated.",
+            "The participant does not already have confirmed participation for the workshop."
           ],
           "postconditions": [
             "The participant has confirmed participation for the workshop."
@@ -247,7 +279,7 @@
           ],
           "preconditions": [
             "The offered place is available when acceptance is evaluated.",
-            "The offered place is subject-bound to the acting participant.",
+            "The offered place concerns the participant whose participation is being resolved.",
             "The participant has waitlisted participation for the offered place's workshop."
           ],
           "postconditions": [
@@ -273,7 +305,7 @@
           ],
           "preconditions": [
             "The offered place is available when decline is evaluated.",
-            "The offered place is subject-bound to the acting participant.",
+            "The offered place concerns the participant whose participation is being resolved.",
             "The participant has waitlisted participation for the offered place's workshop."
           ],
           "postconditions": [
@@ -284,14 +316,14 @@
       ],
       "invariants": [
         {
-          "id": "urn:domain:invariant:offered-place-subject-authority",
-          "label": "Offered-place subject authority",
-          "description": "Authority follows the offer's subject binding, not possession of an offer identifier.",
+          "id": "urn:domain:invariant:offered-place-intended-participant",
+          "label": "Offered-place intended participant",
+          "description": "An offered place is reserved for the participant who received the offer.",
           "appliesToRefs": [
             "urn:domain:entity:offered-place",
             "urn:domain:entity:participant"
           ],
-          "assertion": "An offered place may be exposed or changed for a participant only when the offered place is subject-bound to that participant."
+          "assertion": "An offered place may be accepted or declined only by the participant for whom the offered place was offered."
         },
         {
           "id": "urn:domain:invariant:offered-place-participation-continuity",
@@ -307,7 +339,7 @@
             "urn:domain:entity:workshop",
             "urn:domain:entity:workshop-participation"
           ],
-          "assertion": "Accepting or declining an offered place affects the workshop participation for the same subject participant and workshop as the offered place."
+          "assertion": "Accepting or declining an offered place affects the workshop participation for the same participant and workshop as the offered place."
         }
       ]
     }
@@ -453,11 +485,15 @@
       "@id": "urn:ujg:journey:workshop-detail",
       "label": "Workshop detail",
       "entryRefs": [
+        "urn:ujg:entry:workshop-already-registered",
+        "urn:ujg:entry:workshop-already-waitlisted",
         "urn:ujg:entry:workshop-detail-registration-open",
         "urn:ujg:entry:workshop-detail-waitlist-open",
         "urn:ujg:entry:workshop-detail-registration-closed"
       ],
       "stateRefs": [
+        "urn:ujg:state:workshop-already-registered",
+        "urn:ujg:state:workshop-already-waitlisted",
         "urn:ujg:composite:workshop-registration",
         "urn:ujg:composite:workshop-waitlist",
         "urn:ujg:composite:workshop-registration-closed"
@@ -485,6 +521,28 @@
       "@id": "urn:ujg:entry:workshop-detail-registration-closed",
       "label": "Workshop detail — registration closed",
       "stateRef": "urn:ujg:composite:workshop-registration-closed"
+    },
+    {
+      "@type": "JourneyEntry",
+      "@id": "urn:ujg:entry:workshop-already-registered",
+      "label": "Workshop detail — already registered",
+      "stateRef": "urn:ujg:state:workshop-already-registered"
+    },
+    {
+      "@type": "JourneyEntry",
+      "@id": "urn:ujg:entry:workshop-already-waitlisted",
+      "label": "Workshop detail — already waitlisted",
+      "stateRef": "urn:ujg:state:workshop-already-waitlisted"
+    },
+    {
+      "@type": "State",
+      "@id": "urn:ujg:state:workshop-already-registered",
+      "label": "Workshop detail — participant is already registered"
+    },
+    {
+      "@type": "State",
+      "@id": "urn:ujg:state:workshop-already-waitlisted",
+      "label": "Workshop detail — participant is already waitlisted"
     },
     {
       "@type": "CompositeState",
@@ -550,7 +608,8 @@
         "urn:ujg:state:registration-form",
         "urn:ujg:state:registration-form-error",
         "urn:ujg:state:registration-review",
-        "urn:ujg:state:registration-confirmed"
+        "urn:ujg:state:registration-confirmed",
+        "urn:ujg:state:registration-already-confirmed"
       ],
       "transitionRefs": [
         "urn:ujg:transition:start-registration",
@@ -560,6 +619,7 @@
         "urn:ujg:transition:corrected-registration-details-invalid",
         "urn:ujg:transition:edit-registration-details",
         "urn:ujg:transition:confirm-registration",
+        "urn:ujg:transition:confirm-registration-already-registered",
         "urn:ujg:transition:confirm-registration-place-unavailable",
         "urn:ujg:transition:confirm-registration-closed"
       ],
@@ -598,6 +658,36 @@
       "@type": "State",
       "@id": "urn:ujg:state:registration-confirmed",
       "label": "Registration confirmed"
+    },
+    {
+      "@type": "State",
+      "@id": "urn:ujg:state:registration-already-confirmed",
+      "label": "Registration already confirmed"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:participant-already-registered",
+      "label": "Participant is already registered for the workshop"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:participant-not-already-registered",
+      "label": "Participant is not already registered for the workshop"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:registration-place-available-and-participant-not-already-registered",
+      "label": "A registration place is available and participant is not already registered"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:registration-place-unavailable-and-participant-not-already-registered",
+      "label": "A registration place is unavailable, waitlist is open, and participant is not already registered"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:registration-closed-and-participant-not-already-registered",
+      "label": "Workshop registration is closed and participant is not already registered"
     },
     {
       "@type": "JourneyExit",
@@ -673,7 +763,16 @@
       "from": "urn:ujg:state:registration-review",
       "to": "urn:ujg:state:registration-confirmed",
       "effectRef": "urn:ujg:effect:confirm-registration",
-      "conditionRef": "urn:ujg:condition:registration-place-available",
+      "conditionRef": "urn:ujg:condition:registration-place-available-and-participant-not-already-registered",
+      "commandRef": "urn:ujg:command:confirm-registration"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:confirm-registration-already-registered",
+      "label": "Confirm registration when participant is already registered",
+      "from": "urn:ujg:state:registration-review",
+      "to": "urn:ujg:state:registration-already-confirmed",
+      "conditionRef": "urn:ujg:condition:participant-already-registered",
       "commandRef": "urn:ujg:command:confirm-registration"
     },
     {
@@ -682,7 +781,7 @@
       "label": "Confirm registration when the place is no longer available",
       "from": "urn:ujg:state:registration-review",
       "to": "urn:ujg:exit:registration-place-unavailable",
-      "conditionRef": "urn:ujg:condition:registration-place-unavailable",
+      "conditionRef": "urn:ujg:condition:registration-place-unavailable-and-participant-not-already-registered",
       "commandRef": "urn:ujg:command:confirm-registration"
     },
     {
@@ -691,7 +790,7 @@
       "label": "Confirm registration after registration has closed",
       "from": "urn:ujg:state:registration-review",
       "to": "urn:ujg:exit:registration-closed-at-confirmation",
-      "conditionRef": "urn:ujg:condition:registration-closed-at-confirmation",
+      "conditionRef": "urn:ujg:condition:registration-closed-and-participant-not-already-registered",
       "commandRef": "urn:ujg:command:confirm-registration"
     },
     {
@@ -1292,6 +1391,24 @@
     },
     {
       "@type": "Surface",
+      "@id": "urn:ujg:surface:registration-already-confirmed",
+      "label": "Registration already confirmed status",
+      "graphNodeRef": "urn:ujg:state:registration-already-confirmed"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:workshop-already-registered",
+      "label": "Workshop detail — already registered",
+      "graphNodeRef": "urn:ujg:state:workshop-already-registered"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:workshop-already-waitlisted",
+      "label": "Workshop detail — already waitlisted",
+      "graphNodeRef": "urn:ujg:state:workshop-already-waitlisted"
+    },
+    {
+      "@type": "Surface",
       "@id": "urn:ujg:surface:workshop-waitlist-open",
       "label": "Workshop detail — waitlist open",
       "graphNodeRef": "urn:ujg:state:workshop-waitlist-open"
@@ -1513,8 +1630,9 @@
     {
       "@type": "ConditionalTransitionSet",
       "@id": "urn:ujg:condition-set:registration-place-at-confirmation",
-      "label": "Resolve workshop registration status at confirmation",
+      "label": "Resolve registration outcome at confirmation",
       "conditionTransitionRefs": [
+        "urn:ujg:transition:confirm-registration-already-registered",
         "urn:ujg:transition:confirm-registration",
         "urn:ujg:transition:confirm-registration-place-unavailable",
         "urn:ujg:transition:confirm-registration-closed"
@@ -1615,6 +1733,30 @@
       "@id": "urn:ujg:surface:content:workshop-registration-open-summary",
       "label": "Registration-open workshop detail summary",
       "graphNodeRef": "urn:ujg:state:workshop-registration-open"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:content:workshop-already-registered-summary",
+      "label": "Already-registered workshop detail summary",
+      "graphNodeRef": "urn:ujg:state:workshop-already-registered"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:content:workshop-already-registered-status",
+      "label": "Already-registered workshop status",
+      "graphNodeRef": "urn:ujg:state:workshop-already-registered"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:content:workshop-already-waitlisted-summary",
+      "label": "Already-waitlisted workshop detail summary",
+      "graphNodeRef": "urn:ujg:state:workshop-already-waitlisted"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:content:workshop-already-waitlisted-status",
+      "label": "Already-waitlisted workshop status",
+      "graphNodeRef": "urn:ujg:state:workshop-already-waitlisted"
     },
     {
       "@type": "Surface",
@@ -1746,6 +1888,34 @@
     },
     {
       "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:workshop-already-registered-summary",
+      "label": "Already-registered workshop detail data binding",
+      "dataSurfaceRef": "urn:ujg:surface:content:workshop-already-registered-summary",
+      "dataSchemaRef": "urn:ujg:data-schema:workshop-detail-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:workshop-already-registered-status",
+      "label": "Already-registered workshop status data binding",
+      "dataSurfaceRef": "urn:ujg:surface:content:workshop-already-registered-status",
+      "dataSchemaRef": "urn:ujg:data-schema:status-message-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:workshop-already-waitlisted-summary",
+      "label": "Already-waitlisted workshop detail data binding",
+      "dataSurfaceRef": "urn:ujg:surface:content:workshop-already-waitlisted-summary",
+      "dataSchemaRef": "urn:ujg:data-schema:workshop-detail-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:workshop-already-waitlisted-status",
+      "label": "Already-waitlisted workshop status data binding",
+      "dataSurfaceRef": "urn:ujg:surface:content:workshop-already-waitlisted-status",
+      "dataSchemaRef": "urn:ujg:data-schema:status-message-data"
+    },
+    {
+      "@type": "DataBinding",
       "@id": "urn:ujg:data-binding:workshop-waitlist-open",
       "label": "Waitlist-open workshop detail data binding",
       "dataSurfaceRef": "urn:ujg:surface:content:workshop-waitlist-open-summary",
@@ -1819,6 +1989,13 @@
       "@id": "urn:ujg:data-binding:registration-confirmed",
       "label": "Registration confirmation status data binding",
       "dataSurfaceRef": "urn:ujg:surface:registration-confirmed",
+      "dataSchemaRef": "urn:ujg:data-schema:status-message-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:registration-already-confirmed",
+      "label": "Registration already confirmed status data binding",
+      "dataSurfaceRef": "urn:ujg:surface:registration-already-confirmed",
       "dataSchemaRef": "urn:ujg:data-schema:status-message-data"
     },
     {
@@ -2074,6 +2251,15 @@
     },
     {
       "@type": "Template",
+      "@id": "urn:ujg:template:detail-with-status",
+      "label": "Detail with status",
+      "slotRefs": [
+        "urn:ujg:slot:detail-summary",
+        "urn:ujg:slot:status-content"
+      ]
+    },
+    {
+      "@type": "Template",
       "@id": "urn:ujg:template:form-with-submit",
       "label": "Form with submit action",
       "slotRefs": [
@@ -2153,6 +2339,34 @@
       "label": "Registration-open start action binding",
       "slotRef": "urn:ujg:slot:detail-action",
       "targetSurfaceRef": "urn:ujg:surface:action:start-registration"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:workshop-already-registered:summary",
+      "label": "Already-registered workshop detail summary binding",
+      "slotRef": "urn:ujg:slot:detail-summary",
+      "targetSurfaceRef": "urn:ujg:surface:content:workshop-already-registered-summary"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:workshop-already-registered:status",
+      "label": "Already-registered workshop status binding",
+      "slotRef": "urn:ujg:slot:status-content",
+      "targetSurfaceRef": "urn:ujg:surface:content:workshop-already-registered-status"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:workshop-already-waitlisted:summary",
+      "label": "Already-waitlisted workshop detail summary binding",
+      "slotRef": "urn:ujg:slot:detail-summary",
+      "targetSurfaceRef": "urn:ujg:surface:content:workshop-already-waitlisted-summary"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:workshop-already-waitlisted:status",
+      "label": "Already-waitlisted workshop status binding",
+      "slotRef": "urn:ujg:slot:status-content",
+      "targetSurfaceRef": "urn:ujg:surface:content:workshop-already-waitlisted-status"
     },
     {
       "@type": "SlotBinding",
@@ -2363,6 +2577,28 @@
     },
     {
       "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:workshop-already-registered",
+      "label": "Already-registered workshop detail realization",
+      "surfaceRef": "urn:ujg:surface:workshop-already-registered",
+      "templateRef": "urn:ujg:template:detail-with-status",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:workshop-already-registered:summary",
+        "urn:ujg:slot-binding:workshop-already-registered:status"
+      ]
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:workshop-already-waitlisted",
+      "label": "Already-waitlisted workshop detail realization",
+      "surfaceRef": "urn:ujg:surface:workshop-already-waitlisted",
+      "templateRef": "urn:ujg:template:detail-with-status",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:workshop-already-waitlisted:summary",
+        "urn:ujg:slot-binding:workshop-already-waitlisted:status"
+      ]
+    },
+    {
+      "@type": "SurfaceRealization",
       "@id": "urn:ujg:surface-realization:registration-form",
       "label": "Registration form realization",
       "surfaceRef": "urn:ujg:surface:registration-form",
@@ -2400,6 +2636,13 @@
       "@id": "urn:ujg:surface-realization:registration-confirmed",
       "label": "Registration confirmation realization",
       "surfaceRef": "urn:ujg:surface:registration-confirmed",
+      "componentRef": "urn:ujg:component:status-message"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:registration-already-confirmed",
+      "label": "Registration already confirmed realization",
+      "surfaceRef": "urn:ujg:surface:registration-already-confirmed",
       "componentRef": "urn:ujg:component:status-message"
     },
     {
@@ -2638,6 +2881,34 @@
       "label": "Registration-open workshop detail summary realization",
       "surfaceRef": "urn:ujg:surface:content:workshop-registration-open-summary",
       "componentRef": "urn:ujg:component:workshop-detail-summary"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:content:workshop-already-registered-summary",
+      "label": "Already-registered workshop detail summary realization",
+      "surfaceRef": "urn:ujg:surface:content:workshop-already-registered-summary",
+      "componentRef": "urn:ujg:component:workshop-detail-summary"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:content:workshop-already-registered-status",
+      "label": "Already-registered workshop status realization",
+      "surfaceRef": "urn:ujg:surface:content:workshop-already-registered-status",
+      "componentRef": "urn:ujg:component:status-message"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:content:workshop-already-waitlisted-summary",
+      "label": "Already-waitlisted workshop detail summary realization",
+      "surfaceRef": "urn:ujg:surface:content:workshop-already-waitlisted-summary",
+      "componentRef": "urn:ujg:component:workshop-detail-summary"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:content:workshop-already-waitlisted-status",
+      "label": "Already-waitlisted workshop status realization",
+      "surfaceRef": "urn:ujg:surface:content:workshop-already-waitlisted-status",
+      "componentRef": "urn:ujg:component:status-message"
     },
     {
       "@type": "SurfaceRealization",
