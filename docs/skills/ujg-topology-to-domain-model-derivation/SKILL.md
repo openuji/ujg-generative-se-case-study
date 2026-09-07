@@ -89,35 +89,13 @@ by any effect; and any required continuity. A command contributes invocation
 identity and terminology only. Record a business policy that the UJG does not
 determine as a question rather than inventing it.
 
-### Repeat-invocation policy gate
-
-For every domain-relevant transition whose effect or resulting DomainOperation
-establishes or changes a domain-backed fact, relationship, or lifecycle value,
-explicitly determine the policy for a later invocation with the same relevant
-subject and target. Consider at least:
-
-- a repeat after the original effect succeeds;
-- a repeat that supplies different input data; and
-- a repeat when the same relationship exists in another modeled lifecycle
-  value.
-
-Classify each case only from the UJG or supplied business knowledge as one of:
-
-- a distinct no-effect outcome or branch;
-- idempotent success with no domain mutation;
-- an explicitly allowed update or lifecycle transition; or
-- rejection.
-
-Do not infer any of those policies from a command name, an earlier effect, a
-single-valued status, or an `already` / `not already` condition in another
-branch. If the source does not decide the policy, add an unresolved domain
-question naming the operation, the relevant subject and target, and the
-possible consequences. Do not resolve the gap by adding an invariant,
-condition, state, outcome, or persistence assumption to the derived model.
-
-The evidence-to-model mapping must include this repeat-invocation audit for
-every applicable transition, including the evidence for a determined policy or
-the exact unresolved question.
+For every domain-relevant transition that establishes or changes a fact,
+relationship, or lifecycle value, determine the policy for a repeat invocation
+with the same relevant subject and target. The UJG or supplied business
+knowledge must establish a distinct branch, idempotent no-effect success, an
+allowed update, or rejection. If it does not, record that exact policy question
+in the evidence mapping; do not infer cardinality or add an invariant,
+condition, state, outcome, or persistence mechanism to resolve it.
 
 ## Test Branches and Model Minimality
 
@@ -198,7 +176,7 @@ queues, events, locks, aggregates, bounded contexts, services, repositories,
 or frontend/backend placement.
 
 Return the payload, a concise evidence-to-model mapping including explicit
-omissions and the repeat-invocation audit, and unresolved domain questions.
+omissions and repeat-invocation findings, and unresolved domain questions.
 Validate the payload against the live schema; resolve its internal references
 and every present `ujgRefs` value. Confirm that domain-relevant conditions and
 effects are supported, sibling journeys have not been flattened into
