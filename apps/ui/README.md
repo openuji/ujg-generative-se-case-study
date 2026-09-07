@@ -9,7 +9,7 @@ Run the backend and this app in separate terminals:
 
 ```sh
 pnpm dev:backend
-pnpm --filter @openuji/workshop-registration-reference-frontend dev
+pnpm dev:ui
 ```
 
 The fake browser identity defaults to `token-alex`. Tests or local tools can select another fixture subject with `localStorage.setItem("referenceAuthToken", "token-blair")`.

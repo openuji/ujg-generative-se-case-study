@@ -36,7 +36,6 @@ interfaces:
       protocol: http
       documentation:
         format: openapi
-        output: path/to/backend/openapi/openapi.json
         ui: swagger-ui
   - touchpoint_ref: urn:ujg:touchpoint:email
     kind: email
@@ -70,6 +69,11 @@ message through a selected adapter rather than exposing an interactive transport
 `shared`. Use `shared` only when the model or manifest specifies the split.
 `kind`, transport, and adapters are explicit choices; framework, runtime,
 build tooling, and package manager are deliberately absent.
+
+`documentation.output` may be added when a persistent generated documentation
+artifact is explicitly selected. When it is omitted, serve the OpenAPI document
+from the implemented route registry at runtime instead of checking in a
+generated file.
 
 Treat the manifest as desired state. Every selected target, interface,
 design-system path, adapter, and transport requirement must be inspected and
@@ -158,11 +162,12 @@ them. A transport contract is an implementation boundary, not a second journey
 definition and not input for generating interface code.
 
 When an HTTP interface requests OpenAPI documentation, maintain one route
-registry that the HTTP server actually uses. Generate the declared OpenAPI JSON
-from that implemented registry, including its methods, paths, authentication,
-request schemas, and response variants. Serve Swagger UI when requested. The
-generated OpenAPI document describes the running API; it does not determine
-application behavior or generate application code.
+registry that the HTTP server actually uses. Produce the OpenAPI JSON from that
+implemented registry, including its methods, paths, authentication, request
+schemas, and response variants. Serve Swagger UI when requested. If the
+manifest declares `documentation.output`, keep that generated file
+reproducible from the registry. The OpenAPI document describes the running API;
+it does not determine application behavior or generate application code.
 
 The only permitted generated artifacts are design-system binding manifests and
 requested implementation documentation such as OpenAPI. Do not create source

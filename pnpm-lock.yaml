@@ -15,7 +15,13 @@ importers:
         specifier: 2.9.0
         version: 2.9.0
 
-  apps/reference-frontend:
+  apps/domain:
+    dependencies:
+      ajv:
+        specifier: 8.17.1
+        version: 8.17.1
+
+  apps/ui:
     dependencies:
       '@openuji/workshop-registration-design-system':
         specifier: workspace:*
@@ -100,12 +106,6 @@ importers:
       vitest:
         specifier: 4.1.0
         version: 4.1.0(@types/node@26.4.0)(jsdom@27.0.0)(vite@8.2.2(@types/node@26.4.0)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.0))
-
-  domain/reference:
-    dependencies:
-      ajv:
-        specifier: 8.17.1
-        version: 8.17.1
 
 packages:
 

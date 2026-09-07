@@ -1,9 +1,4 @@
-import fs from "node:fs/promises";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { operations } from "./contract.mjs";
-
-const defaultOutput = new URL("../../openapi/openapi.json", import.meta.url);
 
 const errorResponseSchema = {
   type: "object",
@@ -98,17 +93,6 @@ export function openApiDocument() {
   return document;
 }
 
-export function stableOpenApiJson() {
-  return `${JSON.stringify(openApiDocument(), null, 2)}\n`;
-}
-
-export async function writeOpenApiDocument(output = defaultOutput) {
-  const outputPath = output instanceof URL ? fileURLToPath(output) : output;
-  await fs.mkdir(path.dirname(outputPath), { recursive: true });
-  await fs.writeFile(outputPath, stableOpenApiJson());
-  return outputPath;
-}
-
 export function swaggerUiHtml() {
   return `<!doctype html>
 <html lang="en">
@@ -130,24 +114,4 @@ export function swaggerUiHtml() {
     </script>
   </body>
 </html>`;
-}
-
-const args = process.argv.slice(2);
-const check = args.includes("--check");
-const outputArg = args.find((arg) => arg !== "--check");
-const output = outputArg
-  ? path.resolve(process.cwd(), outputArg)
-  : fileURLToPath(defaultOutput);
-
-if (check) {
-  const expected = stableOpenApiJson();
-  const outputPath = output;
-  const actual = await fs.readFile(outputPath, "utf8");
-  if (actual !== expected) {
-    throw new Error(`${path.relative(process.cwd(), outputPath)} is not in sync with the HTTP operation registry.`);
-  }
-  console.log(`OpenAPI document is in sync: ${path.relative(process.cwd(), outputPath)}`);
-} else {
-  const outputPath = await writeOpenApiDocument(output);
-  console.log(`Wrote OpenAPI document: ${path.relative(process.cwd(), outputPath)}`);
 }

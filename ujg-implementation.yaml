@@ -2,11 +2,11 @@ manifest_version: 4
 
 ujg: ujg/workshop-registration.ujg.jsonld
 
-backend: domain/reference
+backend: apps/domain
 
 interfaces:
   - touchpoint_ref: urn:ujg:touchpoint:workshop-app
-    target: apps/reference-frontend
+    target: apps/ui
     kind: browser
     design_systems:
       - design-system
@@ -15,7 +15,6 @@ interfaces:
       protocol: http
       documentation:
         format: openapi
-        output: domain/reference/openapi/openapi.json
         ui: swagger-ui
 
   - touchpoint_ref: urn:ujg:touchpoint:email

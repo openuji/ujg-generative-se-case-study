@@ -163,10 +163,12 @@ function validateManifestV4() {
         if (entry.transport.documentation.format !== "openapi") {
           throw new Error(`${label}.transport.documentation.format must be openapi`);
         }
-        const documentationPath = requireExistingPath(entry.transport.documentation.output, `${label}.transport.documentation.output`);
-        const documentation = JSON.parse(fs.readFileSync(documentationPath, "utf8"));
-        if (typeof documentation.openapi !== "string" || !documentation.openapi.startsWith("3.") || !documentation.paths) {
-          throw new Error(`${label}.transport.documentation.output must be an OpenAPI 3 document`);
+        if (entry.transport.documentation.output !== undefined) {
+          const documentationPath = requireExistingPath(entry.transport.documentation.output, `${label}.transport.documentation.output`);
+          const documentation = JSON.parse(fs.readFileSync(documentationPath, "utf8"));
+          if (typeof documentation.openapi !== "string" || !documentation.openapi.startsWith("3.") || !documentation.paths) {
+            throw new Error(`${label}.transport.documentation.output must be an OpenAPI 3 document`);
+          }
         }
         if (entry.transport.documentation.ui !== "swagger-ui") {
           throw new Error(`${label}.transport.documentation.ui must be swagger-ui`);

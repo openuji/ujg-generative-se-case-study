@@ -8,6 +8,7 @@ coverage/
 dist/
 .vite/
 domain/reference/.data/
+apps/domain/.data/
 *.sqlite
 *.sqlite-shm
 *.sqlite-wal

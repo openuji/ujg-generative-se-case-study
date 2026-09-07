@@ -8,7 +8,7 @@ import { MemoryFakeEmailClient } from "../src/adapters/fake-email-client.mjs";
 import { SqliteStore } from "../src/adapters/sqlite-store.mjs";
 import { loadFixtures } from "../src/fixtures.mjs";
 import { operations } from "../src/http/contract.mjs";
-import { openApiDocument, stableOpenApiJson } from "../src/http/openapi.mjs";
+import { openApiDocument } from "../src/http/openapi.mjs";
 import { createReferenceServer } from "../src/http/server.mjs";
 
 const offerSummarySchema = JSON.parse(
@@ -97,10 +97,7 @@ test("fixtures materialize all workshop contextual entries and one email continu
   });
 });
 
-test("OpenAPI output is generated from the HTTP operation registry", async () => {
-  const generated = await readFile(new URL("../openapi/openapi.json", import.meta.url), "utf8");
-  assert.equal(generated, stableOpenApiJson());
-
+test("OpenAPI documentation is derived from the HTTP operation registry", async () => {
   const document = openApiDocument();
   for (const operation of operations) {
     const openApiOperation = document.paths[operation.path]?.[operation.method.toLowerCase()];

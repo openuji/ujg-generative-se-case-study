@@ -45,7 +45,7 @@ pnpm dev:backend
 Start the frontend in another terminal:
 
 ```bash
-pnpm dev:reference-frontend
+pnpm dev:ui
 ```
 
 Open [http://127.0.0.1:5173](http://127.0.0.1:5173). The frontend proxies
@@ -68,7 +68,7 @@ backend before resetting its database, then restart it afterward.
 | `offer-alex-unavailable` | Unavailable | Unavailable-offer materialization |
 
 The SQLite database and fake email outbox are generated under
-`domain/reference/.data/`. The outbox contains the offered-place email and its
+`apps/domain/.data/`. The outbox contains the offered-place email and its
 link into the application. This directory is local runtime state and is not
 committed.
 
@@ -137,17 +137,11 @@ authenticated identity, and an offer belonging to Alex is hidden from Blair.
 
 ### Inspect API documentation
 
-The backend serves generated OpenAPI documentation from the same operation
-registry used by the HTTP server:
+The backend serves OpenAPI documentation from the same operation registry used
+by the HTTP server:
 
 - [OpenAPI JSON](http://127.0.0.1:3000/api/openapi.json)
 - [Swagger UI](http://127.0.0.1:3000/api/docs)
-
-Regenerate the checked-in document with:
-
-```bash
-pnpm generate:openapi
-```
 
 ## Domain-model workflow
 
@@ -171,10 +165,9 @@ experiments/domain-generation/    UJG -> technology-neutral domain derivation
 experiments/domain-generation/reference/
                                   reviewed/frozen derivation
 
-domain/reference/                 authored reference backend
-
+apps/domain/                      authored reference backend/domain service
+apps/ui/                          authored reference frontend
 design-system/                    selected UJG-bound presentation realization
-apps/reference-frontend/          authored reference frontend
 tests/journey-mesh/               UJG-derived execution, not duplicate flows
 scripts/                           parity/review/bootstrap tooling
 docs/                              model review and decisions
