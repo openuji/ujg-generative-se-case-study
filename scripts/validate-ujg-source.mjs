@@ -41,6 +41,22 @@ function requireExistingPath(value, label, { directory = false } = {}) {
   return resolved;
 }
 
+function requireExistingRelativePath(root, value, label, { directory = false } = {}) {
+  requireString(value, label);
+  const resolved = path.resolve(root, value);
+  const relative = path.relative(root, resolved);
+  if (relative.startsWith("..") || path.isAbsolute(relative)) {
+    throw new Error(`${label} must resolve inside ${path.relative(repoRoot, root)}: ${value}`);
+  }
+  if (!fs.existsSync(resolved)) {
+    throw new Error(`${label} does not exist: ${path.relative(repoRoot, resolved)}`);
+  }
+  if (directory && !fs.statSync(resolved).isDirectory()) {
+    throw new Error(`${label} must be a directory: ${path.relative(repoRoot, resolved)}`);
+  }
+  return resolved;
+}
+
 const ujgPath = path.resolve(repoRoot, manifest.ujg);
 const ujgRaw = fs.readFileSync(ujgPath, "utf8");
 const ujg = JSON.parse(ujgRaw);
@@ -108,7 +124,27 @@ const conditionalSets = nodes.filter((node) => node["@type"] === "ConditionalTra
 function validateManifestV4() {
   if (manifest.manifest_version !== 4) return;
 
-  const backendPath = manifest.backend ? requireExistingPath(manifest.backend, "backend", { directory: true }) : undefined;
+  requireObject(manifest.domain_engine, "domain_engine");
+  if (manifest.backend !== undefined) {
+    throw new Error("manifest v4 uses domain_engine, not backend");
+  }
+
+  const domainEnginePath = requireExistingPath(manifest.domain_engine.target, "domain_engine.target", { directory: true });
+  requireObject(manifest.domain_engine.runtime, "domain_engine.runtime");
+  requireString(manifest.domain_engine.runtime.environment, "domain_engine.runtime.environment");
+  requireString(manifest.domain_engine.runtime.version, "domain_engine.runtime.version");
+  requireString(manifest.domain_engine.runtime.entrypoint, "domain_engine.runtime.entrypoint");
+
+  if (manifest.domain_engine.runtime.environment !== "node") {
+    throw new Error("domain_engine.runtime.environment must be node for this reference implementation");
+  }
+
+  requireExistingRelativePath(domainEnginePath, manifest.domain_engine.runtime.entrypoint, "domain_engine.runtime.entrypoint");
+  const domainPackage = JSON.parse(fs.readFileSync(path.join(domainEnginePath, "package.json"), "utf8"));
+  if (domainPackage.engines?.node !== manifest.domain_engine.runtime.version) {
+    throw new Error("domain_engine.runtime.version must match the domain engine package engines.node value");
+  }
+
   if (!Array.isArray(manifest.interfaces) || manifest.interfaces.length === 0) {
     throw new Error("manifest v4 must declare at least one interface");
   }
@@ -158,7 +194,7 @@ function validateManifestV4() {
       requireObject(entry.transport, `${label}.transport`);
       requireString(entry.transport.protocol, `${label}.transport.protocol`);
       if (entry.transport.protocol === "http") {
-        if (!backendPath) throw new Error(`${label}.transport.protocol http requires a backend path`);
+        if (!domainEnginePath) throw new Error(`${label}.transport.protocol http requires a domain_engine target`);
         requireObject(entry.transport.documentation, `${label}.transport.documentation`);
         if (entry.transport.documentation.format !== "openapi") {
           throw new Error(`${label}.transport.documentation.format must be openapi`);
@@ -200,10 +236,9 @@ function validateManifestV4() {
   if (manifest.adapters.identity !== "fake-auth-adapter") {
     throw new Error("adapters.identity must be fake-auth-adapter");
   }
-  if (!backendPath) throw new Error("manifest v4 requires backend for declared adapters");
   for (const adapterFile of ["sqlite-store.mjs", "fake-auth-adapter.mjs", "fake-email-client.mjs"]) {
-    if (!fs.existsSync(path.join(backendPath, "src/adapters", adapterFile))) {
-      throw new Error(`Declared adapter implementation is missing: ${path.join(manifest.backend, "src/adapters", adapterFile)}`);
+    if (!fs.existsSync(path.join(domainEnginePath, "src/adapters", adapterFile))) {
+      throw new Error(`Declared adapter implementation is missing: ${path.join(manifest.domain_engine.target, "src/adapters", adapterFile)}`);
     }
   }
 
@@ -211,8 +246,8 @@ function validateManifestV4() {
     throw new Error("bootstrap must be fixtures");
   }
   for (const bootstrapFile of ["src/fixtures.mjs", "src/fixture-cli.mjs"]) {
-    if (!fs.existsSync(path.join(backendPath, bootstrapFile))) {
-      throw new Error(`Declared bootstrap implementation is missing: ${path.join(manifest.backend, bootstrapFile)}`);
+    if (!fs.existsSync(path.join(domainEnginePath, bootstrapFile))) {
+      throw new Error(`Declared bootstrap implementation is missing: ${path.join(manifest.domain_engine.target, bootstrapFile)}`);
     }
   }
 }

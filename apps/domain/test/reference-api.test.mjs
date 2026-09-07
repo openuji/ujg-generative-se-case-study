@@ -118,7 +118,7 @@ test("OpenAPI documentation is derived from the HTTP operation registry", async 
   }
 });
 
-test("OpenAPI JSON and Swagger UI are served by the backend", async () => {
+test("OpenAPI JSON and Swagger UI are served by the domain engine", async () => {
   const openApi = await request("/api/openapi.json");
   assert.equal(openApi.status, 200);
   assert.deepEqual(openApi.body, openApiDocument());

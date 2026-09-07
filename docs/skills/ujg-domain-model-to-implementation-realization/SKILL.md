@@ -24,7 +24,12 @@ use version 4:
 manifest_version: 4
 ujg: path/to/model.ujg.jsonld
 
-backend: path/to/backend
+domain_engine:
+  target: path/to/domain-engine
+  runtime:
+    environment: node
+    version: ">=22.5"
+    entrypoint: src/main.mjs
 
 interfaces:
   - touchpoint_ref: urn:ujg:touchpoint:application
@@ -51,24 +56,30 @@ adapters:
 bootstrap: initialization-choice
 ```
 
-`backend`, `interfaces`, `adapters`, and `bootstrap` are optional when the
-selected UJG and requested application do not need them. Every modeled
-Touchpoint selected for realization needs exactly one matching
+`domain_engine`, `interfaces`, `adapters`, and `bootstrap` are optional when the
+selected UJG and requested application do not need them. `domain_engine.target`
+selects the implementation that evaluates authoritative domain conditions,
+commits domain effects, owns persistence adapters, and exposes any required
+runtime boundary. `domain_engine.runtime` declares the execution environment
+that runs it, such as Node.js, PHP with nginx, Go, or another runtime. Every
+modeled Touchpoint selected for realization needs exactly one matching
 `touchpoint_ref`; do not assume a browser implementation covers email or other
 touchpoints. An interface may be a browser, CLI, native, desktop, email, voice,
 embedded, or another user-facing touchpoint. `target` is required when the
 touchpoint has its own implementation target and omitted when its realization
-lives in the root backend, such as an email delivery adapter.
+lives in the domain engine, such as an email delivery adapter.
 
 `transport` is an interface property: omit it for direct in-process use, and
-declare it independently for interfaces that cross a backend boundary. Use
-`delivery` for a touchpoint such as email, where the backend renders and sends a
-message through a selected adapter rather than exposing an interactive transport.
+declare it independently for interfaces that cross a domain-engine boundary.
+Use `delivery` for a touchpoint such as email, where the domain engine renders
+and sends a message through a selected adapter rather than exposing an
+interactive transport.
 
 `interaction_state_owner` is one of `client`, `server`, `external`, or
 `shared`. Use `shared` only when the model or manifest specifies the split.
-`kind`, transport, and adapters are explicit choices; framework, runtime,
-build tooling, and package manager are deliberately absent.
+`kind`, transport, adapters, and domain-engine runtime are explicit choices;
+framework, build tooling, and package manager are deliberately absent unless
+another manifest field explicitly selects them.
 
 `documentation.output` may be added when a persistent generated documentation
 artifact is explicitly selected. When it is omitted, serve the OpenAPI document
@@ -86,9 +97,9 @@ that has no realization decision instead of silently omitting it.
 
 When the manifest version or shape changes, find and update every in-scope
 manifest reader, validator, script, and documentation reference before relying
-on it. If the model requires authoritative effects and no backend target is
-selected, report the missing output boundary rather than placing those effects
-in an interface.
+on it. If the model requires authoritative effects and no domain engine target
+is selected, report the missing output boundary rather than placing those
+effects in an interface.
 
 ## Discover implementation technology
 
@@ -130,7 +141,7 @@ product explicitly needs them.
 
 Unknown or incomplete semantics are not permission to invent behavior. State
 the missing decision and implement only the modeled scope. A model without
-domain authority can still produce an interface; do not invent backend
+domain authority can still produce an interface; do not invent domain-engine
 workflows, persistence, or authorization for it.
 
 ## Compose interfaces
@@ -151,7 +162,7 @@ uniqueness, expiry, identity binding, or effect outcomes.
 
 ## Implement authoritative boundaries
 
-For backend-owned behavior, implement authoritative conditions, effects,
+For domain-engine-owned behavior, implement authoritative conditions, effects,
 invariants, and identity/authorization checks at the state-changing boundary.
 Preserve every modeled conditional branch as an observable result. Re-evaluate
 mutable facts atomically when committing an effect. Repeated and competing

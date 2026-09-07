@@ -2,7 +2,12 @@ manifest_version: 4
 
 ujg: ujg/workshop-registration.ujg.jsonld
 
-backend: apps/domain
+domain_engine:
+  target: apps/domain
+  runtime:
+    environment: node
+    version: ">=22.5"
+    entrypoint: src/main.mjs
 
 interfaces:
   - touchpoint_ref: urn:ujg:touchpoint:workshop-app

@@ -1,4 +1,4 @@
-# Workshop registration reference backend
+# Workshop registration reference domain engine
 
 This Node.js reference realization owns an explicit HTTP adapter contract in
 `src/http/contract.mjs`. The adapter validates request and response DTOs at the
@@ -12,8 +12,8 @@ selected by `ujg-implementation.yaml`.
 ## Run
 
 ```sh
-pnpm --filter @openuji/workshop-registration-reference-backend fixtures
-pnpm --filter @openuji/workshop-registration-reference-backend start
+pnpm --filter @openuji/workshop-registration-reference-domain-engine fixtures
+pnpm --filter @openuji/workshop-registration-reference-domain-engine start
 ```
 
 The server listens on `http://localhost:3000`. Fixture identities authenticate
@@ -29,5 +29,5 @@ The running API exposes documentation at:
 ## Test
 
 ```sh
-pnpm test:backend
+pnpm test:domain-engine
 ```

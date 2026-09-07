@@ -12,7 +12,7 @@ The reference implementation covers workshop browsing, registration, waitlist su
 
 - `ujg/workshop-registration.ujg.jsonld` is the canonical UJG representation and semantic source of truth.
 - External schemas under `ujg/schemas/` are referenced data contracts.
-- Do not maintain independent semantic journey definitions in backend requirements, frontend prompts, Playwright tests, or Storybook.
+- Do not maintain independent semantic journey definitions in domain-engine requirements, UI prompts, Playwright tests, or Storybook.
 
 ## Quick start
 
@@ -27,19 +27,19 @@ pnpm validate:ujg-design-system
 
 ## Run the reference application
 
-The application uses a Node.js backend, SQLite fixture database, fake authentication,
+The application uses a Node.js domain engine, SQLite fixture database, fake authentication,
 a fake email outbox, and an authored React/Vite frontend.
 
 Initialize or reset all fixture state:
 
 ```bash
-pnpm fixtures:backend
+pnpm fixtures:domain-engine
 ```
 
-Start the backend in one terminal:
+Start the domain engine in one terminal:
 
 ```bash
-pnpm dev:backend
+pnpm dev:domain-engine
 ```
 
 Start the frontend in another terminal:
@@ -49,10 +49,10 @@ pnpm dev:ui
 ```
 
 Open [http://127.0.0.1:5173](http://127.0.0.1:5173). The frontend proxies
-API calls to the backend at `http://127.0.0.1:3000`.
+API calls to the domain engine at `http://127.0.0.1:3000`.
 
-Running `pnpm fixtures:backend` again restores the initial state. Stop the
-backend before resetting its database, then restart it afterward.
+Running `pnpm fixtures:domain-engine` again restores the initial state. Stop the
+domain engine before resetting its database, then restart it afterward.
 
 ### Included fixtures
 
@@ -88,7 +88,7 @@ localStorage.setItem("referenceAuthToken", "token-blair")
 3. Select **Register** and enter a name and valid email address.
 4. Select **Continue**, review the details, then select **Confirm registration**.
 
-The backend checks availability again when confirmation is submitted. With
+The domain engine checks availability again when confirmation is submitted. With
 Blair, the successful fixture outcome is **Registration confirmed**.
 
 ### Join a waitlist
@@ -137,7 +137,7 @@ authenticated identity, and an offer belonging to Alex is hidden from Blair.
 
 ### Inspect API documentation
 
-The backend serves OpenAPI documentation from the same operation registry used
+The domain engine serves OpenAPI documentation from the same operation registry used
 by the HTTP server:
 
 - [OpenAPI JSON](http://127.0.0.1:3000/api/openapi.json)
@@ -152,7 +152,7 @@ After Domain Model evaluation, record the implementation choices and workspace
 paths in [`ujg-implementation.yaml`](ujg-implementation.yaml), then use the
 [UJG Domain Model to Implementation Realization skill](docs/skills/ujg-domain-model-to-implementation-realization/SKILL.md).
 The skill reads that manifest and the complete UJG, validates the selected
-design system, then implements the backend and frontend as maintained source.
+design system, then implements the domain engine and UI as maintained source.
 Use `ujg-ed-domain-model-implementation` after code exists to audit
 implementation conformance against the full UJG when that level of review is
 needed.
@@ -165,7 +165,7 @@ experiments/domain-generation/    UJG -> technology-neutral domain derivation
 experiments/domain-generation/reference/
                                   reviewed/frozen derivation
 
-apps/domain/                      authored reference backend/domain service
+apps/domain/                      authored reference domain engine
 apps/ui/                          authored reference frontend
 design-system/                    selected UJG-bound presentation realization
 tests/journey-mesh/               UJG-derived execution, not duplicate flows
@@ -180,8 +180,8 @@ docs/                              model review and decisions
 3. Run the domain-model generation experiment from the UJG.
 4. Evaluate and freeze one reference domain artifact.
 5. Freeze the root UJG implementation manifest.
-6. Execute the realization skill: implement the backend and frontend from the UJG and prepared design system.
-7. Audit backend, frontend, contract, and browser behavior against the complete UJG.
+6. Execute the realization skill: implement the domain engine and UI from the UJG and prepared design system.
+7. Audit domain engine, UI, contract, and browser behavior against the complete UJG.
 8. Add Journey Mesh path selection/driver support so Playwright executes paths derived from the same UJG.
 9. Repeat implementation and agentic repair experiments against the frozen inputs and conformance gates.
 10. Runtime/OTel/Grafana remain a later extension, not part of repository v1.

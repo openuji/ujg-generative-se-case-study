@@ -3,12 +3,12 @@
 This is maintained React application code. The canonical UJG defines behavior;
 the prepared design-system binding manifest identifies the components and
 templates this app composes. The app owns browser-local form, review, and
-navigation state while the backend owns domain outcomes.
+navigation state while the domain engine owns domain outcomes.
 
-Run the backend and this app in separate terminals:
+Run the domain engine and this app in separate terminals:
 
 ```sh
-pnpm dev:backend
+pnpm dev:domain-engine
 pnpm dev:ui
 ```
 
