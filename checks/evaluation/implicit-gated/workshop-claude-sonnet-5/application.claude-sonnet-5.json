@@ -1,6 +1,6 @@
 {
   "evaluation_version": "application-realization-core-v1",
-  "run_id": "workshop-claude-sonnet",
+  "run_id": "workshop-claude-sonnet-5",
   "evaluated_phase": "application",
   "implementation_model": "claude-sonnet-5",
   "evaluator_model": "claude-sonnet-5",
@@ -38,15 +38,15 @@
       "severity": "MEDIUM",
       "summary": "The browser interface (apps/ui) has no automated tests, so the client-owned validation branches (registration-details-valid/invalid and their corrected variants) are only verified manually, not by an executable check.",
       "evidence": [
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/ui/src/registrationValidation.ts",
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/ui/src/pages/RegistrationPage.tsx"
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/apps/ui/src/registrationValidation.ts",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/apps/ui/src/pages/RegistrationPage.tsx"
       ]
     },
     {
       "severity": "LOW",
       "summary": "acceptOffer/declineOffer collapse two distinct edge cases (a participant other than the one the offer names, and an already-resolved offer) into a single 'unavailable' outcome; the UJG's 3-branch conditional set doesn't disambiguate this case, so it's a reasonable but unverified interpretation.",
       "evidence": [
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/domain/src/domain.mjs"
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/apps/domain/src/domain.mjs"
       ]
     }
   ]

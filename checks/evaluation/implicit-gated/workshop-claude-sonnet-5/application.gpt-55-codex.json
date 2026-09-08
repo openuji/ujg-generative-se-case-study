@@ -1,9 +1,9 @@
 {
   "evaluation_version": "application-realization-core-v1",
-  "run_id": "workshop-claude-sonnet",
+  "run_id": "workshop-claude-sonnet-5",
   "evaluated_phase": "application",
   "implementation_model": "claude-sonnet-5",
-  "evaluator_model": "gpt-5-codex",
+  "evaluator_model": "gpt-55-codex",
   "quality_score_5": 3.7,
   "quality_score_100": 74,
   "scores": {
@@ -38,41 +38,41 @@
       "severity": "HIGH",
       "summary": "The UJG models an offered-place-unavailable direct-entry state and unavailable accept/decline branches, but persisted and read offer statuses cannot materialize unavailable as a direct entry.",
       "evidence": [
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/ujg/workshop-registration.ujg.jsonld:1143",
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/ujg/workshop-registration.ujg.jsonld:1215",
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/domain/src/db.mjs:40",
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/domain/src/domain.mjs:158",
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/ui/src/pages/OfferPage.tsx:90"
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/ujg/workshop-registration.ujg.jsonld:1143",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/ujg/workshop-registration.ujg.jsonld:1215",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/apps/domain/src/db.mjs:40",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/apps/domain/src/domain.mjs:158",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/apps/ui/src/pages/OfferPage.tsx:90"
       ]
     },
     {
       "severity": "MEDIUM",
       "summary": "Accepting an open offered place increments registered_count even when the fixture offer is attached to a full workshop, so acceptance can exceed capacity without encoded reserved-place semantics.",
       "evidence": [
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/domain/src/db.mjs:130",
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/domain/src/db.mjs:164",
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/domain/src/domain.mjs:198",
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/domain/test/domain.test.mjs:110"
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/apps/domain/src/db.mjs:130",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/apps/domain/src/db.mjs:164",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/apps/domain/src/domain.mjs:198",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/apps/domain/test/domain.test.mjs:110"
       ]
     },
     {
       "severity": "MEDIUM",
       "summary": "The application maintains parallel OpenAPI schemas and UI client types that duplicate and diverge from the UJG data schemas, including extra workshop and offer fields/statuses.",
       "evidence": [
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/domain/src/openapi.mjs:114",
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/ui/src/api.ts:1",
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/ujg/schemas/workshop-detail-data.schema.json:1",
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/ujg/schemas/offer-summary-data.schema.json:1"
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/apps/domain/src/openapi.mjs:114",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/apps/ui/src/api.ts:1",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/ujg/schemas/workshop-detail-data.schema.json:1",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/ujg/schemas/offer-summary-data.schema.json:1"
       ]
     },
     {
       "severity": "MEDIUM",
       "summary": "Maintained tests cover many domain and HTTP outcomes, but they do not cover browser/UI form validation branches, waitlist UI continuations, decline-unavailable behavior, or unavailable-offer direct entry.",
       "evidence": [
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/domain/test/domain.test.mjs:1",
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/domain/test/http.test.mjs:1",
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/ui/src/pages/RegistrationPage.tsx:39",
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/ui/src/pages/WaitlistPage.tsx:37"
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/apps/domain/test/domain.test.mjs:1",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/apps/domain/test/http.test.mjs:1",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/apps/ui/src/pages/RegistrationPage.tsx:39",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/apps/ui/src/pages/WaitlistPage.tsx:37"
       ]
     }
   ]

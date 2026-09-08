@@ -1,9 +1,9 @@
 {
   "evaluation_version": "token-foundation-core-v1",
-  "run_id": "workshop",
+  "run_id": "workshop-gpt-55-codex",
   "evaluated_phase": "tokens",
-  "implementation_model": "Codex 5.5",
-  "evaluator_model": "Codex 5.5",
+  "implementation_model": "gpt-55-codex",
+  "evaluator_model": "gpt-55-codex",
   "scores": {
     "token_model_quality": 4.5,
     "source_of_truth_integrity": 5,
@@ -46,9 +46,9 @@
       "severity": "MEDIUM",
       "summary": "Foundation tokens do not carry per-token direct or inferred provenance extensions, so traceability is limited for almost half of the catalog.",
       "evidence": [
-        "experiments/explicit-gated/runs/workshop/design/tokens/workshop-foundation.tokens.json",
-        "experiments/explicit-gated/runs/workshop/design/tokens/workshop-light-semantic.tokens.json",
-        "experiments/explicit-gated/runs/workshop/design/tokens/workshop-dark-semantic.tokens.json"
+        "experiments/explicit-gated/runs/workshop-gpt-55-codex/design/tokens/workshop-foundation.tokens.json",
+        "experiments/explicit-gated/runs/workshop-gpt-55-codex/design/tokens/workshop-light-semantic.tokens.json",
+        "experiments/explicit-gated/runs/workshop-gpt-55-codex/design/tokens/workshop-dark-semantic.tokens.json"
       ]
     }
   ],

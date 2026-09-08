@@ -1,9 +1,9 @@
 {
   "evaluation_version": "ds-styling-core-v1",
-  "run_id": "workshop",
+  "run_id": "workshop-gpt-55-codex",
   "evaluated_phase": "styling",
-  "implementation_model": "Codex 5.5",
-  "evaluator_model": "Codex 5.5",
+  "implementation_model": "gpt-55-codex",
+  "evaluator_model": "gpt-55-codex",
   "scores": {
     "visual_fidelity": 4,
     "token_theme_adherence": 4.5,
@@ -49,9 +49,9 @@
       "severity": "LOW",
       "summary": "Responsive and theme behavior is supported by CSS and Storybook theme controls, but no persisted rendered evidence documents viewport and theme combinations.",
       "evidence": [
-        "experiments/explicit-gated/runs/workshop/design-system/src/global.css",
-        "experiments/explicit-gated/runs/workshop/design-system/.storybook/preview.ts",
-        "experiments/explicit-gated/runs/workshop/design-system/templates/WorkshopsOverviewList/WorkshopsOverviewList.module.css"
+        "experiments/explicit-gated/runs/workshop-gpt-55-codex/design-system/src/global.css",
+        "experiments/explicit-gated/runs/workshop-gpt-55-codex/design-system/.storybook/preview.ts",
+        "experiments/explicit-gated/runs/workshop-gpt-55-codex/design-system/templates/WorkshopsOverviewList/WorkshopsOverviewList.module.css"
       ]
     }
   ],

@@ -1,9 +1,9 @@
 {
   "evaluation_version": "token-foundation-core-v1",
-  "run_id": "workshop-claude-sonnet",
+  "run_id": "workshop-claude-sonnet-5",
   "evaluated_phase": "tokens",
   "implementation_model": "claude-sonnet-5",
-  "evaluator_model": "gpt-5-codex",
+  "evaluator_model": "gpt-55-codex",
   "quality_score_5": 4.2667,
   "quality_score_100": 85.33,
   "scores": {
@@ -48,26 +48,26 @@
       "severity": "MEDIUM",
       "summary": "The DTCG files define spacing, font-size, font-weight, line-height, and border-width tokens, but Tailwind artifact styling still uses default utility scales instead of a complete token-backed theme bridge.",
       "evidence": [
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/src/styles/global.css:33",
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/components/ActionControl/ActionControl.tsx:23",
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/components/WorkshopDetailSummary/WorkshopDetailSummary.tsx:17"
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/design-system/src/styles/global.css:33",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/design-system/components/ActionControl/ActionControl.tsx:23",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/design-system/components/WorkshopDetailSummary/WorkshopDetailSummary.tsx:17"
       ]
     },
     {
       "severity": "LOW",
       "summary": "Traceability is complete for semantic tokens, but foundation token values do not carry visual-evidence provenance, leaving total-token provenance coverage at 40 percent.",
       "evidence": [
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/design/tokens/foundation.tokens.json:1",
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/design/tokens/semantic-light.tokens.json:8",
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/design/tokens/semantic-dark.tokens.json:8"
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/design/tokens/foundation.tokens.json:1",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/design/tokens/semantic-light.tokens.json:8",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/design/tokens/semantic-dark.tokens.json:8"
       ]
     },
     {
       "severity": "LOW",
       "summary": "Storybook exposes the theme switcher through a hardcoded light/dark registry instead of reading the UJG-derived token manifest.",
       "evidence": [
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/.storybook/preview.ts:7",
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/src/stories/token-manifest.ts:1"
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/design-system/.storybook/preview.ts:7",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/design-system/src/stories/token-manifest.ts:1"
       ]
     }
   ]

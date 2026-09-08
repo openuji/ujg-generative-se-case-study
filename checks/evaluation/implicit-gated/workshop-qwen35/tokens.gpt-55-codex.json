@@ -1,9 +1,9 @@
 {
   "evaluation_version": "token-foundation-core-v1",
-  "run_id": "qwen-workshop-smws",
+  "run_id": "workshop-qwen35",
   "evaluated_phase": "tokens",
   "implementation_model": "qwen",
-  "evaluator_model": "codex",
+  "evaluator_model": "gpt-55-codex",
   "quality_score_5": 0,
   "quality_score_100": 0,
   "scores": {
@@ -48,8 +48,8 @@
       "severity": "HIGH",
       "summary": "The token phase produced no DTCG token files and did not add the required Theme or TokenSource nodes to the run-local UJG.",
       "evidence": [
-        "experiments/implicit-gated/runs/qwen-workshop-smws/ujg/workshop-registration.ujg.jsonld",
-        "experiments/implicit-gated/runs/qwen-workshop-smws"
+        "experiments/implicit-gated/runs/workshop-qwen35/ujg/workshop-registration.ujg.jsonld",
+        "experiments/implicit-gated/runs/workshop-qwen35"
       ]
     },
     {
@@ -57,7 +57,7 @@
       "summary": "No token provenance, static token documentation, or theme portability evidence exists for the profile-required light and dark themes.",
       "evidence": [
         "docs/skills/implicit-gated/ujg-to-design-system-realization/references/v1-stack.md",
-        "experiments/implicit-gated/runs/qwen-workshop-smws"
+        "experiments/implicit-gated/runs/workshop-qwen35"
       ]
     }
   ]

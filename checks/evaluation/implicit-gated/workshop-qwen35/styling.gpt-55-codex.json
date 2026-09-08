@@ -1,9 +1,9 @@
 {
   "evaluation_version": "ds-styling-core-v1",
-  "run_id": "qwen-workshop-smws",
+  "run_id": "workshop-qwen35",
   "evaluated_phase": "styling",
   "implementation_model": "qwen",
-  "evaluator_model": "codex",
+  "evaluator_model": "gpt-55-codex",
   "quality_score_5": 0,
   "quality_score_100": 0,
   "scores": {
@@ -51,8 +51,8 @@
       "severity": "HIGH",
       "summary": "No styled design-system artifacts, CSS, Theme resolution, or component-explorer output exist for the manifest-selected design system.",
       "evidence": [
-        "experiments/implicit-gated/runs/qwen-workshop-smws/ujg-implementation.yaml",
-        "experiments/implicit-gated/runs/qwen-workshop-smws"
+        "experiments/implicit-gated/runs/workshop-qwen35/ujg-implementation.yaml",
+        "experiments/implicit-gated/runs/workshop-qwen35"
       ]
     },
     {
@@ -60,7 +60,7 @@
       "summary": "There is no static rendered evidence for reference fidelity or responsive behavior.",
       "evidence": [
         "references/workshop-registration/screens",
-        "experiments/implicit-gated/runs/qwen-workshop-smws"
+        "experiments/implicit-gated/runs/workshop-qwen35"
       ]
     }
   ]

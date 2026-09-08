@@ -1,6 +1,6 @@
 {
   "evaluation_version": "ds-structure-core-v1",
-  "run_id": "workshop-claude-sonnet",
+  "run_id": "workshop-claude-sonnet-5",
   "evaluated_phase": "structure",
   "implementation_model": "claude-sonnet-5",
   "evaluator_model": "claude-sonnet-5",
@@ -37,15 +37,15 @@
       "severity": "LOW",
       "summary": "Primitives (Field, Badge, Card, DefinitionList) have no colocated stories, so Storybook logs a harmless empty-glob warning during build.",
       "evidence": [
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/primitives/Field/Field.tsx",
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/.storybook/main.ts"
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/design-system/primitives/Field/Field.tsx",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/design-system/.storybook/main.ts"
       ]
     },
     {
       "severity": "LOW",
       "summary": "Structural source has no visual styling yet (expected at this phase), so composition can only be inspected through unstyled Storybook renders.",
       "evidence": [
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/src/styles/global.css"
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/design-system/src/styles/global.css"
       ]
     }
   ]

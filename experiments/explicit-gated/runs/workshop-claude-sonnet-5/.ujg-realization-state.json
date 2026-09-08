@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "run_id": "workshop-claude-sonet-gated",
+  "run_id": "workshop-claude-sonnet-5",
   "active_phase": "application",
   "completed_phases": [
     "structure",

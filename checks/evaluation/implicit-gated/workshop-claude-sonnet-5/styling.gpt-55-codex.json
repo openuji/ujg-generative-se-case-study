@@ -1,9 +1,9 @@
 {
   "evaluation_version": "ds-styling-core-v1",
-  "run_id": "workshop-claude-sonnet",
+  "run_id": "workshop-claude-sonnet-5",
   "evaluated_phase": "styling",
   "implementation_model": "claude-sonnet-5",
-  "evaluator_model": "gpt-5-codex",
+  "evaluator_model": "gpt-55-codex",
   "quality_score_5": 3.8833,
   "quality_score_100": 77.67,
   "scores": {
@@ -51,27 +51,27 @@
       "severity": "MEDIUM",
       "summary": "Styled artifacts preserve token-backed color/radius/shadow roles, but spacing and most type hierarchy are still expressed through Tailwind default utilities rather than DTCG-owned values.",
       "evidence": [
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/src/styles/global.css:33",
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/components/ActionControl/ActionControl.tsx:23",
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/templates/DetailWithAction/DetailWithAction.tsx:11"
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/design-system/src/styles/global.css:33",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/design-system/components/ActionControl/ActionControl.tsx:23",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/design-system/templates/DetailWithAction/DetailWithAction.tsx:11"
       ]
     },
     {
       "severity": "LOW",
       "summary": "Several templates repeat the same card-container styling even though a Card primitive exists, creating avoidable styling duplication.",
       "evidence": [
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/primitives/Card/Card.tsx:7",
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/templates/DetailWithAction/DetailWithAction.tsx:11",
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/templates/FormWithSubmit/FormWithSubmit.tsx:16"
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/design-system/primitives/Card/Card.tsx:7",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/design-system/templates/DetailWithAction/DetailWithAction.tsx:11",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/design-system/templates/FormWithSubmit/FormWithSubmit.tsx:16"
       ]
     },
     {
       "severity": "LOW",
       "summary": "Responsive behavior is mostly mobile-first in source, but explicit mobile/desktop Storybook variants cover only two templates and no checked-in rendered output is available.",
       "evidence": [
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/templates/WorkshopsOverviewList/WorkshopsOverviewList.stories.tsx:33",
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/templates/ReviewWithActions/ReviewWithActions.stories.tsx:28",
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/.storybook/main.ts:5"
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/design-system/templates/WorkshopsOverviewList/WorkshopsOverviewList.stories.tsx:33",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/design-system/templates/ReviewWithActions/ReviewWithActions.stories.tsx:28",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/design-system/.storybook/main.ts:5"
       ]
     }
   ]

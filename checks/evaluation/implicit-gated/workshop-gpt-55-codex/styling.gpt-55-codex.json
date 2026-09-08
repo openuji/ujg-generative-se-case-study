@@ -1,9 +1,9 @@
 {
   "evaluation_version": "ds-styling-core-v1",
-  "run_id": "codex",
+  "run_id": "workshop-gpt-55-codex",
   "evaluated_phase": "styling",
-  "implementation_model": "GPT-5 Codex",
-  "evaluator_model": "GPT-5 Codex",
+  "implementation_model": "gpt-55-codex",
+  "evaluator_model": "gpt-55-codex",
   "quality_score_5": 3.5667,
   "quality_score_100": 71.33,
   "scores": {
@@ -51,18 +51,18 @@
       "severity": "MEDIUM",
       "summary": "The styled design system consumes a handwritten theme CSS registry with raw color, spacing, radius, shadow, and font-size values instead of resolving the profile-selected token sources.",
       "evidence": [
-        "experiments/implicit-gated/runs/codex/design-system/src/styles.css",
-        "experiments/implicit-gated/runs/codex/design/tokens/shared.tokens.json",
-        "experiments/implicit-gated/runs/codex/design/tokens/light.tokens.json"
+        "experiments/implicit-gated/runs/workshop-gpt-55-codex/design-system/src/styles.css",
+        "experiments/implicit-gated/runs/workshop-gpt-55-codex/design/tokens/shared.tokens.json",
+        "experiments/implicit-gated/runs/workshop-gpt-55-codex/design/tokens/light.tokens.json"
       ]
     },
     {
       "severity": "LOW",
       "summary": "Several component and shell styles introduce local raw visual values for sizing and typography where reusable token variables would preserve stronger styling ownership.",
       "evidence": [
-        "experiments/implicit-gated/runs/codex/design-system/primitives/Field/Field.module.css",
-        "experiments/implicit-gated/runs/codex/design-system/components/ActionControl/ActionControl.module.css",
-        "experiments/implicit-gated/runs/codex/apps/ui/src/app.css"
+        "experiments/implicit-gated/runs/workshop-gpt-55-codex/design-system/primitives/Field/Field.module.css",
+        "experiments/implicit-gated/runs/workshop-gpt-55-codex/design-system/components/ActionControl/ActionControl.module.css",
+        "experiments/implicit-gated/runs/workshop-gpt-55-codex/apps/ui/src/app.css"
       ]
     }
   ]

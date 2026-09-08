@@ -1,9 +1,9 @@
 {
   "evaluation_version": "application-realization-core-v1",
-  "run_id": "workshop",
+  "run_id": "workshop-gpt-55-codex",
   "evaluated_phase": "application",
-  "implementation_model": "Codex 5.5",
-  "evaluator_model": "Codex 5.5",
+  "implementation_model": "gpt-55-codex",
+  "evaluator_model": "gpt-55-codex",
   "scores": {
     "manifest_realization_coverage": 4.5,
     "ujg_behavioral_fidelity": 4.25,
@@ -38,8 +38,8 @@
       "severity": "LOW",
       "summary": "Application verification covers the main success, waitlist, offer, expiry, and invariant paths, but it does not explicitly assert the domain API responses for both invalid form-result views.",
       "evidence": [
-        "experiments/explicit-gated/runs/workshop/test/application.test.mjs",
-        "experiments/explicit-gated/runs/workshop/apps/domain/src/main.mjs"
+        "experiments/explicit-gated/runs/workshop-gpt-55-codex/test/application.test.mjs",
+        "experiments/explicit-gated/runs/workshop-gpt-55-codex/apps/domain/src/main.mjs"
       ]
     }
   ],

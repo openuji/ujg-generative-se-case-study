@@ -1,9 +1,9 @@
 {
   "evaluation_version": "token-foundation-core-v1",
-  "run_id": "codex",
+  "run_id": "workshop-gpt-55-codex",
   "evaluated_phase": "tokens",
-  "implementation_model": "GPT-5 Codex",
-  "evaluator_model": "GPT-5 Codex",
+  "implementation_model": "gpt-55-codex",
+  "evaluator_model": "gpt-55-codex",
   "quality_score_5": 3.5333,
   "quality_score_100": 70.67,
   "scores": {
@@ -48,17 +48,17 @@
       "severity": "MEDIUM",
       "summary": "Theme values are duplicated as handwritten CSS variables instead of being generated from the DTCG token sources, weakening source-of-truth integrity and theme portability.",
       "evidence": [
-        "experiments/implicit-gated/runs/codex/design/tokens/light.tokens.json",
-        "experiments/implicit-gated/runs/codex/design/tokens/dark.tokens.json",
-        "experiments/implicit-gated/runs/codex/design-system/src/styles.css"
+        "experiments/implicit-gated/runs/workshop-gpt-55-codex/design/tokens/light.tokens.json",
+        "experiments/implicit-gated/runs/workshop-gpt-55-codex/design/tokens/dark.tokens.json",
+        "experiments/implicit-gated/runs/workshop-gpt-55-codex/design-system/src/styles.css"
       ]
     },
     {
       "severity": "MEDIUM",
       "summary": "The token resolver flattens alias strings as literal values rather than resolving them through the shared foundation source.",
       "evidence": [
-        "experiments/implicit-gated/runs/codex/design-system/src/theme/resolveTokens.mjs",
-        "experiments/implicit-gated/runs/codex/design/tokens/light.tokens.json"
+        "experiments/implicit-gated/runs/workshop-gpt-55-codex/design-system/src/theme/resolveTokens.mjs",
+        "experiments/implicit-gated/runs/workshop-gpt-55-codex/design/tokens/light.tokens.json"
       ]
     }
   ]

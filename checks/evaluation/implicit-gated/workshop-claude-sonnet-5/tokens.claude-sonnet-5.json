@@ -1,6 +1,6 @@
 {
   "evaluation_version": "token-foundation-core-v1",
-  "run_id": "workshop-claude-sonnet",
+  "run_id": "workshop-claude-sonnet-5",
   "evaluated_phase": "tokens",
   "implementation_model": "claude-sonnet-5",
   "evaluator_model": "claude-sonnet-5",
@@ -48,14 +48,14 @@
       "severity": "LOW",
       "summary": "The focus.ring semantic role is classified as direct evidence, but no screenshot shows an explicit keyboard-focus state — it reuses the primary action blue shown elsewhere.",
       "evidence": [
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/design/tokens/semantic-light.tokens.json"
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/design/tokens/semantic-light.tokens.json"
       ]
     },
     {
       "severity": "LOW",
       "summary": "Dark-theme foundation colors reuse the same neutral/blue/green/amber/red ramps as light via alias resolution rather than a dedicated dark palette, which is a reasonable inference but not independently verifiable.",
       "evidence": [
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/design/tokens/semantic-dark.tokens.json"
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/design/tokens/semantic-dark.tokens.json"
       ]
     }
   ]

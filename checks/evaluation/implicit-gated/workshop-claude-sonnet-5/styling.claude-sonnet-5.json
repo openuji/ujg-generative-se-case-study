@@ -1,6 +1,6 @@
 {
   "evaluation_version": "ds-styling-core-v1",
-  "run_id": "workshop-claude-sonnet",
+  "run_id": "workshop-claude-sonnet-5",
   "evaluated_phase": "styling",
   "implementation_model": "claude-sonnet-5",
   "evaluator_model": "claude-sonnet-5",
@@ -51,16 +51,16 @@
       "severity": "MEDIUM",
       "summary": "Styling is applied as Tailwind utility classes at each call site rather than dedicated per-artifact CSS Modules, so the Template/Component CSS-module ownership layers described in the skill are collapsed into class-name authorship instead of separate files.",
       "evidence": [
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/templates/DetailWithAction/DetailWithAction.tsx",
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/components/ActionControl/ActionControl.tsx"
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/design-system/templates/DetailWithAction/DetailWithAction.tsx",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/design-system/components/ActionControl/ActionControl.tsx"
       ]
     },
     {
       "severity": "LOW",
       "summary": "Only WorkshopsOverviewList and ReviewWithActions have explicit Mobile/Desktop Storybook variants; the remaining 19 artifacts rely on the same responsive CSS without a dedicated narrow/wide story pair.",
       "evidence": [
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/templates/WorkshopsOverviewList/WorkshopsOverviewList.stories.tsx",
-        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/templates/ReviewWithActions/ReviewWithActions.stories.tsx"
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/design-system/templates/WorkshopsOverviewList/WorkshopsOverviewList.stories.tsx",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet-5/design-system/templates/ReviewWithActions/ReviewWithActions.stories.tsx"
       ]
     }
   ]

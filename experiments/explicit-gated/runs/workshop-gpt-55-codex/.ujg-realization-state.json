@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "run_id": "workshop",
+  "run_id": "workshop-gpt-55-codex",
   "active_phase": null,
   "completed_phases": [
     "structure",

@@ -7,9 +7,9 @@ targets.
 
 Tracked runs:
 
-- `codex`
-- `workshop-claude-sonnet`
-- `qwen-workshop-smws`
+- `workshop-gpt-55-codex`
+- `workshop-claude-sonnet-5`
+- `workshop-qwen35`
 
 Run source lives under `experiments/implicit-gated/runs/<run-name>/`.
 Evaluation results live under

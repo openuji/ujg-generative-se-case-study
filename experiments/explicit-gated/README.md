@@ -6,9 +6,9 @@ the next fresh invocation starts.
 
 Tracked runs:
 
-- `workshop`: complete, with evaluations under
-  `checks/evaluation/explicit-gated/workshop/`.
-- `workshop-claude-sonet-gated`: in progress, with `application` active and no
+- `workshop-gpt-55-codex`: complete, with evaluations under
+  `checks/evaluation/explicit-gated/workshop-gpt-55-codex/`.
+- `workshop-claude-sonnet-5`: in progress, with `application` active and no
   evaluation results yet.
 
 Run source lives under `experiments/explicit-gated/runs/<run-name>/`.
