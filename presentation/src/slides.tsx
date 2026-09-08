@@ -272,10 +272,10 @@ export const pages: DeckPage[] = [
     content: (
       <>
         <ComparisonChart />
-        <p className="footer-note">
+        {/* <p className="footer-note">
           backend-dm is an earlier highly iterative feasibility realization and
           is not part of the clean-room comparison.
-        </p>
+        </p> */}
       </>
     )
   },

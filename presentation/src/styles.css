@@ -368,7 +368,7 @@ button {
 
 .score-row {
   display: grid;
-  grid-template-columns: 230px 1fr;
+  grid-template-columns: 280px 1fr;
   gap: 28px;
   align-items: center;
 }
