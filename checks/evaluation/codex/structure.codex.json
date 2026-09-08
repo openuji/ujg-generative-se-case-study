@@ -1,0 +1,46 @@
+{
+  "evaluation_version": "ds-structure-core-v1",
+  "run_id": "codex",
+  "evaluated_phase": "structure",
+  "implementation_model": "GPT-5 Codex",
+  "evaluator_model": "GPT-5 Codex",
+  "quality_score_5": 4.85,
+  "quality_score_100": 97,
+  "scores": {
+    "artifact_coverage": 5,
+    "composition_fidelity": 4.8,
+    "data_contract_fidelity": 4.6,
+    "identity_containment": 5,
+    "implementation_modularity": 4.7,
+    "storybook_inspectability": 5
+  },
+  "complexity": {
+    "classification": "moderate",
+    "implementation_file_count": 76,
+    "infrastructure_loc": 124,
+    "new_dependency_count": 16
+  },
+  "metrics": {
+    "expected_component_count": 12,
+    "implemented_component_count": 12,
+    "expected_template_count": 9,
+    "implemented_template_count": 9,
+    "missing_story_count": 0,
+    "binding_mismatch_count": 0,
+    "composition_violation_count": 0,
+    "data_contract_violation_count": 1,
+    "identifier_leak_count": 0,
+    "interaction_story_coverage_ratio": 1
+  },
+  "findings": [
+    {
+      "severity": "LOW",
+      "summary": "Data-bound prop types mirror the JSON schema property inventory in TypeScript, which adds a small parallel contract surface even though the editable keys match the schemas.",
+      "evidence": [
+        "experiments/full-application-generation/runs/codex/design-system/src/types.ts",
+        "experiments/full-application-generation/runs/codex/ujg/schemas/registration-form-data.schema.json",
+        "experiments/full-application-generation/runs/codex/ujg/schemas/waitlist-form-data.schema.json"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "evaluation_version": "token-foundation-core-v1",
+  "run_id": "codex",
+  "evaluated_phase": "tokens",
+  "implementation_model": "GPT-5 Codex",
+  "evaluator_model": "GPT-5 Codex",
+  "quality_score_5": 3.5333,
+  "quality_score_100": 70.67,
+  "scores": {
+    "token_model_quality": 4.3,
+    "source_of_truth_integrity": 2.3,
+    "theme_portability": 3.1,
+    "traceability": 4.5,
+    "visual_foundation_fidelity": 4,
+    "inspectability": 3
+  },
+  "complexity": {
+    "classification": "moderate",
+    "implementation_file_count": 4,
+    "infrastructure_loc": 86,
+    "new_dependency_count": 0
+  },
+  "scope_preserved": "PASS",
+  "ujg_contract": "PASS",
+  "metrics": {
+    "total_token_count": 63,
+    "foundation_token_count": 31,
+    "semantic_token_count": 32,
+    "unresolved_alias_count": 0,
+    "invalid_token_count": 0,
+    "raw_value_leak_count": 73,
+    "parallel_token_catalog_count": 1,
+    "parallel_theme_registry_count": 1,
+    "theme_count": 2,
+    "hardcoded_theme_branch_count": 0,
+    "data_driven_themes": false,
+    "provenance_coverage_ratio": 1,
+    "direct_token_count": 16,
+    "inferred_token_count": 16,
+    "unclassified_token_count": 31,
+    "invalid_reference_count": 0,
+    "documentation_present": false,
+    "documented_group_count": 0,
+    "duplicated_documentation_value_count": 0
+  },
+  "findings": [
+    {
+      "severity": "MEDIUM",
+      "summary": "Theme values are duplicated as handwritten CSS variables instead of being generated from the DTCG token sources, weakening source-of-truth integrity and theme portability.",
+      "evidence": [
+        "experiments/full-application-generation/runs/codex/design/tokens/light.tokens.json",
+        "experiments/full-application-generation/runs/codex/design/tokens/dark.tokens.json",
+        "experiments/full-application-generation/runs/codex/design-system/src/styles.css"
+      ]
+    },
+    {
+      "severity": "MEDIUM",
+      "summary": "The token resolver flattens alias strings as literal values rather than resolving them through the shared foundation source.",
+      "evidence": [
+        "experiments/full-application-generation/runs/codex/design-system/src/theme/resolveTokens.mjs",
+        "experiments/full-application-generation/runs/codex/design/tokens/light.tokens.json"
+      ]
+    }
+  ]
+}
