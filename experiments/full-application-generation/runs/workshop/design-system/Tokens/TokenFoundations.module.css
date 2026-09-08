@@ -1,0 +1,53 @@
+.root {
+  display: grid;
+  gap: var(--foundation-space-6);
+  color: var(--semantic-text-primary);
+}
+
+.toolbar {
+  display: grid;
+  gap: var(--foundation-space-2);
+  max-inline-size: calc(var(--foundation-space-12) * 7);
+}
+
+.select {
+  border: var(--foundation-border-width-thin) solid var(--semantic-control-border);
+  border-radius: var(--foundation-radius-small);
+  padding: var(--foundation-space-3) var(--foundation-space-4);
+  background: var(--semantic-control-background);
+  color: var(--semantic-text-primary);
+}
+
+.section {
+  overflow-x: auto;
+  border: var(--foundation-border-width-thin) solid var(--semantic-border-default);
+  border-radius: var(--foundation-radius-small);
+  background: var(--semantic-surface-panel);
+}
+
+.title {
+  margin: 0;
+  padding: var(--foundation-space-4);
+  border-block-end: var(--foundation-border-width-thin) solid var(--semantic-border-default);
+  font-size: var(--foundation-font-size-body);
+  font-weight: var(--foundation-font-weight-semibold);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: var(--foundation-space-3) var(--foundation-space-4);
+  border-block-end: var(--foundation-border-width-thin) solid var(--semantic-border-default);
+  text-align: start;
+  vertical-align: top;
+}
+
+.table th {
+  color: var(--semantic-text-secondary);
+  font-size: var(--foundation-font-size-caption);
+  font-weight: var(--foundation-font-weight-medium);
+}

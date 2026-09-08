@@ -1,0 +1,134 @@
+.appShell {
+  min-height: 100vh;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--semantic-surface-panel) 88%, transparent), transparent 26rem),
+    var(--semantic-surface-page);
+  color: var(--semantic-text-primary);
+}
+
+.topBar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: minmax(12rem, 1fr) auto auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem clamp(1rem, 4vw, 2rem);
+  border-bottom: 1px solid var(--semantic-border-subtle);
+  background: color-mix(in srgb, var(--semantic-surface-page) 94%, transparent);
+  backdrop-filter: blur(12px);
+}
+
+.brandButton,
+.navActions button,
+.navActions a,
+.themePicker select {
+  min-height: 2.25rem;
+  border: 1px solid var(--semantic-border-subtle);
+  border-radius: 8px;
+  background: var(--semantic-surface-panel);
+  color: var(--semantic-text-primary);
+  font: inherit;
+}
+
+.brandButton {
+  justify-self: start;
+  padding: 0.45rem 0.75rem;
+  font-weight: 800;
+}
+
+.navActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: end;
+  gap: 0.5rem;
+}
+
+.navActions button,
+.navActions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 0.7rem;
+  text-decoration: none;
+}
+
+.navActions button:hover,
+.navActions a:hover,
+.brandButton:hover {
+  border-color: var(--semantic-action-primary-background);
+}
+
+.themePicker {
+  display: inline-flex;
+  align-items: center;
+  justify-self: end;
+  gap: 0.5rem;
+  color: var(--semantic-text-secondary);
+  font-size: 0.9rem;
+}
+
+.themePicker select {
+  padding: 0.4rem 1.8rem 0.4rem 0.55rem;
+}
+
+.workspace {
+  width: min(100% - 2rem, 1040px);
+  margin: 0 auto;
+  padding: clamp(1rem, 4vw, 2.5rem) 0 4rem;
+}
+
+.screenHeader {
+  display: grid;
+  gap: 0.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.screenHeader p {
+  margin: 0;
+  color: var(--semantic-text-secondary);
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.screenHeader h1 {
+  margin: 0;
+  color: var(--semantic-text-primary);
+  font-size: clamp(2rem, 5vw, 3.75rem);
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.loading {
+  width: fit-content;
+  margin: 1rem 0;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--semantic-border-subtle);
+  border-radius: 8px;
+  background: var(--semantic-surface-panel);
+  color: var(--semantic-text-secondary);
+}
+
+@media (max-width: 760px) {
+  .topBar {
+    position: static;
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+
+  .navActions,
+  .themePicker,
+  .brandButton {
+    justify-self: stretch;
+  }
+
+  .navActions {
+    justify-content: start;
+  }
+
+  .themePicker {
+    justify-content: space-between;
+  }
+}

@@ -1,0 +1,20 @@
+.root {
+  display: grid;
+  justify-items: center;
+  gap: var(--foundation-space-6);
+  border: var(--foundation-border-width-thin) solid var(--semantic-border-default);
+  border-radius: var(--foundation-radius-small);
+  padding: var(--foundation-space-8);
+  background: var(--semantic-surface-panel);
+}
+
+.content {
+  min-width: 0;
+}
+
+.action {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--foundation-space-3);
+  justify-content: center;
+}

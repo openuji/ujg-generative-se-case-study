@@ -1,0 +1,128 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "semantic": {
+    "$extensions": {
+      "org.openuji.visual-evidence": {
+        "confidence": "inferred",
+        "basis": "Dark values preserve the observed light-theme hierarchy and semantic hues while shifting surfaces and text for dark backgrounds.",
+        "screenPaths": [
+          "references/workshop-registration/screens/screen.png",
+          "references/workshop-registration/screens/screen_1.png",
+          "references/workshop-registration/screens/screen_4.png",
+          "references/workshop-registration/screens/screen_8.png"
+        ]
+      }
+    },
+    "surface": {
+      "$type": "color",
+      "page": {
+        "$value": "{foundation.color.neutral.900}"
+      },
+      "panel": {
+        "$value": "{foundation.color.neutral.800}"
+      },
+      "muted": {
+        "$value": "{foundation.color.blue.900}"
+      }
+    },
+    "text": {
+      "$type": "color",
+      "primary": {
+        "$value": "{foundation.color.neutral.50}"
+      },
+      "secondary": {
+        "$value": "{foundation.color.neutral.300}"
+      },
+      "inverse": {
+        "$value": "{foundation.color.neutral.900}"
+      }
+    },
+    "border": {
+      "$type": "color",
+      "default": {
+        "$value": "{foundation.color.neutral.700}"
+      },
+      "strong": {
+        "$value": "{foundation.color.neutral.500}"
+      }
+    },
+    "action": {
+      "$type": "color",
+      "primaryBackground": {
+        "$value": "{foundation.color.blue.500}"
+      },
+      "primaryText": {
+        "$value": "{foundation.color.white}"
+      },
+      "secondaryBackground": {
+        "$value": "{foundation.color.neutral.800}"
+      },
+      "secondaryText": {
+        "$value": "{foundation.color.blue.100}"
+      },
+      "destructiveBackground": {
+        "$value": "{foundation.color.red.600}"
+      },
+      "destructiveText": {
+        "$value": "{foundation.color.white}"
+      }
+    },
+    "control": {
+      "$type": "color",
+      "background": {
+        "$value": "{foundation.color.neutral.800}"
+      },
+      "border": {
+        "$value": "{foundation.color.neutral.700}"
+      },
+      "icon": {
+        "$value": "{foundation.color.blue.100}"
+      },
+      "disabled": {
+        "$value": "{foundation.color.neutral.700}"
+      }
+    },
+    "focus": {
+      "$type": "color",
+      "ring": {
+        "$value": "{foundation.color.blue.100}"
+      }
+    },
+    "success": {
+      "$type": "color",
+      "surface": {
+        "$value": "{foundation.color.green.900}"
+      },
+      "text": {
+        "$value": "{foundation.color.green.100}"
+      },
+      "border": {
+        "$value": "{foundation.color.green.700}"
+      }
+    },
+    "warning": {
+      "$type": "color",
+      "surface": {
+        "$value": "{foundation.color.amber.900}"
+      },
+      "text": {
+        "$value": "{foundation.color.amber.100}"
+      },
+      "border": {
+        "$value": "{foundation.color.amber.700}"
+      }
+    },
+    "error": {
+      "$type": "color",
+      "surface": {
+        "$value": "{foundation.color.red.900}"
+      },
+      "text": {
+        "$value": "{foundation.color.red.100}"
+      },
+      "border": {
+        "$value": "{foundation.color.red.700}"
+      }
+    }
+  }
+}

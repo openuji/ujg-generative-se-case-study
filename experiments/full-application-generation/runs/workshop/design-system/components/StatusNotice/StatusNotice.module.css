@@ -1,0 +1,29 @@
+.root {
+  border: var(--foundation-border-width-thin) solid var(--semantic-border-default);
+  border-radius: var(--foundation-radius-small);
+  padding: var(--foundation-space-3) var(--foundation-space-4);
+  background: var(--semantic-surface-muted);
+  color: var(--semantic-text-primary);
+}
+
+.info {
+  border-color: var(--semantic-control-border);
+}
+
+.success {
+  border-color: var(--semantic-success-border);
+  background: var(--semantic-success-surface);
+  color: var(--semantic-success-text);
+}
+
+.warning {
+  border-color: var(--semantic-warning-border);
+  background: var(--semantic-warning-surface);
+  color: var(--semantic-warning-text);
+}
+
+.error {
+  border-color: var(--semantic-error-border);
+  background: var(--semantic-error-surface);
+  color: var(--semantic-error-text);
+}

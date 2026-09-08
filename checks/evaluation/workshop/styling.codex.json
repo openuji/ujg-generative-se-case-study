@@ -1,0 +1,62 @@
+{
+  "evaluation_version": "ds-styling-core-v1",
+  "run_id": "workshop",
+  "evaluated_phase": "styling",
+  "implementation_model": "Codex 5.5",
+  "evaluator_model": "Codex 5.5",
+  "scores": {
+    "visual_fidelity": 4,
+    "token_theme_adherence": 4.5,
+    "structural_scope_preservation": 5,
+    "responsive_quality": 4,
+    "styling_modularity": 4.5,
+    "inspectability": 4
+  },
+  "quality_score_5": 4.3333,
+  "quality_score_100": 86.67,
+  "complexity": {
+    "classification": "moderate",
+    "styling_file_count": 24,
+    "styling_loc": 885,
+    "new_primitive_count": 0,
+    "new_dependency_count": 0
+  },
+  "metrics": {
+    "unsupported_reference_element_count": 4,
+    "raw_visual_value_leak_count": 0,
+    "hardcoded_theme_branch_count": 0,
+    "theme_specific_component_style_count": 0,
+    "theme_count": 2,
+    "unsupported_product_structure_count": 0,
+    "cross_artifact_composition_violation_count": 0,
+    "behavior_introduced_by_styling_count": 0,
+    "component_inventory_changed": false,
+    "template_inventory_changed": false,
+    "responsive_artifact_count": 2,
+    "desktop_only_assumption_count": 0,
+    "mobile_first_violation_count": 0,
+    "global_artifact_specific_selector_count": 0,
+    "misplaced_style_rule_count": 0,
+    "styling_specific_new_primitive_count": 0,
+    "duplicated_style_pattern_count": 1,
+    "styled_artifact_documentation_coverage_ratio": 1,
+    "theme_documentation_coverage_ratio": 1,
+    "responsive_documentation_coverage_ratio": 0,
+    "duplicated_documentation_style_value_count": 0
+  },
+  "findings": [
+    {
+      "severity": "LOW",
+      "summary": "Responsive and theme behavior is supported by CSS and Storybook theme controls, but no persisted rendered evidence documents viewport and theme combinations.",
+      "evidence": [
+        "experiments/full-application-generation/runs/workshop/design-system/src/global.css",
+        "experiments/full-application-generation/runs/workshop/design-system/.storybook/preview.ts",
+        "experiments/full-application-generation/runs/workshop/design-system/templates/WorkshopsOverviewList/WorkshopsOverviewList.module.css"
+      ]
+    }
+  ],
+  "scope_preserved": "PASS",
+  "ujg_contract": "PASS",
+  "visual_fidelity_confidence": "medium",
+  "notes": "The styling layer keeps artifact inventory stable, applies token-backed CSS modules, exposes data-driven light and dark themes, and uses responsive layout primitives without introducing behavior. Deductions reflect visual gaps from unsupported reference affordances such as richer icon/status treatments and limited persisted responsive evidence."
+}

@@ -1,0 +1,40 @@
+{
+  "evaluation_version": "ds-structure-core-v1",
+  "run_id": "workshop",
+  "evaluated_phase": "structure",
+  "implementation_model": "Codex 5.5",
+  "evaluator_model": "Codex 5.5",
+  "scores": {
+    "artifact_coverage": 5,
+    "composition_fidelity": 5,
+    "data_contract_fidelity": 5,
+    "identity_containment": 5,
+    "implementation_modularity": 4.5,
+    "storybook_inspectability": 4.5
+  },
+  "quality_score_5": 4.8333,
+  "quality_score_100": 96.67,
+  "complexity": {
+    "classification": "moderate",
+    "implementation_file_count": 77,
+    "infrastructure_loc": 450,
+    "new_dependency_count": 16
+  },
+  "metrics": {
+    "expected_component_count": 12,
+    "implemented_component_count": 12,
+    "expected_template_count": 9,
+    "implemented_template_count": 9,
+    "missing_story_count": 0,
+    "binding_mismatch_count": 0,
+    "composition_violation_count": 0,
+    "data_contract_violation_count": 0,
+    "identifier_leak_count": 0,
+    "interaction_story_coverage_ratio": 1
+  },
+  "findings": [],
+  "scope_preserved": "PASS",
+  "ujg_contract": "PASS",
+  "visual_fidelity_confidence": "medium",
+  "notes": "The generated design-system structure covers every UJG component and template with colocated stories, a complete binding manifest, schema-aligned form fields, and no UJG identifier leakage outside allowed generated binding artifacts. The slight deductions reflect mostly static Storybook coverage for many artifacts and a broad but straightforward file footprint."
+}

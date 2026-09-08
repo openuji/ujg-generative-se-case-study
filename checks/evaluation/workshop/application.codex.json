@@ -1,0 +1,50 @@
+{
+  "evaluation_version": "application-realization-core-v1",
+  "run_id": "workshop",
+  "evaluated_phase": "application",
+  "implementation_model": "Codex 5.5",
+  "evaluator_model": "Codex 5.5",
+  "scores": {
+    "manifest_realization_coverage": 4.5,
+    "ujg_behavioral_fidelity": 4.25,
+    "domain_integrity": 4.5,
+    "interface_design_system_integration": 4.25,
+    "source_of_truth_integrity": 5,
+    "verification_coverage": 4
+  },
+  "quality_score_5": 4.4167,
+  "quality_score_100": 88.33,
+  "complexity": {
+    "classification": "moderate",
+    "implementation_file_count": 12,
+    "infrastructure_loc": 101,
+    "new_dependency_count": 7
+  },
+  "metrics": {
+    "manifest_interface_count": 2,
+    "realized_interface_count": 2,
+    "selected_target_count": 2,
+    "missing_target_count": 0,
+    "modeled_branch_count": 13,
+    "verified_branch_count": 11,
+    "effect_invariant_violation_count": 0,
+    "design_system_integration_violation_count": 0,
+    "prohibited_projection_count": 0,
+    "identifier_leak_count": 0,
+    "verification_coverage_ratio": 0.8462
+  },
+  "findings": [
+    {
+      "severity": "LOW",
+      "summary": "Application verification covers the main success, waitlist, offer, expiry, and invariant paths, but it does not explicitly assert the domain API responses for both invalid form-result views.",
+      "evidence": [
+        "experiments/full-application-generation/runs/workshop/test/application.test.mjs",
+        "experiments/full-application-generation/runs/workshop/apps/domain/src/main.mjs"
+      ]
+    }
+  ],
+  "scope_preserved": "PASS",
+  "ujg_contract": "PASS",
+  "visual_fidelity_confidence": "medium",
+  "notes": "The application realizes the selected domain and browser targets with SQLite-backed state, fake authentication, transactional mutations, fake email effects, runtime OpenAPI documentation, and a React interface composed from the generated design system. The score is reduced for a modest branch verification gap and for email being represented through the fake delivery client plus UI preview rather than an independent rendered email target."
+}

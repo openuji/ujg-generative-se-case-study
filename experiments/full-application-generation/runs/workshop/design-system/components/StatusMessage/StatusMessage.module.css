@@ -1,0 +1,61 @@
+.root {
+  display: grid;
+  justify-items: center;
+  gap: var(--foundation-space-3);
+  color: var(--semantic-text-primary);
+  text-align: center;
+}
+
+.title {
+  margin: 0;
+  font-size: var(--foundation-font-size-display);
+  font-weight: var(--foundation-font-weight-semibold);
+  line-height: var(--foundation-line-height-tight);
+}
+
+.message {
+  max-inline-size: calc(var(--foundation-space-12) * 12);
+  margin: 0;
+  color: var(--semantic-text-secondary);
+}
+
+.details {
+  display: grid;
+  gap: var(--foundation-space-2);
+  margin: var(--foundation-space-2) 0 0;
+}
+
+.row {
+  display: inline-flex;
+  justify-content: center;
+  gap: var(--foundation-space-2);
+}
+
+.row dt {
+  color: var(--semantic-text-secondary);
+}
+
+.row dt::after {
+  content: ":";
+}
+
+.row dd {
+  margin: 0;
+  font-weight: var(--foundation-font-weight-medium);
+}
+
+.success .title {
+  color: var(--semantic-success-text);
+}
+
+.warning .title {
+  color: var(--semantic-warning-text);
+}
+
+.error .title {
+  color: var(--semantic-error-text);
+}
+
+.info .title {
+  color: var(--semantic-text-primary);
+}
