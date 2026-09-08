@@ -74,7 +74,8 @@ export const diagrams = {
     RR --> RC["Registration confirmed"]
 
     W --> WF["Waitlist details"]
-    WF --> WW["Waitlisted"]
+    WF --> RRW["Review"]
+    RRW --> WW["Waitlisted"]
 
     E["Offered-place email"] --> OP["Offered-place screen"]
     OP -->|Accept| RC
