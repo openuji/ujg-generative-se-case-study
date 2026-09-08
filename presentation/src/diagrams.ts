@@ -84,13 +84,16 @@ export const diagrams = {
     class E,OP email`,
 
   journeyRepair: `flowchart LR
-    U["UJG<br/>selected journey paths"] --> A["Generative agent"]
-    A --> APP["Application"]
+    
+    
+    
 
-    APP --> JM["JourneyMesh"]
-    U --> JM
+    A["Generative agent"] --> JM["JourneyMesh"]
+    JM --> U["UJG<br/>selected journey paths"]  
+    JM --> APP["Application"]
+    U --> RUN["Execute selected<br/>journey paths"]
 
-    JM --> RUN["Execute selected<br/>journey paths"]
+    APP --> RUN
     RUN --> V{"Journey correct?"}
 
     V -->|No| F["Failure evidence"]
