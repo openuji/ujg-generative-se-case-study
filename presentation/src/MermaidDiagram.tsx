@@ -9,7 +9,11 @@ mermaid.initialize({
     curve: "basis",
     nodeSpacing: 64,
     rankSpacing: 70,
-    htmlLabels: true
+    htmlLabels: true,
+    subGraphTitleMargin: {
+      top: 5,
+      bottom: 20
+    }
   },
   themeVariables: {
     background: "#fbfbf8",
