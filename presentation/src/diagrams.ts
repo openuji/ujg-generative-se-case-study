@@ -1,15 +1,15 @@
 export const diagrams = {
   domainFirst: `flowchart LR
-    A["Briefing / Whiteboard"] --> B["Semi-shared understanding<br/>of the problem"]
+    B["Real world view"]
     B --> C["Domain"]
     C --> D["UI / Surface"]
     C --> E["Backend / Logic"]`,
 
   interactionFirst: `flowchart LR
-    A["Problem to solve"] --> B["Intended user interaction"]
+    B["User view"]
     B --> C["Semantic interaction model"]
-    C --> D["Surface requirements"]
-    C --> E["Domain requirements"]
+    C --> D["Surface"]
+    C --> E["Domain"]
     D --> F["UI"]
     E --> G["Backend"]`,
 
