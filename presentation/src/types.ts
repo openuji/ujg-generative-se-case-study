@@ -1,5 +1,13 @@
 import type { ReactNode } from "react";
 
+export type DeckRenderContext = {
+  revealStep: number;
+};
+
+export type DeckContent =
+  | ReactNode
+  | ((context: DeckRenderContext) => ReactNode);
+
 export type ModelResult = {
   model: string;
   status: "running" | "finished" | "failed";
@@ -18,5 +26,6 @@ export type DeckPage = {
   title: string;
   eyebrow?: string;
   layout: "statement" | "diagram" | "comparison" | "questions";
-  content: ReactNode;
+  revealCount?: number;
+  content: DeckContent;
 };

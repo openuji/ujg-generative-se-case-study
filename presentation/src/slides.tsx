@@ -1,10 +1,32 @@
 import { ComparisonChart } from "./ComparisonChart";
 import { MermaidDiagram } from "./MermaidDiagram";
 import { diagrams } from "./diagrams";
-import type { SVGProps } from "react";
+import type { ReactNode, SVGProps } from "react";
 import type { DeckPage } from "./types";
 
 const slideCount = 8;
+
+function RevealedQuestion({
+  children,
+  revealStep,
+  step
+}: {
+  children: ReactNode;
+  revealStep: number;
+  step: number;
+}) {
+  const isVisible = revealStep >= step;
+
+  return (
+    <li
+      className="question-reveal"
+      data-visible={isVisible}
+      aria-hidden={!isVisible}
+    >
+      {children}
+    </li>
+  );
+}
 
 function FigmaBrandIcon(props: SVGProps<SVGSVGElement>) {
   return (
@@ -367,21 +389,22 @@ export const pages: DeckPage[] = [
     stepCount: 1,
     title: "Open questions",
     layout: "questions",
-    content: (
+    revealCount: 3,
+    content: ({ revealStep }) => (
       <>
         <ol className="questions-list">
-          <li>
+          <RevealedQuestion revealStep={revealStep} step={1}>
             Which domain concepts can legitimately be derived from interaction
             semantics, and which must remain independently modeled?
-          </li>
-          <li>
+          </RevealedQuestion>
+          <RevealedQuestion revealStep={revealStep} step={2}>
             Does UJG-grounded generation materially improve realization compared
             with equivalent natural-language requirements?
-          </li>
-          <li>
+          </RevealedQuestion>
+          <RevealedQuestion revealStep={revealStep} step={3}>
             Can one semantic model remain useful across intent, generation,
             runtime observation and evaluation?
-          </li>
+          </RevealedQuestion>
         </ol>
         <div className="links-footer">
           <span>ujg.specs.openuji.org</span>

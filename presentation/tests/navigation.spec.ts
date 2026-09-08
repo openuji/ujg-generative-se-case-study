@@ -42,6 +42,36 @@ test("edge controls navigate by click", async ({ page }) => {
   await expect(page.locator(".slide")).toContainText("UJG started from frustration.");
 });
 
+test("question slide reveals and hides sentences without changing slides", async ({
+  page
+}) => {
+  await page.goto("/#slide-8-step-1");
+
+  const nextButton = page.getByRole("button", { name: "Next slide" });
+  const questions = page.locator(".questions-list li");
+  await expect(questions).toHaveCount(3);
+  await expect(questions.nth(0)).toHaveCSS("opacity", "0");
+  await expect(questions.nth(1)).toHaveCSS("opacity", "0");
+  await expect(questions.nth(2)).toHaveCSS("opacity", "0");
+
+  await nextButton.click();
+  await expect(page).toHaveURL(/#slide-8-step-1$/);
+  await expect(page.locator(".slide")).toHaveAttribute(
+    "aria-label",
+    "Slide 8, step 1, reveal 1 of 3"
+  );
+  await expect(questions.nth(0)).toHaveCSS("opacity", "1");
+  await expect(questions.nth(1)).toHaveCSS("opacity", "0");
+
+  await nextButton.click();
+  await expect(questions.nth(1)).toHaveCSS("opacity", "1");
+
+  await page.keyboard.press("ArrowLeft");
+  await expect(page).toHaveURL(/#slide-8-step-1$/);
+  await expect(questions.nth(1)).toHaveCSS("opacity", "0");
+  await expect(questions.nth(0)).toHaveCSS("opacity", "1");
+});
+
 test("every page renders without internal scrollbars or diagram errors", async ({
   page
 }) => {

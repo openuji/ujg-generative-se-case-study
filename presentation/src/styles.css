@@ -505,6 +505,20 @@ button {
   font-weight: 720;
 }
 
+.question-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 280ms ease,
+    transform 280ms ease;
+  will-change: opacity, transform;
+}
+
+.question-reveal[data-visible="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .links-footer {
   position: absolute;
   left: clamp(68px, 6.6vw, 118px);
@@ -653,6 +667,12 @@ button {
 
   .dimension-card p {
     font-size: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .question-reveal {
+    transition: none;
   }
 }
 

@@ -2,7 +2,7 @@ import type { ModelResult } from "./types";
 
 export const modelResults: ModelResult[] = [
   {
-    model: "GPT-5 Codex",
+    model: "GPT-5.5 Codex",
     status: "finished",
     qualityScore: 63.33,
     ujgFidelity: 3.4,
@@ -10,7 +10,7 @@ export const modelResults: ModelResult[] = [
     verification: 3.2
   },
   {
-    model: "Claude Sonnet",
+    model: "Claude Sonnet 5",
     status: "finished",
     qualityScore: 74,
     ujgFidelity: 3.7,

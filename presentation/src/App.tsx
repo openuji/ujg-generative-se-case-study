@@ -1,6 +1,21 @@
 import { ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { pages } from "./slides";
+import type { DeckPage } from "./types";
+
+type RevealDirection = "forward" | "backward";
+
+function boundedRevealStep(page: DeckPage, revealStep: number) {
+  return Math.max(0, Math.min(page.revealCount ?? 0, revealStep));
+}
+
+function defaultRevealStep(page: DeckPage, direction?: RevealDirection) {
+  if (!page.revealCount) {
+    return 0;
+  }
+
+  return direction === "backward" ? page.revealCount : 0;
+}
 
 function indexFromHash() {
   const id = window.location.hash.replace(/^#/, "");
@@ -26,23 +41,94 @@ function setPageHash(index: number, replace = false) {
 
 export function App() {
   const [pageIndex, setPageIndex] = useState(() => indexFromHash());
+  const [revealSteps, setRevealSteps] = useState<Record<string, number>>({});
   const page = pages[pageIndex];
-  const isFirst = pageIndex === 0;
-  const isLast = pageIndex === pages.length - 1;
+  const revealCount = page.revealCount ?? 0;
+  const revealStep = boundedRevealStep(
+    page,
+    revealSteps[page.id] ?? defaultRevealStep(page)
+  );
+  const hasPreviousReveal = revealStep > 0;
+  const hasNextReveal = revealStep < revealCount;
+  const isFirst = pageIndex === 0 && !hasPreviousReveal;
+  const isLast = pageIndex === pages.length - 1 && !hasNextReveal;
 
-  const goTo = useCallback((nextIndex: number, replace = false) => {
-    const boundedIndex = Math.max(0, Math.min(pages.length - 1, nextIndex));
-    setPageIndex(boundedIndex);
-    setPageHash(boundedIndex, replace);
-  }, []);
+  const setPageRevealStep = useCallback(
+    (targetPage: DeckPage, nextRevealStep: number) => {
+      const nextStep = boundedRevealStep(targetPage, nextRevealStep);
+
+      setRevealSteps((current) => {
+        if (current[targetPage.id] === nextStep) {
+          return current;
+        }
+
+        return {
+          ...current,
+          [targetPage.id]: nextStep
+        };
+      });
+    },
+    []
+  );
+
+  const goTo = useCallback(
+    (nextIndex: number, replace = false, direction?: RevealDirection) => {
+      const boundedIndex = Math.max(0, Math.min(pages.length - 1, nextIndex));
+
+      if (boundedIndex === pageIndex) {
+        setPageHash(boundedIndex, replace);
+        return;
+      }
+
+      const targetPage = pages[boundedIndex];
+      const resolvedDirection =
+        direction ?? (boundedIndex > pageIndex ? "forward" : "backward");
+
+      if (targetPage.revealCount) {
+        setPageRevealStep(
+          targetPage,
+          defaultRevealStep(targetPage, resolvedDirection)
+        );
+      }
+
+      setPageIndex(boundedIndex);
+      setPageHash(boundedIndex, replace);
+    },
+    [pageIndex, setPageRevealStep]
+  );
 
   const next = useCallback(() => {
-    goTo(pageIndex + 1);
-  }, [goTo, pageIndex]);
+    if (hasNextReveal) {
+      setPageRevealStep(page, revealStep + 1);
+      return;
+    }
+
+    goTo(pageIndex + 1, false, "forward");
+  }, [goTo, hasNextReveal, page, pageIndex, revealStep, setPageRevealStep]);
 
   const previous = useCallback(() => {
-    goTo(pageIndex - 1);
-  }, [goTo, pageIndex]);
+    if (hasPreviousReveal) {
+      setPageRevealStep(page, revealStep - 1);
+      return;
+    }
+
+    goTo(pageIndex - 1, false, "backward");
+  }, [
+    goTo,
+    hasPreviousReveal,
+    page,
+    pageIndex,
+    revealStep,
+    setPageRevealStep
+  ]);
+
+  const content = useMemo(
+    () =>
+      typeof page.content === "function"
+        ? page.content({ revealStep })
+        : page.content,
+    [page, revealStep]
+  );
 
   const indicator = useMemo(
     () =>
@@ -108,13 +194,15 @@ export function App() {
       <div className="slide-fit">
         <section
           className={`slide slide-${page.layout}`}
-          aria-label={`Slide ${page.conceptualSlide}, step ${page.step}`}
+          aria-label={`Slide ${page.conceptualSlide}, step ${page.step}${
+            revealCount > 0 ? `, reveal ${revealStep} of ${revealCount}` : ""
+          }`}
         >
           <header className="slide-header">
             {page.eyebrow ? <p className="eyebrow">{page.eyebrow}</p> : null}
             <h1>{page.title}</h1>
           </header>
-          <div className="slide-content">{page.content}</div>
+          <div className="slide-content">{content}</div>
         </section>
       </div>
 
