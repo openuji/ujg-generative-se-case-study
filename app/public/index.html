@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workshop Registration System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .workshop-card {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #f9f9f9;
+        }
+        .workshop-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .workshop-details {
+            margin: 5px 0;
+        }
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .btn-waitlist {
+            background-color: #ffc107;
+        }
+        .btn-waitlist:hover {
+            background-color: #e0a800;
+        }
+        .btn-offer {
+            background-color: #28a745;
+        }
+        .btn-offer:hover {
+            background-color: #1e7e34;
+        }
+        .form-section {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+        .status-message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Workshop Registration System</h1>
+        
+        <div id="workshop-overview">
+            <h2>Available Workshops</h2>
+            <div id="workshops-list">
+                <!-- Workshop cards will be loaded here -->
+            </div>
+        </div>
+        
+        <div id="workshop-detail" style="display: none;">
+            <h2 id="detail-title">Workshop Details</h2>
+            <div id="detail-content"></div>
+            <button class="btn" onclick="backToOverview()">Back to Overview</button>
+        </div>
+        
+        <div id="registration-section" style="display: none;">
+            <h2>Register for Workshop</h2>
+            <div id="registration-form">
+                <input type="text" id="participant-name" placeholder="Your Name" required>
+                <input type="email" id="participant-email" placeholder="Your Email" required>
+                <button class="btn" onclick="registerForWorkshop()">Register</button>
+            </div>
+            <div id="waitlist-form" style="display: none;">
+                <h3>Join Waitlist</h3>
+                <input type="text" id="waitlist-name" placeholder="Your Name" required>
+                <input type="email" id="waitlist-email" placeholder="Your Email" required>
+                <button class="btn btn-waitlist" onclick="joinWaitlist()">Join Waitlist</button>
+            </div>
+        </div>
+        
+        <div id="offers-section" style="display: none;">
+            <h2>Offered Places</h2>
+            <div id="offers-list"></div>
+        </div>
+        
+        <div id="message-section"></div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentWorkshop = null;
+        let currentWorkshopId = null;
+        let currentParticipantEmail = null;
+
+        // Load workshops overview
+        async function loadWorkshops() {
+            try {
+                const response = await fetch('/api/workshops');
+                const data = await response.json();
+                
+                const workshopsList = document.getElementById('workshops-list');
+                workshopsList.innerHTML = '';
+                
+                data.workshops.forEach(workshop => {
+                    const card = document.createElement('div');
+                    card.className = 'workshop-card';
+                    card.innerHTML = `
+                        <div class="workshop-title">${workshop.title}</div>
+                        <div class="workshop-details">${workshop.summary}</div>
+                        <div class="workshop-details">Date: ${workshop.date}</div>
+                        <div class="workshop-details">Location: ${workshop.location}</div>
+                        <button class="btn" onclick="showWorkshopDetail(${workshop.workshop_id})">View Details</button>
+                    `;
+                    workshopsList.appendChild(card);
+                });
+            } catch (error) {
+                showMessage('Error loading workshops: ' + error.message, 'error');
+            }
+        }
+
+        // Show workshop detail
+        async function showWorkshopDetail(id) {
+            try {
+                const response = await fetch(`/api/workshops/${id}`);
+                const data = await response.json();
+                
+                currentWorkshop = data.workshop;
+                currentWorkshopId = id;
+                
+                const detailContent = document.getElementById('detail-content');
+                detailContent.innerHTML = `
+                    <div class="workshop-title">${data.workshop.title}</div>
+                    <div class="workshop-details">Description: ${data.workshop.description}</div>
+                    <div class="workshop-details">Date: ${data.workshop.date}</div>
+                    <div class="workshop-details">Location: ${data.workshop.location}</div>
+                    <div class="workshop-details">Available Places: ${data.workshop.max_participants - data.workshop.current_registrations}</div>
+                    <div class="workshop-details">Registration Status: ${data.workshop.registration_status}</div>
+                `;
+                
+                // Show registration section based on registration status
+                const regSection = document.getElementById('registration-section');
+                const waitlistForm = document.getElementById('waitlist-form');
+                const registrationForm = document.getElementById('registration-form');
+                
+                if (data.workshop.registration_status === "placeAvailable") {
+                    waitlistForm.style.display = "none";
+                    registrationForm.style.display = "block";
+                    regSection.style.display = "block";
+                } else if (data.workshop.registration_status === "waitlistOpen") {
+                    waitlistForm.style.display = "block";
+                    registrationForm.style.display = "none";
+                    regSection.style.display = "block";
+                } else {
+                    regSection.style.display = "none";
+                }
+                
+                document.getElementById('workshop-overview').style.display = 'none';
+                document.getElementById('workshop-detail').style.display = 'block';
+            } catch (error) {
+                showMessage('Error loading workshop details: ' + error.message, 'error');
+            }
+        }
+
+        // Register for workshop
+        async function registerForWorkshop() {
+            const name = document.getElementById('participant-name').value;
+            const email = document.getElementById('participant-email').value;
+            
+            if (!name || !email) {
+                showMessage('Please enter your name and email', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/workshops/${currentWorkshopId}/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        participantName: name,
+                        participantEmail: email
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showMessage('Registration successful: ' + data.message, 'success');
+                    document.getElementById('participant-name').value = '';
+                    document.getElementById('participant-email').value = '';
+                } else {
+                    showMessage('Registration failed: ' + data.error, 'error');
+                }
+            } catch (error) {
+                showMessage('Error registering for workshop: ' + error.message, 'error');
+            }
+        }
+
+        // Join waitlist
+        async function joinWaitlist() {
+            const name = document.getElementById('waitlist-name').value;
+            const email = document.getElementById('waitlist-email').value;
+            
+            if (!name || !email) {
+                showMessage('Please enter your name and email', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/workshops/${currentWorkshopId}/join-waitlist`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        participantName: name,
+                        participantEmail: email
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showMessage('Successfully joined waitlist: ' + data.message, 'success');
+                    document.getElementById('waitlist-name').value = '';
+                    document.getElementById('waitlist-email').value = '';
+                } else {
+                    showMessage('Failed to join waitlist: ' + data.error, 'error');
+                }
+            } catch (error) {
+                showMessage('Error joining waitlist: ' + error.message, 'error');
+            }
+        }
+
+        // Back to overview
+        function backToOverview() {
+            document.getElementById('workshop-overview').style.display = 'block';
+            document.getElementById('workshop-detail').style.display = 'none';
+            document.getElementById('registration-section').style.display = 'none';
+            currentWorkshop = null;
+            currentWorkshopId = null;
+        }
+
+        // Show message
+        function showMessage(message, type) {
+            const messageSection = document.getElementById('message-section');
+            messageSection.innerHTML = `<div class="status-message ${type}">${message}</div>`;
+            
+            // Clear message after 5 seconds
+            setTimeout(() => {
+                messageSection.innerHTML = '';
+            }, 5000);
+        }
+
+        // Load workshops when page loads
+        window.onload = loadWorkshops;
+    </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ujg:data-schema:waitlist-review-data",
+  "title": "Waitlist review data",
+  "type": "object",
+  "required": ["workshopTitle", "name", "email"],
+  "properties": {
+    "workshopTitle": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}
