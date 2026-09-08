@@ -9,6 +9,9 @@ Implement the selected design-system target from the complete UJG. Read
 [the v1 stack profile](../ujg-to-design-system-realization/references/v1-stack.md)
 before creating package infrastructure.
 
+Require `structure` to be the active run phase. This invocation implements
+structure only and must end after its executable verifier closes the phase.
+
 ## Authority and scope
 
 The UJG is authoritative for `Component`, `Template`, `Slot`, `SlotBinding`,
@@ -112,4 +115,5 @@ Before returning:
 - scan implementation source and stories for UJG identifiers;
 - run the profile-selected static and executable structure gates.
 
-Report failures and stop. Do not proceed into token or styling work.
+Report failures and stop. On success, report the token skill as the next fresh
+invocation. Do not create tokens, styling, interface targets, or domain targets.

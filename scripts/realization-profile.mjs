@@ -1,11 +1,12 @@
 import fs from "node:fs";
 import path from "node:path";
 import YAML from "yaml";
+import { realizationPhases } from "./phase-state.mjs";
 
 export const realizationProfileRelativePath =
   "docs/skills/ujg-to-design-system-realization/references/v1-stack.md";
 
-const phases = new Set(["structure", "tokens", "styling", "application"]);
+const phases = new Set(realizationPhases);
 
 function fail(message) {
   throw new Error(`Invalid realization profile: ${message}`);

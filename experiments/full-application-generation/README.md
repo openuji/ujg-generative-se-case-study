@@ -44,13 +44,27 @@ generated TokenSource nodes, and composes them through generated Theme nodes.
 
 ## Invoke realization skills
 
-Give the implementing model the run root, the shared screen directory, its model
-label, and an evaluator label. Invoke:
+Use the same run root for four fresh model invocations. Before each invocation,
+open exactly one phase:
 
-1. `docs/skills/ujg-to-design-system-realization/SKILL.md`, which performs
-   structure, token, and styling phases in order; then
-2. `docs/skills/ujg-to-application-realization/SKILL.md`, which realizes every
-   interface and runtime boundary selected by the run manifest.
+```bash
+pnpm begin:full-application-phase -- model-a --phase structure
+pnpm begin:full-application-phase -- model-a --phase tokens
+pnpm begin:full-application-phase -- model-a --phase styling
+pnpm begin:full-application-phase -- model-a --phase application
+```
+
+Invoke the matching leaf skill in that order:
+
+1. `ujg-design-system-structure-realization`;
+2. `ujg-design-token-realization`;
+3. `ujg-design-system-styling-realization`;
+4. `ujg-to-application-realization`.
+
+Do not combine phases in one model invocation. The control-only
+`ujg-to-design-system-realization` skill may identify the next handoff but cannot
+generate implementation artifacts. If the host cannot provide a fresh
+invocation, stop and resume later with the reported next skill.
 
 The first design-system profile is fixed in the orchestrator's shared stack
 reference. Its machine-readable frontmatter is the sole authority for stack,
@@ -69,12 +83,7 @@ Storybook. Temporary in-memory analysis is allowed; persisted journey maps,
 transition maps, dictionaries, generated clients/types, and trace matrices are
 not.
 
-## Evaluation timing and results
-
-The design-system orchestrator requests a static evaluation after each passing
-structure, token, and styling gate. The application skill requests its static
-evaluation after all manifest-selected targets pass verification. A quality
-score does not replace a realization gate.
+## Generation gates
 
 For every phase, first run static conformance and then executable verification:
 
@@ -85,7 +94,17 @@ pnpm verify:full-application-run -- model-a --phase <phase>
 
 The executable verifier installs the frozen run workspace and invokes the tools
 and commands selected by the canonical profile. Generated wrappers cannot
-substitute for these checks.
+substitute for these checks. Successful verification closes the active phase;
+failure leaves it active for correction. The next phase cannot open early.
+
+Phase boundaries reject future output: structure cannot contain tokens, styling,
+or application targets; tokens cannot contain Component/Template styling or
+application targets; styling cannot contain application targets.
+
+## Post-generation evaluation
+
+Do not evaluate during generation. After application verification closes the
+fourth phase, evaluate the final run independently with all four rubrics:
 
 Rubrics are independent of generation:
 
@@ -113,7 +132,8 @@ Evaluator labels are lowercase sanitized identifiers. Never overwrite a result;
 use a new evaluator label for each repeat. Record `null` for unknown model names.
 Existing evaluation JSON is immutable comparison evidence.
 
-After creating a result, validate it independently:
+An evaluation may be performed by the implementation model or a later independent
+model. After creating a result, validate it independently:
 
 ```bash
 pnpm validate:evaluation-result -- model-a <phase>
@@ -125,7 +145,6 @@ After application realization passes executable verification and all four
 evaluation results exist, run:
 
 ```bash
-pnpm verify:full-application-run -- model-a --phase application
 pnpm validate:full-application-run -- model-a --phase complete
 ```
 

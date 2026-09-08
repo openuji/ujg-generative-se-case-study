@@ -9,6 +9,10 @@ Style the prepared design system using its existing token foundation. Read
 [the v1 stack profile](../ujg-to-design-system-realization/references/v1-stack.md)
 before changing styling infrastructure.
 
+Require the token phase to be closed and `styling` to be the active run phase.
+This invocation implements styling only and must end after its executable
+verifier closes the phase.
+
 ## Priority and boundaries
 
 Preserve, in order:
@@ -91,5 +95,6 @@ Before returning:
 - scan for raw reusable values, local breakpoints, hardcoded Theme branches,
   placeholder visuals, broken aliases, and duplicated styling systems.
 
-Report every unverified render or unavailable asset. Do not implement application
-flow or manifest interfaces.
+Report every unverified render or unavailable asset. On success, report the
+application skill as the next fresh invocation. Do not create interface or
+domain targets or implement application flow.

@@ -1,8 +1,10 @@
 import fs from "node:fs";
 import path from "node:path";
 import YAML from "yaml";
+import { assertNoRunEvaluations } from "./evaluation-results.mjs";
 import { loadRealizationProfile } from "./realization-profile.mjs";
 import { validateProfileConformance } from "./run-conformance.mjs";
+import { beginPhase, phaseStateFile, requireActivePhase, requireGenerationComplete, validationPhases } from "./phase-state.mjs";
 
 const runNamePattern = /^[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?$/;
 const generatedTokenNodeTypes = new Set(["Theme", "TokenSource"]);
@@ -153,6 +155,10 @@ function validateUjgReferences(ujg) {
   });
 }
 
+function isApplicationPhase(phase) {
+  return phase === "application" || phase === "complete";
+}
+
 function validateManifest(manifest, ujg, runRoot, phase) {
   if (!isObject(manifest) || !Number.isInteger(manifest.manifest_version) || typeof manifest.ujg !== "string") {
     fail("Run manifest must declare an integer manifest_version and a UJG path.");
@@ -186,14 +192,14 @@ function validateManifest(manifest, ujg, runRoot, phase) {
 
     if (entry.target !== undefined) {
       const target = resolveInside(runRoot, entry.target, `interfaces[${index}].target`);
-      if (phase === "complete" && !fs.existsSync(target)) fail(`Missing selected interface target: ${entry.target}`);
+      if (isApplicationPhase(phase) && !fs.existsSync(target)) fail(`Missing selected interface target: ${entry.target}`);
     }
 
     if (entry.design_systems !== undefined) {
       if (!Array.isArray(entry.design_systems)) fail(`interfaces[${index}].design_systems must be an array.`);
       for (const [designIndex, designSystem] of entry.design_systems.entries()) {
         const target = resolveInside(runRoot, designSystem, `interfaces[${index}].design_systems[${designIndex}]`);
-        if (phase === "complete" && !fs.existsSync(target)) fail(`Missing selected design system: ${designSystem}`);
+        if (phase !== "seed" && fs.existsSync(runRoot) && !fs.existsSync(target)) fail(`Missing selected design system: ${designSystem}`);
       }
     }
 
@@ -211,7 +217,7 @@ function validateManifest(manifest, ujg, runRoot, phase) {
         }
         if (entry.transport.documentation.output !== undefined) {
           const output = resolveInside(runRoot, entry.transport.documentation.output, `interfaces[${index}].transport.documentation.output`);
-          if (phase === "complete" && !fs.existsSync(output)) {
+          if (isApplicationPhase(phase) && !fs.existsSync(output)) {
             fail(`Missing requested interface documentation: ${entry.transport.documentation.output}`);
           }
         }
@@ -232,7 +238,7 @@ function validateManifest(manifest, ujg, runRoot, phase) {
 
   if (manifest.domain_engine?.target !== undefined) {
     const target = resolveInside(runRoot, manifest.domain_engine.target, "domain_engine.target");
-    if (phase === "complete" && !fs.existsSync(target)) fail(`Missing selected domain-engine target: ${manifest.domain_engine.target}`);
+    if (isApplicationPhase(phase) && !fs.existsSync(target)) fail(`Missing selected domain-engine target: ${manifest.domain_engine.target}`);
     if (!isObject(manifest.domain_engine.runtime)) fail("domain_engine.runtime must be an object.");
     for (const field of ["environment", "version", "entrypoint"]) {
       if (typeof manifest.domain_engine.runtime[field] !== "string" || manifest.domain_engine.runtime[field].length === 0) {
@@ -240,7 +246,7 @@ function validateManifest(manifest, ujg, runRoot, phase) {
       }
     }
     const entrypoint = resolveInside(target, manifest.domain_engine.runtime.entrypoint, "domain_engine.runtime.entrypoint");
-    if (phase === "complete" && !fs.existsSync(entrypoint)) {
+    if (isApplicationPhase(phase) && !fs.existsSync(entrypoint)) {
       fail(`Missing selected domain-engine entrypoint: ${manifest.domain_engine.runtime.entrypoint}`);
     }
   }
@@ -248,6 +254,47 @@ function validateManifest(manifest, ujg, runRoot, phase) {
   if (manifest.adapters !== undefined && !isObject(manifest.adapters)) {
     fail("manifest.adapters must be an object when present.");
   }
+}
+
+function selectedTargets(manifest, runRoot, selector) {
+  return (manifest.interfaces ?? [])
+    .map(selector)
+    .filter((value) => typeof value === "string")
+    .map((value) => resolveInside(runRoot, value, "manifest-selected target"));
+}
+
+function validateNoArtifactStyling(manifest, runRoot) {
+  const designSystems = unique((manifest.interfaces ?? []).flatMap((entry) => entry.design_systems ?? []));
+  for (const selected of designSystems) {
+    const target = resolveInside(runRoot, selected, "selected design system");
+    const binding = readJson(path.join(target, "generated", "ds-bindings.manifest.json"), "design-system bindings");
+    for (const artifact of binding.artifacts ?? []) {
+      const modulePath = resolveInside(target, artifact.module, "binding module");
+      if (fs.existsSync(modulePath) && /\b(?:className|style)\s*=/.test(fs.readFileSync(modulePath, "utf8"))) {
+        fail(`Phase contains future component styling: ${path.relative(runRoot, modulePath)}`);
+      }
+      for (const filePath of walkFiles(path.dirname(modulePath))) {
+        if ([".css", ".scss"].includes(path.extname(filePath))) {
+          fail(`Phase contains future component styling: ${path.relative(runRoot, filePath)}`);
+        }
+      }
+    }
+  }
+}
+
+function validatePhaseBoundaries(manifest, runRoot, phase) {
+  if (phase === "complete" || phase === "application") return;
+  const futureTargets = selectedTargets(manifest, runRoot, (entry) => entry.target);
+  if (typeof manifest.domain_engine?.target === "string") {
+    futureTargets.push(resolveInside(runRoot, manifest.domain_engine.target, "domain_engine.target"));
+  }
+  for (const target of futureTargets) {
+    if (fs.existsSync(target)) fail(`Phase ${phase} contains a future application target: ${path.relative(runRoot, target)}`);
+  }
+  if (phase === "structure" && fs.existsSync(path.join(runRoot, "design", "tokens"))) {
+    fail("Structure phase contains future token artifacts.");
+  }
+  if (phase === "structure" || phase === "tokens") validateNoArtifactStyling(manifest, runRoot);
 }
 
 function validateTokenSources(ujg, runUjgPath, runRoot, phase) {
@@ -425,12 +472,23 @@ export function seedFullApplicationRun({ repoRoot, runsRoot, runName }) {
   return target;
 }
 
-export function validateFullApplicationRun({ repoRoot, runsRoot, runName, phase = "complete", requireEvaluations = true }) {
+export function beginFullApplicationPhase({ repoRoot, runsRoot, runName, phase }) {
   assertRunName(runName);
-  if (!new Set(["seed", "structure", "tokens", "styling", "application", "complete"]).has(phase)) {
-    fail("Validation phase must be seed, structure, tokens, styling, application, or complete.");
+  const runRoot = assertInside(runsRoot, path.join(runsRoot, runName), "run target");
+  if (!fs.statSync(runRoot, { throwIfNoEntry: false })?.isDirectory()) fail(`Run does not exist: ${runRoot}`);
+  if (phase === "structure" && !fs.existsSync(path.join(runRoot, phaseStateFile))) {
+    validateFullApplicationRun({ repoRoot, runsRoot, runName, phase: "seed" });
   }
-  const normalizedPhase = phase === "application" ? "complete" : phase;
+  assertNoRunEvaluations(repoRoot, runName);
+  beginPhase({ runRoot, runName, phase });
+  return runRoot;
+}
+
+export function validateFullApplicationRun({ repoRoot, runsRoot, runName, phase = "complete" }) {
+  assertRunName(runName);
+  if (!validationPhases.includes(phase)) {
+    fail(`Validation phase must be one of: ${validationPhases.join(", ")}.`);
+  }
   const runRoot = assertInside(runsRoot, path.join(runsRoot, runName), "run target");
   if (!fs.statSync(runRoot, { throwIfNoEntry: false })?.isDirectory()) fail(`Run does not exist: ${runRoot}`);
 
@@ -463,10 +521,16 @@ export function validateFullApplicationRun({ repoRoot, runsRoot, runName, phase 
   } catch (error) {
     fail(`Run manifest is not valid YAML: ${error.message}`);
   }
-  validateManifest(manifest, ujg, runRoot, normalizedPhase);
-  validateTokenSources(ujg, runUjgPath, runRoot, normalizedPhase);
+  if (phase === "complete") requireGenerationComplete({ runRoot, runName });
+  else if (phase !== "seed") {
+    requireActivePhase({ runRoot, runName, phase });
+    assertNoRunEvaluations(repoRoot, runName);
+  }
+  validateManifest(manifest, ujg, runRoot, phase);
+  validateTokenSources(ujg, runUjgPath, runRoot, phase);
+  validatePhaseBoundaries(manifest, runRoot, phase);
 
-  if (normalizedPhase === "seed") {
+  if (phase === "seed") {
     const allowedRootEntries = new Set(["ujg", "ujg-implementation.yaml"]);
     for (const entry of fs.readdirSync(runRoot)) {
       if (!allowedRootEntries.has(entry)) fail(`Seed contains non-input artifact: ${entry}`);
@@ -478,12 +542,11 @@ export function validateFullApplicationRun({ repoRoot, runsRoot, runName, phase 
       repoRoot,
       runRoot,
       runName,
-      phase: normalizedPhase,
+      phase,
       manifest,
       ujg,
       runUjgPath,
-      profile: loadRealizationProfile(repoRoot),
-      requireEvaluations
+      profile: loadRealizationProfile(repoRoot)
     });
   }
 

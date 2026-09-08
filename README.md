@@ -31,18 +31,25 @@ pnpm seed:full-application-run -- <run-name>
 pnpm validate:full-application-run -- <run-name> --phase seed
 ```
 
-Then give your implementation model the new run directory and invoke, in order:
+Then use four separate model invocations against the same run directory:
 
-1. `docs/skills/ujg-to-design-system-realization/SKILL.md`
-2. `docs/skills/ujg-to-application-realization/SKILL.md`
+1. begin `structure`, then invoke `ujg-design-system-structure-realization`;
+2. begin `tokens`, then invoke `ujg-design-token-realization`;
+3. begin `styling`, then invoke `ujg-design-system-styling-realization`;
+4. begin `application`, then invoke `ujg-to-application-realization`.
 
-The design-system orchestrator runs structure, token, and styling realization.
-The token phase generates DTCG token files and adds the corresponding Theme and
-TokenSource nodes to the run-local UJG. The application skill realizes every
-interface and runtime boundary selected by the copied manifest.
+Open each phase explicitly before its fresh invocation:
+
+```bash
+pnpm begin:full-application-phase -- <run-name> --phase <phase>
+```
+
+The control-only design-system orchestrator may identify the next skill but does
+not generate artifacts. A successful executable verifier closes the active phase
+and unlocks the next one.
 
 Each realization phase must pass static validation and the profile-driven
-executable verifier before its evaluation is written:
+executable verifier before the next generation invocation starts:
 
 ```bash
 pnpm validate:full-application-run -- <run-name> --phase <phase>
@@ -53,19 +60,19 @@ The profile is the only owner of package versions, target toolchains, Theme
 inventory, and verification commands. Skills and checks consume it rather than
 restating those requirements.
 
-After realization:
-
-```bash
-pnpm verify:full-application-run -- <run-name> --phase application
-pnpm validate:full-application-run -- <run-name> --phase complete
-```
-
-Each phase has an independent, evaluation-only rubric in `checks/`. Evaluators
-write only a new JSON result under `checks/evaluation/<run-name>/`; an evaluator
-label can never overwrite an existing result. Validate each result with:
+Only after application verification closes generation, run the four independent,
+evaluation-only rubrics in `checks/` against the final run. Evaluators write only
+a new JSON result under `checks/evaluation/<run-name>/`; an evaluator label can
+never overwrite an existing result. Validate each result with:
 
 ```bash
 pnpm validate:evaluation-result -- <run-name> <phase>
+```
+
+After all four results validate:
+
+```bash
+pnpm validate:full-application-run -- <run-name> --phase complete
 ```
 
 See

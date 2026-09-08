@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { requireGenerationComplete } from "./phase-state.mjs";
 
 const runNamePattern = /^[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?$/;
 
@@ -85,6 +86,14 @@ function assertRunName(runName) {
   if (!runNamePattern.test(runName)) fail("Evaluation run name is invalid.");
 }
 
+export function assertNoRunEvaluations(repoRoot, runName) {
+  assertRunName(runName);
+  const directory = path.join(repoRoot, "checks", "evaluation", runName);
+  if (fs.statSync(directory, { throwIfNoEntry: false })?.isDirectory() && fs.readdirSync(directory).length > 0) {
+    fail("Evaluation results may be created only after all four generation phases pass verification.");
+  }
+}
+
 export function validateEvaluationResult(result, definition, { runName, label }) {
   if (!result || typeof result !== "object" || Array.isArray(result)) fail(`${label} must be an object.`);
   if (result.evaluation_version !== definition.version) fail(`${label} has the wrong evaluation_version.`);
@@ -127,6 +136,8 @@ export function validateEvaluationResult(result, definition, { runName, label })
 
 export function writeEvaluationResult(repoRoot, { runName, phase, evaluator, result }) {
   assertRunName(runName);
+  const runRoot = path.join(repoRoot, "experiments", "full-application-generation", "runs", runName);
+  requireGenerationComplete({ runRoot, runName });
   const definition = evaluationDefinitions.find((candidate) => candidate.phase === phase);
   if (!definition) fail(`Unknown evaluation phase ${phase}.`);
   const evaluatorLabel = sanitizeEvaluatorLabel(evaluator);
@@ -184,6 +195,13 @@ export function validateRunPhaseEvaluations(repoRoot, runName, phase) {
   const files = validatedEvaluationFiles(repoRoot, runName).get(phase);
   if (files.length === 0) fail(`Run is missing a ${phase} evaluation.`);
   return files;
+}
+
+export function validatePostGenerationEvaluation(repoRoot, runName, phase) {
+  assertRunName(runName);
+  const runRoot = path.join(repoRoot, "experiments", "full-application-generation", "runs", runName);
+  requireGenerationComplete({ runRoot, runName });
+  return validateRunPhaseEvaluations(repoRoot, runName, phase);
 }
 
 export function validateCompletedRunEvaluations(repoRoot, runName) {

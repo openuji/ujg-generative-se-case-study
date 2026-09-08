@@ -1,12 +1,13 @@
 ---
 name: ujg-to-design-system-realization
-description: Orchestrate a complete design-system realization from a UJG document and visual references through structure, design tokens, styling, verification, and comparable static evaluation. Use for the full design-system workflow, not for application behavior.
+description: Coordinate separate structure, token, and styling invocations for a UJG-derived design system. Use to identify and hand off the next design-system phase; this skill does not generate implementation artifacts.
 ---
 
 # UJG to Design System Realization
 
-Build every design system selected by a realization manifest. The UJG owns
+Coordinate every design system selected by a realization manifest. The UJG owns
 presentation identity and composition. Visual references inform appearance only.
+This skill is control-only: do not write realization artifacts.
 
 ## Required inputs
 
@@ -14,8 +15,7 @@ presentation identity and composition. Visual references inform appearance only.
 - A `ujg-implementation.yaml` realization manifest.
 - A directory of visual references.
 - The run root whose outputs may be changed.
-- An implementation-model label and evaluator-model label. Record JSON `null`
-  when the caller cannot supply either value.
+- An implementation-model label.
 
 Resolve the UJG path and all targets from the manifest. Collect the unique values
 of `interfaces[*].design_systems`; do not assume a target name or infer one from
@@ -46,45 +46,36 @@ does, if the UJG is invalid, if a referenced schema cannot be resolved, or if a
 selected design-system target is ambiguous, stop before writing implementation
 output.
 
-## Ordered realization
+## Isolated handoff
 
-For every selected design-system target, execute these skills in order:
+For every selected design-system target, hand off these skills in order:
 
 1. [UJG Design System Structure Realization](../ujg-design-system-structure-realization/SKILL.md)
 2. [UJG Design Token Realization](../ujg-design-token-realization/SKILL.md)
 3. [UJG Design System Styling Realization](../ujg-design-system-styling-realization/SKILL.md)
 
-Do not merge the phases. Each phase has a distinct mutation boundary and gate.
-Do not start the next phase if the current phase's required verification fails.
+Each skill must run in a fresh model invocation against the same run workspace.
+Do not execute a leaf skill from this coordinator and do not continue from one
+leaf phase into another in the same invocation. If the host cannot start a fresh
+invocation, stop and report the exact next skill and phase command.
+
+Before handing off a phase, run
+`begin:full-application-phase -- <run-name> --phase <phase>`. Do not start the
+next phase if the current phase's required verification fails.
 The structure phase reads the token-unrealized UJG. The token phase enriches that
 same UJG in place. Styling and application phases consume the enriched UJG as
 their immutable authority.
 
-At each phase, run the repository's static phase validation followed by
+The leaf invocation runs the repository's static phase validation followed by
 `verify:full-application-run` for that phase. Both commands load the profile;
-never replace them with generated wrapper scripts or claims of success.
+never replace them with generated wrapper scripts or claims of success. A passing
+executable verifier closes the active phase and unlocks the next one.
 
-After each passing phase, evaluate the current run using the matching static
-rubric:
-
-| Phase | Evaluation rubric | Output stem |
-|---|---|---|
-| Structure | `checks/design-system-structure.md` | `structure` |
-| Tokens | `checks/design-tokens.md` | `tokens` |
-| Styling | `checks/design-system-styling.md` | `styling` |
-
-Write only the rubric's final JSON object to
-`checks/evaluation/<run-name>/<stem>.<evaluator>.json`. Sanitize the evaluator
-label to lowercase ASCII letters, digits, and hyphens. Refuse to overwrite an
-existing result; the caller must supply a distinct evaluator label for a repeat.
-An evaluation score records quality but is not a conformance gate. A malformed or
-missing evaluation result is a workflow failure.
-Validate each newly written result with `validate:evaluation-result` before
-starting the next phase.
+Do not evaluate during design-system generation. All four static rubrics run
+only after the application phase has passed executable verification.
 
 ## Handoff
 
-Finish with the prepared design systems, their tests and inspection surfaces, and
-their generated bindings. Report the selected targets, phase verification, and
-evaluation result paths. Do not implement domain behavior or any manifest
-interface in this skill.
+Report the next leaf skill and stop. After styling verification, hand off the
+application skill as a new invocation. Do not implement domain behavior or any
+manifest interface in this skill.

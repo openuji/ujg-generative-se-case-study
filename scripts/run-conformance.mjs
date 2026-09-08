@@ -2,10 +2,15 @@ import fs from "node:fs";
 import path from "node:path";
 import YAML from "yaml";
 import { validateCompletedRunEvaluations } from "./evaluation-results.mjs";
+import { realizationPhases } from "./phase-state.mjs";
 
-const applicationPhases = new Set(["application", "complete"]);
-const tokenPhases = new Set(["tokens", "styling", "application", "complete"]);
-const stylingPhases = new Set(["styling", "application", "complete"]);
+function phasesFrom(first) {
+  return new Set([...realizationPhases.slice(realizationPhases.indexOf(first)), "complete"]);
+}
+
+const applicationPhases = phasesFrom("application");
+const tokenPhases = phasesFrom("tokens");
+const stylingPhases = phasesFrom("styling");
 const sourceExtensions = new Set([".css", ".js", ".jsx", ".mjs", ".mts", ".ts", ".tsx"]);
 
 function fail(message) {
@@ -364,7 +369,7 @@ function validateBrowserTarget(entry, runRoot, profile, designSystemPackages) {
   }
 }
 
-export function validateProfileConformance({ repoRoot, runRoot, runName, phase, manifest, ujg, runUjgPath, profile, requireEvaluations = true }) {
+export function validateProfileConformance({ repoRoot, runRoot, runName, phase, manifest, ujg, runUjgPath, profile }) {
   if (phase === "seed") return;
   validateWorkspace(runRoot, profile);
   const designSystemContract = profile.target_profiles.design_system;
@@ -389,6 +394,6 @@ export function validateProfileConformance({ repoRoot, runRoot, runName, phase, 
     for (const entry of manifest.interfaces ?? []) {
       if (browserKinds.has(entry.kind)) validateBrowserTarget(entry, runRoot, profile, designSystemPackages);
     }
-    if (requireEvaluations) validateCompletedRunEvaluations(repoRoot, runName);
+    if (phase === "complete") validateCompletedRunEvaluations(repoRoot, runName);
   }
 }

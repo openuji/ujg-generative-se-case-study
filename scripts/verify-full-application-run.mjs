@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 import YAML from "yaml";
 import { normalizeForwardedArgs } from "./cli-args.mjs";
 import { validateFullApplicationRun } from "./full-application-run-utils.mjs";
+import { completePhase, realizationPhases, realizationPhaseUsage } from "./phase-state.mjs";
 import { expandCommand, loadRealizationProfile } from "./realization-profile.mjs";
 
 function fail(message) {
@@ -110,8 +111,8 @@ export function buildVerificationTasks({ runRoot, manifest, profile, phase, temp
 }
 
 export function verifyFullApplicationRun({ repoRoot, runsRoot, runName, phase, runner = defaultRunner, hostVersion = process.versions.node }) {
-  if (!new Set(["structure", "tokens", "styling", "application"]).has(phase)) {
-    fail("Verification phase must be structure, tokens, styling, or application.");
+  if (!realizationPhases.includes(phase)) {
+    fail(`Verification phase must be one of: ${realizationPhases.join(", ")}.`);
   }
   if (hostVersion.split(".")[0] !== loadRealizationProfile(repoRoot).host.node_version) {
     fail("Host Node version does not match the realization profile.");
@@ -120,8 +121,7 @@ export function verifyFullApplicationRun({ repoRoot, runsRoot, runName, phase, r
     repoRoot,
     runsRoot,
     runName,
-    phase: phase === "application" ? "complete" : phase,
-    requireEvaluations: false
+    phase
   });
   const runRoot = path.join(runsRoot, runName);
   const manifest = YAML.parse(fs.readFileSync(path.join(runRoot, "ujg-implementation.yaml"), "utf8"));
@@ -130,6 +130,7 @@ export function verifyFullApplicationRun({ repoRoot, runsRoot, runName, phase, r
   try {
     const tasks = buildVerificationTasks({ runRoot, manifest, profile, phase, temporaryOutput });
     for (const task of tasks) runner(task);
+    completePhase({ runRoot, runName, phase });
   } finally {
     fs.rmSync(temporaryOutput, { recursive: true, force: true });
   }
@@ -150,13 +151,13 @@ if (isEntrypoint) {
     } else if (!args[index].startsWith("--") && runName === undefined) {
       runName = args[index];
     } else {
-      fail("Usage: pnpm verify:full-application-run -- <run-name> --phase <structure|tokens|styling|application>");
+      fail(`Usage: pnpm verify:full-application-run -- <run-name> --phase <${realizationPhaseUsage}>`);
     }
   }
-  if (!runName || !phase) fail("Usage: pnpm verify:full-application-run -- <run-name> --phase <structure|tokens|styling|application>");
+  if (!runName || !phase) fail(`Usage: pnpm verify:full-application-run -- <run-name> --phase <${realizationPhaseUsage}>`);
   try {
     verifyFullApplicationRun({ repoRoot, runsRoot, runName, phase });
-    console.log(`Verified ${phase} phase for ${runName}.`);
+    console.log(`Verified and closed ${phase} generation phase for ${runName}. Start the next phase in a fresh realization invocation.`);
   } catch (error) {
     console.error(error.message);
     process.exit(1);

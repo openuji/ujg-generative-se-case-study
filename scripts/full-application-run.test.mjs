@@ -6,8 +6,9 @@ import test from "node:test";
 import { fileURLToPath } from "node:url";
 import YAML from "yaml";
 import { normalizeForwardedArgs } from "./cli-args.mjs";
-import { evaluationDefinitions, writeEvaluationResult } from "./evaluation-results.mjs";
-import { seedFullApplicationRun, validateFullApplicationRun } from "./full-application-run-utils.mjs";
+import { evaluationDefinitions, validatePostGenerationEvaluation, writeEvaluationResult } from "./evaluation-results.mjs";
+import { beginFullApplicationPhase, seedFullApplicationRun, validateFullApplicationRun } from "./full-application-run-utils.mjs";
+import { readPhaseState, requireGenerationComplete } from "./phase-state.mjs";
 import { loadRealizationProfile, realizationProfileRelativePath } from "./realization-profile.mjs";
 import { buildVerificationTasks, verifyFullApplicationRun } from "./verify-full-application-run.mjs";
 
@@ -234,6 +235,34 @@ function materializeComplete(context, options) {
   materializeApplication(context, options);
 }
 
+function begin(context, phase) {
+  return beginFullApplicationPhase({ ...context, phase });
+}
+
+function verify(context, phase, runner = () => {}) {
+  return verifyFullApplicationRun({
+    ...context,
+    phase,
+    runner,
+    hostVersion: context.profile.host.node_version
+  });
+}
+
+function materializeVerifiedGeneration(context, { closeApplication = true } = {}) {
+  begin(context, "structure");
+  materializeStructure(context);
+  verify(context, "structure");
+  begin(context, "tokens");
+  materializeTokens(context);
+  verify(context, "tokens");
+  begin(context, "styling");
+  materializeStyling(context);
+  verify(context, "styling");
+  begin(context, "application");
+  materializeApplication(context, { evaluations: false });
+  if (closeApplication) verify(context, "application");
+}
+
 test("seeds byte-identical token-unrealized inputs and accepts either forwarded-argument form", (t) => {
   const context = prepareFixture(t);
   assert.deepEqual(fs.readdirSync(context.runRoot).sort(), ["ujg", "ujg-implementation.yaml"]);
@@ -261,6 +290,7 @@ test("profile parsing is strict and structure rejects missing dependencies and p
   assert.throws(() => loadRealizationProfile(context.repoRoot), /must contain exactly/);
   fs.writeFileSync(profilePath, original);
 
+  begin(context, "structure");
   const target = materializeStructure(context);
   assert.equal(validateFullApplicationRun({ ...context, phase: "structure" }), context.runRoot);
   const packagePath = path.join(target, "package.json");
@@ -282,7 +312,10 @@ test("profile parsing is strict and structure rejects missing dependencies and p
 
 test("token phase requires the profile Theme pair, semantic parity, and truthful evidence", (t) => {
   const context = prepareFixture(t);
+  begin(context, "structure");
   materializeStructure(context);
+  verify(context, "structure");
+  begin(context, "tokens");
   materializeTokens(context);
   assert.equal(validateFullApplicationRun({ ...context, phase: "tokens" }), context.runRoot);
 
@@ -330,7 +363,7 @@ function mutateFirstEvidencePath(context, themeName, replacement) {
 
 test("complete phase rejects non-integrated browser source and missing evaluations", (t) => {
   const context = prepareFixture(t, "completed");
-  materializeComplete(context, { evaluations: false });
+  materializeVerifiedGeneration(context);
   assert.throws(() => validateFullApplicationRun({ ...context, phase: "complete" }), /evaluation directory/);
   materializeEvaluations(context);
   const duplicateResult = JSON.parse(fs.readFileSync(path.join(canonicalRepoRoot, evaluationDefinitions[0].fixture), "utf8"));
@@ -348,7 +381,7 @@ test("complete phase rejects non-integrated browser source and missing evaluatio
   fs.writeFileSync(evaluationPath, `${JSON.stringify(malformed, null, 2)}\n`);
   assert.throws(() => validateFullApplicationRun({ ...context, phase: "complete" }), /arithmetic mean/);
   fs.writeFileSync(evaluationPath, evaluationSource);
-  assert.equal(validateFullApplicationRun({ ...context, phase: "application" }), context.runRoot);
+  assert.throws(() => validateFullApplicationRun({ ...context, phase: "application" }), /not active/);
 
   const mainPath = path.join(context.runRoot, "apps", "ui", "src", "main.tsx");
   fs.writeFileSync(mainPath, "document.body.textContent = 'not integrated';\n");
@@ -357,10 +390,21 @@ test("complete phase rejects non-integrated browser source and missing evaluatio
 
 test("executable verification dispatches commands from the profile and rejects persisted mappings", (t) => {
   const context = prepareFixture(t, "verified");
-  materializeComplete(context);
+  begin(context, "structure");
+  materializeStructure(context);
+  verify(context, "structure");
+  begin(context, "tokens");
+  materializeTokens(context);
+  verify(context, "tokens");
+  begin(context, "styling");
+  materializeStyling(context);
+  verify(context, "styling");
+  begin(context, "application");
+  materializeApplication(context, { evaluations: false });
   const tasks = [];
   assert.throws(() => verifyFullApplicationRun({ ...context, phase: "application", runner: () => {}, hostVersion: "0" }), /Host Node version/);
   assert.equal(verifyFullApplicationRun({ ...context, phase: "application", runner: (task) => tasks.push(task), hostVersion: context.profile.host.node_version }), context.runRoot);
+  materializeEvaluations(context);
   assert.equal(tasks[0].executable, context.profile.package_manager.name);
   for (const command of Object.values(context.profile.target_profiles.design_system.commands).filter((entry) => entry.phases.includes("application"))) {
     assert.ok(tasks.some((task) => task.args.includes(command.executable)));
@@ -378,4 +422,54 @@ test("executable verification dispatches commands from the profile and rejects p
   const projection = path.join(context.runRoot, "apps", "ui", "transition-map.json");
   fs.writeFileSync(projection, "{}\n");
   assert.throws(() => validateFullApplicationRun({ ...context, phase: "complete" }), /Prohibited generated projection/);
+});
+
+test("generation phases open and close in order without evaluation gates", (t) => {
+  const context = prepareFixture(t, "ordered");
+  assert.throws(() => begin(context, "tokens"), /Next permitted phase is structure/);
+  begin(context, "structure");
+  assert.equal(begin(context, "structure"), context.runRoot);
+  assert.throws(() => begin(context, "tokens"), /still active/);
+  materializeStructure(context);
+  assert.throws(() => verify(context, "structure", () => { throw new Error("compiler failed"); }), /compiler failed/);
+  assert.equal(readPhaseState(context.runRoot, context.runName).active_phase, "structure");
+  assert.throws(() => begin(context, "tokens"), /still active/);
+  verify(context, "structure");
+  assert.equal(readPhaseState(context.runRoot, context.runName).active_phase, null);
+  assert.deepEqual(readPhaseState(context.runRoot, context.runName).completed_phases, ["structure"]);
+  begin(context, "tokens");
+});
+
+test("generation rejects evaluation output before application verification closes", (t) => {
+  const context = prepareFixture(t, "early-evaluation");
+  begin(context, "structure");
+  materializeStructure(context);
+  assert.throws(() => materializeEvaluations(context), /four generation phases/);
+  const evaluationDirectory = path.join(context.repoRoot, "checks", "evaluation", context.runName);
+  fs.mkdirSync(evaluationDirectory, { recursive: true });
+  fs.writeFileSync(path.join(evaluationDirectory, "structure.early.json"), "{}\n");
+  assert.throws(() => validateFullApplicationRun({ ...context, phase: "structure" }), /only after all four generation phases/);
+  assert.throws(() => verify(context, "structure"), /only after all four generation phases/);
+  assert.equal(readPhaseState(context.runRoot, context.runName).active_phase, "structure");
+});
+
+test("current phase rejects artifacts belonging to future invocations", (t) => {
+  const context = prepareFixture(t, "combined");
+  begin(context, "structure");
+  materializeComplete(context, { evaluations: false });
+  assert.throws(() => validateFullApplicationRun({ ...context, phase: "structure" }), /Theme|future token|future application/);
+});
+
+test("application closes before post-generation evaluations and complete requires all four", (t) => {
+  const context = prepareFixture(t, "post-evaluation");
+  materializeVerifiedGeneration(context, { closeApplication: false });
+  assert.throws(() => requireGenerationComplete({ runRoot: context.runRoot, runName: context.runName }), /four generation phases/);
+  assert.throws(() => validatePostGenerationEvaluation(context.repoRoot, context.runName, "structure"), /four generation phases/);
+  assert.equal(validateFullApplicationRun({ ...context, phase: "application" }), context.runRoot);
+  verify(context, "application");
+  assert.equal(requireGenerationComplete({ runRoot: context.runRoot, runName: context.runName }).active_phase, null);
+  assert.throws(() => validateFullApplicationRun({ ...context, phase: "complete" }), /evaluation directory/);
+  materializeEvaluations(context);
+  assert.equal(validatePostGenerationEvaluation(context.repoRoot, context.runName, "structure").length, 1);
+  assert.equal(validateFullApplicationRun({ ...context, phase: "complete" }), context.runRoot);
 });

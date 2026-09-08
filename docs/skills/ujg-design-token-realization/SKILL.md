@@ -10,6 +10,10 @@ and record the generated Theme/TokenSource structure in the run-local UJG.
 Read [the v1 stack profile](../ujg-to-design-system-realization/references/v1-stack.md)
 before modifying package infrastructure.
 
+Require the structure phase to be closed and `tokens` to be the active run
+phase. This invocation implements tokens only and must end after its executable
+verifier closes the phase.
+
 ## Authority and mutation boundary
 
 - The seeded UJG and schemas own every pre-token semantic and structural fact.
@@ -127,4 +131,6 @@ Before returning:
 - inspect already-rendered token pages under every Theme when render artifacts are
   available.
 
-Report failures and stop. Leave Component and Template styling unchanged.
+Report failures and stop. On success, report the styling skill as the next fresh
+invocation. Leave Component and Template styling unchanged and do not create
+interface or domain targets.

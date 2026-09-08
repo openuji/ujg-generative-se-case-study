@@ -16,6 +16,9 @@ selected there. The profile is the sole stack and executable-gate authority.
 
 Require the token-enriched run-local UJG produced by the design-system workflow
 and treat it as immutable. Theme/TokenSource generation is outside this skill.
+Require the styling phase to be closed and `application` to be the active run
+phase. This must be a fresh invocation; do not perform an earlier realization
+phase in this invocation.
 
 The primary mode is implementation from scratch. When selected targets already
 contain code, preserve correct in-scope work and bring it into conformance. Never
@@ -107,15 +110,16 @@ The only permitted UJG-to-code mapping is each selected design system's
 
 - generated application source, clients, or types;
 - route, transition, screen, outcome, or realization maps;
-- generation metadata or UJG-derived registries;
-- permanent trace/gate documents; or
+- generation metadata or UJG-derived registries, except the repository-owned
+  phase-state receipt;
+- permanent trace documents; or
 - UJG identifiers in routes, payloads, DOM, fixtures, documentation, tests, or
   implementation literals.
 
 Ordinary authored contracts, tests, adapters, and DTCG token files are allowed
 when they do not become another semantic authority.
 
-## Verification and evaluation
+## Verification and handoff
 
 Derive verification from the UJG in memory. Test applicable entry eligibility,
 every condition branch, effect and no-effect outcome, invariant, invalid mutation,
@@ -123,13 +127,10 @@ idempotency, concurrency, subject authority, boundary continuation, data shape,
 and design-system composition. Run the profile-selected application verifier
 plus any manifest-selected documentation checks.
 
-After verification, evaluate the run using `checks/application-realization.md`.
-Write only its JSON result to
-`checks/evaluation/<run-name>/application.<evaluator>.json`, using a sanitized
-lowercase evaluator label. Refuse to overwrite an existing result.
-Validate the new result with `validate:evaluation-result`, then run static
-`complete` validation.
+Successful executable verification closes application generation. Stop and hand
+off the final run for four independent static evaluations; do not create any
+evaluation result in this invocation.
 
 Report manifest-selected targets, implementation changes, verification evidence,
-evaluation path, and gaps. Do not claim full realization while any selected
-target or required branch is missing or unverified.
+and gaps. Do not claim the run complete until every selected target is verified
+and all four post-generation evaluations pass result validation.

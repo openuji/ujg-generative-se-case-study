@@ -10,6 +10,7 @@
   "scripts": {
     "validate:ujg-source": "node scripts/validate-ujg-source.mjs",
     "seed:full-application-run": "node scripts/seed-full-application-run.mjs",
+    "begin:full-application-phase": "node scripts/begin-full-application-phase.mjs",
     "validate:full-application-run": "node scripts/validate-full-application-run.mjs",
     "verify:full-application-run": "node scripts/verify-full-application-run.mjs",
     "test:full-application-workflow": "node --test scripts/full-application-run.test.mjs",

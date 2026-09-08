@@ -3,6 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { normalizeForwardedArgs } from "./cli-args.mjs";
 import { validateFullApplicationRun } from "./full-application-run-utils.mjs";
+import { validationPhaseUsage } from "./phase-state.mjs";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const runsRoot = path.join(repoRoot, "experiments", "full-application-generation", "runs");
@@ -18,13 +19,13 @@ for (let index = 0; index < args.length; index += 1) {
   } else if (!argument.startsWith("--") && runName === undefined) {
     runName = argument;
   } else {
-    console.error("Usage: pnpm validate:full-application-run -- <run-name> [--phase seed|structure|tokens|styling|application|complete]");
+    console.error(`Usage: pnpm validate:full-application-run -- <run-name> [--phase ${validationPhaseUsage}]`);
     process.exit(1);
   }
 }
 
 if (!runName) {
-  console.error("Usage: pnpm validate:full-application-run -- <run-name> [--phase seed|structure|tokens|styling|application|complete]");
+  console.error(`Usage: pnpm validate:full-application-run -- <run-name> [--phase ${validationPhaseUsage}]`);
   process.exit(1);
 }
 
