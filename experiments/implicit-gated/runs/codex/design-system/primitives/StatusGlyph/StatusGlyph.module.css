@@ -1,0 +1,108 @@
+.glyph {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-pill);
+  display: inline-grid;
+  place-items: center;
+  background: var(--color-surface-muted);
+  color: var(--color-action-primary);
+  border: 1px solid color-mix(in srgb, var(--color-border-default), transparent 55%);
+}
+
+.glyph[data-tone="success"] {
+  background: var(--color-success-bg);
+  color: var(--color-success-text);
+}
+
+.glyph[data-tone="warning"] {
+  background: var(--color-warning-bg);
+  color: var(--color-warning-text);
+}
+
+.glyph[data-tone="error"] {
+  background: var(--color-error-bg);
+  color: var(--color-error-text);
+}
+
+.bars,
+.leaf,
+.shield,
+.mail,
+.alert,
+.check {
+  position: relative;
+  width: 24px;
+  height: 24px;
+}
+
+.bars::before {
+  content: "";
+  position: absolute;
+  inset: 4px 3px;
+  background:
+    linear-gradient(currentColor, currentColor) 1px 12px / 3px 7px no-repeat,
+    linear-gradient(currentColor, currentColor) 8px 7px / 3px 12px no-repeat,
+    linear-gradient(currentColor, currentColor) 15px 2px / 3px 17px no-repeat;
+  border-bottom: 2px solid currentColor;
+}
+
+.leaf::before {
+  content: "";
+  position: absolute;
+  inset: 4px 5px 5px 5px;
+  border: 2px solid currentColor;
+  border-radius: 80% 0 80% 0;
+  transform: rotate(-25deg);
+}
+
+.shield::before {
+  content: "";
+  position: absolute;
+  inset: 3px 5px;
+  border: 2px solid currentColor;
+  border-radius: 9px 9px 12px 12px;
+}
+
+.mail::before {
+  content: "";
+  position: absolute;
+  inset: 5px 3px;
+  border: 2px solid currentColor;
+  border-radius: 4px;
+}
+
+.mail::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  top: 9px;
+  height: 8px;
+  border-left: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg);
+}
+
+.alert::before {
+  content: "!";
+  position: absolute;
+  inset: 1px;
+  display: grid;
+  place-items: center;
+  border: 2px solid currentColor;
+  clip-path: polygon(50% 4%, 96% 91%, 4% 91%);
+  font-weight: 800;
+  padding-top: 6px;
+}
+
+.check::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 8px;
+  width: 13px;
+  height: 7px;
+  border-left: 3px solid currentColor;
+  border-bottom: 3px solid currentColor;
+  transform: rotate(-45deg);
+}

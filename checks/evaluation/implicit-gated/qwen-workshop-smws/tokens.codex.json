@@ -1,0 +1,64 @@
+{
+  "evaluation_version": "token-foundation-core-v1",
+  "run_id": "qwen-workshop-smws",
+  "evaluated_phase": "tokens",
+  "implementation_model": "qwen",
+  "evaluator_model": "codex",
+  "quality_score_5": 0,
+  "quality_score_100": 0,
+  "scores": {
+    "token_model_quality": 0,
+    "source_of_truth_integrity": 0,
+    "theme_portability": 0,
+    "traceability": 0,
+    "visual_foundation_fidelity": 0,
+    "inspectability": 0
+  },
+  "complexity": {
+    "classification": "minimal",
+    "implementation_file_count": 0,
+    "infrastructure_loc": 0,
+    "new_dependency_count": 0
+  },
+  "scope_preserved": "FAIL",
+  "ujg_contract": "FAIL",
+  "metrics": {
+    "total_token_count": 0,
+    "foundation_token_count": 0,
+    "semantic_token_count": 0,
+    "unresolved_alias_count": 0,
+    "invalid_token_count": 0,
+    "raw_value_leak_count": 0,
+    "parallel_token_catalog_count": 0,
+    "parallel_theme_registry_count": 0,
+    "theme_count": 0,
+    "hardcoded_theme_branch_count": 0,
+    "data_driven_themes": false,
+    "provenance_coverage_ratio": null,
+    "direct_token_count": 0,
+    "inferred_token_count": 0,
+    "unclassified_token_count": 0,
+    "invalid_reference_count": 0,
+    "documentation_present": false,
+    "documented_group_count": 0,
+    "duplicated_documentation_value_count": 0
+  },
+  "findings": [
+    {
+      "severity": "HIGH",
+      "summary": "The token phase produced no DTCG token files and did not add the required Theme or TokenSource nodes to the run-local UJG.",
+      "evidence": [
+        "experiments/implicit-gated/runs/qwen-workshop-smws/ujg/workshop-registration.ujg.jsonld",
+        "experiments/implicit-gated/runs/qwen-workshop-smws"
+      ]
+    },
+    {
+      "severity": "MEDIUM",
+      "summary": "No token provenance, static token documentation, or theme portability evidence exists for the profile-required light and dark themes.",
+      "evidence": [
+        "docs/skills/implicit-gated/ujg-to-design-system-realization/references/v1-stack.md",
+        "experiments/implicit-gated/runs/qwen-workshop-smws"
+      ]
+    }
+  ]
+}

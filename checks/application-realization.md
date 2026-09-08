@@ -5,16 +5,16 @@ run. This rubric is evaluation-only and contains no assumptions about interface
 kinds, protocols, delivery mechanisms, adapters, runtimes, or target paths.
 
 Read the canonical realization requirements from
-`docs/skills/ujg-to-design-system-realization/references/v1-stack.md`. Apply its
+`docs/skills/<guidance>/ujg-to-design-system-realization/references/v1-stack.md`. Apply its
 target contract only through the evaluated run's manifest selections.
 
 ## Inputs and mutation boundary
 
-The caller supplies the repository root, run name, implementation-model label,
-evaluator-model label, and requested result path. Treat a missing model label as
-JSON `null`. Read only:
+The caller supplies the repository root, guidance mode, run name,
+implementation-model label, evaluator-model label, and requested result path.
+Treat a missing model label as JSON `null`. Read only:
 
-- `experiments/full-application-generation/runs/<run-name>/`;
+- `experiments/<guidance>/runs/<run-name>/`;
 - its immutable UJG and referenced schemas;
 - its `ujg-implementation.yaml`;
 - every target and design system selected by that manifest; and
@@ -38,7 +38,7 @@ JSON. Refuse to overwrite it.
 Normalize the evaluator filename label by lowercasing it, replacing each run of
 non-ASCII-alphanumeric characters with `-`, and stripping leading/trailing `-`.
 The canonical path is
-`checks/evaluation/<run-name>/application.<evaluator>.json`.
+`checks/evaluation/<guidance>/<run-name>/application.<evaluator>.json`.
 
 ## Scoring
 

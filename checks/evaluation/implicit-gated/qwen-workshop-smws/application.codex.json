@@ -1,0 +1,79 @@
+{
+  "evaluation_version": "application-realization-core-v1",
+  "run_id": "qwen-workshop-smws",
+  "evaluated_phase": "application",
+  "implementation_model": "qwen",
+  "evaluator_model": "codex",
+  "quality_score_5": 0.8333,
+  "quality_score_100": 16.67,
+  "scores": {
+    "manifest_realization_coverage": 1,
+    "ujg_behavioral_fidelity": 1,
+    "domain_integrity": 1,
+    "interface_design_system_integration": 0,
+    "source_of_truth_integrity": 2,
+    "verification_coverage": 0
+  },
+  "complexity": {
+    "classification": "minimal",
+    "implementation_file_count": 3,
+    "infrastructure_loc": 0,
+    "new_dependency_count": 0
+  },
+  "metrics": {
+    "manifest_interface_count": 2,
+    "realized_interface_count": 1,
+    "selected_target_count": 3,
+    "missing_target_count": 2,
+    "modeled_branch_count": 21,
+    "verified_branch_count": 0,
+    "effect_invariant_violation_count": 4,
+    "design_system_integration_violation_count": 2,
+    "prohibited_projection_count": 0,
+    "identifier_leak_count": 0,
+    "verification_coverage_ratio": 0
+  },
+  "findings": [
+    {
+      "severity": "HIGH",
+      "summary": "Manifest-selected runtime and integration targets are missing or incomplete: the domain entrypoint, design system, package/workspace files, OpenAPI/Swagger surface, SQLite persistence, fake auth adapter, fake email adapter, and fixtures are absent.",
+      "evidence": [
+        "experiments/implicit-gated/runs/qwen-workshop-smws/ujg-implementation.yaml",
+        "experiments/implicit-gated/runs/qwen-workshop-smws/apps/domain/src/domain.mjs",
+        "experiments/implicit-gated/runs/qwen-workshop-smws/apps/ui/src/app.mjs"
+      ]
+    },
+    {
+      "severity": "HIGH",
+      "summary": "The browser and email interfaces are static HTTP stubs rather than UJG journey realizations; they hard-code representative responses and omit most entries, states, transitions, continuations, data contracts, and the email delivery boundary.",
+      "evidence": [
+        "experiments/implicit-gated/runs/qwen-workshop-smws/apps/ui/src/app.mjs",
+        "experiments/implicit-gated/runs/qwen-workshop-smws/ujg/workshop-registration.ujg.jsonld"
+      ]
+    },
+    {
+      "severity": "HIGH",
+      "summary": "The domain engine weakens required effects and invariants: registrations are stored under generated IDs but checked by participant ID, offer acceptance/decline does not require waitlisted participation for the offered workshop, and effects are not bound to SQLite, auth, or an atomic state-changing boundary.",
+      "evidence": [
+        "experiments/implicit-gated/runs/qwen-workshop-smws/apps/domain/src/domain.mjs",
+        "experiments/implicit-gated/runs/qwen-workshop-smws/ujg/workshop-registration.ujg.jsonld"
+      ]
+    },
+    {
+      "severity": "MEDIUM",
+      "summary": "Both manifest interfaces select the generated design system, but no binding manifest or design-system modules exist and the application bypasses Component/Template/Slot composition entirely.",
+      "evidence": [
+        "experiments/implicit-gated/runs/qwen-workshop-smws/ujg-implementation.yaml",
+        "experiments/implicit-gated/runs/qwen-workshop-smws/apps/ui/src/app.mjs"
+      ]
+    },
+    {
+      "severity": "MEDIUM",
+      "summary": "There is no maintained verification evidence for modeled branches, effects, invariants, invalid mutations, selected boundaries, builds, or documentation generation.",
+      "evidence": [
+        "experiments/implicit-gated/runs/qwen-workshop-smws",
+        "docs/skills/implicit-gated/ujg-to-design-system-realization/references/v1-stack.md"
+      ]
+    }
+  ]
+}

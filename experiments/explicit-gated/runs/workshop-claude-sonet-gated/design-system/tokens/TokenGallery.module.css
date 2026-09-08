@@ -1,0 +1,234 @@
+/*
+ * Presentation of the token inspection pages.
+ *
+ * These pages document the token layer, so they obey the same rules as an
+ * artifact: every value below is a token custom property resolved through the
+ * active Theme scope, every breakpoint is the shared one, and the shared panel
+ * and divider patterns come from the same styling vocabulary. Nothing here is
+ * a UJG Component or Template.
+ *
+ * The only literal values are the swatch geometry of a preview cell, which
+ * exists to show a token rather than to be styled by one.
+ */
+
+@reference "../styles/global.css";
+
+.page {
+  @apply flex flex-col;
+
+  gap: var(--space-6);
+  padding: var(--space-6);
+  min-height: 100%;
+  background-color: var(--color-surface-canvas);
+  color: var(--color-text-primary);
+}
+
+.header {
+  @apply flex flex-col;
+
+  gap: var(--space-3);
+}
+
+.pageTitle {
+  @apply tracking-tight;
+
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--font-line-height-tight);
+}
+
+.lede {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  line-height: var(--font-line-height-relaxed);
+  max-width: 82ch;
+}
+
+.chips {
+  @apply flex flex-wrap;
+
+  gap: var(--space-3);
+}
+
+.chip {
+  padding-inline: var(--space-4);
+  padding-block: var(--space-1);
+  border-radius: var(--radius-full);
+  border-width: var(--border-width-hairline);
+  border-style: solid;
+  border-color: var(--color-border-default);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-xs);
+}
+
+.chipAccent {
+  border-color: var(--color-border-accent);
+  color: var(--color-text-link);
+}
+
+.chipCode {
+  font-family: var(--font-family-mono);
+}
+
+.section {
+  @apply ujg-panel flex flex-col;
+
+  gap: var(--space-4);
+  padding: var(--space-6);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--font-line-height-snug);
+}
+
+.sectionNote {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  line-height: var(--font-line-height-relaxed);
+  max-width: 82ch;
+}
+
+.sourceList {
+  @apply flex flex-col;
+
+  gap: var(--space-2);
+  padding-inline-start: var(--space-6);
+  list-style: decimal;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.scroller {
+  @apply w-full;
+
+  overflow-x: auto;
+}
+
+.table {
+  @apply w-full;
+
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+  text-align: start;
+}
+
+.columnHeading {
+  @apply tracking-wider uppercase;
+
+  padding-inline-end: var(--space-5);
+  padding-block: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  text-align: start;
+  white-space: nowrap;
+}
+
+.row {
+  @apply ujg-divider;
+
+  vertical-align: top;
+}
+
+.cell {
+  padding-inline-end: var(--space-5);
+  padding-block: var(--space-4);
+}
+
+.tokenPath {
+  font-family: var(--font-family-mono);
+  color: var(--color-text-primary);
+}
+
+.tokenNote {
+  color: var(--color-text-muted);
+  margin-top: var(--space-1);
+  max-width: 46ch;
+}
+
+.tokenProperty {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  margin-top: var(--space-1);
+}
+
+.resolved {
+  font-family: var(--font-family-mono);
+  color: var(--color-text-secondary);
+}
+
+.resolvedType {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+}
+
+.alias {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.evidence {
+  @apply tracking-wider uppercase;
+
+  padding-inline: var(--space-3);
+  padding-block: var(--space-1);
+  border-radius: var(--radius-full);
+  border-width: var(--border-width-hairline);
+  border-style: solid;
+  border-color: var(--color-border-default);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  white-space: nowrap;
+}
+
+.evidenceDirect {
+  border-color: var(--color-border-accent);
+  color: var(--color-text-link);
+}
+
+.empty {
+  color: var(--color-text-muted);
+}
+
+.comparisonValue {
+  @apply flex items-center;
+
+  gap: var(--space-3);
+}
+
+/*
+ * Preview cells. A swatch has to render the token's own value, so its fill,
+ * length or shadow is the resolved value under inspection rather than a token
+ * reference. Only the cell geometry is fixed here.
+ */
+.swatch {
+  @apply inline-block flex-none;
+
+  width: 2.75rem;
+  height: 1.75rem;
+  border-radius: var(--radius-sm);
+  border-width: var(--border-width-hairline);
+  border-style: solid;
+  border-color: var(--color-border-default);
+}
+
+.swatchSmall {
+  width: 1.75rem;
+  height: 1.25rem;
+}
+
+.measure {
+  @apply inline-block;
+
+  height: 0.75rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-border-accent);
+}
+
+.specimen {
+  font-size: var(--font-size-lg);
+}

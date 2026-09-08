@@ -1,0 +1,13 @@
+/*
+ * Field stack for the registration data contract. The reference registration
+ * form keeps one field per line at every width, with a generous rhythm between
+ * a field's validation message and the next label.
+ */
+
+@reference "../../styles/global.css";
+
+.fields {
+  @apply flex flex-col;
+
+  gap: var(--space-6);
+}

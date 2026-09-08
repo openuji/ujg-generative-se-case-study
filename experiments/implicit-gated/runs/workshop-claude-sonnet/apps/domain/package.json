@@ -1,0 +1,16 @@
+{
+  "name": "@workshop-claude-sonnet/domain",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node src/main.mjs",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@workshop-claude-sonnet/design-system": "workspace:*",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "swagger-ui-dist": "5.32.15"
+  }
+}

@@ -1,0 +1,32 @@
+/*
+ * Relationship between the field slot and the submit slot. The reference
+ * registration screen sets the form on one panel and separates its command from
+ * the last field by white space rather than a rule. The command fills the line
+ * on a narrow viewport and takes its natural width from the shared small
+ * breakpoint upward.
+ */
+
+@reference "../../styles/global.css";
+
+.form {
+  @apply ujg-panel flex w-full max-w-3xl flex-col;
+
+  padding: var(--space-6);
+  gap: var(--space-7);
+
+  @variant md {
+    padding: var(--space-8);
+  }
+}
+
+.footer {
+  @apply ujg-actions;
+}
+
+.footer > * {
+  @apply w-full;
+
+  @variant sm {
+    width: auto;
+  }
+}

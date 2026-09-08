@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+/*
+ * Bridges the UJG-resolved --ds-* custom properties (see
+ * src/tokens/resolve-tokens.ts) into Tailwind's theme namespace so utility
+ * classes such as bg-canvas or text-action stay token-backed
+ * and theme-aware without duplicating any resolved value here.
+ */
+@theme {
+  --color-canvas: var(--ds-semantic-color-surface-canvas);
+  --color-raised: var(--ds-semantic-color-surface-raised);
+  --color-ink: var(--ds-semantic-color-text-primary);
+  --color-ink-muted: var(--ds-semantic-color-text-secondary);
+  --color-on-action: var(--ds-semantic-color-text-onAction);
+  --color-line: var(--ds-semantic-color-border-default);
+  --color-line-strong: var(--ds-semantic-color-border-strong);
+  --color-action: var(--ds-semantic-color-action-primary);
+  --color-action-hover: var(--ds-semantic-color-action-primaryHover);
+  --color-action-secondary: var(--ds-semantic-color-action-secondary);
+  --color-field: var(--ds-semantic-color-control-background);
+  --color-field-line: var(--ds-semantic-color-control-border);
+  --color-field-placeholder: var(--ds-semantic-color-control-placeholder);
+  --color-focus: var(--ds-semantic-color-focus-ring);
+  --color-success: var(--ds-semantic-color-success-background);
+  --color-success-ink: var(--ds-semantic-color-success-foreground);
+  --color-warning: var(--ds-semantic-color-warning-background);
+  --color-warning-ink: var(--ds-semantic-color-warning-foreground);
+  --color-error: var(--ds-semantic-color-error-background);
+  --color-error-ink: var(--ds-semantic-color-error-foreground);
+  --color-info: var(--ds-semantic-color-info-background);
+  --color-info-ink: var(--ds-semantic-color-info-foreground);
+
+  --font-sans: var(--ds-fontFamily-sans);
+  --radius-sm: var(--ds-dimension-radius-sm);
+  --radius-md: var(--ds-dimension-radius-md);
+  --radius-lg: var(--ds-dimension-radius-lg);
+  --radius-full: var(--ds-dimension-radius-full);
+  --shadow-sm: var(--ds-shadow-sm);
+  --shadow-md: var(--ds-shadow-md);
+}
+
+:root {
+  color-scheme: light dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: var(--ds-dimension-fontSize-base);
+  line-height: var(--ds-lineHeight-normal);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

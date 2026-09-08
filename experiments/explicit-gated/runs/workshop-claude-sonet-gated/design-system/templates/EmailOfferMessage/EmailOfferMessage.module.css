@@ -1,0 +1,34 @@
+/*
+ * Relationship between the message body and the command that leaves the email.
+ * No reference screen captures the email touchpoint, so this keeps the panel
+ * and stack rhythm of the application rather than inventing a second one: the
+ * body flows, then a hairline, then the command on its own line.
+ */
+
+@reference "../../styles/global.css";
+
+.message {
+  @apply ujg-panel flex w-full max-w-2xl flex-col;
+
+  padding: var(--space-6);
+  gap: var(--space-6);
+  margin-inline: auto;
+
+  @variant md {
+    padding: var(--space-8);
+  }
+}
+
+.footer {
+  @apply ujg-divider flex;
+
+  padding-top: var(--space-6);
+}
+
+.footer > * {
+  @apply w-full;
+
+  @variant sm {
+    width: auto;
+  }
+}

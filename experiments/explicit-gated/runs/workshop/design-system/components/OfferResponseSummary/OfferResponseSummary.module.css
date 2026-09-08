@@ -1,0 +1,36 @@
+.root {
+  display: grid;
+  gap: var(--foundation-space-4);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--foundation-font-size-heading);
+  line-height: var(--foundation-line-height-tight);
+}
+
+.message {
+  margin: 0;
+  color: var(--semantic-text-secondary);
+}
+
+.list {
+  display: grid;
+  gap: var(--foundation-space-3);
+  margin: 0;
+}
+
+.row {
+  display: grid;
+  gap: var(--foundation-space-1);
+}
+
+.row dt {
+  color: var(--semantic-text-secondary);
+  font-size: var(--foundation-font-size-caption);
+}
+
+.row dd {
+  margin: 0;
+  font-weight: var(--foundation-font-weight-medium);
+}

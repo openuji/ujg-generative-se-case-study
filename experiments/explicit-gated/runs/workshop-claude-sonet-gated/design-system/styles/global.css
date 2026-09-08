@@ -1,0 +1,73 @@
+/*
+ * Styling entry for the design system.
+ *
+ * This file owns exactly what global CSS is allowed to own: the reset, the
+ * document typography, the Theme scope, focus, and reduced motion. It carries
+ * no artifact-specific selector — a Component or Template styles itself in its
+ * own CSS module.
+ *
+ * Every value below resolves through a token custom property. The properties
+ * themselves are generated from the UJG Theme nodes and imported alongside this
+ * file as `virtual:ujg-theme-scopes.css`, so the values are never restated here.
+ *
+ * CSS modules that need the shared styling vocabulary pull it in with
+ * `@reference "../../styles/global.css"` and then use `@apply` / `@variant`.
+ * That keeps one breakpoint scale and one utility vocabulary for the package.
+ */
+
+@import "tailwindcss" source(none);
+@import "./patterns.css";
+
+@layer base {
+  html {
+    font-family: var(--font-family-sans);
+    line-height: var(--font-line-height-normal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--color-surface-canvas);
+    color: var(--color-text-primary);
+    font-size: var(--font-size-md);
+  }
+
+  /*
+   * Theme scope. Anything carrying the Theme attribute resolves that Theme's
+   * custom properties and paints its own ground, so a Theme can be applied to
+   * the document or to any subtree without a second mechanism.
+   */
+  [data-theme] {
+    background-color: var(--color-surface-canvas);
+    color: var(--color-text-primary);
+    font-family: var(--font-family-sans);
+    font-size: var(--font-size-md);
+    line-height: var(--font-line-height-normal);
+  }
+
+  :focus-visible {
+    outline: var(--focus-ring-width) solid var(--color-focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  ::placeholder {
+    color: var(--color-text-muted);
+    opacity: 1;
+  }
+
+  ::selection {
+    background-color: var(--color-surface-accent);
+    color: var(--color-text-primary);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

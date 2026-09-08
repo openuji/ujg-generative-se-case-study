@@ -1,0 +1,42 @@
+/*
+ * Inline notice. The reference screens set this as a tinted band with a small
+ * glyph in front of one line of text.
+ *
+ * Tone is a property of the notice itself, so it selects its own treatment
+ * through its own attribute — never through a parent or a sibling.
+ */
+
+@reference "../../styles/global.css";
+
+.notice {
+  @apply flex items-center;
+
+  gap: var(--space-4);
+  padding-inline: var(--space-5);
+  padding-block: var(--space-4);
+  border-radius: var(--radius-md);
+  background-color: var(--color-status-neutral-surface);
+  color: var(--color-status-neutral-foreground);
+  font-size: var(--font-size-md);
+  line-height: var(--font-line-height-snug);
+}
+
+.notice[data-tone="success"] {
+  background-color: var(--color-status-success-surface);
+  color: var(--color-status-success-foreground);
+}
+
+.notice[data-tone="warning"] {
+  background-color: var(--color-status-warning-surface);
+  color: var(--color-status-warning-foreground);
+}
+
+.notice[data-tone="error"] {
+  background-color: var(--color-status-error-surface);
+  color: var(--color-status-error-foreground);
+}
+
+.notice[data-tone="info"] {
+  background-color: var(--color-status-info-surface);
+  color: var(--color-status-info-foreground);
+}

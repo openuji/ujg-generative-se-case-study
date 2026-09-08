@@ -1,0 +1,54 @@
+{
+  "evaluation_version": "ds-structure-core-v1",
+  "run_id": "qwen-workshop-smws",
+  "evaluated_phase": "structure",
+  "implementation_model": "qwen",
+  "evaluator_model": "codex",
+  "quality_score_5": 0.3333,
+  "quality_score_100": 6.67,
+  "scores": {
+    "artifact_coverage": 0,
+    "composition_fidelity": 0,
+    "data_contract_fidelity": 0,
+    "identity_containment": 2,
+    "implementation_modularity": 0,
+    "storybook_inspectability": 0
+  },
+  "complexity": {
+    "classification": "minimal",
+    "implementation_file_count": 0,
+    "infrastructure_loc": 0,
+    "new_dependency_count": 0
+  },
+  "metrics": {
+    "expected_component_count": 12,
+    "implemented_component_count": 0,
+    "expected_template_count": 9,
+    "implemented_template_count": 0,
+    "missing_story_count": 21,
+    "binding_mismatch_count": 21,
+    "composition_violation_count": 54,
+    "data_contract_violation_count": 9,
+    "identifier_leak_count": 0,
+    "interaction_story_coverage_ratio": 0
+  },
+  "findings": [
+    {
+      "severity": "HIGH",
+      "summary": "The manifest-selected design system is absent, so none of the 12 Components, 9 Templates, stories, or required Component/Template bindings are implemented.",
+      "evidence": [
+        "experiments/implicit-gated/runs/qwen-workshop-smws/ujg-implementation.yaml",
+        "experiments/implicit-gated/runs/qwen-workshop-smws/ujg/workshop-registration.ujg.jsonld",
+        "experiments/implicit-gated/runs/qwen-workshop-smws"
+      ]
+    },
+    {
+      "severity": "HIGH",
+      "summary": "There is no structural artifact surface for schema-backed props, editable forms, modeled Slots, SlotBindings, or SurfaceRealizations.",
+      "evidence": [
+        "experiments/implicit-gated/runs/qwen-workshop-smws/ujg/schemas",
+        "experiments/implicit-gated/runs/qwen-workshop-smws/ujg/workshop-registration.ujg.jsonld"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "evaluation_version": "application-realization-core-v1",
+  "run_id": "workshop-claude-sonnet",
+  "evaluated_phase": "application",
+  "implementation_model": "claude-sonnet-5",
+  "evaluator_model": "gpt-5-codex",
+  "quality_score_5": 3.7,
+  "quality_score_100": 74,
+  "scores": {
+    "manifest_realization_coverage": 4.4,
+    "ujg_behavioral_fidelity": 3.7,
+    "domain_integrity": 3.6,
+    "interface_design_system_integration": 4.5,
+    "source_of_truth_integrity": 3.2,
+    "verification_coverage": 2.8
+  },
+  "complexity": {
+    "classification": "moderate",
+    "implementation_file_count": 24,
+    "infrastructure_loc": 1870,
+    "new_dependency_count": 14
+  },
+  "metrics": {
+    "manifest_interface_count": 2,
+    "realized_interface_count": 2,
+    "selected_target_count": 3,
+    "missing_target_count": 0,
+    "modeled_branch_count": 21,
+    "verified_branch_count": 12,
+    "effect_invariant_violation_count": 1,
+    "design_system_integration_violation_count": 0,
+    "prohibited_projection_count": 2,
+    "identifier_leak_count": 0,
+    "verification_coverage_ratio": 0.5714
+  },
+  "findings": [
+    {
+      "severity": "HIGH",
+      "summary": "The UJG models an offered-place-unavailable direct-entry state and unavailable accept/decline branches, but persisted and read offer statuses cannot materialize unavailable as a direct entry.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/ujg/workshop-registration.ujg.jsonld:1143",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/ujg/workshop-registration.ujg.jsonld:1215",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/domain/src/db.mjs:40",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/domain/src/domain.mjs:158",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/ui/src/pages/OfferPage.tsx:90"
+      ]
+    },
+    {
+      "severity": "MEDIUM",
+      "summary": "Accepting an open offered place increments registered_count even when the fixture offer is attached to a full workshop, so acceptance can exceed capacity without encoded reserved-place semantics.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/domain/src/db.mjs:130",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/domain/src/db.mjs:164",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/domain/src/domain.mjs:198",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/domain/test/domain.test.mjs:110"
+      ]
+    },
+    {
+      "severity": "MEDIUM",
+      "summary": "The application maintains parallel OpenAPI schemas and UI client types that duplicate and diverge from the UJG data schemas, including extra workshop and offer fields/statuses.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/domain/src/openapi.mjs:114",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/ui/src/api.ts:1",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/ujg/schemas/workshop-detail-data.schema.json:1",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/ujg/schemas/offer-summary-data.schema.json:1"
+      ]
+    },
+    {
+      "severity": "MEDIUM",
+      "summary": "Maintained tests cover many domain and HTTP outcomes, but they do not cover browser/UI form validation branches, waitlist UI continuations, decline-unavailable behavior, or unavailable-offer direct entry.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/domain/test/domain.test.mjs:1",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/domain/test/http.test.mjs:1",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/ui/src/pages/RegistrationPage.tsx:39",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/ui/src/pages/WaitlistPage.tsx:37"
+      ]
+    }
+  ]
+}

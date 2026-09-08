@@ -1,0 +1,53 @@
+{
+  "evaluation_version": "application-realization-core-v1",
+  "run_id": "workshop-claude-sonnet",
+  "evaluated_phase": "application",
+  "implementation_model": "claude-sonnet-5",
+  "evaluator_model": "claude-sonnet-5",
+  "quality_score_5": 4.8333,
+  "quality_score_100": 96.67,
+  "scores": {
+    "manifest_realization_coverage": 5,
+    "ujg_behavioral_fidelity": 5,
+    "domain_integrity": 5,
+    "interface_design_system_integration": 5,
+    "source_of_truth_integrity": 5,
+    "verification_coverage": 4
+  },
+  "complexity": {
+    "classification": "heavy",
+    "implementation_file_count": 30,
+    "infrastructure_loc": null,
+    "new_dependency_count": 3
+  },
+  "metrics": {
+    "manifest_interface_count": 2,
+    "realized_interface_count": 2,
+    "selected_target_count": 3,
+    "missing_target_count": 0,
+    "modeled_branch_count": 21,
+    "verified_branch_count": 12,
+    "effect_invariant_violation_count": 0,
+    "design_system_integration_violation_count": 0,
+    "prohibited_projection_count": 0,
+    "identifier_leak_count": 0,
+    "verification_coverage_ratio": 0.5714
+  },
+  "findings": [
+    {
+      "severity": "MEDIUM",
+      "summary": "The browser interface (apps/ui) has no automated tests, so the client-owned validation branches (registration-details-valid/invalid and their corrected variants) are only verified manually, not by an executable check.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/ui/src/registrationValidation.ts",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/ui/src/pages/RegistrationPage.tsx"
+      ]
+    },
+    {
+      "severity": "LOW",
+      "summary": "acceptOffer/declineOffer collapse two distinct edge cases (a participant other than the one the offer names, and an already-resolved offer) into a single 'unavailable' outcome; the UJG's 3-branch conditional set doesn't disambiguate this case, so it's a reasonable but unverified interpretation.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/apps/domain/src/domain.mjs"
+      ]
+    }
+  ]
+}

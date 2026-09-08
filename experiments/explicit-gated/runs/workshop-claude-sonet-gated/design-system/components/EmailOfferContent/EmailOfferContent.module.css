@@ -1,0 +1,41 @@
+/*
+ * Body of the offer message on the email touchpoint.
+ *
+ * No reference screen captures the email itself, so this reuses the token
+ * typography and the panel rhythm of the application screens rather than
+ * inventing a second visual language: a left-aligned headline, one paragraph,
+ * and the offer facts on a hairline-separated list.
+ */
+
+@reference "../../styles/global.css";
+
+.content {
+  @apply flex max-w-2xl flex-col;
+
+  gap: var(--space-5);
+}
+
+.title {
+  @apply tracking-tight;
+
+  color: var(--color-text-primary);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--font-line-height-tight);
+
+  @variant md {
+    font-size: var(--font-size-3xl);
+  }
+}
+
+.body {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-md);
+  line-height: var(--font-line-height-relaxed);
+}
+
+.facts {
+  @apply ujg-divider;
+
+  padding-top: var(--space-2);
+}

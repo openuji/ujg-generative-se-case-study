@@ -1,0 +1,46 @@
+{
+  "evaluation_version": "ds-structure-core-v1",
+  "run_id": "workshop-claude-sonnet",
+  "evaluated_phase": "structure",
+  "implementation_model": "claude-sonnet-5",
+  "evaluator_model": "gpt-5-codex",
+  "quality_score_5": 4.9167,
+  "quality_score_100": 98.33,
+  "scores": {
+    "artifact_coverage": 5,
+    "composition_fidelity": 5,
+    "data_contract_fidelity": 5,
+    "identity_containment": 5,
+    "implementation_modularity": 5,
+    "storybook_inspectability": 4.5
+  },
+  "complexity": {
+    "classification": "moderate",
+    "implementation_file_count": 40,
+    "infrastructure_loc": 471,
+    "new_dependency_count": 17
+  },
+  "metrics": {
+    "expected_component_count": 12,
+    "implemented_component_count": 12,
+    "expected_template_count": 9,
+    "implemented_template_count": 9,
+    "missing_story_count": 0,
+    "binding_mismatch_count": 0,
+    "composition_violation_count": 0,
+    "data_contract_violation_count": 0,
+    "identifier_leak_count": 0,
+    "interaction_story_coverage_ratio": 0.5
+  },
+  "findings": [
+    {
+      "severity": "LOW",
+      "summary": "The waitlist form has exact-key serialization evidence in Vitest, but not as a Storybook interaction story; the only FormWithSubmit play story exercises registration data.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/templates/FormWithSubmit/FormWithSubmit.stories.tsx:25",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/templates/FormWithSubmit/FormWithSubmit.test.tsx:34",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/components/WaitlistFormFields/WaitlistFormFields.stories.tsx:13"
+      ]
+    }
+  ]
+}

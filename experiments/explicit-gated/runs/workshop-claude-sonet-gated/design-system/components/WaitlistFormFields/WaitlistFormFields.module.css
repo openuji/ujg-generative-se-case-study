@@ -1,0 +1,13 @@
+/*
+ * Field stack for the waitlist data contract. It follows the same field rhythm
+ * the reference registration form shows; no reference screen captures the
+ * waitlist form itself.
+ */
+
+@reference "../../styles/global.css";
+
+.fields {
+  @apply flex flex-col;
+
+  gap: var(--space-6);
+}

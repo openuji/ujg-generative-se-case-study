@@ -1,0 +1,60 @@
+/*
+ * Shared, domain-neutral styling vocabulary.
+ *
+ * These are the layout behaviours that genuinely repeat across artifacts,
+ * expressed as utilities of the package's styling tool so a CSS module can
+ * `@apply` them instead of restating them. They describe no artifact, carry no
+ * domain meaning, and take every value from a token custom property.
+ */
+
+/* The bordered, raised surface the reference screens use for every card and panel. */
+@utility ujg-panel {
+  background-color: var(--color-surface-default);
+  border-width: var(--border-width-hairline);
+  border-style: solid;
+  border-color: var(--color-border-default);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+/*
+ * Command group. Commands stack and fill the line on narrow viewports and sit
+ * side by side from the shared small breakpoint upward.
+ */
+@utility ujg-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+
+  @variant sm {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+/*
+ * Primary region beside a secondary column. The secondary column only appears
+ * from the shared large breakpoint upward; below it the two stack.
+ */
+@utility ujg-split {
+  display: grid;
+  gap: var(--space-7);
+
+  @variant lg {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 21rem);
+    align-items: start;
+    gap: var(--space-10);
+  }
+}
+
+/* Comfortable reading measure for a centred block of copy. */
+@utility ujg-measure {
+  max-width: 56ch;
+}
+
+/* A hairline rule between sections of one surface. */
+@utility ujg-divider {
+  border-top-width: var(--border-width-hairline);
+  border-top-style: solid;
+  border-top-color: var(--color-border-default);
+}

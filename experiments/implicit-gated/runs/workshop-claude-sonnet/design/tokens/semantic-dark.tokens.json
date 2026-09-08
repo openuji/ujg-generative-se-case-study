@@ -1,0 +1,305 @@
+{
+  "semantic": {
+    "color": {
+      "surface": {
+        "canvas": {
+          "$type": "color",
+          "$value": "{color.neutral.950}",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "inferred",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen.png",
+                "references/workshop-registration/screens/screen_1.png",
+                "references/workshop-registration/screens/screen_2.png"
+              ]
+            }
+          }
+        },
+        "raised": {
+          "$type": "color",
+          "$value": "{color.neutral.900}",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "inferred",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen.png",
+                "references/workshop-registration/screens/screen_1.png",
+                "references/workshop-registration/screens/screen_2.png"
+              ]
+            }
+          }
+        }
+      },
+      "text": {
+        "primary": {
+          "$type": "color",
+          "$value": "{color.neutral.50}",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "inferred",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen.png",
+                "references/workshop-registration/screens/screen_1.png",
+                "references/workshop-registration/screens/screen_2.png"
+              ]
+            }
+          }
+        },
+        "secondary": {
+          "$type": "color",
+          "$value": "{color.neutral.400}",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "inferred",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen.png",
+                "references/workshop-registration/screens/screen_1.png",
+                "references/workshop-registration/screens/screen_2.png"
+              ]
+            }
+          }
+        },
+        "onAction": {
+          "$type": "color",
+          "$value": "{color.neutral.0}",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "inferred",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen_2.png"
+              ]
+            }
+          }
+        }
+      },
+      "border": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.neutral.700}",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "inferred",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen.png",
+                "references/workshop-registration/screens/screen_1.png",
+                "references/workshop-registration/screens/screen_2.png"
+              ]
+            }
+          }
+        },
+        "strong": {
+          "$type": "color",
+          "$value": "{color.neutral.600}",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "inferred",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen_2.png"
+              ]
+            }
+          }
+        }
+      },
+      "action": {
+        "primary": {
+          "$type": "color",
+          "$value": "{color.blue.400}",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "inferred",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen_2.png",
+                "references/workshop-registration/screens/screen_3.png",
+                "references/workshop-registration/screens/screen_4.png"
+              ]
+            }
+          }
+        },
+        "primaryHover": {
+          "$type": "color",
+          "$value": "{color.blue.300}",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "inferred",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen_2.png",
+                "references/workshop-registration/screens/screen_3.png"
+              ]
+            }
+          }
+        },
+        "secondary": {
+          "$type": "color",
+          "$value": "{color.neutral.800}",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "inferred",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen_3.png"
+              ]
+            }
+          }
+        }
+      },
+      "control": {
+        "background": {
+          "$type": "color",
+          "$value": "{color.neutral.900}",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "inferred",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen_2.png"
+              ]
+            }
+          }
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{color.neutral.600}",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "inferred",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen_2.png"
+              ]
+            }
+          }
+        },
+        "placeholder": {
+          "$type": "color",
+          "$value": "{color.neutral.500}",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "inferred",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen_2.png"
+              ]
+            }
+          }
+        }
+      },
+      "focus": {
+        "ring": {
+          "$type": "color",
+          "$value": "{color.blue.300}",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "inferred",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen_2.png"
+              ]
+            }
+          }
+        }
+      },
+      "success": {
+        "background": {
+          "$type": "color",
+          "$value": "{color.green.700}",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "inferred",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen_4.png"
+              ]
+            }
+          }
+        },
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.green.100}",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "inferred",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen_4.png"
+              ]
+            }
+          }
+        }
+      },
+      "warning": {
+        "background": {
+          "$type": "color",
+          "$value": "{color.amber.700}",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "inferred",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen.png",
+                "references/workshop-registration/screens/screen_7.png"
+              ]
+            }
+          }
+        },
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.amber.100}",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "inferred",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen.png",
+                "references/workshop-registration/screens/screen_7.png"
+              ]
+            }
+          }
+        }
+      },
+      "error": {
+        "background": {
+          "$type": "color",
+          "$value": "{color.red.700}",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "inferred",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen_8.png"
+              ]
+            }
+          }
+        },
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.red.100}",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "inferred",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen_8.png"
+              ]
+            }
+          }
+        }
+      },
+      "info": {
+        "background": {
+          "$type": "color",
+          "$value": "{color.blue.700}",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "inferred",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen_5.png"
+              ]
+            }
+          }
+        },
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.blue.100}",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "inferred",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen_5.png"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

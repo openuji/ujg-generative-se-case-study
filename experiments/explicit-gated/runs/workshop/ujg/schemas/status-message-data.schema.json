@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ujg:data-schema:status-message-data",
+  "title": "Status message data",
+  "type": "object",
+  "required": ["title", "message"],
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    },
+    "tone": {
+      "enum": ["error", "info", "success", "warning"]
+    },
+    "details": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["term", "value"],
+        "properties": {
+          "term": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

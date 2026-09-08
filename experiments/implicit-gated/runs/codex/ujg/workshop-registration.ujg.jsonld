@@ -1,0 +1,3007 @@
+{
+  "@context": [
+    "https://ujg.specs.openuji.org/ed/ns/core.context.jsonld",
+    "https://ujg.specs.openuji.org/ed/ns/graph.context.jsonld",
+    "https://ujg.specs.openuji.org/ed/ns/surface.context.jsonld",
+    "https://ujg.specs.openuji.org/ed/ns/entry-binding.context.jsonld",
+    "https://ujg.specs.openuji.org/ed/ns/condition.context.jsonld",
+    "https://ujg.specs.openuji.org/ed/ns/effect.context.jsonld",
+    "https://ujg.specs.openuji.org/ed/ns/data-contract.context.jsonld",
+    "https://ujg.specs.openuji.org/ed/ns/design-system.context.jsonld"
+  ],
+  "@id": "urn:ujg:document:workshop-registration-case-study",
+  "@type": "UJGDocument",
+  "extensions": {
+    "org.openuji.domain-model": {
+      "id": "urn:domain:model:workshop-registration",
+      "entities": [
+        {
+          "id": "urn:domain:entity:workshop",
+          "label": "Workshop",
+          "description": "Participant-facing workshop whose registration availability contributes to detail entry and confirmation outcomes.",
+          "ujgRefs": [
+            "urn:ujg:state:workshop-teaser",
+            "urn:ujg:state:workshop-registration-open",
+            "urn:ujg:state:workshop-waitlist-open",
+            "urn:ujg:state:workshop-registration-closed"
+          ],
+          "properties": [
+            {
+              "id": "urn:domain:property:workshop-registration-availability",
+              "label": "Registration availability",
+              "description": "Current participant-facing registration availability for the workshop.",
+              "ujgRefs": [
+                "urn:ujg:state:workshop-registration-open",
+                "urn:ujg:state:workshop-waitlist-open",
+                "urn:ujg:state:waitlist-after-registration-unavailable",
+                "urn:ujg:state:workshop-registration-closed",
+                "urn:ujg:condition:registration-place-available-and-participant-not-already-registered",
+                "urn:ujg:condition:registration-place-unavailable-and-participant-not-already-registered",
+                "urn:ujg:condition:registration-closed-and-participant-not-already-registered",
+                "urn:ujg:condition:waitlist-open-and-participant-not-already-waitlisted",
+                "urn:ujg:condition:registration-closed-and-participant-not-already-waitlisted"
+              ],
+              "valueType": "string",
+              "allowedValues": [
+                "placeAvailable",
+                "waitlistOpen",
+                "registrationClosed"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "urn:domain:entity:participant",
+          "label": "Participant",
+          "description": "The domain subject whose registration, waitlist, and offered-place outcomes are evaluated.",
+          "ujgRefs": [
+            "urn:ujg:state:workshop-already-registered",
+            "urn:ujg:state:workshop-already-waitlisted",
+            "urn:ujg:state:registration-confirmed",
+            "urn:ujg:state:registration-already-confirmed",
+            "urn:ujg:state:waitlisted",
+            "urn:ujg:state:already-waitlisted",
+            "urn:ujg:state:offered-place-registration-confirmed",
+            "urn:ujg:state:offered-place-waitlisted"
+          ],
+          "properties": []
+        },
+        {
+          "id": "urn:domain:entity:workshop-participation",
+          "label": "Workshop participation",
+          "description": "A participant's current outcome for a workshop.",
+          "ujgRefs": [
+            "urn:ujg:state:workshop-already-registered",
+            "urn:ujg:state:workshop-already-waitlisted",
+            "urn:ujg:state:registration-confirmed",
+            "urn:ujg:state:registration-already-confirmed",
+            "urn:ujg:state:waitlisted",
+            "urn:ujg:state:already-waitlisted",
+            "urn:ujg:state:offered-place-registration-confirmed",
+            "urn:ujg:state:offered-place-waitlisted"
+          ],
+          "properties": [
+            {
+              "id": "urn:domain:property:participation-status",
+              "label": "Participation status",
+              "description": "The participant's current modeled outcome for the workshop.",
+              "ujgRefs": [
+                "urn:ujg:state:workshop-already-registered",
+                "urn:ujg:state:workshop-already-waitlisted",
+                "urn:ujg:state:registration-confirmed",
+                "urn:ujg:state:registration-already-confirmed",
+                "urn:ujg:state:waitlisted",
+                "urn:ujg:state:already-waitlisted",
+                "urn:ujg:state:offered-place-registration-confirmed",
+                "urn:ujg:state:offered-place-waitlisted",
+                "urn:ujg:condition:participant-already-registered",
+                "urn:ujg:condition:registration-place-available-and-participant-not-already-registered",
+                "urn:ujg:condition:registration-place-unavailable-and-participant-not-already-registered",
+                "urn:ujg:condition:registration-closed-and-participant-not-already-registered",
+                "urn:ujg:condition:participant-already-waitlisted",
+                "urn:ujg:condition:waitlist-open-and-participant-not-already-waitlisted",
+                "urn:ujg:condition:registration-closed-and-participant-not-already-waitlisted"
+              ],
+              "valueType": "string",
+              "allowedValues": [
+                "waitlisted",
+                "confirmed"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "urn:domain:entity:offered-place",
+          "label": "Offered place",
+          "description": "A participant-specific offer to take a workshop place.",
+          "ujgRefs": [
+            "urn:ujg:entry:offered-place-email",
+            "urn:ujg:entry:offered-place-app",
+            "urn:ujg:state:offered-place-email-visible",
+            "urn:ujg:state:offered-place-open"
+          ],
+          "properties": [
+            {
+              "id": "urn:domain:property:offered-place-status",
+              "label": "Offered-place status",
+              "description": "Current participant-facing lifecycle state of the offered place.",
+              "ujgRefs": [
+                "urn:ujg:state:offered-place-open",
+                "urn:ujg:state:offered-place-expired",
+                "urn:ujg:state:offered-place-unavailable",
+                "urn:ujg:state:offered-place-registration-confirmed",
+                "urn:ujg:state:offered-place-waitlisted",
+                "urn:ujg:condition:offered-place-valid",
+                "urn:ujg:condition:offered-place-expired",
+                "urn:ujg:condition:offered-place-unavailable"
+              ],
+              "valueType": "string",
+              "allowedValues": [
+                "available",
+                "expired",
+                "unavailable",
+                "accepted",
+                "declined"
+              ]
+            }
+          ]
+        }
+      ],
+      "valueObjects": [],
+      "relationships": [
+        {
+          "id": "urn:domain:relationship:workshop-participation-participant",
+          "label": "Workshop participation participant",
+          "description": "A workshop participation records the outcome for a participant.",
+          "ujgRefs": [
+            "urn:ujg:state:workshop-already-registered",
+            "urn:ujg:state:workshop-already-waitlisted",
+            "urn:ujg:state:registration-confirmed",
+            "urn:ujg:state:registration-already-confirmed",
+            "urn:ujg:state:waitlisted",
+            "urn:ujg:state:already-waitlisted",
+            "urn:ujg:state:offered-place-registration-confirmed",
+            "urn:ujg:state:offered-place-waitlisted",
+            "urn:ujg:condition:participant-already-registered",
+            "urn:ujg:condition:participant-already-waitlisted",
+            "urn:ujg:condition:registration-place-available-and-participant-not-already-registered",
+            "urn:ujg:condition:waitlist-open-and-participant-not-already-waitlisted"
+          ],
+          "sourceRef": "urn:domain:entity:workshop-participation",
+          "targetRef": "urn:domain:entity:participant"
+        },
+        {
+          "id": "urn:domain:relationship:workshop-participation-workshop",
+          "label": "Workshop participation workshop",
+          "description": "A workshop participation concerns the workshop whose registration or waitlist outcome is recorded.",
+          "ujgRefs": [
+            "urn:ujg:state:workshop-already-registered",
+            "urn:ujg:state:workshop-already-waitlisted",
+            "urn:ujg:state:registration-confirmed",
+            "urn:ujg:state:registration-already-confirmed",
+            "urn:ujg:state:waitlisted",
+            "urn:ujg:state:offered-place-registration-confirmed",
+            "urn:ujg:state:offered-place-waitlisted",
+            "urn:ujg:effect:confirm-registration",
+            "urn:ujg:effect:join-waitlist"
+          ],
+          "sourceRef": "urn:domain:entity:workshop-participation",
+          "targetRef": "urn:domain:entity:workshop"
+        },
+        {
+          "id": "urn:domain:relationship:offered-place-participant",
+          "label": "Offered-place participant",
+          "description": "An offered place concerns the participant whose workshop participation is changed or preserved by the response.",
+          "ujgRefs": [
+            "urn:ujg:state:offered-place-registration-confirmed",
+            "urn:ujg:state:offered-place-waitlisted",
+            "urn:ujg:effect:accept-offered-place",
+            "urn:ujg:effect:decline-offered-place"
+          ],
+          "sourceRef": "urn:domain:entity:offered-place",
+          "targetRef": "urn:domain:entity:participant"
+        },
+        {
+          "id": "urn:domain:relationship:offered-place-workshop",
+          "label": "Offered-place workshop",
+          "description": "An offered place concerns the workshop whose place can be accepted or declined.",
+          "ujgRefs": [
+            "urn:ujg:state:offered-place-open",
+            "urn:ujg:effect:accept-offered-place",
+            "urn:ujg:effect:decline-offered-place"
+          ],
+          "sourceRef": "urn:domain:entity:offered-place",
+          "targetRef": "urn:domain:entity:workshop"
+        }
+      ],
+      "domainOperations": [
+        {
+          "id": "urn:domain:operation:confirm-workshop-registration",
+          "label": "Confirm workshop registration",
+          "description": "Establish confirmed participation for a participant when the selected workshop still has a registration place available and the participant is not already registered.",
+          "ujgRefs": [
+            "urn:ujg:transition:confirm-registration",
+            "urn:ujg:condition:registration-place-available-and-participant-not-already-registered",
+            "urn:ujg:effect:confirm-registration",
+            "urn:ujg:state:registration-confirmed"
+          ],
+          "actsOnRefs": [
+            "urn:domain:entity:workshop",
+            "urn:domain:entity:participant",
+            "urn:domain:entity:workshop-participation"
+          ],
+          "preconditions": [
+            "The workshop's registration availability is placeAvailable when confirmation is evaluated.",
+            "The participant does not already have confirmed participation for the workshop."
+          ],
+          "postconditions": [
+            "The participant has confirmed participation for the workshop."
+          ]
+        },
+        {
+          "id": "urn:domain:operation:join-workshop-waitlist",
+          "label": "Join workshop waitlist",
+          "description": "Establish waitlisted participation for a participant when the workshop is accepting waitlist registrations.",
+          "ujgRefs": [
+            "urn:ujg:transition:join-waitlist",
+            "urn:ujg:condition:waitlist-open-and-participant-not-already-waitlisted",
+            "urn:ujg:effect:join-waitlist",
+            "urn:ujg:state:waitlisted"
+          ],
+          "actsOnRefs": [
+            "urn:domain:entity:workshop",
+            "urn:domain:entity:participant",
+            "urn:domain:entity:workshop-participation"
+          ],
+          "preconditions": [
+            "The workshop's registration availability is waitlistOpen when waitlist join is evaluated.",
+            "The participant does not already have waitlisted participation for the workshop."
+          ],
+          "postconditions": [
+            "The participant has waitlisted participation for the workshop."
+          ]
+        },
+        {
+          "id": "urn:domain:operation:accept-offered-place",
+          "label": "Accept offered place",
+          "description": "Resolve an available offered place by confirming the participant for the offered workshop.",
+          "ujgRefs": [
+            "urn:ujg:transition:accept-offered-place",
+            "urn:ujg:condition:offered-place-valid",
+            "urn:ujg:effect:accept-offered-place",
+            "urn:ujg:state:offered-place-registration-confirmed"
+          ],
+          "actsOnRefs": [
+            "urn:domain:entity:offered-place",
+            "urn:domain:entity:participant",
+            "urn:domain:entity:workshop",
+            "urn:domain:entity:workshop-participation"
+          ],
+          "preconditions": [
+            "The offered place is available when acceptance is evaluated.",
+            "The offered place concerns the participant whose participation is being resolved.",
+            "The participant has waitlisted participation for the offered place's workshop."
+          ],
+          "postconditions": [
+            "The offered-place status is accepted.",
+            "The participant has confirmed participation for the offered place's workshop."
+          ]
+        },
+        {
+          "id": "urn:domain:operation:decline-offered-place",
+          "label": "Decline offered place",
+          "description": "Resolve an available offered place by declining it while leaving the participant waitlisted for the workshop.",
+          "ujgRefs": [
+            "urn:ujg:transition:decline-offered-place",
+            "urn:ujg:condition:offered-place-valid",
+            "urn:ujg:effect:decline-offered-place",
+            "urn:ujg:state:offered-place-waitlisted"
+          ],
+          "actsOnRefs": [
+            "urn:domain:entity:offered-place",
+            "urn:domain:entity:participant",
+            "urn:domain:entity:workshop",
+            "urn:domain:entity:workshop-participation"
+          ],
+          "preconditions": [
+            "The offered place is available when decline is evaluated.",
+            "The offered place concerns the participant whose participation is being resolved.",
+            "The participant has waitlisted participation for the offered place's workshop."
+          ],
+          "postconditions": [
+            "The offered-place status is declined.",
+            "The participant remains waitlisted for the offered place's workshop."
+          ]
+        }
+      ],
+      "invariants": [
+        {
+          "id": "urn:domain:invariant:offered-place-intended-participant",
+          "label": "Offered-place intended participant",
+          "description": "An offered place is reserved for the participant who received the offer.",
+          "appliesToRefs": [
+            "urn:domain:entity:offered-place",
+            "urn:domain:entity:participant"
+          ],
+          "assertion": "An offered place may be accepted or declined only by the participant for whom the offered place was offered."
+        },
+        {
+          "id": "urn:domain:invariant:offered-place-participation-continuity",
+          "label": "Offered-place participation continuity",
+          "description": "Offer resolution affects the participation for the same participant and workshop as the offered place.",
+          "ujgRefs": [
+            "urn:ujg:effect:accept-offered-place",
+            "urn:ujg:effect:decline-offered-place"
+          ],
+          "appliesToRefs": [
+            "urn:domain:entity:offered-place",
+            "urn:domain:entity:participant",
+            "urn:domain:entity:workshop",
+            "urn:domain:entity:workshop-participation"
+          ],
+          "assertion": "Accepting or declining an offered place affects the workshop participation for the same participant and workshop as the offered place."
+        }
+      ]
+    }
+  },
+  "nodes": [
+    {
+      "@type": "JourneyEntryIndex",
+      "@id": "urn:ujg:index:workshop-entry-points",
+      "label": "Workshop product entry points",
+      "entryRefs": [
+        "urn:ujg:entry:workshops-overview",
+        "urn:ujg:entry:workshop-detail",
+        "urn:ujg:entry:offered-place-email"
+      ]
+    },
+    {
+      "@type": "EntryBinding",
+      "@id": "urn:ujg:entry-binding:workshops-overview",
+      "label": "Workshops overview materialization",
+      "entryRef": "urn:ujg:entry:workshops-overview",
+      "value": "workshops.overview"
+    },
+    {
+      "@type": "EntryBinding",
+      "@id": "urn:ujg:entry-binding:workshop-detail",
+      "label": "Workshop detail materialization",
+      "entryRef": "urn:ujg:entry:workshop-detail",
+      "value": "workshop.detail"
+    },
+    {
+      "@type": "EntryBinding",
+      "@id": "urn:ujg:entry-binding:offered-place-email",
+      "label": "Offered-place email materialization",
+      "entryRef": "urn:ujg:entry:offered-place-email",
+      "value": "workshop.offer-email"
+    },
+    {
+      "@type": "EntryBinding",
+      "@id": "urn:ujg:entry-binding:offered-place-app",
+      "label": "Offered-place application materialization",
+      "entryRef": "urn:ujg:entry:offered-place-app",
+      "value": "workshop.offer"
+    },
+    {
+      "@type": "Journey",
+      "@id": "urn:ujg:journey:workshops",
+      "label": "Browse workshops",
+      "userRef": "urn:ujg:user:workshop-participant",
+      "defaultEntryRef": "urn:ujg:entry:workshops-overview",
+      "entryRefs": [
+        "urn:ujg:entry:workshops-overview",
+        "urn:ujg:entry:workshop-detail"
+      ],
+      "stateRefs": [
+        "urn:ujg:state:workshops-overview",
+        "urn:ujg:composite:workshop-detail"
+      ],
+      "transitionRefs": [
+        "urn:ujg:transition:open-workshop"
+      ]
+    },
+    {
+      "@type": "JourneyEntry",
+      "@id": "urn:ujg:entry:workshops-overview",
+      "label": "Workshops overview entry",
+      "stateRef": "urn:ujg:state:workshops-overview"
+    },
+    {
+      "@type": "JourneyEntry",
+      "@id": "urn:ujg:entry:workshop-detail",
+      "label": "Workshop detail entry",
+      "stateRef": "urn:ujg:composite:workshop-detail"
+    },
+    {
+      "@type": "CompositeState",
+      "@id": "urn:ujg:state:workshops-overview",
+      "label": "Workshops overview",
+      "subjourneyRefs": [
+        "urn:ujg:journey:workshops-overview"
+      ]
+    },
+    {
+      "@type": "CompositeState",
+      "@id": "urn:ujg:composite:workshop-detail",
+      "label": "Workshop detail",
+      "subjourneyRefs": [
+        "urn:ujg:journey:workshop-detail"
+      ]
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:open-workshop",
+      "label": "Open workshop",
+      "from": "urn:ujg:state:workshops-overview",
+      "to": "urn:ujg:composite:workshop-detail",
+      "fromExitRef": "urn:ujg:exit:workshop-teaser-opened"
+    },
+    {
+      "@type": "Journey",
+      "@id": "urn:ujg:journey:workshops-overview",
+      "label": "Workshops overview",
+      "defaultEntryRef": "urn:ujg:entry:workshops-overview-visible",
+      "entryRefs": [
+        "urn:ujg:entry:workshops-overview-visible"
+      ],
+      "stateRefs": [
+        "urn:ujg:state:workshop-teaser"
+      ],
+      "transitionRefs": [
+        "urn:ujg:transition:open-workshop-teaser"
+      ],
+      "exitRefs": [
+        "urn:ujg:exit:workshop-teaser-opened"
+      ]
+    },
+    {
+      "@type": "JourneyEntry",
+      "@id": "urn:ujg:entry:workshops-overview-visible",
+      "label": "Workshops overview visible",
+      "stateRef": "urn:ujg:state:workshop-teaser"
+    },
+    {
+      "@type": "State",
+      "@id": "urn:ujg:state:workshop-teaser",
+      "label": "Workshop teaser",
+      "multiInstance": true
+    },
+    {
+      "@type": "JourneyExit",
+      "@id": "urn:ujg:exit:workshop-teaser-opened",
+      "label": "Workshop teaser opened"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:open-workshop-teaser",
+      "label": "Open workshop teaser",
+      "from": "urn:ujg:state:workshop-teaser",
+      "to": "urn:ujg:exit:workshop-teaser-opened",
+      "commandRef": "urn:ujg:command:open-workshop"
+    },
+    {
+      "@type": "Journey",
+      "@id": "urn:ujg:journey:workshop-detail",
+      "label": "Workshop detail",
+      "entryRefs": [
+        "urn:ujg:entry:workshop-already-registered",
+        "urn:ujg:entry:workshop-already-waitlisted",
+        "urn:ujg:entry:workshop-detail-registration-open",
+        "urn:ujg:entry:workshop-detail-waitlist-open",
+        "urn:ujg:entry:workshop-detail-registration-closed"
+      ],
+      "stateRefs": [
+        "urn:ujg:state:workshop-already-registered",
+        "urn:ujg:state:workshop-already-waitlisted",
+        "urn:ujg:composite:workshop-registration",
+        "urn:ujg:composite:workshop-waitlist",
+        "urn:ujg:composite:workshop-registration-closed"
+      ],
+      "transitionRefs": [
+        "urn:ujg:transition:registration-place-unavailable-to-waitlist",
+        "urn:ujg:transition:registration-closed-at-confirmation-to-closed",
+        "urn:ujg:transition:waitlist-closed-at-join-to-closed"
+      ]
+    },
+    {
+      "@type": "JourneyEntry",
+      "@id": "urn:ujg:entry:workshop-detail-registration-open",
+      "label": "Workshop detail — registration open",
+      "stateRef": "urn:ujg:composite:workshop-registration"
+    },
+    {
+      "@type": "JourneyEntry",
+      "@id": "urn:ujg:entry:workshop-detail-waitlist-open",
+      "label": "Workshop detail — waitlist open",
+      "stateRef": "urn:ujg:composite:workshop-waitlist"
+    },
+    {
+      "@type": "JourneyEntry",
+      "@id": "urn:ujg:entry:workshop-detail-registration-closed",
+      "label": "Workshop detail — registration closed",
+      "stateRef": "urn:ujg:composite:workshop-registration-closed"
+    },
+    {
+      "@type": "JourneyEntry",
+      "@id": "urn:ujg:entry:workshop-already-registered",
+      "label": "Workshop detail — already registered",
+      "stateRef": "urn:ujg:state:workshop-already-registered"
+    },
+    {
+      "@type": "JourneyEntry",
+      "@id": "urn:ujg:entry:workshop-already-waitlisted",
+      "label": "Workshop detail — already waitlisted",
+      "stateRef": "urn:ujg:state:workshop-already-waitlisted"
+    },
+    {
+      "@type": "State",
+      "@id": "urn:ujg:state:workshop-already-registered",
+      "label": "Workshop detail — participant is already registered"
+    },
+    {
+      "@type": "State",
+      "@id": "urn:ujg:state:workshop-already-waitlisted",
+      "label": "Workshop detail — participant is already waitlisted"
+    },
+    {
+      "@type": "CompositeState",
+      "@id": "urn:ujg:composite:workshop-registration",
+      "label": "Regular workshop registration",
+      "subjourneyRefs": [
+        "urn:ujg:journey:workshop-registration"
+      ]
+    },
+    {
+      "@type": "CompositeState",
+      "@id": "urn:ujg:composite:workshop-waitlist",
+      "label": "Workshop waitlist registration",
+      "subjourneyRefs": [
+        "urn:ujg:journey:workshop-waitlist"
+      ]
+    },
+    {
+      "@type": "CompositeState",
+      "@id": "urn:ujg:composite:workshop-registration-closed",
+      "label": "Closed workshop registration",
+      "subjourneyRefs": [
+        "urn:ujg:journey:workshop-registration-closed"
+      ]
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:registration-place-unavailable-to-waitlist",
+      "label": "Continue with waitlist after registration place became unavailable",
+      "from": "urn:ujg:composite:workshop-registration",
+      "to": "urn:ujg:composite:workshop-waitlist",
+      "fromExitRef": "urn:ujg:exit:registration-place-unavailable",
+      "toEntryRef": "urn:ujg:entry:waitlist-after-registration-unavailable"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:registration-closed-at-confirmation-to-closed",
+      "label": "Continue with closed registration after registration closed at confirmation",
+      "from": "urn:ujg:composite:workshop-registration",
+      "to": "urn:ujg:composite:workshop-registration-closed",
+      "fromExitRef": "urn:ujg:exit:registration-closed-at-confirmation",
+      "toEntryRef": "urn:ujg:entry:workshop-registration-closed"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:waitlist-closed-at-join-to-closed",
+      "label": "Continue with closed registration after waitlist closed at join",
+      "from": "urn:ujg:composite:workshop-waitlist",
+      "to": "urn:ujg:composite:workshop-registration-closed",
+      "fromExitRef": "urn:ujg:exit:waitlist-closed-at-join",
+      "toEntryRef": "urn:ujg:entry:workshop-registration-closed"
+    },
+    {
+      "@type": "Journey",
+      "@id": "urn:ujg:journey:workshop-registration",
+      "label": "Regular workshop registration",
+      "defaultEntryRef": "urn:ujg:entry:workshop-registration-open",
+      "entryRefs": [
+        "urn:ujg:entry:workshop-registration-open"
+      ],
+      "stateRefs": [
+        "urn:ujg:state:workshop-registration-open",
+        "urn:ujg:state:registration-form",
+        "urn:ujg:state:registration-form-error",
+        "urn:ujg:state:registration-review",
+        "urn:ujg:state:registration-confirmed",
+        "urn:ujg:state:registration-already-confirmed"
+      ],
+      "transitionRefs": [
+        "urn:ujg:transition:start-registration",
+        "urn:ujg:transition:registration-details-valid",
+        "urn:ujg:transition:registration-details-invalid",
+        "urn:ujg:transition:corrected-registration-details-valid",
+        "urn:ujg:transition:corrected-registration-details-invalid",
+        "urn:ujg:transition:edit-registration-details",
+        "urn:ujg:transition:confirm-registration",
+        "urn:ujg:transition:confirm-registration-already-registered",
+        "urn:ujg:transition:confirm-registration-place-unavailable",
+        "urn:ujg:transition:confirm-registration-closed"
+      ],
+      "exitRefs": [
+        "urn:ujg:exit:registration-place-unavailable",
+        "urn:ujg:exit:registration-closed-at-confirmation"
+      ]
+    },
+    {
+      "@type": "JourneyEntry",
+      "@id": "urn:ujg:entry:workshop-registration-open",
+      "label": "Registration-open workshop detail",
+      "stateRef": "urn:ujg:state:workshop-registration-open"
+    },
+    {
+      "@type": "State",
+      "@id": "urn:ujg:state:workshop-registration-open",
+      "label": "Workshop detail — registration open"
+    },
+    {
+      "@type": "State",
+      "@id": "urn:ujg:state:registration-form",
+      "label": "Registration form"
+    },
+    {
+      "@type": "State",
+      "@id": "urn:ujg:state:registration-form-error",
+      "label": "Registration form with errors"
+    },
+    {
+      "@type": "State",
+      "@id": "urn:ujg:state:registration-review",
+      "label": "Registration review"
+    },
+    {
+      "@type": "State",
+      "@id": "urn:ujg:state:registration-confirmed",
+      "label": "Registration confirmed"
+    },
+    {
+      "@type": "State",
+      "@id": "urn:ujg:state:registration-already-confirmed",
+      "label": "Registration already confirmed"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:participant-already-registered",
+      "label": "Participant is already registered for the workshop"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:participant-not-already-registered",
+      "label": "Participant is not already registered for the workshop"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:registration-place-available-and-participant-not-already-registered",
+      "label": "A registration place is available and participant is not already registered"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:registration-place-unavailable-and-participant-not-already-registered",
+      "label": "A registration place is unavailable, waitlist is open, and participant is not already registered"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:registration-closed-and-participant-not-already-registered",
+      "label": "Workshop registration is closed and participant is not already registered"
+    },
+    {
+      "@type": "JourneyExit",
+      "@id": "urn:ujg:exit:registration-place-unavailable",
+      "label": "Registration place became unavailable"
+    },
+    {
+      "@type": "JourneyExit",
+      "@id": "urn:ujg:exit:registration-closed-at-confirmation",
+      "label": "Registration closed at confirmation"
+    },
+    {
+      "@type": "Effect",
+      "@id": "urn:ujg:effect:confirm-registration",
+      "label": "Confirm workshop registration"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:start-registration",
+      "label": "Start registration",
+      "from": "urn:ujg:state:workshop-registration-open",
+      "to": "urn:ujg:state:registration-form",
+      "commandRef": "urn:ujg:command:start-registration"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:registration-details-valid",
+      "label": "Continue with valid registration details",
+      "from": "urn:ujg:state:registration-form",
+      "to": "urn:ujg:state:registration-review",
+      "conditionRef": "urn:ujg:condition:registration-details-valid",
+      "commandRef": "urn:ujg:command:submit-registration-details"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:registration-details-invalid",
+      "label": "Continue with invalid registration details",
+      "from": "urn:ujg:state:registration-form",
+      "to": "urn:ujg:state:registration-form-error",
+      "conditionRef": "urn:ujg:condition:registration-details-invalid",
+      "commandRef": "urn:ujg:command:submit-registration-details"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:corrected-registration-details-valid",
+      "label": "Continue with corrected valid registration details",
+      "from": "urn:ujg:state:registration-form-error",
+      "to": "urn:ujg:state:registration-review",
+      "conditionRef": "urn:ujg:condition:registration-details-valid",
+      "commandRef": "urn:ujg:command:submit-registration-details"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:corrected-registration-details-invalid",
+      "label": "Continue with corrected invalid registration details",
+      "from": "urn:ujg:state:registration-form-error",
+      "to": "urn:ujg:state:registration-form-error",
+      "conditionRef": "urn:ujg:condition:registration-details-invalid",
+      "commandRef": "urn:ujg:command:submit-registration-details"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:edit-registration-details",
+      "label": "Edit registration details",
+      "from": "urn:ujg:state:registration-review",
+      "to": "urn:ujg:state:registration-form",
+      "commandRef": "urn:ujg:command:edit-registration-details"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:confirm-registration",
+      "label": "Confirm registration",
+      "from": "urn:ujg:state:registration-review",
+      "to": "urn:ujg:state:registration-confirmed",
+      "effectRef": "urn:ujg:effect:confirm-registration",
+      "conditionRef": "urn:ujg:condition:registration-place-available-and-participant-not-already-registered",
+      "commandRef": "urn:ujg:command:confirm-registration"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:confirm-registration-already-registered",
+      "label": "Confirm registration when participant is already registered",
+      "from": "urn:ujg:state:registration-review",
+      "to": "urn:ujg:state:registration-already-confirmed",
+      "conditionRef": "urn:ujg:condition:participant-already-registered",
+      "commandRef": "urn:ujg:command:confirm-registration"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:confirm-registration-place-unavailable",
+      "label": "Confirm registration when the place is no longer available",
+      "from": "urn:ujg:state:registration-review",
+      "to": "urn:ujg:exit:registration-place-unavailable",
+      "conditionRef": "urn:ujg:condition:registration-place-unavailable-and-participant-not-already-registered",
+      "commandRef": "urn:ujg:command:confirm-registration"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:confirm-registration-closed",
+      "label": "Confirm registration after registration has closed",
+      "from": "urn:ujg:state:registration-review",
+      "to": "urn:ujg:exit:registration-closed-at-confirmation",
+      "conditionRef": "urn:ujg:condition:registration-closed-and-participant-not-already-registered",
+      "commandRef": "urn:ujg:command:confirm-registration"
+    },
+    {
+      "@type": "Journey",
+      "@id": "urn:ujg:journey:workshop-waitlist",
+      "label": "Workshop waitlist registration",
+      "defaultEntryRef": "urn:ujg:entry:workshop-waitlist-open",
+      "entryRefs": [
+        "urn:ujg:entry:workshop-waitlist-open",
+        "urn:ujg:entry:waitlist-after-registration-unavailable"
+      ],
+      "stateRefs": [
+        "urn:ujg:state:workshop-waitlist-open",
+        "urn:ujg:state:waitlist-after-registration-unavailable",
+        "urn:ujg:state:waitlist-form",
+        "urn:ujg:state:waitlist-form-error",
+        "urn:ujg:state:waitlist-review",
+        "urn:ujg:state:waitlisted",
+        "urn:ujg:state:already-waitlisted"
+      ],
+      "transitionRefs": [
+        "urn:ujg:transition:start-waitlist-registration",
+        "urn:ujg:transition:start-waitlist-after-registration-unavailable",
+        "urn:ujg:transition:waitlist-details-valid",
+        "urn:ujg:transition:waitlist-details-invalid",
+        "urn:ujg:transition:corrected-waitlist-details-valid",
+        "urn:ujg:transition:corrected-waitlist-details-invalid",
+        "urn:ujg:transition:edit-waitlist-details",
+        "urn:ujg:transition:join-waitlist",
+        "urn:ujg:transition:join-waitlist-already-listed",
+        "urn:ujg:transition:join-waitlist-after-closed",
+        "urn:ujg:transition:continue-as-waitlisted"
+      ],
+      "exitRefs": [
+        "urn:ujg:exit:waitlist-closed-at-join"
+      ]
+    },
+    {
+      "@type": "JourneyEntry",
+      "@id": "urn:ujg:entry:workshop-waitlist-open",
+      "label": "Waitlist-open workshop detail",
+      "stateRef": "urn:ujg:state:workshop-waitlist-open"
+    },
+    {
+      "@type": "JourneyEntry",
+      "@id": "urn:ujg:entry:waitlist-after-registration-unavailable",
+      "label": "Waitlist after registration place became unavailable",
+      "stateRef": "urn:ujg:state:waitlist-after-registration-unavailable"
+    },
+    {
+      "@type": "State",
+      "@id": "urn:ujg:state:workshop-waitlist-open",
+      "label": "Workshop detail — waitlist open"
+    },
+    {
+      "@type": "State",
+      "@id": "urn:ujg:state:waitlist-after-registration-unavailable",
+      "label": "Registration place unavailable — waitlist available"
+    },
+    {
+      "@type": "State",
+      "@id": "urn:ujg:state:waitlist-form",
+      "label": "Waitlist form"
+    },
+    {
+      "@type": "State",
+      "@id": "urn:ujg:state:waitlist-form-error",
+      "label": "Waitlist form with errors"
+    },
+    {
+      "@type": "State",
+      "@id": "urn:ujg:state:waitlist-review",
+      "label": "Waitlist review"
+    },
+    {
+      "@type": "State",
+      "@id": "urn:ujg:state:waitlisted",
+      "label": "Participant is waitlisted"
+    },
+    {
+      "@type": "State",
+      "@id": "urn:ujg:state:already-waitlisted",
+      "label": "Participant is already waitlisted"
+    },
+    {
+      "@type": "JourneyExit",
+      "@id": "urn:ujg:exit:waitlist-closed-at-join",
+      "label": "Waitlist closed at join"
+    },
+    {
+      "@type": "Effect",
+      "@id": "urn:ujg:effect:join-waitlist",
+      "label": "Join workshop waitlist"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:start-waitlist-registration",
+      "label": "Start waitlist registration",
+      "from": "urn:ujg:state:workshop-waitlist-open",
+      "to": "urn:ujg:state:waitlist-form",
+      "commandRef": "urn:ujg:command:start-waitlist-registration"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:start-waitlist-after-registration-unavailable",
+      "label": "Join waitlist instead",
+      "from": "urn:ujg:state:waitlist-after-registration-unavailable",
+      "to": "urn:ujg:state:waitlist-form",
+      "commandRef": "urn:ujg:command:start-waitlist-registration"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:waitlist-details-valid",
+      "label": "Continue with valid waitlist details",
+      "from": "urn:ujg:state:waitlist-form",
+      "to": "urn:ujg:state:waitlist-review",
+      "conditionRef": "urn:ujg:condition:waitlist-details-valid",
+      "commandRef": "urn:ujg:command:submit-waitlist-details"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:waitlist-details-invalid",
+      "label": "Continue with invalid waitlist details",
+      "from": "urn:ujg:state:waitlist-form",
+      "to": "urn:ujg:state:waitlist-form-error",
+      "conditionRef": "urn:ujg:condition:waitlist-details-invalid",
+      "commandRef": "urn:ujg:command:submit-waitlist-details"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:corrected-waitlist-details-valid",
+      "label": "Continue with corrected valid waitlist details",
+      "from": "urn:ujg:state:waitlist-form-error",
+      "to": "urn:ujg:state:waitlist-review",
+      "conditionRef": "urn:ujg:condition:waitlist-details-valid",
+      "commandRef": "urn:ujg:command:submit-waitlist-details"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:corrected-waitlist-details-invalid",
+      "label": "Continue with corrected invalid waitlist details",
+      "from": "urn:ujg:state:waitlist-form-error",
+      "to": "urn:ujg:state:waitlist-form-error",
+      "conditionRef": "urn:ujg:condition:waitlist-details-invalid",
+      "commandRef": "urn:ujg:command:submit-waitlist-details"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:edit-waitlist-details",
+      "label": "Edit waitlist details",
+      "from": "urn:ujg:state:waitlist-review",
+      "to": "urn:ujg:state:waitlist-form",
+      "commandRef": "urn:ujg:command:edit-waitlist-details"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:join-waitlist",
+      "label": "Join waitlist",
+      "from": "urn:ujg:state:waitlist-review",
+      "to": "urn:ujg:state:waitlisted",
+      "effectRef": "urn:ujg:effect:join-waitlist",
+      "conditionRef": "urn:ujg:condition:waitlist-open-and-participant-not-already-waitlisted",
+      "commandRef": "urn:ujg:command:join-waitlist"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:join-waitlist-already-listed",
+      "label": "Join waitlist when already listed",
+      "from": "urn:ujg:state:waitlist-review",
+      "to": "urn:ujg:state:already-waitlisted",
+      "conditionRef": "urn:ujg:condition:participant-already-waitlisted",
+      "commandRef": "urn:ujg:command:join-waitlist"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:join-waitlist-after-closed",
+      "label": "Join waitlist after registration has closed",
+      "from": "urn:ujg:state:waitlist-review",
+      "to": "urn:ujg:exit:waitlist-closed-at-join",
+      "conditionRef": "urn:ujg:condition:registration-closed-and-participant-not-already-waitlisted",
+      "commandRef": "urn:ujg:command:join-waitlist"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:continue-as-waitlisted",
+      "label": "Continue as waitlisted",
+      "from": "urn:ujg:state:already-waitlisted",
+      "to": "urn:ujg:state:waitlisted",
+      "commandRef": "urn:ujg:command:continue-as-waitlisted"
+    },
+    {
+      "@type": "Journey",
+      "@id": "urn:ujg:journey:workshop-registration-closed",
+      "label": "Closed workshop registration",
+      "defaultEntryRef": "urn:ujg:entry:workshop-registration-closed",
+      "entryRefs": [
+        "urn:ujg:entry:workshop-registration-closed"
+      ],
+      "stateRefs": [
+        "urn:ujg:state:workshop-registration-closed"
+      ]
+    },
+    {
+      "@type": "JourneyEntry",
+      "@id": "urn:ujg:entry:workshop-registration-closed",
+      "label": "Registration-closed workshop detail",
+      "stateRef": "urn:ujg:state:workshop-registration-closed"
+    },
+    {
+      "@type": "State",
+      "@id": "urn:ujg:state:workshop-registration-closed",
+      "label": "Workshop detail — registration closed"
+    },
+    {
+      "@type": "Journey",
+      "@id": "urn:ujg:journey:offered-place",
+      "label": "Respond to an offered workshop place",
+      "userRef": "urn:ujg:user:workshop-participant",
+      "defaultEntryRef": "urn:ujg:entry:offered-place-email",
+      "entryRefs": [
+        "urn:ujg:entry:offered-place-email",
+        "urn:ujg:entry:offered-place-app"
+      ],
+      "stateRefs": [
+        "urn:ujg:composite:offered-place-email",
+        "urn:ujg:composite:offered-place-app"
+      ],
+      "transitionRefs": [
+        "urn:ujg:transition:continue-offer-from-email-to-app"
+      ]
+    },
+    {
+      "@type": "JourneyEntry",
+      "@id": "urn:ujg:entry:offered-place-email",
+      "label": "Offered-place email entry",
+      "stateRef": "urn:ujg:composite:offered-place-email"
+    },
+    {
+      "@type": "JourneyEntry",
+      "@id": "urn:ujg:entry:offered-place-app",
+      "label": "Offered-place application entry",
+      "stateRef": "urn:ujg:composite:offered-place-app"
+    },
+    {
+      "@type": "CompositeState",
+      "@id": "urn:ujg:composite:offered-place-email",
+      "label": "Offered-place email",
+      "subjourneyRefs": [
+        "urn:ujg:journey:offered-place-email"
+      ]
+    },
+    {
+      "@type": "CompositeState",
+      "@id": "urn:ujg:composite:offered-place-app",
+      "label": "Offered place in workshop application",
+      "subjourneyRefs": [
+        "urn:ujg:journey:offered-place-app"
+      ]
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:continue-offer-from-email-to-app",
+      "label": "Continue offered-place journey in workshop application",
+      "from": "urn:ujg:composite:offered-place-email",
+      "to": "urn:ujg:composite:offered-place-app",
+      "fromExitRef": "urn:ujg:exit:offered-place-link-followed"
+    },
+    {
+      "@type": "Journey",
+      "@id": "urn:ujg:journey:offered-place-email",
+      "label": "Offered-place email",
+      "defaultEntryRef": "urn:ujg:entry:offered-place-email-visible",
+      "entryRefs": [
+        "urn:ujg:entry:offered-place-email-visible"
+      ],
+      "stateRefs": [
+        "urn:ujg:state:offered-place-email-visible"
+      ],
+      "transitionRefs": [
+        "urn:ujg:transition:open-offered-place-link"
+      ],
+      "exitRefs": [
+        "urn:ujg:exit:offered-place-link-followed"
+      ]
+    },
+    {
+      "@type": "JourneyEntry",
+      "@id": "urn:ujg:entry:offered-place-email-visible",
+      "label": "Offered-place email visible",
+      "stateRef": "urn:ujg:state:offered-place-email-visible"
+    },
+    {
+      "@type": "State",
+      "@id": "urn:ujg:state:offered-place-email-visible",
+      "label": "Offered-place email is visible"
+    },
+    {
+      "@type": "JourneyExit",
+      "@id": "urn:ujg:exit:offered-place-link-followed",
+      "label": "Offered-place link followed"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:open-offered-place-link",
+      "label": "Open offered place",
+      "from": "urn:ujg:state:offered-place-email-visible",
+      "to": "urn:ujg:exit:offered-place-link-followed",
+      "commandRef": "urn:ujg:command:open-offered-place"
+    },
+    {
+      "@type": "Journey",
+      "@id": "urn:ujg:journey:offered-place-app",
+      "label": "Resolve offered workshop place",
+      "entryRefs": [
+        "urn:ujg:entry:offered-place-open",
+        "urn:ujg:entry:offered-place-expired",
+        "urn:ujg:entry:offered-place-unavailable",
+        "urn:ujg:entry:offered-place-accepted",
+        "urn:ujg:entry:offered-place-declined"
+      ],
+      "stateRefs": [
+        "urn:ujg:state:offered-place-open",
+        "urn:ujg:state:offered-place-expired",
+        "urn:ujg:state:offered-place-unavailable",
+        "urn:ujg:state:offered-place-registration-confirmed",
+        "urn:ujg:state:offered-place-waitlisted"
+      ],
+      "transitionRefs": [
+        "urn:ujg:transition:accept-offered-place",
+        "urn:ujg:transition:accept-offered-place-after-expiry",
+        "urn:ujg:transition:accept-offered-place-after-unavailable",
+        "urn:ujg:transition:decline-offered-place",
+        "urn:ujg:transition:decline-offered-place-after-expiry",
+        "urn:ujg:transition:decline-offered-place-after-unavailable",
+        "urn:ujg:transition:offered-place-expires"
+      ]
+    },
+    {
+      "@type": "JourneyEntry",
+      "@id": "urn:ujg:entry:offered-place-open",
+      "label": "Offered place available",
+      "stateRef": "urn:ujg:state:offered-place-open"
+    },
+    {
+      "@type": "JourneyEntry",
+      "@id": "urn:ujg:entry:offered-place-expired",
+      "label": "Offered place expired",
+      "stateRef": "urn:ujg:state:offered-place-expired"
+    },
+    {
+      "@type": "JourneyEntry",
+      "@id": "urn:ujg:entry:offered-place-unavailable",
+      "label": "Offered place unavailable",
+      "stateRef": "urn:ujg:state:offered-place-unavailable"
+    },
+    {
+      "@type": "JourneyEntry",
+      "@id": "urn:ujg:entry:offered-place-accepted",
+      "label": "Offered place already accepted",
+      "stateRef": "urn:ujg:state:offered-place-registration-confirmed"
+    },
+    {
+      "@type": "JourneyEntry",
+      "@id": "urn:ujg:entry:offered-place-declined",
+      "label": "Offered place already declined",
+      "stateRef": "urn:ujg:state:offered-place-waitlisted"
+    },
+    {
+      "@type": "State",
+      "@id": "urn:ujg:state:offered-place-open",
+      "label": "Offered place is available"
+    },
+    {
+      "@type": "State",
+      "@id": "urn:ujg:state:offered-place-expired",
+      "label": "Offered place has expired"
+    },
+    {
+      "@type": "State",
+      "@id": "urn:ujg:state:offered-place-unavailable",
+      "label": "Offered place is unavailable"
+    },
+    {
+      "@type": "State",
+      "@id": "urn:ujg:state:offered-place-registration-confirmed",
+      "label": "Offered place accepted — registration confirmed"
+    },
+    {
+      "@type": "State",
+      "@id": "urn:ujg:state:offered-place-waitlisted",
+      "label": "Offered place declined — participant remains waitlisted"
+    },
+    {
+      "@type": "Effect",
+      "@id": "urn:ujg:effect:accept-offered-place",
+      "label": "Accept offered workshop place"
+    },
+    {
+      "@type": "Effect",
+      "@id": "urn:ujg:effect:decline-offered-place",
+      "label": "Decline offered workshop place"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:accept-offered-place",
+      "label": "Accept offered place",
+      "from": "urn:ujg:state:offered-place-open",
+      "to": "urn:ujg:state:offered-place-registration-confirmed",
+      "effectRef": "urn:ujg:effect:accept-offered-place",
+      "conditionRef": "urn:ujg:condition:offered-place-valid",
+      "commandRef": "urn:ujg:command:accept-offered-place"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:accept-offered-place-after-expiry",
+      "label": "Accept offered place after it has expired",
+      "from": "urn:ujg:state:offered-place-open",
+      "to": "urn:ujg:state:offered-place-expired",
+      "conditionRef": "urn:ujg:condition:offered-place-expired",
+      "commandRef": "urn:ujg:command:accept-offered-place"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:accept-offered-place-after-unavailable",
+      "label": "Accept offered place after it became unavailable",
+      "from": "urn:ujg:state:offered-place-open",
+      "to": "urn:ujg:state:offered-place-unavailable",
+      "conditionRef": "urn:ujg:condition:offered-place-unavailable",
+      "commandRef": "urn:ujg:command:accept-offered-place"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:decline-offered-place",
+      "label": "Decline offered place",
+      "from": "urn:ujg:state:offered-place-open",
+      "to": "urn:ujg:state:offered-place-waitlisted",
+      "effectRef": "urn:ujg:effect:decline-offered-place",
+      "conditionRef": "urn:ujg:condition:offered-place-valid",
+      "commandRef": "urn:ujg:command:decline-offered-place"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:decline-offered-place-after-expiry",
+      "label": "Decline offered place after it has expired",
+      "from": "urn:ujg:state:offered-place-open",
+      "to": "urn:ujg:state:offered-place-expired",
+      "conditionRef": "urn:ujg:condition:offered-place-expired",
+      "commandRef": "urn:ujg:command:decline-offered-place"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:decline-offered-place-after-unavailable",
+      "label": "Decline offered place after it became unavailable",
+      "from": "urn:ujg:state:offered-place-open",
+      "to": "urn:ujg:state:offered-place-unavailable",
+      "conditionRef": "urn:ujg:condition:offered-place-unavailable",
+      "commandRef": "urn:ujg:command:decline-offered-place"
+    },
+    {
+      "@type": "Transition",
+      "@id": "urn:ujg:transition:offered-place-expires",
+      "label": "Offered place expires",
+      "from": "urn:ujg:state:offered-place-open",
+      "to": "urn:ujg:state:offered-place-expired",
+      "conditionRef": "urn:ujg:condition:offered-place-expired"
+    },
+    {
+      "@type": "Touchpoint",
+      "@id": "urn:ujg:touchpoint:workshop-app",
+      "label": "Workshop application",
+      "journeyRefs": [
+        "urn:ujg:journey:workshops",
+        "urn:ujg:journey:workshops-overview",
+        "urn:ujg:journey:workshop-detail",
+        "urn:ujg:journey:workshop-registration",
+        "urn:ujg:journey:workshop-waitlist",
+        "urn:ujg:journey:workshop-registration-closed",
+        "urn:ujg:journey:offered-place-app"
+      ]
+    },
+    {
+      "@type": "Touchpoint",
+      "@id": "urn:ujg:touchpoint:email",
+      "label": "Email",
+      "journeyRefs": [
+        "urn:ujg:journey:offered-place-email"
+      ]
+    },
+    {
+      "@type": "User",
+      "@id": "urn:ujg:user:workshop-participant",
+      "label": "Workshop participant",
+      "touchpointRefs": [
+        "urn:ujg:touchpoint:workshop-app",
+        "urn:ujg:touchpoint:email"
+      ]
+    },
+    {
+      "@type": "Command",
+      "@id": "urn:ujg:command:open-workshop",
+      "label": "Open workshop"
+    },
+    {
+      "@type": "Command",
+      "@id": "urn:ujg:command:start-registration",
+      "label": "Start registration"
+    },
+    {
+      "@type": "Command",
+      "@id": "urn:ujg:command:submit-registration-details",
+      "label": "Submit registration details"
+    },
+    {
+      "@type": "Command",
+      "@id": "urn:ujg:command:edit-registration-details",
+      "label": "Edit registration details"
+    },
+    {
+      "@type": "Command",
+      "@id": "urn:ujg:command:confirm-registration",
+      "label": "Confirm registration"
+    },
+    {
+      "@type": "Command",
+      "@id": "urn:ujg:command:start-waitlist-registration",
+      "label": "Start waitlist registration"
+    },
+    {
+      "@type": "Command",
+      "@id": "urn:ujg:command:submit-waitlist-details",
+      "label": "Submit waitlist details"
+    },
+    {
+      "@type": "Command",
+      "@id": "urn:ujg:command:edit-waitlist-details",
+      "label": "Edit waitlist details"
+    },
+    {
+      "@type": "Command",
+      "@id": "urn:ujg:command:join-waitlist",
+      "label": "Join waitlist"
+    },
+    {
+      "@type": "Command",
+      "@id": "urn:ujg:command:continue-as-waitlisted",
+      "label": "Continue as waitlisted"
+    },
+    {
+      "@type": "Command",
+      "@id": "urn:ujg:command:open-offered-place",
+      "label": "Open offered place"
+    },
+    {
+      "@type": "Command",
+      "@id": "urn:ujg:command:accept-offered-place",
+      "label": "Accept offered place"
+    },
+    {
+      "@type": "Command",
+      "@id": "urn:ujg:command:decline-offered-place",
+      "label": "Decline offered place"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:workshops-overview",
+      "label": "Workshops overview",
+      "graphNodeRef": "urn:ujg:state:workshops-overview"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:workshop-registration-open",
+      "label": "Workshop detail — registration open",
+      "graphNodeRef": "urn:ujg:state:workshop-registration-open"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:registration-form",
+      "label": "Registration form",
+      "graphNodeRef": "urn:ujg:state:registration-form"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:registration-form-error",
+      "label": "Registration form errors",
+      "graphNodeRef": "urn:ujg:state:registration-form-error"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:registration-review",
+      "label": "Registration review",
+      "graphNodeRef": "urn:ujg:state:registration-review"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:registration-confirmed",
+      "label": "Registration confirmation",
+      "graphNodeRef": "urn:ujg:state:registration-confirmed"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:registration-already-confirmed",
+      "label": "Registration already confirmed status",
+      "graphNodeRef": "urn:ujg:state:registration-already-confirmed"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:workshop-already-registered",
+      "label": "Workshop detail — already registered",
+      "graphNodeRef": "urn:ujg:state:workshop-already-registered"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:workshop-already-waitlisted",
+      "label": "Workshop detail — already waitlisted",
+      "graphNodeRef": "urn:ujg:state:workshop-already-waitlisted"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:workshop-waitlist-open",
+      "label": "Workshop detail — waitlist open",
+      "graphNodeRef": "urn:ujg:state:workshop-waitlist-open"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:waitlist-after-registration-unavailable",
+      "label": "Registration unavailable — waitlist available",
+      "graphNodeRef": "urn:ujg:state:waitlist-after-registration-unavailable"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:waitlist-form",
+      "label": "Waitlist form",
+      "graphNodeRef": "urn:ujg:state:waitlist-form"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:waitlist-form-error",
+      "label": "Waitlist form errors",
+      "graphNodeRef": "urn:ujg:state:waitlist-form-error"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:waitlist-review",
+      "label": "Waitlist review",
+      "graphNodeRef": "urn:ujg:state:waitlist-review"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:waitlisted",
+      "label": "Waitlisted status",
+      "graphNodeRef": "urn:ujg:state:waitlisted"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:already-waitlisted",
+      "label": "Already waitlisted status",
+      "graphNodeRef": "urn:ujg:state:already-waitlisted"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:workshop-registration-closed",
+      "label": "Workshop detail — registration closed",
+      "graphNodeRef": "urn:ujg:state:workshop-registration-closed"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:offered-place-email-visible",
+      "label": "Offered-place email",
+      "graphNodeRef": "urn:ujg:state:offered-place-email-visible"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:offered-place-open",
+      "label": "Available offered-place page",
+      "graphNodeRef": "urn:ujg:state:offered-place-open"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:offered-place-expired",
+      "label": "Expired offered-place page",
+      "graphNodeRef": "urn:ujg:state:offered-place-expired"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:offered-place-unavailable",
+      "label": "Unavailable offered-place page",
+      "graphNodeRef": "urn:ujg:state:offered-place-unavailable"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:offered-place-registration-confirmed",
+      "label": "Offer acceptance confirmation",
+      "graphNodeRef": "urn:ujg:state:offered-place-registration-confirmed"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:offered-place-waitlisted",
+      "label": "Waitlisted after declining offer",
+      "graphNodeRef": "urn:ujg:state:offered-place-waitlisted"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:action:open-workshop",
+      "label": "Open workshop action",
+      "graphNodeRef": "urn:ujg:command:open-workshop"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:action:start-registration",
+      "label": "Register action",
+      "graphNodeRef": "urn:ujg:command:start-registration"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:action:edit-registration-details",
+      "label": "Edit registration action",
+      "graphNodeRef": "urn:ujg:command:edit-registration-details"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:action:start-waitlist-registration",
+      "label": "Join waitlist action",
+      "graphNodeRef": "urn:ujg:command:start-waitlist-registration"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:action:edit-waitlist-details",
+      "label": "Edit waitlist action",
+      "graphNodeRef": "urn:ujg:command:edit-waitlist-details"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:action:continue-as-waitlisted",
+      "label": "Continue action",
+      "graphNodeRef": "urn:ujg:command:continue-as-waitlisted"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:action:open-offered-place-link",
+      "label": "Open offered-place link",
+      "graphNodeRef": "urn:ujg:command:open-offered-place"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:action:decline-offered-place",
+      "label": "Decline offered place action",
+      "graphNodeRef": "urn:ujg:command:decline-offered-place"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:registration-details-valid",
+      "label": "Registration details are valid"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:registration-details-invalid",
+      "label": "Registration details are invalid"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:registration-place-available",
+      "label": "A registration place is available"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:registration-place-unavailable",
+      "label": "A registration place is unavailable and the waitlist is open"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:registration-closed-at-confirmation",
+      "label": "Workshop registration is closed at confirmation"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:waitlist-details-valid",
+      "label": "Waitlist details are valid"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:waitlist-details-invalid",
+      "label": "Waitlist details are invalid"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:participant-not-already-waitlisted",
+      "label": "Participant is not already waitlisted"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:participant-already-waitlisted",
+      "label": "Participant is already waitlisted"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:waitlist-open-and-participant-not-already-waitlisted",
+      "label": "Waitlist is open and participant is not already waitlisted"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:registration-closed-and-participant-not-already-waitlisted",
+      "label": "Registration is closed and participant is not already waitlisted"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:offered-place-valid",
+      "label": "Offered place is available"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:offered-place-expired",
+      "label": "Offered place is expired"
+    },
+    {
+      "@type": "Condition",
+      "@id": "urn:ujg:condition:offered-place-unavailable",
+      "label": "Offered place is unavailable"
+    },
+    {
+      "@type": "ConditionalTransitionSet",
+      "@id": "urn:ujg:condition-set:registration-details-validation",
+      "label": "Resolve registration details validation",
+      "conditionTransitionRefs": [
+        "urn:ujg:transition:registration-details-valid",
+        "urn:ujg:transition:registration-details-invalid"
+      ]
+    },
+    {
+      "@type": "ConditionalTransitionSet",
+      "@id": "urn:ujg:condition-set:corrected-registration-details-validation",
+      "label": "Resolve corrected registration details validation",
+      "conditionTransitionRefs": [
+        "urn:ujg:transition:corrected-registration-details-valid",
+        "urn:ujg:transition:corrected-registration-details-invalid"
+      ]
+    },
+    {
+      "@type": "ConditionalTransitionSet",
+      "@id": "urn:ujg:condition-set:registration-place-at-confirmation",
+      "label": "Resolve registration outcome at confirmation",
+      "conditionTransitionRefs": [
+        "urn:ujg:transition:confirm-registration-already-registered",
+        "urn:ujg:transition:confirm-registration",
+        "urn:ujg:transition:confirm-registration-place-unavailable",
+        "urn:ujg:transition:confirm-registration-closed"
+      ]
+    },
+    {
+      "@type": "ConditionalTransitionSet",
+      "@id": "urn:ujg:condition-set:waitlist-details-validation",
+      "label": "Resolve waitlist details validation",
+      "conditionTransitionRefs": [
+        "urn:ujg:transition:waitlist-details-valid",
+        "urn:ujg:transition:waitlist-details-invalid"
+      ]
+    },
+    {
+      "@type": "ConditionalTransitionSet",
+      "@id": "urn:ujg:condition-set:corrected-waitlist-details-validation",
+      "label": "Resolve corrected waitlist details validation",
+      "conditionTransitionRefs": [
+        "urn:ujg:transition:corrected-waitlist-details-valid",
+        "urn:ujg:transition:corrected-waitlist-details-invalid"
+      ]
+    },
+    {
+      "@type": "ConditionalTransitionSet",
+      "@id": "urn:ujg:condition-set:waitlist-join-at-submission",
+      "label": "Resolve waitlist join at submission",
+      "conditionTransitionRefs": [
+        "urn:ujg:transition:join-waitlist",
+        "urn:ujg:transition:join-waitlist-already-listed",
+        "urn:ujg:transition:join-waitlist-after-closed"
+      ]
+    },
+    {
+      "@type": "ConditionalTransitionSet",
+      "@id": "urn:ujg:condition-set:offered-place-acceptance-validity",
+      "label": "Resolve offered-place status when accepting",
+      "conditionTransitionRefs": [
+        "urn:ujg:transition:accept-offered-place",
+        "urn:ujg:transition:accept-offered-place-after-expiry",
+        "urn:ujg:transition:accept-offered-place-after-unavailable"
+      ]
+    },
+    {
+      "@type": "ConditionalTransitionSet",
+      "@id": "urn:ujg:condition-set:offered-place-decline-status",
+      "label": "Resolve offered-place status when declining",
+      "conditionTransitionRefs": [
+        "urn:ujg:transition:decline-offered-place",
+        "urn:ujg:transition:decline-offered-place-after-expiry",
+        "urn:ujg:transition:decline-offered-place-after-unavailable"
+      ]
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:workshop-teaser",
+      "label": "Workshop teaser",
+      "graphNodeRef": "urn:ujg:state:workshop-teaser"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:action:submit-registration-details",
+      "label": "Submit registration details action",
+      "graphNodeRef": "urn:ujg:command:submit-registration-details"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:action:confirm-registration",
+      "label": "Confirm registration action",
+      "graphNodeRef": "urn:ujg:command:confirm-registration"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:action:submit-waitlist-details",
+      "label": "Submit waitlist details action",
+      "graphNodeRef": "urn:ujg:command:submit-waitlist-details"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:action:join-waitlist",
+      "label": "Join waitlist action",
+      "graphNodeRef": "urn:ujg:command:join-waitlist"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:action:accept-offered-place",
+      "label": "Accept offered place action",
+      "graphNodeRef": "urn:ujg:command:accept-offered-place"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:content:workshop-teaser",
+      "label": "Workshop teaser content",
+      "graphNodeRef": "urn:ujg:state:workshop-teaser"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:content:workshop-registration-open-summary",
+      "label": "Registration-open workshop detail summary",
+      "graphNodeRef": "urn:ujg:state:workshop-registration-open"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:content:workshop-already-registered-summary",
+      "label": "Already-registered workshop detail summary",
+      "graphNodeRef": "urn:ujg:state:workshop-already-registered"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:content:workshop-already-registered-notice",
+      "label": "Already-registered workshop notice",
+      "graphNodeRef": "urn:ujg:state:workshop-already-registered"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:content:workshop-already-waitlisted-summary",
+      "label": "Already-waitlisted workshop detail summary",
+      "graphNodeRef": "urn:ujg:state:workshop-already-waitlisted"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:content:workshop-already-waitlisted-notice",
+      "label": "Already-waitlisted workshop notice",
+      "graphNodeRef": "urn:ujg:state:workshop-already-waitlisted"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:content:registration-form-fields",
+      "label": "Registration form fields",
+      "graphNodeRef": "urn:ujg:state:registration-form"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:content:registration-form-error-fields",
+      "label": "Registration form error fields",
+      "graphNodeRef": "urn:ujg:state:registration-form-error"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:content:registration-review-summary",
+      "label": "Registration review summary",
+      "graphNodeRef": "urn:ujg:state:registration-review"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:content:workshop-waitlist-open-summary",
+      "label": "Waitlist-open workshop detail summary",
+      "graphNodeRef": "urn:ujg:state:workshop-waitlist-open"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:content:waitlist-after-registration-unavailable-summary",
+      "label": "Waitlist-after-unavailable workshop detail summary",
+      "graphNodeRef": "urn:ujg:state:waitlist-after-registration-unavailable"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:content:waitlist-form-fields",
+      "label": "Waitlist form fields",
+      "graphNodeRef": "urn:ujg:state:waitlist-form"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:content:waitlist-form-error-fields",
+      "label": "Waitlist form error fields",
+      "graphNodeRef": "urn:ujg:state:waitlist-form-error"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:content:waitlist-review-summary",
+      "label": "Waitlist review summary",
+      "graphNodeRef": "urn:ujg:state:waitlist-review"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:content:already-waitlisted-status",
+      "label": "Already-waitlisted status content",
+      "graphNodeRef": "urn:ujg:state:already-waitlisted"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:content:offered-place-email-body",
+      "label": "Offered-place email body",
+      "graphNodeRef": "urn:ujg:state:offered-place-email-visible"
+    },
+    {
+      "@type": "Surface",
+      "@id": "urn:ujg:surface:content:offered-place-open-summary",
+      "label": "Offered-place open summary",
+      "graphNodeRef": "urn:ujg:state:offered-place-open"
+    },
+    {
+      "@type": "DataSchema",
+      "@id": "urn:ujg:data-schema:workshop-teaser-data",
+      "label": "Workshop teaser data",
+      "dataSchemaSource": "schemas/workshop-teaser-data.schema.json"
+    },
+    {
+      "@type": "DataSchema",
+      "@id": "urn:ujg:data-schema:workshop-detail-data",
+      "label": "Workshop detail data",
+      "dataSchemaSource": "schemas/workshop-detail-data.schema.json"
+    },
+    {
+      "@type": "DataSchema",
+      "@id": "urn:ujg:data-schema:registration-form-data",
+      "label": "Registration form data",
+      "dataSchemaSource": "schemas/registration-form-data.schema.json"
+    },
+    {
+      "@type": "DataSchema",
+      "@id": "urn:ujg:data-schema:waitlist-form-data",
+      "label": "Waitlist form data",
+      "dataSchemaSource": "schemas/waitlist-form-data.schema.json"
+    },
+    {
+      "@type": "DataSchema",
+      "@id": "urn:ujg:data-schema:registration-review-data",
+      "label": "Registration review data",
+      "dataSchemaSource": "schemas/registration-review-data.schema.json"
+    },
+    {
+      "@type": "DataSchema",
+      "@id": "urn:ujg:data-schema:waitlist-review-data",
+      "label": "Waitlist review data",
+      "dataSchemaSource": "schemas/waitlist-review-data.schema.json"
+    },
+    {
+      "@type": "DataSchema",
+      "@id": "urn:ujg:data-schema:offer-summary-data",
+      "label": "Offer summary data",
+      "dataSchemaSource": "schemas/offer-summary-data.schema.json"
+    },
+    {
+      "@type": "DataSchema",
+      "@id": "urn:ujg:data-schema:status-message-data",
+      "label": "Status message data",
+      "dataSchemaSource": "schemas/status-message-data.schema.json"
+    },
+    {
+      "@type": "DataSchema",
+      "@id": "urn:ujg:data-schema:status-notice-data",
+      "label": "Status notice data",
+      "dataSchemaSource": "schemas/status-notice-data.schema.json"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:workshop-teaser",
+      "label": "Workshop teaser data binding",
+      "dataSurfaceRef": "urn:ujg:surface:content:workshop-teaser",
+      "dataSchemaRef": "urn:ujg:data-schema:workshop-teaser-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:workshop-registration-open",
+      "label": "Registration-open workshop detail data binding",
+      "dataSurfaceRef": "urn:ujg:surface:content:workshop-registration-open-summary",
+      "dataSchemaRef": "urn:ujg:data-schema:workshop-detail-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:workshop-already-registered-summary",
+      "label": "Already-registered workshop detail data binding",
+      "dataSurfaceRef": "urn:ujg:surface:content:workshop-already-registered-summary",
+      "dataSchemaRef": "urn:ujg:data-schema:workshop-detail-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:workshop-already-registered-notice",
+      "label": "Already-registered workshop notice data binding",
+      "dataSurfaceRef": "urn:ujg:surface:content:workshop-already-registered-notice",
+      "dataSchemaRef": "urn:ujg:data-schema:status-notice-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:workshop-already-waitlisted-summary",
+      "label": "Already-waitlisted workshop detail data binding",
+      "dataSurfaceRef": "urn:ujg:surface:content:workshop-already-waitlisted-summary",
+      "dataSchemaRef": "urn:ujg:data-schema:workshop-detail-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:workshop-already-waitlisted-notice",
+      "label": "Already-waitlisted workshop notice data binding",
+      "dataSurfaceRef": "urn:ujg:surface:content:workshop-already-waitlisted-notice",
+      "dataSchemaRef": "urn:ujg:data-schema:status-notice-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:workshop-waitlist-open",
+      "label": "Waitlist-open workshop detail data binding",
+      "dataSurfaceRef": "urn:ujg:surface:content:workshop-waitlist-open-summary",
+      "dataSchemaRef": "urn:ujg:data-schema:workshop-detail-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:waitlist-after-registration-unavailable",
+      "label": "Waitlist-after-unavailable workshop detail data binding",
+      "dataSurfaceRef": "urn:ujg:surface:content:waitlist-after-registration-unavailable-summary",
+      "dataSchemaRef": "urn:ujg:data-schema:workshop-detail-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:registration-form",
+      "label": "Registration form data binding",
+      "dataSurfaceRef": "urn:ujg:surface:content:registration-form-fields",
+      "dataSchemaRef": "urn:ujg:data-schema:registration-form-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:registration-form-error",
+      "label": "Registration form error data binding",
+      "dataSurfaceRef": "urn:ujg:surface:content:registration-form-error-fields",
+      "dataSchemaRef": "urn:ujg:data-schema:registration-form-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:waitlist-form",
+      "label": "Waitlist form data binding",
+      "dataSurfaceRef": "urn:ujg:surface:content:waitlist-form-fields",
+      "dataSchemaRef": "urn:ujg:data-schema:waitlist-form-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:waitlist-form-error",
+      "label": "Waitlist form error data binding",
+      "dataSurfaceRef": "urn:ujg:surface:content:waitlist-form-error-fields",
+      "dataSchemaRef": "urn:ujg:data-schema:waitlist-form-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:registration-review",
+      "label": "Registration review data binding",
+      "dataSurfaceRef": "urn:ujg:surface:content:registration-review-summary",
+      "dataSchemaRef": "urn:ujg:data-schema:registration-review-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:waitlist-review",
+      "label": "Waitlist review data binding",
+      "dataSurfaceRef": "urn:ujg:surface:content:waitlist-review-summary",
+      "dataSchemaRef": "urn:ujg:data-schema:waitlist-review-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:offered-place-email-visible",
+      "label": "Offered-place email data binding",
+      "dataSurfaceRef": "urn:ujg:surface:content:offered-place-email-body",
+      "dataSchemaRef": "urn:ujg:data-schema:offer-summary-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:offered-place-open",
+      "label": "Offered-place response data binding",
+      "dataSurfaceRef": "urn:ujg:surface:content:offered-place-open-summary",
+      "dataSchemaRef": "urn:ujg:data-schema:offer-summary-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:registration-confirmed",
+      "label": "Registration confirmation status data binding",
+      "dataSurfaceRef": "urn:ujg:surface:registration-confirmed",
+      "dataSchemaRef": "urn:ujg:data-schema:status-message-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:registration-already-confirmed",
+      "label": "Registration already confirmed status data binding",
+      "dataSurfaceRef": "urn:ujg:surface:registration-already-confirmed",
+      "dataSchemaRef": "urn:ujg:data-schema:status-message-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:waitlisted",
+      "label": "Waitlisted status data binding",
+      "dataSurfaceRef": "urn:ujg:surface:waitlisted",
+      "dataSchemaRef": "urn:ujg:data-schema:status-message-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:already-waitlisted",
+      "label": "Already-waitlisted status data binding",
+      "dataSurfaceRef": "urn:ujg:surface:content:already-waitlisted-status",
+      "dataSchemaRef": "urn:ujg:data-schema:status-message-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:workshop-registration-closed",
+      "label": "Registration-closed status data binding",
+      "dataSurfaceRef": "urn:ujg:surface:workshop-registration-closed",
+      "dataSchemaRef": "urn:ujg:data-schema:status-message-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:offered-place-expired",
+      "label": "Offered-place expired status data binding",
+      "dataSurfaceRef": "urn:ujg:surface:offered-place-expired",
+      "dataSchemaRef": "urn:ujg:data-schema:status-message-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:offered-place-unavailable",
+      "label": "Offered-place unavailable status data binding",
+      "dataSurfaceRef": "urn:ujg:surface:offered-place-unavailable",
+      "dataSchemaRef": "urn:ujg:data-schema:status-message-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:offered-place-registration-confirmed",
+      "label": "Offer acceptance confirmation status data binding",
+      "dataSurfaceRef": "urn:ujg:surface:offered-place-registration-confirmed",
+      "dataSchemaRef": "urn:ujg:data-schema:status-message-data"
+    },
+    {
+      "@type": "DataBinding",
+      "@id": "urn:ujg:data-binding:offered-place-waitlisted",
+      "label": "Offer decline waitlisted status data binding",
+      "dataSurfaceRef": "urn:ujg:surface:offered-place-waitlisted",
+      "dataSchemaRef": "urn:ujg:data-schema:status-message-data"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:workshop-teaser-content",
+      "label": "Workshop teaser content"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:workshop-detail-summary",
+      "label": "Workshop detail summary"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:registration-form-fields",
+      "label": "Registration form fields"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:waitlist-form-fields",
+      "label": "Waitlist form fields"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:registration-review-summary",
+      "label": "Registration review summary"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:waitlist-review-summary",
+      "label": "Waitlist review summary"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:status-message",
+      "label": "Status message"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:status-notice",
+      "label": "Status notice"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:email-offer-content",
+      "label": "Offered-place email content"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:offer-response-summary",
+      "label": "Offer response summary"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:action-control",
+      "label": "Action control"
+    },
+    {
+      "@type": "Component",
+      "@id": "urn:ujg:component:email-link-control",
+      "label": "Email link control"
+    },
+    {
+      "@type": "Slot",
+      "@id": "urn:ujg:slot:overview-workshops",
+      "label": "Overview workshops"
+    },
+    {
+      "@type": "Slot",
+      "@id": "urn:ujg:slot:teaser-content",
+      "label": "Teaser content"
+    },
+    {
+      "@type": "Slot",
+      "@id": "urn:ujg:slot:teaser-action",
+      "label": "Teaser action"
+    },
+    {
+      "@type": "Slot",
+      "@id": "urn:ujg:slot:detail-summary",
+      "label": "Detail summary"
+    },
+    {
+      "@type": "Slot",
+      "@id": "urn:ujg:slot:detail-action",
+      "label": "Detail action"
+    },
+    {
+      "@type": "Slot",
+      "@id": "urn:ujg:slot:detail-notice",
+      "label": "Detail notice"
+    },
+    {
+      "@type": "Slot",
+      "@id": "urn:ujg:slot:form-fields",
+      "label": "Form fields"
+    },
+    {
+      "@type": "Slot",
+      "@id": "urn:ujg:slot:form-submit-action",
+      "label": "Form submit action"
+    },
+    {
+      "@type": "Slot",
+      "@id": "urn:ujg:slot:review-summary",
+      "label": "Review summary"
+    },
+    {
+      "@type": "Slot",
+      "@id": "urn:ujg:slot:review-edit-action",
+      "label": "Review edit action"
+    },
+    {
+      "@type": "Slot",
+      "@id": "urn:ujg:slot:review-submit-action",
+      "label": "Review submit action"
+    },
+    {
+      "@type": "Slot",
+      "@id": "urn:ujg:slot:status-content",
+      "label": "Status content"
+    },
+    {
+      "@type": "Slot",
+      "@id": "urn:ujg:slot:status-action",
+      "label": "Status action"
+    },
+    {
+      "@type": "Slot",
+      "@id": "urn:ujg:slot:email-body",
+      "label": "Email body"
+    },
+    {
+      "@type": "Slot",
+      "@id": "urn:ujg:slot:email-link-action",
+      "label": "Email link action"
+    },
+    {
+      "@type": "Slot",
+      "@id": "urn:ujg:slot:offer-summary",
+      "label": "Offer summary"
+    },
+    {
+      "@type": "Slot",
+      "@id": "urn:ujg:slot:offer-accept-action",
+      "label": "Offer accept action"
+    },
+    {
+      "@type": "Slot",
+      "@id": "urn:ujg:slot:offer-decline-action",
+      "label": "Offer decline action"
+    },
+    {
+      "@type": "Template",
+      "@id": "urn:ujg:template:workshops-overview-list",
+      "label": "Workshops overview list",
+      "slotRefs": [
+        "urn:ujg:slot:overview-workshops"
+      ]
+    },
+    {
+      "@type": "Template",
+      "@id": "urn:ujg:template:workshop-teaser-card",
+      "label": "Workshop teaser card",
+      "slotRefs": [
+        "urn:ujg:slot:teaser-content",
+        "urn:ujg:slot:teaser-action"
+      ]
+    },
+    {
+      "@type": "Template",
+      "@id": "urn:ujg:template:detail-with-action",
+      "label": "Detail with action",
+      "slotRefs": [
+        "urn:ujg:slot:detail-summary",
+        "urn:ujg:slot:detail-action"
+      ]
+    },
+    {
+      "@type": "Template",
+      "@id": "urn:ujg:template:detail-with-notice",
+      "label": "Detail with notice",
+      "slotRefs": [
+        "urn:ujg:slot:detail-summary",
+        "urn:ujg:slot:detail-notice"
+      ]
+    },
+    {
+      "@type": "Template",
+      "@id": "urn:ujg:template:form-with-submit",
+      "label": "Form with submit action",
+      "slotRefs": [
+        "urn:ujg:slot:form-fields",
+        "urn:ujg:slot:form-submit-action"
+      ]
+    },
+    {
+      "@type": "Template",
+      "@id": "urn:ujg:template:review-with-actions",
+      "label": "Review with actions",
+      "slotRefs": [
+        "urn:ujg:slot:review-summary",
+        "urn:ujg:slot:review-edit-action",
+        "urn:ujg:slot:review-submit-action"
+      ]
+    },
+    {
+      "@type": "Template",
+      "@id": "urn:ujg:template:status-with-action",
+      "label": "Status with action",
+      "slotRefs": [
+        "urn:ujg:slot:status-content",
+        "urn:ujg:slot:status-action"
+      ]
+    },
+    {
+      "@type": "Template",
+      "@id": "urn:ujg:template:email-offer-message",
+      "label": "Email offer message",
+      "slotRefs": [
+        "urn:ujg:slot:email-body",
+        "urn:ujg:slot:email-link-action"
+      ]
+    },
+    {
+      "@type": "Template",
+      "@id": "urn:ujg:template:offered-place-response",
+      "label": "Offered-place response",
+      "slotRefs": [
+        "urn:ujg:slot:offer-summary",
+        "urn:ujg:slot:offer-accept-action",
+        "urn:ujg:slot:offer-decline-action"
+      ]
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:workshops-overview:workshop-teasers",
+      "label": "Overview workshop teasers",
+      "slotRef": "urn:ujg:slot:overview-workshops",
+      "targetSurfaceRef": "urn:ujg:surface:workshop-teaser"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:workshop-teaser:content",
+      "label": "Workshop teaser content binding",
+      "slotRef": "urn:ujg:slot:teaser-content",
+      "targetSurfaceRef": "urn:ujg:surface:content:workshop-teaser"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:workshop-teaser:open-action",
+      "label": "Workshop teaser open action binding",
+      "slotRef": "urn:ujg:slot:teaser-action",
+      "targetSurfaceRef": "urn:ujg:surface:action:open-workshop"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:workshop-registration-open:summary",
+      "label": "Registration-open detail summary binding",
+      "slotRef": "urn:ujg:slot:detail-summary",
+      "targetSurfaceRef": "urn:ujg:surface:content:workshop-registration-open-summary"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:workshop-registration-open:start-action",
+      "label": "Registration-open start action binding",
+      "slotRef": "urn:ujg:slot:detail-action",
+      "targetSurfaceRef": "urn:ujg:surface:action:start-registration"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:workshop-already-registered:summary",
+      "label": "Already-registered workshop detail summary binding",
+      "slotRef": "urn:ujg:slot:detail-summary",
+      "targetSurfaceRef": "urn:ujg:surface:content:workshop-already-registered-summary"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:workshop-already-registered:notice",
+      "label": "Already-registered workshop notice binding",
+      "slotRef": "urn:ujg:slot:detail-notice",
+      "targetSurfaceRef": "urn:ujg:surface:content:workshop-already-registered-notice"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:workshop-already-waitlisted:summary",
+      "label": "Already-waitlisted workshop detail summary binding",
+      "slotRef": "urn:ujg:slot:detail-summary",
+      "targetSurfaceRef": "urn:ujg:surface:content:workshop-already-waitlisted-summary"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:workshop-already-waitlisted:notice",
+      "label": "Already-waitlisted workshop notice binding",
+      "slotRef": "urn:ujg:slot:detail-notice",
+      "targetSurfaceRef": "urn:ujg:surface:content:workshop-already-waitlisted-notice"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:registration-form:fields",
+      "label": "Registration form fields binding",
+      "slotRef": "urn:ujg:slot:form-fields",
+      "targetSurfaceRef": "urn:ujg:surface:content:registration-form-fields"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:registration-form:submit-action",
+      "label": "Registration form submit action binding",
+      "slotRef": "urn:ujg:slot:form-submit-action",
+      "targetSurfaceRef": "urn:ujg:surface:action:submit-registration-details"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:registration-form-error:fields",
+      "label": "Registration error form fields binding",
+      "slotRef": "urn:ujg:slot:form-fields",
+      "targetSurfaceRef": "urn:ujg:surface:content:registration-form-error-fields"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:registration-form-error:submit-action",
+      "label": "Registration error form submit action binding",
+      "slotRef": "urn:ujg:slot:form-submit-action",
+      "targetSurfaceRef": "urn:ujg:surface:action:submit-registration-details"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:registration-review:summary",
+      "label": "Registration review summary binding",
+      "slotRef": "urn:ujg:slot:review-summary",
+      "targetSurfaceRef": "urn:ujg:surface:content:registration-review-summary"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:registration-review:edit-action",
+      "label": "Registration review edit action binding",
+      "slotRef": "urn:ujg:slot:review-edit-action",
+      "targetSurfaceRef": "urn:ujg:surface:action:edit-registration-details"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:registration-review:confirm-action",
+      "label": "Registration review confirm action binding",
+      "slotRef": "urn:ujg:slot:review-submit-action",
+      "targetSurfaceRef": "urn:ujg:surface:action:confirm-registration"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:workshop-waitlist-open:summary",
+      "label": "Waitlist-open detail summary binding",
+      "slotRef": "urn:ujg:slot:detail-summary",
+      "targetSurfaceRef": "urn:ujg:surface:content:workshop-waitlist-open-summary"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:workshop-waitlist-open:start-action",
+      "label": "Waitlist-open start action binding",
+      "slotRef": "urn:ujg:slot:detail-action",
+      "targetSurfaceRef": "urn:ujg:surface:action:start-waitlist-registration"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:waitlist-after-registration-unavailable:summary",
+      "label": "Waitlist-after-unavailable detail summary binding",
+      "slotRef": "urn:ujg:slot:detail-summary",
+      "targetSurfaceRef": "urn:ujg:surface:content:waitlist-after-registration-unavailable-summary"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:waitlist-after-registration-unavailable:start-action",
+      "label": "Waitlist-after-unavailable start action binding",
+      "slotRef": "urn:ujg:slot:detail-action",
+      "targetSurfaceRef": "urn:ujg:surface:action:start-waitlist-registration"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:waitlist-form:fields",
+      "label": "Waitlist form fields binding",
+      "slotRef": "urn:ujg:slot:form-fields",
+      "targetSurfaceRef": "urn:ujg:surface:content:waitlist-form-fields"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:waitlist-form:submit-action",
+      "label": "Waitlist form submit action binding",
+      "slotRef": "urn:ujg:slot:form-submit-action",
+      "targetSurfaceRef": "urn:ujg:surface:action:submit-waitlist-details"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:waitlist-form-error:fields",
+      "label": "Waitlist error form fields binding",
+      "slotRef": "urn:ujg:slot:form-fields",
+      "targetSurfaceRef": "urn:ujg:surface:content:waitlist-form-error-fields"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:waitlist-form-error:submit-action",
+      "label": "Waitlist error form submit action binding",
+      "slotRef": "urn:ujg:slot:form-submit-action",
+      "targetSurfaceRef": "urn:ujg:surface:action:submit-waitlist-details"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:waitlist-review:summary",
+      "label": "Waitlist review summary binding",
+      "slotRef": "urn:ujg:slot:review-summary",
+      "targetSurfaceRef": "urn:ujg:surface:content:waitlist-review-summary"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:waitlist-review:edit-action",
+      "label": "Waitlist review edit action binding",
+      "slotRef": "urn:ujg:slot:review-edit-action",
+      "targetSurfaceRef": "urn:ujg:surface:action:edit-waitlist-details"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:waitlist-review:join-action",
+      "label": "Waitlist review join action binding",
+      "slotRef": "urn:ujg:slot:review-submit-action",
+      "targetSurfaceRef": "urn:ujg:surface:action:join-waitlist"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:already-waitlisted:status",
+      "label": "Already-waitlisted status binding",
+      "slotRef": "urn:ujg:slot:status-content",
+      "targetSurfaceRef": "urn:ujg:surface:content:already-waitlisted-status"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:already-waitlisted:continue-action",
+      "label": "Already-waitlisted continue action binding",
+      "slotRef": "urn:ujg:slot:status-action",
+      "targetSurfaceRef": "urn:ujg:surface:action:continue-as-waitlisted"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:offered-place-email:body",
+      "label": "Offered-place email body binding",
+      "slotRef": "urn:ujg:slot:email-body",
+      "targetSurfaceRef": "urn:ujg:surface:content:offered-place-email-body"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:offered-place-email:open-action",
+      "label": "Offered-place email open action binding",
+      "slotRef": "urn:ujg:slot:email-link-action",
+      "targetSurfaceRef": "urn:ujg:surface:action:open-offered-place-link"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:offered-place-open:summary",
+      "label": "Offered-place open summary binding",
+      "slotRef": "urn:ujg:slot:offer-summary",
+      "targetSurfaceRef": "urn:ujg:surface:content:offered-place-open-summary"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:offered-place-open:accept-action",
+      "label": "Offered-place accept action binding",
+      "slotRef": "urn:ujg:slot:offer-accept-action",
+      "targetSurfaceRef": "urn:ujg:surface:action:accept-offered-place"
+    },
+    {
+      "@type": "SlotBinding",
+      "@id": "urn:ujg:slot-binding:offered-place-open:decline-action",
+      "label": "Offered-place decline action binding",
+      "slotRef": "urn:ujg:slot:offer-decline-action",
+      "targetSurfaceRef": "urn:ujg:surface:action:decline-offered-place"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:workshops-overview",
+      "label": "Workshops overview realization",
+      "surfaceRef": "urn:ujg:surface:workshops-overview",
+      "templateRef": "urn:ujg:template:workshops-overview-list",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:workshops-overview:workshop-teasers"
+      ]
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:workshop-teaser",
+      "label": "Workshop teaser realization",
+      "surfaceRef": "urn:ujg:surface:workshop-teaser",
+      "templateRef": "urn:ujg:template:workshop-teaser-card",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:workshop-teaser:content",
+        "urn:ujg:slot-binding:workshop-teaser:open-action"
+      ]
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:workshop-registration-open",
+      "label": "Registration-open detail realization",
+      "surfaceRef": "urn:ujg:surface:workshop-registration-open",
+      "templateRef": "urn:ujg:template:detail-with-action",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:workshop-registration-open:summary",
+        "urn:ujg:slot-binding:workshop-registration-open:start-action"
+      ]
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:workshop-already-registered",
+      "label": "Already-registered workshop detail realization",
+      "surfaceRef": "urn:ujg:surface:workshop-already-registered",
+      "templateRef": "urn:ujg:template:detail-with-notice",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:workshop-already-registered:summary",
+        "urn:ujg:slot-binding:workshop-already-registered:notice"
+      ]
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:workshop-already-waitlisted",
+      "label": "Already-waitlisted workshop detail realization",
+      "surfaceRef": "urn:ujg:surface:workshop-already-waitlisted",
+      "templateRef": "urn:ujg:template:detail-with-notice",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:workshop-already-waitlisted:summary",
+        "urn:ujg:slot-binding:workshop-already-waitlisted:notice"
+      ]
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:registration-form",
+      "label": "Registration form realization",
+      "surfaceRef": "urn:ujg:surface:registration-form",
+      "templateRef": "urn:ujg:template:form-with-submit",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:registration-form:fields",
+        "urn:ujg:slot-binding:registration-form:submit-action"
+      ]
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:registration-form-error",
+      "label": "Registration form error realization",
+      "surfaceRef": "urn:ujg:surface:registration-form-error",
+      "templateRef": "urn:ujg:template:form-with-submit",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:registration-form-error:fields",
+        "urn:ujg:slot-binding:registration-form-error:submit-action"
+      ]
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:registration-review",
+      "label": "Registration review realization",
+      "surfaceRef": "urn:ujg:surface:registration-review",
+      "templateRef": "urn:ujg:template:review-with-actions",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:registration-review:summary",
+        "urn:ujg:slot-binding:registration-review:edit-action",
+        "urn:ujg:slot-binding:registration-review:confirm-action"
+      ]
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:registration-confirmed",
+      "label": "Registration confirmation realization",
+      "surfaceRef": "urn:ujg:surface:registration-confirmed",
+      "componentRef": "urn:ujg:component:status-message"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:registration-already-confirmed",
+      "label": "Registration already confirmed realization",
+      "surfaceRef": "urn:ujg:surface:registration-already-confirmed",
+      "componentRef": "urn:ujg:component:status-message"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:workshop-waitlist-open",
+      "label": "Waitlist-open detail realization",
+      "surfaceRef": "urn:ujg:surface:workshop-waitlist-open",
+      "templateRef": "urn:ujg:template:detail-with-action",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:workshop-waitlist-open:summary",
+        "urn:ujg:slot-binding:workshop-waitlist-open:start-action"
+      ]
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:waitlist-after-registration-unavailable",
+      "label": "Waitlist-after-unavailable realization",
+      "surfaceRef": "urn:ujg:surface:waitlist-after-registration-unavailable",
+      "templateRef": "urn:ujg:template:detail-with-action",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:waitlist-after-registration-unavailable:summary",
+        "urn:ujg:slot-binding:waitlist-after-registration-unavailable:start-action"
+      ]
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:waitlist-form",
+      "label": "Waitlist form realization",
+      "surfaceRef": "urn:ujg:surface:waitlist-form",
+      "templateRef": "urn:ujg:template:form-with-submit",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:waitlist-form:fields",
+        "urn:ujg:slot-binding:waitlist-form:submit-action"
+      ]
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:waitlist-form-error",
+      "label": "Waitlist form error realization",
+      "surfaceRef": "urn:ujg:surface:waitlist-form-error",
+      "templateRef": "urn:ujg:template:form-with-submit",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:waitlist-form-error:fields",
+        "urn:ujg:slot-binding:waitlist-form-error:submit-action"
+      ]
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:waitlist-review",
+      "label": "Waitlist review realization",
+      "surfaceRef": "urn:ujg:surface:waitlist-review",
+      "templateRef": "urn:ujg:template:review-with-actions",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:waitlist-review:summary",
+        "urn:ujg:slot-binding:waitlist-review:edit-action",
+        "urn:ujg:slot-binding:waitlist-review:join-action"
+      ]
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:waitlisted",
+      "label": "Waitlisted status realization",
+      "surfaceRef": "urn:ujg:surface:waitlisted",
+      "componentRef": "urn:ujg:component:status-message"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:already-waitlisted",
+      "label": "Already-waitlisted realization",
+      "surfaceRef": "urn:ujg:surface:already-waitlisted",
+      "templateRef": "urn:ujg:template:status-with-action",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:already-waitlisted:status",
+        "urn:ujg:slot-binding:already-waitlisted:continue-action"
+      ]
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:workshop-registration-closed",
+      "label": "Registration-closed realization",
+      "surfaceRef": "urn:ujg:surface:workshop-registration-closed",
+      "componentRef": "urn:ujg:component:status-message"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:offered-place-email-visible",
+      "label": "Offered-place email realization",
+      "surfaceRef": "urn:ujg:surface:offered-place-email-visible",
+      "templateRef": "urn:ujg:template:email-offer-message",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:offered-place-email:body",
+        "urn:ujg:slot-binding:offered-place-email:open-action"
+      ]
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:offered-place-open",
+      "label": "Offered-place open realization",
+      "surfaceRef": "urn:ujg:surface:offered-place-open",
+      "templateRef": "urn:ujg:template:offered-place-response",
+      "slotBindingRefs": [
+        "urn:ujg:slot-binding:offered-place-open:summary",
+        "urn:ujg:slot-binding:offered-place-open:accept-action",
+        "urn:ujg:slot-binding:offered-place-open:decline-action"
+      ]
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:offered-place-expired",
+      "label": "Offered-place expired realization",
+      "surfaceRef": "urn:ujg:surface:offered-place-expired",
+      "componentRef": "urn:ujg:component:status-message"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:offered-place-unavailable",
+      "label": "Offered-place unavailable realization",
+      "surfaceRef": "urn:ujg:surface:offered-place-unavailable",
+      "componentRef": "urn:ujg:component:status-message"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:offered-place-registration-confirmed",
+      "label": "Offer acceptance confirmation realization",
+      "surfaceRef": "urn:ujg:surface:offered-place-registration-confirmed",
+      "componentRef": "urn:ujg:component:status-message"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:offered-place-waitlisted",
+      "label": "Offer decline waitlisted realization",
+      "surfaceRef": "urn:ujg:surface:offered-place-waitlisted",
+      "componentRef": "urn:ujg:component:status-message"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:action:open-workshop",
+      "label": "Open workshop action realization",
+      "surfaceRef": "urn:ujg:surface:action:open-workshop",
+      "componentRef": "urn:ujg:component:action-control"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:action:start-registration",
+      "label": "Start registration action realization",
+      "surfaceRef": "urn:ujg:surface:action:start-registration",
+      "componentRef": "urn:ujg:component:action-control"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:action:submit-registration-details",
+      "label": "Submit registration details action realization",
+      "surfaceRef": "urn:ujg:surface:action:submit-registration-details",
+      "componentRef": "urn:ujg:component:action-control"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:action:edit-registration-details",
+      "label": "Edit registration details action realization",
+      "surfaceRef": "urn:ujg:surface:action:edit-registration-details",
+      "componentRef": "urn:ujg:component:action-control"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:action:confirm-registration",
+      "label": "Confirm registration action realization",
+      "surfaceRef": "urn:ujg:surface:action:confirm-registration",
+      "componentRef": "urn:ujg:component:action-control"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:action:start-waitlist-registration",
+      "label": "Start waitlist registration action realization",
+      "surfaceRef": "urn:ujg:surface:action:start-waitlist-registration",
+      "componentRef": "urn:ujg:component:action-control"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:action:submit-waitlist-details",
+      "label": "Submit waitlist details action realization",
+      "surfaceRef": "urn:ujg:surface:action:submit-waitlist-details",
+      "componentRef": "urn:ujg:component:action-control"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:action:edit-waitlist-details",
+      "label": "Edit waitlist details action realization",
+      "surfaceRef": "urn:ujg:surface:action:edit-waitlist-details",
+      "componentRef": "urn:ujg:component:action-control"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:action:join-waitlist",
+      "label": "Join waitlist action realization",
+      "surfaceRef": "urn:ujg:surface:action:join-waitlist",
+      "componentRef": "urn:ujg:component:action-control"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:action:continue-as-waitlisted",
+      "label": "Continue as waitlisted action realization",
+      "surfaceRef": "urn:ujg:surface:action:continue-as-waitlisted",
+      "componentRef": "urn:ujg:component:action-control"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:action:open-offered-place-link",
+      "label": "Open offered-place link realization",
+      "surfaceRef": "urn:ujg:surface:action:open-offered-place-link",
+      "componentRef": "urn:ujg:component:email-link-control"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:action:accept-offered-place",
+      "label": "Accept offered place action realization",
+      "surfaceRef": "urn:ujg:surface:action:accept-offered-place",
+      "componentRef": "urn:ujg:component:action-control"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:action:decline-offered-place",
+      "label": "Decline offered place action realization",
+      "surfaceRef": "urn:ujg:surface:action:decline-offered-place",
+      "componentRef": "urn:ujg:component:action-control"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:content:workshop-teaser",
+      "label": "Workshop teaser content realization",
+      "surfaceRef": "urn:ujg:surface:content:workshop-teaser",
+      "componentRef": "urn:ujg:component:workshop-teaser-content"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:content:workshop-registration-open-summary",
+      "label": "Registration-open workshop detail summary realization",
+      "surfaceRef": "urn:ujg:surface:content:workshop-registration-open-summary",
+      "componentRef": "urn:ujg:component:workshop-detail-summary"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:content:workshop-already-registered-summary",
+      "label": "Already-registered workshop detail summary realization",
+      "surfaceRef": "urn:ujg:surface:content:workshop-already-registered-summary",
+      "componentRef": "urn:ujg:component:workshop-detail-summary"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:content:workshop-already-registered-notice",
+      "label": "Already-registered workshop notice realization",
+      "surfaceRef": "urn:ujg:surface:content:workshop-already-registered-notice",
+      "componentRef": "urn:ujg:component:status-notice"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:content:workshop-already-waitlisted-summary",
+      "label": "Already-waitlisted workshop detail summary realization",
+      "surfaceRef": "urn:ujg:surface:content:workshop-already-waitlisted-summary",
+      "componentRef": "urn:ujg:component:workshop-detail-summary"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:content:workshop-already-waitlisted-notice",
+      "label": "Already-waitlisted workshop notice realization",
+      "surfaceRef": "urn:ujg:surface:content:workshop-already-waitlisted-notice",
+      "componentRef": "urn:ujg:component:status-notice"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:content:registration-form-fields",
+      "label": "Registration form fields realization",
+      "surfaceRef": "urn:ujg:surface:content:registration-form-fields",
+      "componentRef": "urn:ujg:component:registration-form-fields"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:content:registration-form-error-fields",
+      "label": "Registration form error fields realization",
+      "surfaceRef": "urn:ujg:surface:content:registration-form-error-fields",
+      "componentRef": "urn:ujg:component:registration-form-fields"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:content:registration-review-summary",
+      "label": "Registration review summary realization",
+      "surfaceRef": "urn:ujg:surface:content:registration-review-summary",
+      "componentRef": "urn:ujg:component:registration-review-summary"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:content:workshop-waitlist-open-summary",
+      "label": "Waitlist-open workshop detail summary realization",
+      "surfaceRef": "urn:ujg:surface:content:workshop-waitlist-open-summary",
+      "componentRef": "urn:ujg:component:workshop-detail-summary"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:content:waitlist-after-registration-unavailable-summary",
+      "label": "Waitlist-after-unavailable workshop detail summary realization",
+      "surfaceRef": "urn:ujg:surface:content:waitlist-after-registration-unavailable-summary",
+      "componentRef": "urn:ujg:component:workshop-detail-summary"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:content:waitlist-form-fields",
+      "label": "Waitlist form fields realization",
+      "surfaceRef": "urn:ujg:surface:content:waitlist-form-fields",
+      "componentRef": "urn:ujg:component:waitlist-form-fields"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:content:waitlist-form-error-fields",
+      "label": "Waitlist form error fields realization",
+      "surfaceRef": "urn:ujg:surface:content:waitlist-form-error-fields",
+      "componentRef": "urn:ujg:component:waitlist-form-fields"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:content:waitlist-review-summary",
+      "label": "Waitlist review summary realization",
+      "surfaceRef": "urn:ujg:surface:content:waitlist-review-summary",
+      "componentRef": "urn:ujg:component:waitlist-review-summary"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:content:already-waitlisted-status",
+      "label": "Already-waitlisted status content realization",
+      "surfaceRef": "urn:ujg:surface:content:already-waitlisted-status",
+      "componentRef": "urn:ujg:component:status-message"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:content:offered-place-email-body",
+      "label": "Offered-place email body realization",
+      "surfaceRef": "urn:ujg:surface:content:offered-place-email-body",
+      "componentRef": "urn:ujg:component:email-offer-content"
+    },
+    {
+      "@type": "SurfaceRealization",
+      "@id": "urn:ujg:surface-realization:content:offered-place-open-summary",
+      "label": "Offered-place open summary realization",
+      "surfaceRef": "urn:ujg:surface:content:offered-place-open-summary",
+      "componentRef": "urn:ujg:component:offer-response-summary"
+    },
+    {
+      "@type": "TokenSource",
+      "@id": "urn:ujg:token-source:codex-shared-foundation",
+      "label": "Codex shared foundation tokens",
+      "source": "../design/tokens/shared.tokens.json"
+    },
+    {
+      "@type": "TokenSource",
+      "@id": "urn:ujg:token-source:codex-light-semantics",
+      "label": "Codex light semantic tokens",
+      "source": "../design/tokens/light.tokens.json"
+    },
+    {
+      "@type": "TokenSource",
+      "@id": "urn:ujg:token-source:codex-dark-semantics",
+      "label": "Codex dark semantic tokens",
+      "source": "../design/tokens/dark.tokens.json"
+    },
+    {
+      "@type": "Theme",
+      "@id": "urn:ujg:theme:codex-light",
+      "label": "Codex light",
+      "tokenSourceRefs": [
+        "urn:ujg:token-source:codex-shared-foundation",
+        "urn:ujg:token-source:codex-light-semantics"
+      ]
+    },
+    {
+      "@type": "Theme",
+      "@id": "urn:ujg:theme:codex-dark",
+      "label": "Codex dark",
+      "tokenSourceRefs": [
+        "urn:ujg:token-source:codex-shared-foundation",
+        "urn:ujg:token-source:codex-dark-semantics"
+      ]
+    }
+  ]
+}

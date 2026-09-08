@@ -1,0 +1,39 @@
+.root {
+  display: grid;
+  gap: var(--foundation-space-3);
+}
+
+.title {
+  margin: 0;
+  color: var(--semantic-text-primary);
+  font-size: var(--foundation-font-size-body);
+  font-weight: var(--foundation-font-weight-semibold);
+  line-height: var(--foundation-line-height-tight);
+}
+
+.summary {
+  margin: 0;
+  color: var(--semantic-text-secondary);
+}
+
+.metadata {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--foundation-space-2) var(--foundation-space-4);
+  margin: 0;
+  color: var(--semantic-text-secondary);
+  font-size: var(--foundation-font-size-caption);
+}
+
+.metaRow {
+  display: inline-flex;
+  gap: var(--foundation-space-1);
+}
+
+.metaRow dd {
+  margin: 0;
+}
+
+.metaRow dt::after {
+  content: ":";
+}

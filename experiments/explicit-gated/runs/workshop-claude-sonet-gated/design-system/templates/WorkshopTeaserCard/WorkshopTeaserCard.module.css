@@ -1,0 +1,30 @@
+/*
+ * Relationship between a teaser's content slot and its command slot: the
+ * content flows, the command is pushed to the foot of the card and separated by
+ * a hairline, exactly as the reference overview cards do. The command fills the
+ * card width so a row of cards reads as one rhythm.
+ */
+
+@reference "../../styles/global.css";
+
+.card {
+  @apply ujg-panel flex flex-col;
+
+  padding: var(--space-6);
+  gap: var(--space-6);
+  width: 100%;
+}
+
+.body {
+  flex: 1 1 auto;
+}
+
+.footer {
+  @apply ujg-divider flex;
+
+  padding-top: var(--space-5);
+}
+
+.footer > * {
+  @apply w-full;
+}

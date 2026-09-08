@@ -4,14 +4,14 @@ Evaluate the styling phase of one clean-room realization run. This is an
 evaluation-only, static comparison rubric.
 
 Read the canonical realization and Theme requirements from
-`docs/skills/ujg-to-design-system-realization/references/v1-stack.md`. Score the
+`docs/skills/<guidance>/ujg-to-design-system-realization/references/v1-stack.md`. Score the
 run against that profile without restating its stack or Theme inventory.
 
 ## Inputs and mutation boundary
 
-The caller supplies the repository root, run name, implementation-model label,
-evaluator-model label, and requested result path. Treat a missing model label as
-JSON `null`. Read only the selected run, its UJG and schemas, manifest-selected
+The caller supplies the repository root, guidance mode, run name,
+implementation-model label, evaluator-model label, and requested result path.
+Treat a missing model label as JSON `null`. Read only the selected run, its UJG and schemas, manifest-selected
 design systems, shared visual references, and already-existing screenshots,
 component-explorer output, test output, or build artifacts.
 
@@ -26,7 +26,7 @@ Theme/TokenSource nodes and is immutable during styling.
 Normalize the evaluator filename label by lowercasing it, replacing each run of
 non-ASCII-alphanumeric characters with `-`, and stripping leading/trailing `-`.
 The canonical path is
-`checks/evaluation/<run-name>/styling.<evaluator>.json`.
+`checks/evaluation/<guidance>/<run-name>/styling.<evaluator>.json`.
 
 ## Scoring
 

@@ -1,0 +1,75 @@
+{
+  "evaluation_version": "application-realization-core-v1",
+  "run_id": "codex",
+  "evaluated_phase": "application",
+  "implementation_model": "GPT-5 Codex",
+  "evaluator_model": "GPT-5 Codex",
+  "quality_score_5": 3.1667,
+  "quality_score_100": 63.33,
+  "scores": {
+    "manifest_realization_coverage": 3,
+    "ujg_behavioral_fidelity": 3.4,
+    "domain_integrity": 4,
+    "interface_design_system_integration": 3.2,
+    "source_of_truth_integrity": 2.2,
+    "verification_coverage": 3.2
+  },
+  "complexity": {
+    "classification": "moderate",
+    "implementation_file_count": 107,
+    "infrastructure_loc": 286,
+    "new_dependency_count": 17
+  },
+  "metrics": {
+    "manifest_interface_count": 2,
+    "realized_interface_count": 2,
+    "selected_target_count": 2,
+    "missing_target_count": 0,
+    "modeled_branch_count": 22,
+    "verified_branch_count": 13,
+    "effect_invariant_violation_count": 0,
+    "design_system_integration_violation_count": 2,
+    "prohibited_projection_count": 2,
+    "identifier_leak_count": 0,
+    "verification_coverage_ratio": 0.5909
+  },
+  "findings": [
+    {
+      "severity": "HIGH",
+      "summary": "The browser interface does not realize the manifest-selected HTTP transport boundary; it imports a local in-memory client while the OpenAPI contract remains a static public file.",
+      "evidence": [
+        "experiments/implicit-gated/runs/codex/ujg-implementation.yaml",
+        "experiments/implicit-gated/runs/codex/apps/ui/src/workshopClient.ts",
+        "experiments/implicit-gated/runs/codex/apps/ui/public/openapi.json"
+      ]
+    },
+    {
+      "severity": "MEDIUM",
+      "summary": "Browser behavior duplicates outcome and workflow logic separately from the SQLite-backed domain engine, creating a parallel semantic authority.",
+      "evidence": [
+        "experiments/implicit-gated/runs/codex/apps/domain/src/main.mjs",
+        "experiments/implicit-gated/runs/codex/apps/ui/src/workshopClient.ts",
+        "experiments/implicit-gated/runs/codex/apps/ui/src/App.tsx"
+      ]
+    },
+    {
+      "severity": "MEDIUM",
+      "summary": "The selected email touchpoint is represented as string delivery data and a browser shortcut rather than exercising the email design-system realization.",
+      "evidence": [
+        "experiments/implicit-gated/runs/codex/ujg-implementation.yaml",
+        "experiments/implicit-gated/runs/codex/apps/domain/src/main.mjs",
+        "experiments/implicit-gated/runs/codex/apps/ui/src/App.tsx",
+        "experiments/implicit-gated/runs/codex/design-system/templates/EmailOfferMessage/EmailOfferMessage.tsx"
+      ]
+    },
+    {
+      "severity": "LOW",
+      "summary": "Verification covers the main state-changing outcomes, but lacks maintained evidence for the browser HTTP boundary, Swagger UI documentation surface, and competing command behavior.",
+      "evidence": [
+        "experiments/implicit-gated/runs/codex/tests/domain.behavior.test.mjs",
+        "experiments/implicit-gated/runs/codex/apps/ui/src/workshopClient.ts",
+        "experiments/implicit-gated/runs/codex/apps/ui/public/openapi.json"
+      ]
+    }
+  ]
+}

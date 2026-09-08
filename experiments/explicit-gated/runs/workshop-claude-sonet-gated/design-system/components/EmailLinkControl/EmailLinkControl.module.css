@@ -1,0 +1,22 @@
+/*
+ * Command affordance reached from an email. It carries the same filled
+ * treatment as the primary command in the application so the recipient meets
+ * one visual language across both touchpoints; no reference screen captures
+ * the email itself.
+ */
+
+@reference "../../styles/global.css";
+
+.link {
+  @apply inline-flex items-center justify-center no-underline;
+
+  min-height: var(--size-action-height);
+  padding-inline: var(--space-6);
+  border-radius: var(--radius-md);
+  background-color: var(--color-action-primary-background);
+  color: var(--color-action-primary-foreground);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--font-line-height-tight);
+  box-shadow: var(--shadow-card);
+}

@@ -1,0 +1,54 @@
+/*
+ * Internal presentation of the command affordance.
+ *
+ * One implementation. The presentation variants below are the treatments the
+ * reference screens show for the same semantic control, selected by an explicit
+ * prop — never by a parent, sibling, or position selector.
+ */
+
+@reference "../../styles/global.css";
+
+.control {
+  @apply inline-flex items-center justify-center transition;
+
+  min-height: var(--size-action-height);
+  padding-inline: var(--space-6);
+  gap: var(--space-3);
+  border-radius: var(--radius-md);
+  border-width: var(--border-width-hairline);
+  border-style: solid;
+  border-color: transparent;
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--font-line-height-tight);
+  text-align: center;
+  cursor: pointer;
+}
+
+.control:disabled {
+  @apply cursor-not-allowed opacity-50;
+}
+
+.primary {
+  background-color: var(--color-action-primary-background);
+  color: var(--color-action-primary-foreground);
+  box-shadow: var(--shadow-card);
+}
+
+.secondary {
+  background-color: var(--color-action-secondary-background);
+  color: var(--color-action-secondary-foreground);
+  border-color: var(--color-action-secondary-border);
+  box-shadow: var(--shadow-card);
+}
+
+.destructive {
+  background-color: var(--color-action-destructive-background);
+  color: var(--color-action-destructive-foreground);
+  box-shadow: var(--shadow-card);
+}
+
+.glyph {
+  flex: none;
+}

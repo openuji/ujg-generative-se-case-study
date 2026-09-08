@@ -1,0 +1,5 @@
+.root {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--foundation-space-12) * 7)), 1fr));
+  gap: var(--foundation-space-6);
+}

@@ -1,0 +1,67 @@
+{
+  "evaluation_version": "ds-styling-core-v1",
+  "run_id": "workshop-claude-sonnet",
+  "evaluated_phase": "styling",
+  "implementation_model": "claude-sonnet-5",
+  "evaluator_model": "claude-sonnet-5",
+  "quality_score_5": 4.3333,
+  "quality_score_100": 86.67,
+  "scores": {
+    "visual_fidelity": 4,
+    "token_theme_adherence": 5,
+    "structural_scope_preservation": 5,
+    "responsive_quality": 4,
+    "styling_modularity": 4,
+    "inspectability": 4
+  },
+  "visual_fidelity_confidence": "medium",
+  "complexity": {
+    "classification": "moderate",
+    "styling_file_count": 25,
+    "styling_loc": null,
+    "new_primitive_count": 0,
+    "new_dependency_count": 0
+  },
+  "ujg_contract": "PASS",
+  "metrics": {
+    "unsupported_reference_element_count": 0,
+    "raw_visual_value_leak_count": 0,
+    "hardcoded_theme_branch_count": 0,
+    "theme_specific_component_style_count": 0,
+    "theme_count": 2,
+    "unsupported_product_structure_count": 0,
+    "cross_artifact_composition_violation_count": 0,
+    "behavior_introduced_by_styling_count": 0,
+    "component_inventory_changed": false,
+    "template_inventory_changed": false,
+    "responsive_artifact_count": 2,
+    "desktop_only_assumption_count": 0,
+    "mobile_first_violation_count": 0,
+    "global_artifact_specific_selector_count": 0,
+    "misplaced_style_rule_count": 0,
+    "styling_specific_new_primitive_count": 0,
+    "duplicated_style_pattern_count": 0,
+    "styled_artifact_documentation_coverage_ratio": 1,
+    "theme_documentation_coverage_ratio": 1,
+    "responsive_documentation_coverage_ratio": 0.0952,
+    "duplicated_documentation_style_value_count": 0
+  },
+  "findings": [
+    {
+      "severity": "MEDIUM",
+      "summary": "Styling is applied as Tailwind utility classes at each call site rather than dedicated per-artifact CSS Modules, so the Template/Component CSS-module ownership layers described in the skill are collapsed into class-name authorship instead of separate files.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/templates/DetailWithAction/DetailWithAction.tsx",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/components/ActionControl/ActionControl.tsx"
+      ]
+    },
+    {
+      "severity": "LOW",
+      "summary": "Only WorkshopsOverviewList and ReviewWithActions have explicit Mobile/Desktop Storybook variants; the remaining 19 artifacts rely on the same responsive CSS without a dedicated narrow/wide story pair.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/templates/WorkshopsOverviewList/WorkshopsOverviewList.stories.tsx",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/templates/ReviewWithActions/ReviewWithActions.stories.tsx"
+      ]
+    }
+  ]
+}

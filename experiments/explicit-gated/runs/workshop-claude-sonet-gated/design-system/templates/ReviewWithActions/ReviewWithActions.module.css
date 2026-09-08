@@ -1,0 +1,44 @@
+/*
+ * Relationship between the review slot and its two command slots. The reference
+ * review screen sets the read-back on a panel and puts the pair of commands on
+ * a bar below it, aligned to the trailing edge from the shared small breakpoint
+ * upward and stacked full-width below it.
+ */
+
+@reference "../../styles/global.css";
+
+.review {
+  @apply flex flex-col;
+
+  gap: var(--space-7);
+  width: 100%;
+  max-width: var(--size-content-max-width);
+  margin-inline: auto;
+}
+
+.body {
+  @apply ujg-panel;
+
+  padding: var(--space-6);
+
+  @variant md {
+    padding: var(--space-8);
+  }
+}
+
+.footer {
+  @apply ujg-actions;
+
+  @variant sm {
+    justify-content: flex-end;
+    gap: var(--space-4);
+  }
+}
+
+.footer > * {
+  @apply w-full;
+
+  @variant sm {
+    width: auto;
+  }
+}

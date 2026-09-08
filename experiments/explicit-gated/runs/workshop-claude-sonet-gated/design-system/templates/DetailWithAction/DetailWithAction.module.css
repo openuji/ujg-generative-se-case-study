@@ -1,0 +1,26 @@
+/*
+ * Relationship between the detail slot and the command slot. The reference
+ * detail screen puts the workshop on the canvas and lifts its command onto a
+ * panel beside it; below the shared large breakpoint the panel drops under the
+ * detail and the command fills the line.
+ */
+
+@reference "../../styles/global.css";
+
+.detail {
+  @apply ujg-split;
+
+  width: 100%;
+  max-width: var(--size-content-max-width);
+  margin-inline: auto;
+}
+
+.footer {
+  @apply ujg-panel flex;
+
+  padding: var(--space-6);
+}
+
+.footer > * {
+  @apply w-full;
+}

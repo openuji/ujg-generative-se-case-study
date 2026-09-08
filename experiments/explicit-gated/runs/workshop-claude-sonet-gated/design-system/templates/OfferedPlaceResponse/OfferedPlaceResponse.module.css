@@ -1,0 +1,37 @@
+/*
+ * Relationship between the offer slot and its two command slots. The reference
+ * offer screen centres the offer and puts accept and decline side by side under
+ * it; below the shared small breakpoint they stack and fill the line, keeping
+ * accept first in both the reading and the tab order.
+ */
+
+@reference "../../styles/global.css";
+
+.offer {
+  @apply flex max-w-3xl flex-col items-center;
+
+  gap: var(--space-8);
+  width: 100%;
+  margin-inline: auto;
+  padding-block: var(--space-8);
+}
+
+.footer {
+  @apply ujg-actions;
+
+  width: 100%;
+
+  @variant sm {
+    width: auto;
+    justify-content: center;
+    gap: var(--space-4);
+  }
+}
+
+.footer > * {
+  @apply w-full;
+
+  @variant sm {
+    width: auto;
+  }
+}

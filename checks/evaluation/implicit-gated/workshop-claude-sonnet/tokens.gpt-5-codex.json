@@ -1,0 +1,74 @@
+{
+  "evaluation_version": "token-foundation-core-v1",
+  "run_id": "workshop-claude-sonnet",
+  "evaluated_phase": "tokens",
+  "implementation_model": "claude-sonnet-5",
+  "evaluator_model": "gpt-5-codex",
+  "quality_score_5": 4.2667,
+  "quality_score_100": 85.33,
+  "scores": {
+    "token_model_quality": 4.7,
+    "source_of_truth_integrity": 4,
+    "theme_portability": 4.5,
+    "traceability": 4.2,
+    "visual_foundation_fidelity": 4,
+    "inspectability": 4.2
+  },
+  "complexity": {
+    "classification": "moderate",
+    "implementation_file_count": 17,
+    "infrastructure_loc": 471,
+    "new_dependency_count": 17
+  },
+  "scope_preserved": "PASS",
+  "ujg_contract": "PASS",
+  "metrics": {
+    "total_token_count": 110,
+    "foundation_token_count": 66,
+    "semantic_token_count": 44,
+    "unresolved_alias_count": 0,
+    "invalid_token_count": 0,
+    "raw_value_leak_count": 116,
+    "parallel_token_catalog_count": 0,
+    "parallel_theme_registry_count": 1,
+    "theme_count": 2,
+    "hardcoded_theme_branch_count": 1,
+    "data_driven_themes": true,
+    "provenance_coverage_ratio": 0.4,
+    "direct_token_count": 22,
+    "inferred_token_count": 22,
+    "unclassified_token_count": 0,
+    "invalid_reference_count": 0,
+    "documentation_present": true,
+    "documented_group_count": 15,
+    "duplicated_documentation_value_count": 0
+  },
+  "findings": [
+    {
+      "severity": "MEDIUM",
+      "summary": "The DTCG files define spacing, font-size, font-weight, line-height, and border-width tokens, but Tailwind artifact styling still uses default utility scales instead of a complete token-backed theme bridge.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/src/styles/global.css:33",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/components/ActionControl/ActionControl.tsx:23",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/components/WorkshopDetailSummary/WorkshopDetailSummary.tsx:17"
+      ]
+    },
+    {
+      "severity": "LOW",
+      "summary": "Traceability is complete for semantic tokens, but foundation token values do not carry visual-evidence provenance, leaving total-token provenance coverage at 40 percent.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/design/tokens/foundation.tokens.json:1",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/design/tokens/semantic-light.tokens.json:8",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/design/tokens/semantic-dark.tokens.json:8"
+      ]
+    },
+    {
+      "severity": "LOW",
+      "summary": "Storybook exposes the theme switcher through a hardcoded light/dark registry instead of reading the UJG-derived token manifest.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/.storybook/preview.ts:7",
+        "experiments/implicit-gated/runs/workshop-claude-sonnet/design-system/src/stories/token-manifest.ts:1"
+      ]
+    }
+  ]
+}

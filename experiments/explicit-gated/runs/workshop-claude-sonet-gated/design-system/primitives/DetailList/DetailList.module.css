@@ -1,0 +1,42 @@
+/*
+ * Term/value list. The reference screens stack a term over its value on narrow
+ * viewports and set the pair on one line from the shared small breakpoint
+ * upward, with a hairline rule between rows.
+ */
+
+@reference "../../styles/global.css";
+
+.list {
+  @apply grid;
+}
+
+.row {
+  @apply grid;
+
+  gap: var(--space-1);
+  padding-block: var(--space-4);
+
+  @variant sm {
+    grid-template-columns: minmax(0, 12rem) minmax(0, 1fr);
+    align-items: baseline;
+    gap: var(--space-5);
+  }
+}
+
+.row + .row {
+  @apply ujg-divider;
+}
+
+.term {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--font-line-height-snug);
+}
+
+.value {
+  color: var(--color-text-primary);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--font-line-height-snug);
+}

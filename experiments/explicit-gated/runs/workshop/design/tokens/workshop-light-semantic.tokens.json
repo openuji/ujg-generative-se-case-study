@@ -1,0 +1,128 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "semantic": {
+    "$extensions": {
+      "org.openuji.visual-evidence": {
+        "confidence": "direct",
+        "basis": "Light interface screenshots show white panels, soft gray boundaries, blue actions and focus treatments, green success states, amber warning states, and red destructive/error states.",
+        "screenPaths": [
+          "references/workshop-registration/screens/screen.png",
+          "references/workshop-registration/screens/screen_1.png",
+          "references/workshop-registration/screens/screen_4.png",
+          "references/workshop-registration/screens/screen_8.png"
+        ]
+      }
+    },
+    "surface": {
+      "$type": "color",
+      "page": {
+        "$value": "{foundation.color.neutral.50}"
+      },
+      "panel": {
+        "$value": "{foundation.color.white}"
+      },
+      "muted": {
+        "$value": "{foundation.color.blue.50}"
+      }
+    },
+    "text": {
+      "$type": "color",
+      "primary": {
+        "$value": "{foundation.color.neutral.900}"
+      },
+      "secondary": {
+        "$value": "{foundation.color.neutral.500}"
+      },
+      "inverse": {
+        "$value": "{foundation.color.white}"
+      }
+    },
+    "border": {
+      "$type": "color",
+      "default": {
+        "$value": "{foundation.color.neutral.200}"
+      },
+      "strong": {
+        "$value": "{foundation.color.neutral.300}"
+      }
+    },
+    "action": {
+      "$type": "color",
+      "primaryBackground": {
+        "$value": "{foundation.color.blue.600}"
+      },
+      "primaryText": {
+        "$value": "{foundation.color.white}"
+      },
+      "secondaryBackground": {
+        "$value": "{foundation.color.white}"
+      },
+      "secondaryText": {
+        "$value": "{foundation.color.blue.600}"
+      },
+      "destructiveBackground": {
+        "$value": "{foundation.color.red.600}"
+      },
+      "destructiveText": {
+        "$value": "{foundation.color.white}"
+      }
+    },
+    "control": {
+      "$type": "color",
+      "background": {
+        "$value": "{foundation.color.white}"
+      },
+      "border": {
+        "$value": "{foundation.color.neutral.200}"
+      },
+      "icon": {
+        "$value": "{foundation.color.blue.600}"
+      },
+      "disabled": {
+        "$value": "{foundation.color.neutral.100}"
+      }
+    },
+    "focus": {
+      "$type": "color",
+      "ring": {
+        "$value": "{foundation.color.blue.500}"
+      }
+    },
+    "success": {
+      "$type": "color",
+      "surface": {
+        "$value": "{foundation.color.green.50}"
+      },
+      "text": {
+        "$value": "{foundation.color.green.700}"
+      },
+      "border": {
+        "$value": "{foundation.color.green.100}"
+      }
+    },
+    "warning": {
+      "$type": "color",
+      "surface": {
+        "$value": "{foundation.color.amber.50}"
+      },
+      "text": {
+        "$value": "{foundation.color.amber.700}"
+      },
+      "border": {
+        "$value": "{foundation.color.amber.100}"
+      }
+    },
+    "error": {
+      "$type": "color",
+      "surface": {
+        "$value": "{foundation.color.red.50}"
+      },
+      "text": {
+        "$value": "{foundation.color.red.700}"
+      },
+      "border": {
+        "$value": "{foundation.color.red.100}"
+      }
+    }
+  }
+}

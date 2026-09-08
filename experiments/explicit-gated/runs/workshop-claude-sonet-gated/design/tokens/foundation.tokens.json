@@ -1,0 +1,1452 @@
+{
+  "$description": "Theme-independent raw values for the workshop registration design system. Every semantic role in a theme source aliases into this file.",
+  "color": {
+    "$type": "color",
+    "neutral": {
+      "0": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1,
+            1,
+            1
+          ],
+          "alpha": 1
+        },
+        "$description": "Panel and control fill sampled on card and input interiors.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen_1.png",
+              "references/workshop-registration/screens/screen_2.png"
+            ]
+          }
+        }
+      },
+      "25": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9922,
+            0.9922,
+            0.9961
+          ],
+          "alpha": 1
+        },
+        "$description": "Application canvas sampled below the hero gradient.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen.png",
+              "references/workshop-registration/screens/screen_4.png"
+            ]
+          }
+        }
+      },
+      "50": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9686,
+            0.9725,
+            0.9804
+          ],
+          "alpha": 1
+        },
+        "$description": "Interpolated step between the canvas and the muted chip fill."
+      },
+      "100": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9529,
+            0.9569,
+            0.9686
+          ],
+          "alpha": 1
+        },
+        "$description": "Muted chip fill sampled on the cancelled-state badge.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen_9.png"
+            ]
+          }
+        }
+      },
+      "200": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.902,
+            0.9059,
+            0.9216
+          ],
+          "alpha": 1
+        },
+        "$description": "Hairline border sampled on card outlines, dividers and input outlines.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen_1.png",
+              "references/workshop-registration/screens/screen_2.png"
+            ]
+          }
+        }
+      },
+      "300": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.8039,
+            0.8157,
+            0.8471
+          ],
+          "alpha": 1
+        },
+        "$description": "Interpolated step used for de-emphasised strokes and dark-theme body ink."
+      },
+      "400": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.6078,
+            0.6314,
+            0.6863
+          ],
+          "alpha": 1
+        },
+        "$description": "Interpolated step used for dark-theme muted ink."
+      },
+      "500": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.3725,
+            0.3922,
+            0.451
+          ],
+          "alpha": 1
+        },
+        "$description": "Muted label ink sampled on the review summary field labels.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen_3.png",
+              "references/workshop-registration/screens/screen_1.png"
+            ]
+          }
+        }
+      },
+      "600": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.2784,
+            0.3059,
+            0.3922
+          ],
+          "alpha": 1
+        },
+        "$description": "Body copy ink sampled on paragraph text.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen_1.png",
+              "references/workshop-registration/screens/screen.png"
+            ]
+          }
+        }
+      },
+      "700": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.1765,
+            0.1922,
+            0.2588
+          ],
+          "alpha": 1
+        },
+        "$description": "Dense body ink sampled on form labels and badge captions.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen_2.png",
+              "references/workshop-registration/screens/screen_9.png"
+            ]
+          }
+        }
+      },
+      "800": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.1059,
+            0.1176,
+            0.1686
+          ],
+          "alpha": 1
+        },
+        "$description": "Interpolated step used for dark-theme raised panels."
+      },
+      "900": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.0627,
+            0.0667,
+            0.1294
+          ],
+          "alpha": 1
+        },
+        "$description": "Field-value ink sampled on the review table values.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen_3.png"
+            ]
+          }
+        }
+      },
+      "950": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0,
+            0,
+            0
+          ],
+          "alpha": 1
+        },
+        "$description": "Heading ink sampled on page titles and section headings.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen.png",
+              "references/workshop-registration/screens/screen_1.png"
+            ]
+          }
+        }
+      },
+      "$description": "Achromatic ramp read off the reference application chrome: page canvas, panel fills, hairline borders and the near-black heading ink.",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "confidence": "inferred",
+          "screenPaths": [
+            "references/workshop-registration/screens/screen.png",
+            "references/workshop-registration/screens/screen_1.png",
+            "references/workshop-registration/screens/screen_3.png",
+            "references/workshop-registration/screens/screen_9.png"
+          ]
+        }
+      }
+    },
+    "brand": {
+      "50": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9529,
+            0.9608,
+            0.9922
+          ],
+          "alpha": 1
+        },
+        "$description": "Informational notice tint sampled on the waitlist e-mail notice.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen_5.png"
+            ]
+          }
+        }
+      },
+      "100": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9059,
+            0.9255,
+            0.9961
+          ],
+          "alpha": 1
+        },
+        "$description": "Accent chip tint sampled on the offer deadline pill and icon bubbles.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen_6.png",
+              "references/workshop-registration/screens/screen_5.png"
+            ]
+          }
+        }
+      },
+      "200": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.8431,
+            0.8667,
+            0.9882
+          ],
+          "alpha": 1
+        },
+        "$description": "Hero gradient and chrome divider tint sampled under the application bar.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen.png"
+            ]
+          }
+        }
+      },
+      "300": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.702,
+            0.7529,
+            0.9765
+          ],
+          "alpha": 1
+        },
+        "$description": "Interpolated step used for dark-theme accent ink."
+      },
+      "400": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.498,
+            0.5882,
+            0.9608
+          ],
+          "alpha": 1
+        },
+        "$description": "Interpolated step used for dark-theme accent strokes."
+      },
+      "500": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.2314,
+            0.4196,
+            0.9608
+          ],
+          "alpha": 1
+        },
+        "$description": "Interpolated step used for the dark-theme primary action fill."
+      },
+      "600": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.051,
+            0.302,
+            0.9373
+          ],
+          "alpha": 1
+        },
+        "$description": "Primary action fill sampled on the register, continue and confirm buttons.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen_1.png",
+              "references/workshop-registration/screens/screen_2.png",
+              "references/workshop-registration/screens/screen_4.png"
+            ]
+          }
+        }
+      },
+      "700": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.0431,
+            0.2039,
+            0.8118
+          ],
+          "alpha": 1
+        },
+        "$description": "Hyperlink and selected-tab ink sampled on inline links and the active tab rule.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen.png",
+              "references/workshop-registration/screens/screen_1.png"
+            ]
+          }
+        }
+      },
+      "800": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.0392,
+            0.1647,
+            0.651
+          ],
+          "alpha": 1
+        },
+        "$description": "Interpolated deep step for pressed and high-contrast accent needs."
+      },
+      "900": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.0431,
+            0.1098,
+            0.3216
+          ],
+          "alpha": 1
+        },
+        "$description": "Interpolated deep step used for the dark-theme informational tint."
+      },
+      "$description": "Blue accent ramp carrying the primary action, the selected navigation indicator, hyperlinks and the informational tint.",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "confidence": "inferred",
+          "screenPaths": [
+            "references/workshop-registration/screens/screen.png",
+            "references/workshop-registration/screens/screen_1.png",
+            "references/workshop-registration/screens/screen_2.png",
+            "references/workshop-registration/screens/screen_6.png"
+          ]
+        }
+      }
+    },
+    "green": {
+      "50": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9255,
+            0.9608,
+            0.9294
+          ],
+          "alpha": 1
+        },
+        "$description": "Confirmation halo tint sampled behind the success glyph.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen_4.png"
+            ]
+          }
+        }
+      },
+      "100": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.8941,
+            0.9451,
+            0.8941
+          ],
+          "alpha": 1
+        },
+        "$description": "Positive chip tint sampled on the confirmed and open availability badges.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen_4.png",
+              "references/workshop-registration/screens/screen.png"
+            ]
+          }
+        }
+      },
+      "200": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.7765,
+            0.8863,
+            0.7843
+          ],
+          "alpha": 1
+        },
+        "$description": "Interpolated step for positive strokes."
+      },
+      "300": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.6078,
+            0.8,
+            0.6235
+          ],
+          "alpha": 1
+        },
+        "$description": "Interpolated step used for dark-theme positive ink."
+      },
+      "400": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.3529,
+            0.6549,
+            0.3843
+          ],
+          "alpha": 1
+        },
+        "$description": "Interpolated step."
+      },
+      "500": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.2275,
+            0.5412,
+            0.2627
+          ],
+          "alpha": 1
+        },
+        "$description": "Interpolated step."
+      },
+      "600": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.1804,
+            0.4902,
+            0.2039
+          ],
+          "alpha": 1
+        },
+        "$description": "Interpolated step."
+      },
+      "700": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.1137,
+            0.3569,
+            0.1333
+          ],
+          "alpha": 1
+        },
+        "$description": "Positive ink sampled on the confirmed badge caption and success glyph.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen_4.png",
+              "references/workshop-registration/screens/screen.png"
+            ]
+          }
+        }
+      },
+      "800": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.0784,
+            0.2627,
+            0.102
+          ],
+          "alpha": 1
+        },
+        "$description": "Interpolated deep step."
+      },
+      "900": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.051,
+            0.1725,
+            0.0706
+          ],
+          "alpha": 1
+        },
+        "$description": "Interpolated deep step used for the dark-theme positive tint."
+      },
+      "$description": "Positive-outcome ramp carrying confirmed registrations and open availability.",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "confidence": "inferred",
+          "screenPaths": [
+            "references/workshop-registration/screens/screen.png",
+            "references/workshop-registration/screens/screen_4.png"
+          ]
+        }
+      }
+    },
+    "amber": {
+      "50": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9882,
+            0.949,
+            0.9176
+          ],
+          "alpha": 1
+        },
+        "$description": "Expiry halo tint sampled behind the warning glyph.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen_7.png"
+            ]
+          }
+        }
+      },
+      "100": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9922,
+            0.9451,
+            0.8431
+          ],
+          "alpha": 1
+        },
+        "$description": "Caution chip tint sampled on the limited-availability badge.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen_1.png",
+              "references/workshop-registration/screens/screen.png"
+            ]
+          }
+        }
+      },
+      "200": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9686,
+            0.8627,
+            0.6706
+          ],
+          "alpha": 1
+        },
+        "$description": "Interpolated step for caution strokes."
+      },
+      "300": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9373,
+            0.7529,
+            0.4471
+          ],
+          "alpha": 1
+        },
+        "$description": "Interpolated step used for dark-theme caution ink."
+      },
+      "400": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.8784,
+            0.6314,
+            0.2275
+          ],
+          "alpha": 1
+        },
+        "$description": "Interpolated step."
+      },
+      "500": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.8196,
+            0.5451,
+            0.1098
+          ],
+          "alpha": 1
+        },
+        "$description": "Interpolated step."
+      },
+      "600": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.7686,
+            0.4824,
+            0.0549
+          ],
+          "alpha": 1
+        },
+        "$description": "Caution ink sampled on the limited badge caption and the expiry glyph.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen.png",
+              "references/workshop-registration/screens/screen_7.png"
+            ]
+          }
+        }
+      },
+      "700": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.5608,
+            0.3529,
+            0.0314
+          ],
+          "alpha": 1
+        },
+        "$description": "Interpolated deep step."
+      },
+      "800": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.4157,
+            0.2588,
+            0.0275
+          ],
+          "alpha": 1
+        },
+        "$description": "Interpolated deep step."
+      },
+      "900": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.2275,
+            0.1412,
+            0.0196
+          ],
+          "alpha": 1
+        },
+        "$description": "Interpolated deep step used for the dark-theme caution tint."
+      },
+      "$description": "Caution ramp carrying limited availability, active offers and expiry warnings.",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "confidence": "inferred",
+          "screenPaths": [
+            "references/workshop-registration/screens/screen.png",
+            "references/workshop-registration/screens/screen_1.png",
+            "references/workshop-registration/screens/screen_7.png"
+          ]
+        }
+      }
+    },
+    "red": {
+      "50": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9765,
+            0.9294,
+            0.9294
+          ],
+          "alpha": 1
+        },
+        "$description": "Destructive halo tint sampled behind the cancellation glyph.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen_8.png"
+            ]
+          }
+        }
+      },
+      "100": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9647,
+            0.8627,
+            0.8588
+          ],
+          "alpha": 1
+        },
+        "$description": "Interpolated step for destructive chip fills."
+      },
+      "200": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9373,
+            0.7373,
+            0.7294
+          ],
+          "alpha": 1
+        },
+        "$description": "Interpolated step for destructive strokes."
+      },
+      "300": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.8863,
+            0.5725,
+            0.5686
+          ],
+          "alpha": 1
+        },
+        "$description": "Interpolated step used for dark-theme destructive ink."
+      },
+      "400": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.8314,
+            0.3255,
+            0.3098
+          ],
+          "alpha": 1
+        },
+        "$description": "Interpolated step."
+      },
+      "500": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.7843,
+            0.2,
+            0.1843
+          ],
+          "alpha": 1
+        },
+        "$description": "Interpolated step used for the dark-theme destructive action fill."
+      },
+      "600": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.7608,
+            0.1412,
+            0.1294
+          ],
+          "alpha": 1
+        },
+        "$description": "Destructive action fill sampled on the cancellation confirm button.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen_8.png"
+            ]
+          }
+        }
+      },
+      "700": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.6118,
+            0.102,
+            0.0902
+          ],
+          "alpha": 1
+        },
+        "$description": "Destructive ink sampled on the cancellation glyph stroke.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen_8.png"
+            ]
+          }
+        }
+      },
+      "800": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.4549,
+            0.0667,
+            0.0588
+          ],
+          "alpha": 1
+        },
+        "$description": "Interpolated deep step."
+      },
+      "900": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.251,
+            0.0627,
+            0.0353
+          ],
+          "alpha": 1
+        },
+        "$description": "Interpolated deep step used for the dark-theme destructive tint."
+      },
+      "$description": "Destructive ramp carrying cancellation confirmation and irreversible actions.",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "confidence": "inferred",
+          "screenPaths": [
+            "references/workshop-registration/screens/screen_8.png"
+          ]
+        }
+      }
+    }
+  },
+  "space": {
+    "0": {
+      "$value": {
+        "value": 0,
+        "unit": "px"
+      },
+      "$description": "Zero step."
+    },
+    "1": {
+      "$value": {
+        "value": 2,
+        "unit": "px"
+      },
+      "$description": "Hairline inset."
+    },
+    "2": {
+      "$value": {
+        "value": 4,
+        "unit": "px"
+      },
+      "$description": "Chip and icon inset."
+    },
+    "3": {
+      "$value": {
+        "value": 8,
+        "unit": "px"
+      },
+      "$description": "Tight stack gap."
+    },
+    "4": {
+      "$value": {
+        "value": 12,
+        "unit": "px"
+      },
+      "$description": "Control inner padding."
+    },
+    "5": {
+      "$value": {
+        "value": 16,
+        "unit": "px"
+      },
+      "$description": "Default stack gap."
+    },
+    "6": {
+      "$value": {
+        "value": 20,
+        "unit": "px"
+      },
+      "$description": "Card inner padding."
+    },
+    "7": {
+      "$value": {
+        "value": 24,
+        "unit": "px"
+      },
+      "$description": "Section gap."
+    },
+    "8": {
+      "$value": {
+        "value": 32,
+        "unit": "px"
+      },
+      "$description": "Panel padding."
+    },
+    "9": {
+      "$value": {
+        "value": 40,
+        "unit": "px"
+      },
+      "$description": "Block separation."
+    },
+    "10": {
+      "$value": {
+        "value": 48,
+        "unit": "px"
+      },
+      "$description": "Page block rhythm."
+    },
+    "12": {
+      "$value": {
+        "value": 64,
+        "unit": "px"
+      },
+      "$description": "Page header separation."
+    },
+    "$type": "dimension",
+    "$description": "Four-pixel spacing scale proportioned against the reference layout gutters, stack rhythm and control padding.",
+    "$extensions": {
+      "org.openuji.visual-evidence": {
+        "confidence": "inferred",
+        "screenPaths": [
+          "references/workshop-registration/screens/screen.png",
+          "references/workshop-registration/screens/screen_1.png",
+          "references/workshop-registration/screens/screen_2.png"
+        ]
+      }
+    }
+  },
+  "size": {
+    "$type": "dimension",
+    "$description": "Interactive sizing derived from measured control boxes in the reference screens.",
+    "$extensions": {
+      "org.openuji.visual-evidence": {
+        "confidence": "inferred",
+        "screenPaths": [
+          "references/workshop-registration/screens/screen_1.png",
+          "references/workshop-registration/screens/screen_2.png"
+        ]
+      }
+    },
+    "controlHeight": {
+      "$value": {
+        "value": 48,
+        "unit": "px"
+      },
+      "$description": "Text-input box measured at forty-seven pixels tall in the registration form.",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "confidence": "direct",
+          "screenPaths": [
+            "references/workshop-registration/screens/screen_2.png"
+          ]
+        }
+      }
+    },
+    "actionHeight": {
+      "$value": {
+        "value": 54,
+        "unit": "px"
+      },
+      "$description": "Primary action box measured at fifty-four pixels tall on the workshop detail screen.",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "confidence": "direct",
+          "screenPaths": [
+            "references/workshop-registration/screens/screen_1.png"
+          ]
+        }
+      }
+    },
+    "iconBubble": {
+      "$value": {
+        "value": 56,
+        "unit": "px"
+      },
+      "$description": "Circular icon bubble diameter."
+    },
+    "contentMaxWidth": {
+      "$value": {
+        "value": 1200,
+        "unit": "px"
+      },
+      "$description": "Centred content column width."
+    }
+  },
+  "radius": {
+    "$type": "dimension",
+    "$description": "Corner radii read off card, control and chip geometry.",
+    "$extensions": {
+      "org.openuji.visual-evidence": {
+        "confidence": "inferred",
+        "screenPaths": [
+          "references/workshop-registration/screens/screen_1.png",
+          "references/workshop-registration/screens/screen_2.png",
+          "references/workshop-registration/screens/screen.png"
+        ]
+      }
+    },
+    "none": {
+      "$value": {
+        "value": 0,
+        "unit": "px"
+      },
+      "$description": "Square corner."
+    },
+    "sm": {
+      "$value": {
+        "value": 6,
+        "unit": "px"
+      },
+      "$description": "Chip and small control corner."
+    },
+    "md": {
+      "$value": {
+        "value": 10,
+        "unit": "px"
+      },
+      "$description": "Action and input corner."
+    },
+    "lg": {
+      "$value": {
+        "value": 16,
+        "unit": "px"
+      },
+      "$description": "Card corner measured across the summary panel corner arc.",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "confidence": "direct",
+          "screenPaths": [
+            "references/workshop-registration/screens/screen_1.png"
+          ]
+        }
+      }
+    },
+    "full": {
+      "$value": {
+        "value": 999,
+        "unit": "px"
+      },
+      "$description": "Pill corner used by availability and status badges.",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "confidence": "direct",
+          "screenPaths": [
+            "references/workshop-registration/screens/screen.png",
+            "references/workshop-registration/screens/screen_4.png"
+          ]
+        }
+      }
+    }
+  },
+  "borderWidth": {
+    "$type": "dimension",
+    "$description": "Stroke widths for hairline outlines and emphasis rules.",
+    "$extensions": {
+      "org.openuji.visual-evidence": {
+        "confidence": "inferred",
+        "screenPaths": [
+          "references/workshop-registration/screens/screen_1.png",
+          "references/workshop-registration/screens/screen.png"
+        ]
+      }
+    },
+    "none": {
+      "$value": {
+        "value": 0,
+        "unit": "px"
+      },
+      "$description": "No stroke."
+    },
+    "hairline": {
+      "$value": {
+        "value": 1,
+        "unit": "px"
+      },
+      "$description": "Card, divider and control outline."
+    },
+    "emphasis": {
+      "$value": {
+        "value": 2,
+        "unit": "px"
+      },
+      "$description": "Selected navigation rule and focus indicator thickness."
+    }
+  },
+  "focusRing": {
+    "$type": "dimension",
+    "$description": "Focus indicator geometry. No reference screen captures a keyboard focus state, so the geometry is a projection of the emphasis stroke.",
+    "$extensions": {
+      "org.openuji.visual-evidence": {
+        "confidence": "inferred",
+        "screenPaths": [
+          "references/workshop-registration/screens/screen.png",
+          "references/workshop-registration/screens/screen_8.png"
+        ]
+      }
+    },
+    "width": {
+      "$value": {
+        "value": 2,
+        "unit": "px"
+      },
+      "$description": "Focus ring thickness matched to the selected navigation rule."
+    },
+    "offset": {
+      "$value": {
+        "value": 2,
+        "unit": "px"
+      },
+      "$description": "Focus ring offset from the control edge."
+    }
+  },
+  "font": {
+    "$description": "Typographic primitives proportioned against the reference type ramp.",
+    "family": {
+      "$type": "fontFamily",
+      "$description": "Neutral grotesque stack. The exact family is not recoverable from raster references.",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "confidence": "inferred",
+          "screenPaths": [
+            "references/workshop-registration/screens/screen.png",
+            "references/workshop-registration/screens/screen_1.png"
+          ]
+        }
+      },
+      "sans": {
+        "$value": [
+          "Inter",
+          "Helvetica Neue",
+          "Helvetica",
+          "Arial",
+          "sans-serif"
+        ],
+        "$description": "Interface family."
+      },
+      "mono": {
+        "$value": [
+          "SFMono-Regular",
+          "Menlo",
+          "Consolas",
+          "monospace"
+        ],
+        "$description": "Tabular and code family."
+      }
+    },
+    "size": {
+      "$type": "dimension",
+      "$description": "Type ramp measured against heading, body and caption runs in the reference screens.",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "confidence": "inferred",
+          "screenPaths": [
+            "references/workshop-registration/screens/screen.png",
+            "references/workshop-registration/screens/screen_1.png",
+            "references/workshop-registration/screens/screen_3.png"
+          ]
+        }
+      },
+      "xs": {
+        "$value": {
+          "value": 12,
+          "unit": "px"
+        },
+        "$description": "Micro caption."
+      },
+      "sm": {
+        "$value": {
+          "value": 14,
+          "unit": "px"
+        },
+        "$description": "Caption and badge text."
+      },
+      "md": {
+        "$value": {
+          "value": 16,
+          "unit": "px"
+        },
+        "$description": "Body copy."
+      },
+      "lg": {
+        "$value": {
+          "value": 18,
+          "unit": "px"
+        },
+        "$description": "Lead paragraph."
+      },
+      "xl": {
+        "$value": {
+          "value": 20,
+          "unit": "px"
+        },
+        "$description": "Section heading."
+      },
+      "2xl": {
+        "$value": {
+          "value": 24,
+          "unit": "px"
+        },
+        "$description": "Panel heading."
+      },
+      "3xl": {
+        "$value": {
+          "value": 32,
+          "unit": "px"
+        },
+        "$description": "Page heading."
+      },
+      "4xl": {
+        "$value": {
+          "value": 44,
+          "unit": "px"
+        },
+        "$description": "Display heading on the workshop detail screen."
+      }
+    },
+    "weight": {
+      "$type": "fontWeight",
+      "$description": "Weight steps observed across headings, labels and body copy.",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "confidence": "inferred",
+          "screenPaths": [
+            "references/workshop-registration/screens/screen.png",
+            "references/workshop-registration/screens/screen_1.png"
+          ]
+        }
+      },
+      "regular": {
+        "$value": 400,
+        "$description": "Body copy."
+      },
+      "medium": {
+        "$value": 500,
+        "$description": "Labels and captions."
+      },
+      "semibold": {
+        "$value": 600,
+        "$description": "Headings and action labels."
+      },
+      "bold": {
+        "$value": 700,
+        "$description": "Display heading."
+      }
+    },
+    "lineHeight": {
+      "$type": "number",
+      "$description": "Unitless line heights proportioned against the reference paragraph rhythm.",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "confidence": "inferred",
+          "screenPaths": [
+            "references/workshop-registration/screens/screen_1.png"
+          ]
+        }
+      },
+      "tight": {
+        "$value": 1.2,
+        "$description": "Display and page headings."
+      },
+      "snug": {
+        "$value": 1.35,
+        "$description": "Section headings."
+      },
+      "normal": {
+        "$value": 1.5,
+        "$description": "Body copy."
+      },
+      "relaxed": {
+        "$value": 1.6,
+        "$description": "Long-form description copy."
+      }
+    }
+  },
+  "shadow": {
+    "$type": "shadow",
+    "$description": "Elevation steps derived from the very low-contrast card lift visible in the reference screens.",
+    "$extensions": {
+      "org.openuji.visual-evidence": {
+        "confidence": "inferred",
+        "screenPaths": [
+          "references/workshop-registration/screens/screen_1.png",
+          "references/workshop-registration/screens/screen.png"
+        ]
+      }
+    },
+    "none": {
+      "$description": "Flat surface.",
+      "$value": {
+        "color": {
+          "colorSpace": "srgb",
+          "components": [
+            0,
+            0,
+            0
+          ],
+          "alpha": 0
+        },
+        "offsetX": {
+          "value": 0,
+          "unit": "px"
+        },
+        "offsetY": {
+          "value": 0,
+          "unit": "px"
+        },
+        "blur": {
+          "value": 0,
+          "unit": "px"
+        },
+        "spread": {
+          "value": 0,
+          "unit": "px"
+        }
+      }
+    },
+    "card": {
+      "$description": "Resting card lift.",
+      "$value": {
+        "color": {
+          "colorSpace": "srgb",
+          "components": [
+            0.0627,
+            0.0667,
+            0.1294
+          ],
+          "alpha": 0.05
+        },
+        "offsetX": {
+          "value": 0,
+          "unit": "px"
+        },
+        "offsetY": {
+          "value": 1,
+          "unit": "px"
+        },
+        "blur": {
+          "value": 2,
+          "unit": "px"
+        },
+        "spread": {
+          "value": 0,
+          "unit": "px"
+        }
+      }
+    },
+    "raised": {
+      "$description": "Raised panel and popover lift.",
+      "$value": {
+        "color": {
+          "colorSpace": "srgb",
+          "components": [
+            0.0627,
+            0.0667,
+            0.1294
+          ],
+          "alpha": 0.08
+        },
+        "offsetX": {
+          "value": 0,
+          "unit": "px"
+        },
+        "offsetY": {
+          "value": 8,
+          "unit": "px"
+        },
+        "blur": {
+          "value": 24,
+          "unit": "px"
+        },
+        "spread": {
+          "value": -4,
+          "unit": "px"
+        }
+      }
+    }
+  }
+}

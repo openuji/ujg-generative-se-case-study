@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ujg:data-schema:workshop-teaser-data",
+  "title": "Workshop teaser data",
+  "type": "object",
+  "required": ["title", "summary", "date", "location"],
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "date": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

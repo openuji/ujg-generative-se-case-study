@@ -1,0 +1,13 @@
+.root {
+  display: grid;
+  gap: var(--foundation-space-6);
+  border: var(--foundation-border-width-thin) solid var(--semantic-border-default);
+  border-radius: var(--foundation-radius-small);
+  padding: var(--foundation-space-6);
+  background: var(--semantic-surface-panel);
+}
+
+.summary,
+.notice {
+  min-width: 0;
+}

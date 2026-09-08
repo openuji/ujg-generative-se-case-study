@@ -1,0 +1,21 @@
+.response {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-5);
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+@media (max-width: 560px) {
+  .actions,
+  .actions > * {
+    width: 100%;
+  }
+}

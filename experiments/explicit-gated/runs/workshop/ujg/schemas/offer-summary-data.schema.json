@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ujg:data-schema:offer-summary-data",
+  "title": "Offer summary data",
+  "type": "object",
+  "required": ["title", "message", "workshopTitle", "expiresAt"],
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    },
+    "workshopTitle": {
+      "type": "string"
+    },
+    "expiresAt": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,29 @@
+.detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 360px);
+  gap: var(--space-7);
+  align-items: start;
+}
+
+.summary {
+  border-bottom: 1px solid var(--color-border-default);
+  padding-bottom: var(--space-6);
+}
+
+.panel {
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-panel);
+  box-shadow: var(--shadow-panel);
+  padding: var(--space-5);
+}
+
+.panel > * {
+  width: 100%;
+}
+
+@media (max-width: 860px) {
+  .detail {
+    grid-template-columns: 1fr;
+  }
+}

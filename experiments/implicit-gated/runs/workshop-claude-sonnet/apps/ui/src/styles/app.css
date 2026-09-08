@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+/*
+ * Tailwind's utility generation is per build, so this app needs the same
+ * --ds-* -> Tailwind theme bridge as the design system (see
+ * design-system/src/styles/global.css) purely so its own JIT scan of this
+ * app's source emits matching utility classes. The underlying values still
+ * come from exactly one place: the UJG-resolved --ds-* custom properties
+ * injected by the design system's own stylesheet.
+ */
+@theme {
+  --color-canvas: var(--ds-semantic-color-surface-canvas);
+  --color-raised: var(--ds-semantic-color-surface-raised);
+  --color-ink: var(--ds-semantic-color-text-primary);
+  --color-ink-muted: var(--ds-semantic-color-text-secondary);
+  --color-on-action: var(--ds-semantic-color-text-onAction);
+  --color-line: var(--ds-semantic-color-border-default);
+  --color-line-strong: var(--ds-semantic-color-border-strong);
+  --color-action: var(--ds-semantic-color-action-primary);
+  --color-action-hover: var(--ds-semantic-color-action-primaryHover);
+  --color-action-secondary: var(--ds-semantic-color-action-secondary);
+  --color-field: var(--ds-semantic-color-control-background);
+  --color-field-line: var(--ds-semantic-color-control-border);
+  --color-field-placeholder: var(--ds-semantic-color-control-placeholder);
+  --color-focus: var(--ds-semantic-color-focus-ring);
+  --color-success: var(--ds-semantic-color-success-background);
+  --color-success-ink: var(--ds-semantic-color-success-foreground);
+  --color-warning: var(--ds-semantic-color-warning-background);
+  --color-warning-ink: var(--ds-semantic-color-warning-foreground);
+  --color-error: var(--ds-semantic-color-error-background);
+  --color-error-ink: var(--ds-semantic-color-error-foreground);
+  --color-info: var(--ds-semantic-color-info-background);
+  --color-info-ink: var(--ds-semantic-color-info-foreground);
+
+  --font-sans: var(--ds-fontFamily-sans);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+}

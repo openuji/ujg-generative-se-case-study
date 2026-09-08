@@ -1,0 +1,543 @@
+{
+  "$description": "Light theme semantic roles. Every value is aliased to a foundation token whose colour was sampled from the referenced light-theme screens.",
+  "color": {
+    "$type": "color",
+    "surface": {
+      "$description": "Background roles for the application canvas, panels and tinted regions.",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "confidence": "direct",
+          "screenPaths": [
+            "references/workshop-registration/screens/screen.png",
+            "references/workshop-registration/screens/screen_1.png",
+            "references/workshop-registration/screens/screen_9.png",
+            "references/workshop-registration/screens/screen_5.png"
+          ]
+        }
+      },
+      "canvas": {
+        "$description": "Application canvas behind every screen.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen.png",
+              "references/workshop-registration/screens/screen_4.png"
+            ]
+          }
+        },
+        "$value": "{color.neutral.25}"
+      },
+      "default": {
+        "$description": "Card, panel and dialog fill.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen_1.png",
+              "references/workshop-registration/screens/screen_3.png"
+            ]
+          }
+        },
+        "$value": "{color.neutral.0}"
+      },
+      "subtle": {
+        "$description": "Muted fill for inert chips and secondary regions.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen_9.png"
+            ]
+          }
+        },
+        "$value": "{color.neutral.100}"
+      },
+      "accent": {
+        "$description": "Accent-tinted fill for icon bubbles and informational regions.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen_6.png",
+              "references/workshop-registration/screens/screen_5.png"
+            ]
+          }
+        },
+        "$value": "{color.brand.100}"
+      }
+    },
+    "text": {
+      "$description": "Foreground ink roles ordered by hierarchy.",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "confidence": "direct",
+          "screenPaths": [
+            "references/workshop-registration/screens/screen.png",
+            "references/workshop-registration/screens/screen_1.png",
+            "references/workshop-registration/screens/screen_3.png"
+          ]
+        }
+      },
+      "primary": {
+        "$description": "Headings and primary content ink.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen.png",
+              "references/workshop-registration/screens/screen_1.png"
+            ]
+          }
+        },
+        "$value": "{color.neutral.950}"
+      },
+      "secondary": {
+        "$description": "Body copy ink.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen_1.png",
+              "references/workshop-registration/screens/screen.png"
+            ]
+          }
+        },
+        "$value": "{color.neutral.600}"
+      },
+      "muted": {
+        "$description": "De-emphasised labels and metadata ink.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen_3.png",
+              "references/workshop-registration/screens/screen_1.png"
+            ]
+          }
+        },
+        "$value": "{color.neutral.500}"
+      },
+      "link": {
+        "$description": "Inline hyperlink ink.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen.png",
+              "references/workshop-registration/screens/screen_1.png"
+            ]
+          }
+        },
+        "$value": "{color.brand.700}"
+      },
+      "onAccent": {
+        "$description": "Ink placed on saturated accent and destructive fills.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen_1.png",
+              "references/workshop-registration/screens/screen_8.png"
+            ]
+          }
+        },
+        "$value": "{color.neutral.0}"
+      }
+    },
+    "border": {
+      "$description": "Stroke roles for outlines, dividers and selection rules.",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "confidence": "direct",
+          "screenPaths": [
+            "references/workshop-registration/screens/screen_1.png",
+            "references/workshop-registration/screens/screen_2.png",
+            "references/workshop-registration/screens/screen.png"
+          ]
+        }
+      },
+      "default": {
+        "$description": "Card, panel and control outline.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen_1.png",
+              "references/workshop-registration/screens/screen_2.png"
+            ]
+          }
+        },
+        "$value": "{color.neutral.200}"
+      },
+      "subtle": {
+        "$description": "Row dividers inside dense panels.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen_3.png"
+            ]
+          }
+        },
+        "$value": "{color.neutral.100}"
+      },
+      "accent": {
+        "$description": "Selected navigation rule and accented outlines.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen.png",
+              "references/workshop-registration/screens/screen_8.png"
+            ]
+          }
+        },
+        "$value": "{color.brand.600}"
+      }
+    },
+    "action": {
+      "$description": "Action roles for the primary, secondary and destructive command treatments.",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "confidence": "direct",
+          "screenPaths": [
+            "references/workshop-registration/screens/screen_1.png",
+            "references/workshop-registration/screens/screen_8.png"
+          ]
+        }
+      },
+      "primary": {
+        "background": {
+          "$description": "Filled primary command background.",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "direct",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen_1.png",
+                "references/workshop-registration/screens/screen_2.png",
+                "references/workshop-registration/screens/screen_4.png"
+              ]
+            }
+          },
+          "$value": "{color.brand.600}"
+        },
+        "foreground": {
+          "$description": "Filled primary command label.",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "direct",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen_1.png",
+                "references/workshop-registration/screens/screen_4.png"
+              ]
+            }
+          },
+          "$value": "{color.neutral.0}"
+        }
+      },
+      "secondary": {
+        "background": {
+          "$description": "Outlined secondary command background.",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "direct",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen_1.png",
+                "references/workshop-registration/screens/screen_8.png"
+              ]
+            }
+          },
+          "$value": "{color.neutral.0}"
+        },
+        "foreground": {
+          "$description": "Outlined secondary command label.",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "direct",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen_1.png",
+                "references/workshop-registration/screens/screen_8.png"
+              ]
+            }
+          },
+          "$value": "{color.neutral.950}"
+        },
+        "border": {
+          "$description": "Outlined secondary command stroke.",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "direct",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen_1.png",
+                "references/workshop-registration/screens/screen_8.png"
+              ]
+            }
+          },
+          "$value": "{color.neutral.200}"
+        }
+      },
+      "destructive": {
+        "background": {
+          "$description": "Filled destructive command background.",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "direct",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen_8.png"
+              ]
+            }
+          },
+          "$value": "{color.red.600}"
+        },
+        "foreground": {
+          "$description": "Filled destructive command label.",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "direct",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen_8.png"
+              ]
+            }
+          },
+          "$value": "{color.neutral.0}"
+        }
+      }
+    },
+    "control": {
+      "$description": "Form control roles for text inputs, selects and text areas.",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "confidence": "direct",
+          "screenPaths": [
+            "references/workshop-registration/screens/screen_2.png"
+          ]
+        }
+      },
+      "background": {
+        "$description": "Control field fill.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen_2.png"
+            ]
+          }
+        },
+        "$value": "{color.neutral.0}"
+      },
+      "foreground": {
+        "$description": "Value ink inside a control.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen_2.png"
+            ]
+          }
+        },
+        "$value": "{color.neutral.900}"
+      },
+      "border": {
+        "$description": "Control outline.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen_2.png"
+            ]
+          }
+        },
+        "$value": "{color.neutral.200}"
+      },
+      "label": {
+        "$description": "Control label ink above the field.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen_2.png"
+            ]
+          }
+        },
+        "$value": "{color.neutral.700}"
+      }
+    },
+    "focus": {
+      "$description": "Focus indicator colour. The reference screens never capture a keyboard focus state, so the role reuses the accent hue that the same screens use for the selected navigation rule and the primary command fill.",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "confidence": "direct",
+          "screenPaths": [
+            "references/workshop-registration/screens/screen.png",
+            "references/workshop-registration/screens/screen_8.png"
+          ]
+        }
+      },
+      "ring": {
+        "$description": "Focus indicator colour taken from the observed accent hue.",
+        "$extensions": {
+          "org.openuji.visual-evidence": {
+            "confidence": "direct",
+            "screenPaths": [
+              "references/workshop-registration/screens/screen.png",
+              "references/workshop-registration/screens/screen_8.png"
+            ]
+          }
+        },
+        "$value": "{color.brand.600}"
+      }
+    },
+    "status": {
+      "$description": "Status roles for availability, outcome and notice messaging.",
+      "$extensions": {
+        "org.openuji.visual-evidence": {
+          "confidence": "direct",
+          "screenPaths": [
+            "references/workshop-registration/screens/screen_4.png",
+            "references/workshop-registration/screens/screen_7.png",
+            "references/workshop-registration/screens/screen_8.png",
+            "references/workshop-registration/screens/screen_5.png",
+            "references/workshop-registration/screens/screen_9.png"
+          ]
+        }
+      },
+      "success": {
+        "surface": {
+          "$description": "Positive chip and halo fill.",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "direct",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen_4.png",
+                "references/workshop-registration/screens/screen.png"
+              ]
+            }
+          },
+          "$value": "{color.green.100}"
+        },
+        "foreground": {
+          "$description": "Positive caption and glyph ink.",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "direct",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen_4.png",
+                "references/workshop-registration/screens/screen.png"
+              ]
+            }
+          },
+          "$value": "{color.green.700}"
+        }
+      },
+      "warning": {
+        "surface": {
+          "$description": "Caution chip and halo fill.",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "direct",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen_1.png",
+                "references/workshop-registration/screens/screen_7.png"
+              ]
+            }
+          },
+          "$value": "{color.amber.100}"
+        },
+        "foreground": {
+          "$description": "Caution caption and glyph ink.",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "direct",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen.png",
+                "references/workshop-registration/screens/screen_7.png"
+              ]
+            }
+          },
+          "$value": "{color.amber.600}"
+        }
+      },
+      "error": {
+        "surface": {
+          "$description": "Destructive chip and halo fill.",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "direct",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen_8.png"
+              ]
+            }
+          },
+          "$value": "{color.red.50}"
+        },
+        "foreground": {
+          "$description": "Destructive caption and glyph ink.",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "direct",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen_8.png"
+              ]
+            }
+          },
+          "$value": "{color.red.700}"
+        }
+      },
+      "info": {
+        "surface": {
+          "$description": "Informational chip and notice fill.",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "direct",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen_5.png",
+                "references/workshop-registration/screens/screen_6.png"
+              ]
+            }
+          },
+          "$value": "{color.brand.100}"
+        },
+        "foreground": {
+          "$description": "Informational caption ink.",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "direct",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen_5.png",
+                "references/workshop-registration/screens/screen_6.png"
+              ]
+            }
+          },
+          "$value": "{color.brand.700}"
+        }
+      },
+      "neutral": {
+        "surface": {
+          "$description": "Inert chip fill for closed and cancelled outcomes.",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "direct",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen_9.png"
+              ]
+            }
+          },
+          "$value": "{color.neutral.100}"
+        },
+        "foreground": {
+          "$description": "Inert chip caption ink.",
+          "$extensions": {
+            "org.openuji.visual-evidence": {
+              "confidence": "direct",
+              "screenPaths": [
+                "references/workshop-registration/screens/screen_9.png"
+              ]
+            }
+          },
+          "$value": "{color.neutral.700}"
+        }
+      }
+    }
+  }
+}

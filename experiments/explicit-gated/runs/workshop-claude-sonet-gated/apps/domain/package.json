@@ -1,0 +1,17 @@
+{
+  "name": "@workshop/domain",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/main.mjs",
+  "scripts": {
+    "start": "node src/main.mjs",
+    "syntax": "node --check src/main.mjs",
+    "test": "node --test tests"
+  },
+  "dependencies": {
+    "@workshop/design-system": "workspace:*",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  }
+}

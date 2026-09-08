@@ -1,0 +1,18 @@
+.root {
+  display: inline-flex;
+  min-height: calc(var(--foundation-space-6) + var(--foundation-space-6));
+  align-items: center;
+  justify-content: center;
+  border: var(--foundation-border-width-thin) solid var(--semantic-action-primary-background);
+  border-radius: var(--foundation-radius-small);
+  padding: var(--foundation-space-3) var(--foundation-space-6);
+  background: var(--semantic-action-primary-background);
+  color: var(--semantic-action-primary-text);
+  font-weight: var(--foundation-font-weight-medium);
+  line-height: var(--foundation-line-height-tight);
+  text-decoration: none;
+}
+
+.root:hover {
+  border-color: var(--semantic-border-strong);
+}

@@ -1,0 +1,31 @@
+/*
+ * Teaser body: a compact title, a two-line summary, and the teaser facts, as
+ * the workshop cards on the overview screen present them.
+ */
+
+@reference "../../styles/global.css";
+
+.content {
+  @apply flex flex-col;
+
+  gap: var(--space-4);
+}
+
+.title {
+  @apply tracking-tight;
+
+  color: var(--color-text-primary);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--font-line-height-snug);
+}
+
+.summary {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-md);
+  line-height: var(--font-line-height-relaxed);
+}
+
+.facts {
+  padding-top: var(--space-2);
+}

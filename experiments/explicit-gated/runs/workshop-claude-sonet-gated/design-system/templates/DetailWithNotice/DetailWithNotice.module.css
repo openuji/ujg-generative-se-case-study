@@ -1,0 +1,22 @@
+/*
+ * Relationship between the detail slot and the notice slot. The notice sits
+ * under the detail on a narrow viewport and beside it from the shared large
+ * breakpoint upward, where the reference detail screen keeps its secondary
+ * column.
+ */
+
+@reference "../../styles/global.css";
+
+.detail {
+  @apply ujg-split;
+
+  width: 100%;
+  max-width: var(--size-content-max-width);
+  margin-inline: auto;
+}
+
+.notice {
+  @apply flex flex-col;
+
+  gap: var(--space-4);
+}

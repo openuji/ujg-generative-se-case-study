@@ -1,0 +1,22 @@
+/*
+ * Chrome for the inspection surface only.
+ *
+ * The Theme decorator wraps every story in one element that carries the Theme
+ * attribute. This makes that element fill the preview canvas so a Theme's
+ * ground is visible around the artifact under inspection. It styles nothing a
+ * Component or Template owns, and it is never part of the built package.
+ */
+
+@reference "./global.css";
+
+.ujg-theme-frame {
+  @apply flex w-full flex-col;
+
+  min-height: 100dvh;
+  padding: var(--space-5);
+  gap: var(--space-6);
+
+  @variant md {
+    padding: var(--space-8);
+  }
+}

@@ -4,14 +4,14 @@ Evaluate the visual-foundation/design-token phase of one clean-room realization
 run. This is an evaluation-only, static comparison rubric.
 
 Read the canonical realization and Theme requirements from
-`docs/skills/ujg-to-design-system-realization/references/v1-stack.md`. Score the
+`docs/skills/<guidance>/ujg-to-design-system-realization/references/v1-stack.md`. Score the
 run against that profile without copying its inventory into this rubric.
 
 ## Inputs and mutation boundary
 
-The caller supplies the repository root, run name, implementation-model label,
-evaluator-model label, and requested result path. Treat a missing model label as
-JSON `null`. Read only the selected run, its UJG and referenced schemas, its
+The caller supplies the repository root, guidance mode, run name,
+implementation-model label, evaluator-model label, and requested result path.
+Treat a missing model label as JSON `null`. Read only the selected run, its UJG and referenced schemas, its
 manifest-selected design systems, shared visual references, and already-existing
 render/test/build artifacts. You may read the root canonical UJG solely to
 compare seeded facts after removing its existing reference-realization `Theme`
@@ -25,7 +25,7 @@ requested result JSON. Refuse to overwrite it.
 Normalize the evaluator filename label by lowercasing it, replacing each run of
 non-ASCII-alphanumeric characters with `-`, and stripping leading/trailing `-`.
 The canonical path is
-`checks/evaluation/<run-name>/tokens.<evaluator>.json`.
+`checks/evaluation/<guidance>/<run-name>/tokens.<evaluator>.json`.
 
 ## Scoring
 

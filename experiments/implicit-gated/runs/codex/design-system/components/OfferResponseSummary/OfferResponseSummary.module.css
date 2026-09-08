@@ -1,0 +1,30 @@
+.offer {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: var(--space-3);
+  color: var(--color-text-secondary);
+}
+
+.offer h1 {
+  margin: var(--space-2) 0 0;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-xl);
+}
+
+.offer p {
+  margin: 0;
+  line-height: 1.55;
+}
+
+.expires {
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-muted);
+  color: var(--color-action-primary);
+  padding: 7px 14px;
+  font-weight: 700;
+}
+
+.offer strong {
+  color: var(--color-text-primary);
+}

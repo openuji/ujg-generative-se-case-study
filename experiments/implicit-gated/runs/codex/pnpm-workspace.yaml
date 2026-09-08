@@ -1,0 +1,4 @@
+packages:
+  - design-system
+  - apps/ui
+  - apps/domain

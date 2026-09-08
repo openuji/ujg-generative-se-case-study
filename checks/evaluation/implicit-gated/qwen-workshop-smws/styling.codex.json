@@ -1,0 +1,67 @@
+{
+  "evaluation_version": "ds-styling-core-v1",
+  "run_id": "qwen-workshop-smws",
+  "evaluated_phase": "styling",
+  "implementation_model": "qwen",
+  "evaluator_model": "codex",
+  "quality_score_5": 0,
+  "quality_score_100": 0,
+  "scores": {
+    "visual_fidelity": 0,
+    "token_theme_adherence": 0,
+    "structural_scope_preservation": 0,
+    "responsive_quality": 0,
+    "styling_modularity": 0,
+    "inspectability": 0
+  },
+  "visual_fidelity_confidence": "low",
+  "complexity": {
+    "classification": "minimal",
+    "styling_file_count": 0,
+    "styling_loc": 0,
+    "new_primitive_count": 0,
+    "new_dependency_count": 0
+  },
+  "ujg_contract": "FAIL",
+  "metrics": {
+    "unsupported_reference_element_count": 0,
+    "raw_visual_value_leak_count": 0,
+    "hardcoded_theme_branch_count": 0,
+    "theme_specific_component_style_count": 0,
+    "theme_count": 0,
+    "unsupported_product_structure_count": 0,
+    "cross_artifact_composition_violation_count": 54,
+    "behavior_introduced_by_styling_count": 0,
+    "component_inventory_changed": true,
+    "template_inventory_changed": true,
+    "responsive_artifact_count": 0,
+    "desktop_only_assumption_count": 0,
+    "mobile_first_violation_count": 0,
+    "global_artifact_specific_selector_count": 0,
+    "misplaced_style_rule_count": 0,
+    "styling_specific_new_primitive_count": 0,
+    "duplicated_style_pattern_count": 0,
+    "styled_artifact_documentation_coverage_ratio": 0,
+    "theme_documentation_coverage_ratio": 0,
+    "responsive_documentation_coverage_ratio": 0,
+    "duplicated_documentation_style_value_count": 0
+  },
+  "findings": [
+    {
+      "severity": "HIGH",
+      "summary": "No styled design-system artifacts, CSS, Theme resolution, or component-explorer output exist for the manifest-selected design system.",
+      "evidence": [
+        "experiments/implicit-gated/runs/qwen-workshop-smws/ujg-implementation.yaml",
+        "experiments/implicit-gated/runs/qwen-workshop-smws"
+      ]
+    },
+    {
+      "severity": "MEDIUM",
+      "summary": "There is no static rendered evidence for reference fidelity or responsive behavior.",
+      "evidence": [
+        "references/workshop-registration/screens",
+        "experiments/implicit-gated/runs/qwen-workshop-smws"
+      ]
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "name": "@openuji/full-application-generation-experiment",
+  "name": "@openuji/guided-generation-experiment",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -9,14 +9,22 @@
   },
   "scripts": {
     "validate:ujg-source": "node scripts/validate-ujg-source.mjs",
-    "seed:full-application-run": "node scripts/seed-full-application-run.mjs",
-    "validate:full-application-run": "node scripts/validate-full-application-run.mjs",
-    "verify:full-application-run": "node scripts/verify-full-application-run.mjs",
-    "test:full-application-workflow": "node --test scripts/full-application-run.test.mjs",
-    "validate:evaluation-rubrics": "node scripts/validate-evaluation-rubrics.mjs",
-    "validate:evaluation-result": "node scripts/validate-evaluation-result.mjs",
-    "validate:realization-profile": "node scripts/validate-profile-deduplication.mjs",
-    "check": "pnpm validate:ujg-source && pnpm validate:realization-profile && pnpm test:full-application-workflow && pnpm validate:evaluation-rubrics"
+    "seed:full-application-run": "node scripts/dispatch-guided-script.mjs seed-full-application-run.mjs",
+    "begin:full-application-phase": "node scripts/dispatch-guided-script.mjs begin-full-application-phase.mjs",
+    "validate:full-application-run": "node scripts/dispatch-guided-script.mjs validate-full-application-run.mjs",
+    "verify:full-application-run": "node scripts/dispatch-guided-script.mjs verify-full-application-run.mjs",
+    "validate:evaluation-result": "node scripts/dispatch-guided-script.mjs validate-evaluation-result.mjs",
+    "test:guidance-dispatch": "node --test scripts/guidance-modes.test.mjs",
+    "test:implicit-gated-workflow": "node --test scripts/implicit-gated/full-application-run.test.mjs",
+    "test:explicit-gated-workflow": "node --test scripts/explicit-gated/full-application-run.test.mjs",
+    "test:full-application-workflow": "pnpm test:guidance-dispatch && pnpm test:implicit-gated-workflow && pnpm test:explicit-gated-workflow",
+    "validate:implicit-gated-evaluation-rubrics": "node scripts/implicit-gated/validate-evaluation-rubrics.mjs",
+    "validate:explicit-gated-evaluation-rubrics": "node scripts/explicit-gated/validate-evaluation-rubrics.mjs",
+    "validate:evaluation-rubrics": "pnpm validate:implicit-gated-evaluation-rubrics && pnpm validate:explicit-gated-evaluation-rubrics",
+    "validate:implicit-gated-realization-profile": "node scripts/implicit-gated/validate-profile-deduplication.mjs",
+    "validate:explicit-gated-realization-profile": "node scripts/explicit-gated/validate-profile-deduplication.mjs",
+    "validate:realization-profile": "pnpm validate:implicit-gated-realization-profile && pnpm validate:explicit-gated-realization-profile",
+    "check": "pnpm validate:ujg-source && pnpm validate:implicit-gated-realization-profile && pnpm validate:explicit-gated-realization-profile && pnpm test:guidance-dispatch && pnpm test:implicit-gated-workflow && pnpm test:explicit-gated-workflow && pnpm validate:implicit-gated-evaluation-rubrics && pnpm validate:explicit-gated-evaluation-rubrics"
   },
   "devDependencies": {
     "ajv": "8.17.1",

@@ -1,0 +1,23 @@
+.email {
+  display: grid;
+  gap: var(--space-4);
+  color: var(--color-text-secondary);
+}
+
+.email h1 {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-xl);
+}
+
+.email p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.email div {
+  display: grid;
+  gap: var(--space-1);
+  border-top: 1px solid var(--color-border-default);
+  padding-top: var(--space-4);
+}

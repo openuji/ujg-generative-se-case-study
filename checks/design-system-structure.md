@@ -4,16 +4,16 @@ Evaluate the design-system structure phase of one clean-room realization run.
 This rubric is evaluation-only and deliberately independent from generation.
 
 Read the canonical realization requirements from
-`docs/skills/ujg-to-design-system-realization/references/v1-stack.md`. Do not
+`docs/skills/<guidance>/ujg-to-design-system-realization/references/v1-stack.md`. Do not
 restate or infer a separate stack contract.
 
 ## Inputs and mutation boundary
 
-The caller supplies the repository root, run name, implementation-model label,
-evaluator-model label, and requested result path. Treat a missing model label as
-JSON `null`. Read only:
+The caller supplies the repository root, guidance mode, run name,
+implementation-model label, evaluator-model label, and requested result path.
+Treat a missing model label as JSON `null`. Read only:
 
-- `experiments/full-application-generation/runs/<run-name>/`;
+- `experiments/<guidance>/runs/<run-name>/`;
 - that run's UJG, referenced schemas, manifest-selected design systems, source,
   stories, and already-existing test/build/render artifacts; and
 - shared appearance references only when needed to distinguish structure from
@@ -31,7 +31,7 @@ artifact coverage or inspectability.
 Normalize the evaluator filename label by lowercasing it, replacing each run of
 non-ASCII-alphanumeric characters with `-`, and stripping leading/trailing `-`.
 Reject an empty result. The canonical result path is
-`checks/evaluation/<run-name>/structure.<evaluator>.json`.
+`checks/evaluation/<guidance>/<run-name>/structure.<evaluator>.json`.
 
 ## Scoring
 

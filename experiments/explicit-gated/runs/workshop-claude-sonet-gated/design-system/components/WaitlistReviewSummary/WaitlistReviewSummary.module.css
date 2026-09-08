@@ -1,0 +1,22 @@
+/*
+ * Read-back of what will be submitted to the waitlist. It follows the panel
+ * heading and value list of the reference review screen; no reference screen
+ * captures the waitlist review itself.
+ */
+
+@reference "../../styles/global.css";
+
+.summary {
+  @apply flex flex-col;
+
+  gap: var(--space-4);
+}
+
+.title {
+  @apply tracking-tight;
+
+  color: var(--color-text-primary);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--font-line-height-snug);
+}

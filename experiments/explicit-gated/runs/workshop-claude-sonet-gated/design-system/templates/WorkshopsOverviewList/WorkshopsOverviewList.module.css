@@ -1,0 +1,29 @@
+/*
+ * Relationship between the repeated overview entries: one column on a narrow
+ * viewport, the two-up grid the reference overview screen shows from the
+ * shared medium breakpoint upward. Entries stretch so cards in one row share a
+ * height regardless of how much their content occupies.
+ */
+
+@reference "../../styles/global.css";
+
+.list {
+  @apply grid;
+
+  gap: var(--space-6);
+  width: 100%;
+  max-width: var(--size-content-max-width);
+  margin-inline: auto;
+
+  @variant md {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.entry {
+  @apply flex;
+}
+
+.entry > * {
+  @apply w-full;
+}

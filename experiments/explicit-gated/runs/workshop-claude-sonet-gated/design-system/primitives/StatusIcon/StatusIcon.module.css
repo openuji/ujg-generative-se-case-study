@@ -1,0 +1,47 @@
+@reference "../../styles/global.css";
+
+.icon {
+  @apply inline-flex flex-none items-center justify-center;
+
+  border-radius: var(--radius-full);
+}
+
+.bubble {
+  width: var(--size-icon-bubble);
+  height: var(--size-icon-bubble);
+}
+
+.bubble .glyph {
+  width: var(--space-7);
+  height: var(--space-7);
+}
+
+.inline {
+  width: var(--space-7);
+  height: var(--space-7);
+}
+
+.inline .glyph {
+  width: var(--space-5);
+  height: var(--space-5);
+}
+
+.success {
+  background-color: var(--color-status-success-surface);
+  color: var(--color-status-success-foreground);
+}
+
+.warning {
+  background-color: var(--color-status-warning-surface);
+  color: var(--color-status-warning-foreground);
+}
+
+.error {
+  background-color: var(--color-status-error-surface);
+  color: var(--color-status-error-foreground);
+}
+
+.info {
+  background-color: var(--color-status-info-surface);
+  color: var(--color-status-info-foreground);
+}

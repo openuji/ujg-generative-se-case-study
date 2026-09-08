@@ -1,0 +1,10 @@
+.wrap {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-5);
+}
+
+.action {
+  display: flex;
+  justify-content: center;
+}

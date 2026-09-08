@@ -1,0 +1,47 @@
+/*
+ * Outcome message. Every reference outcome screen centres a tone-tinted disc
+ * over a large title, a muted explanation, and — where there is one — the
+ * detail list for the affected workshop.
+ *
+ * The tone-dependent part is the disc itself, which the shared status glyph
+ * primitive owns; the layout below is the same for every tone.
+ */
+
+@reference "../../styles/global.css";
+
+.message {
+  @apply flex flex-col items-center text-center;
+
+  gap: var(--space-5);
+  width: 100%;
+}
+
+.title {
+  @apply tracking-tight;
+
+  color: var(--color-text-primary);
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--font-line-height-tight);
+
+  @variant md {
+    font-size: var(--font-size-4xl);
+  }
+}
+
+.body {
+  @apply ujg-measure;
+
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-lg);
+  line-height: var(--font-line-height-relaxed);
+}
+
+.details {
+  @apply ujg-panel w-full max-w-2xl;
+
+  margin-top: var(--space-3);
+  padding-inline: var(--space-6);
+  padding-block: var(--space-2);
+  text-align: start;
+}
