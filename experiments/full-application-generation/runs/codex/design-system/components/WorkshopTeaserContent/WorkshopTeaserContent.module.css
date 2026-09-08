@@ -1,0 +1,22 @@
+.content {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.title {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-lg);
+  line-height: 1.25;
+}
+
+.meta,
+.summary {
+  margin: var(--space-3) 0 0;
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+}
+
+.summary {
+  max-width: 34rem;
+}

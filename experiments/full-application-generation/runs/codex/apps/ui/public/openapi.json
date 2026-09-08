@@ -1,0 +1,59 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Workshop registration API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/workshops": {
+      "get": {
+        "summary": "List workshops",
+        "responses": {
+          "200": {
+            "description": "Workshop list"
+          }
+        }
+      }
+    },
+    "/workshops/{slug}/registration": {
+      "post": {
+        "summary": "Confirm a workshop registration",
+        "responses": {
+          "200": {
+            "description": "Confirmed, already confirmed, unavailable, or closed outcome"
+          }
+        }
+      }
+    },
+    "/workshops/{slug}/waitlist": {
+      "post": {
+        "summary": "Join the workshop waitlist",
+        "responses": {
+          "200": {
+            "description": "Waitlisted, already waitlisted, or closed outcome"
+          }
+        }
+      }
+    },
+    "/offers/{token}/accept": {
+      "post": {
+        "summary": "Accept an offered place",
+        "responses": {
+          "200": {
+            "description": "Accepted, expired, unavailable, or authorization outcome"
+          }
+        }
+      }
+    },
+    "/offers/{token}/decline": {
+      "post": {
+        "summary": "Decline an offered place",
+        "responses": {
+          "200": {
+            "description": "Declined, expired, unavailable, or authorization outcome"
+          }
+        }
+      }
+    }
+  }
+}

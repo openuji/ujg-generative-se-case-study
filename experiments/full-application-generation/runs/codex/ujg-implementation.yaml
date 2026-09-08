@@ -1,0 +1,37 @@
+manifest_version: 4
+
+ujg: ujg/workshop-registration.ujg.jsonld
+
+domain_engine:
+  target: apps/domain
+  runtime:
+    environment: node
+    version: ">=22.5"
+    entrypoint: src/main.mjs
+
+interfaces:
+  - touchpoint_ref: urn:ujg:touchpoint:workshop-app
+    target: apps/ui
+    kind: browser
+    design_systems:
+      - design-system
+    interaction_state_owner: client
+    transport:
+      protocol: http
+      documentation:
+        format: openapi
+        ui: swagger-ui
+
+  - touchpoint_ref: urn:ujg:touchpoint:email
+    kind: email
+    design_systems:
+      - design-system
+    interaction_state_owner: external
+    delivery:
+      adapter: fake-client
+
+adapters:
+  persistence: sqlite
+  identity: fake-auth-adapter
+
+bootstrap: fixtures
