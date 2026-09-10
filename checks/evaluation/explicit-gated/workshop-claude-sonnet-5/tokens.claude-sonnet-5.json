@@ -1,0 +1,65 @@
+{
+  "evaluation_version": "token-foundation-core-v1",
+  "run_id": "workshop-claude-sonnet-5",
+  "evaluated_phase": "tokens",
+  "implementation_model": "claude-sonnet-5",
+  "evaluator_model": "claude-sonnet-5",
+  "quality_score_5": 4.6667,
+  "quality_score_100": 93.33,
+  "scores": {
+    "token_model_quality": 4,
+    "source_of_truth_integrity": 5,
+    "theme_portability": 5,
+    "traceability": 4,
+    "visual_foundation_fidelity": 5,
+    "inspectability": 5
+  },
+  "complexity": {
+    "classification": "moderate",
+    "implementation_file_count": 22,
+    "infrastructure_loc": 1935,
+    "new_dependency_count": 0
+  },
+  "scope_preserved": "PASS",
+  "ujg_contract": "PASS",
+  "metrics": {
+    "total_token_count": 168,
+    "foundation_token_count": 100,
+    "semantic_token_count": 68,
+    "unresolved_alias_count": 0,
+    "invalid_token_count": 0,
+    "raw_value_leak_count": 0,
+    "parallel_token_catalog_count": 0,
+    "parallel_theme_registry_count": 0,
+    "theme_count": 2,
+    "hardcoded_theme_branch_count": 0,
+    "data_driven_themes": true,
+    "provenance_coverage_ratio": 1,
+    "direct_token_count": 61,
+    "inferred_token_count": 107,
+    "unclassified_token_count": 0,
+    "invalid_reference_count": 0,
+    "documentation_present": true,
+    "documented_group_count": 15,
+    "duplicated_documentation_value_count": 0
+  },
+  "findings": [
+    {
+      "severity": "MEDIUM",
+      "summary": "19 of the 100 foundation color-ramp steps (amber.50/200/400/500/700/800, brand.50/200/800, green.50/200/400/500/600/800, red.100/200/400/800) are pure ramp-completion filler: no semantic token in either theme aliases them and no component CSS references their custom properties. They are valid, well-typed and harmlessly inert, but they inflate the foundation token count without functional use.",
+      "evidence": [
+        "experiments/explicit-gated/runs/workshop-claude-sonnet-5/design/tokens/foundation.tokens.json",
+        "experiments/explicit-gated/runs/workshop-claude-sonnet-5/design/tokens/light.tokens.json",
+        "experiments/explicit-gated/runs/workshop-claude-sonnet-5/design/tokens/dark.tokens.json"
+      ]
+    },
+    {
+      "severity": "LOW",
+      "summary": "The light theme's color.focus.ring token is classified confidence: \"direct\" even though its own $description admits 'the reference screens never capture a keyboard focus state' and the value is a reused hue, not a directly sampled instance of that role. The analogous foundation.focusRing (width/offset) geometry honestly classifies the identical missing-evidence situation as \"inferred\". This is a defensible but inconsistent edge case in an otherwise flawless direct/inferred discipline (light theme is otherwise 100% direct-with-evidence, dark theme 100% inferred, matching the v1-stack profile exactly).",
+      "evidence": [
+        "experiments/explicit-gated/runs/workshop-claude-sonnet-5/design/tokens/light.tokens.json",
+        "experiments/explicit-gated/runs/workshop-claude-sonnet-5/design/tokens/foundation.tokens.json"
+      ]
+    }
+  ]
+}

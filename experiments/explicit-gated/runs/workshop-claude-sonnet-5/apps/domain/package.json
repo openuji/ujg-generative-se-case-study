@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node src/main.mjs",
     "syntax": "node --check src/main.mjs",
-    "test": "node --test tests"
+    "test": "node --test"
   },
   "dependencies": {
     "@workshop/design-system": "workspace:*",

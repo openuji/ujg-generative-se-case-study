@@ -12,10 +12,28 @@ import {
   registrationAlreadyConfirmedMessage,
   registrationClosedMessage,
   registrationConfirmedMessage,
+  registrationReview,
   workshopDetail
 } from "./presentation.mjs";
 import { findParticipation, findWorkshop, recordParticipation, takeAvailablePlace } from "./repository.mjs";
 import { checkRegistrationDetails } from "./validation.mjs";
+
+/**
+ * Checks submitted registration details and, when they hold up, produces the
+ * summary the participant reviews before the place is booked. Nothing is
+ * recorded here; this step only decides whether the details can be acted on.
+ *
+ * Outcomes: `ready` with the review summary, `invalidDetails` with the same
+ * form carrying a message per field at fault, or `unknownWorkshop`.
+ */
+export function reviewRegistrationDetails({ database, workshopId, submitted }) {
+  const workshop = findWorkshop(database, workshopId);
+  if (workshop === null) return { outcome: "unknownWorkshop" };
+
+  const checked = checkRegistrationDetails(submitted);
+  if (!checked.valid) return { outcome: "invalidDetails", form: checked.form };
+  return { outcome: "ready", review: registrationReview(workshop, checked.details) };
+}
 
 /**
  * Books a place for `participantId` on `workshopId`.

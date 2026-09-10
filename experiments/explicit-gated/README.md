@@ -8,8 +8,8 @@ Tracked runs:
 
 - `workshop-gpt-55-codex`: complete, with evaluations under
   `checks/evaluation/explicit-gated/workshop-gpt-55-codex/`.
-- `workshop-claude-sonnet-5`: in progress, with `application` active and no
-  evaluation results yet.
+- `workshop-claude-sonnet-5`: complete, with evaluations under
+  `checks/evaluation/explicit-gated/workshop-claude-sonnet-5/`.
 
 Run source lives under `experiments/explicit-gated/runs/<run-name>/`.
 Evaluation results live under

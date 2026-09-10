@@ -1,0 +1,47 @@
+{
+  "evaluation_version": "token-foundation-core-v1",
+  "run_id": "workshop-claude-sonnet-5",
+  "evaluated_phase": "tokens",
+  "implementation_model": "claude-sonnet-5",
+  "evaluator_model": "gpt-55-codex",
+  "quality_score_5": 4.75,
+  "quality_score_100": 95,
+  "scores": {
+    "token_model_quality": 4.8,
+    "source_of_truth_integrity": 4.9,
+    "theme_portability": 4.8,
+    "traceability": 5,
+    "visual_foundation_fidelity": 4.3,
+    "inspectability": 4.7
+  },
+  "complexity": {
+    "classification": "moderate",
+    "implementation_file_count": 18,
+    "infrastructure_loc": 1264,
+    "new_dependency_count": 0
+  },
+  "scope_preserved": "PASS",
+  "ujg_contract": "PASS",
+  "metrics": {
+    "total_token_count": 168,
+    "foundation_token_count": 100,
+    "semantic_token_count": 68,
+    "unresolved_alias_count": 0,
+    "invalid_token_count": 0,
+    "raw_value_leak_count": 0,
+    "parallel_token_catalog_count": 0,
+    "parallel_theme_registry_count": 0,
+    "theme_count": 2,
+    "hardcoded_theme_branch_count": 0,
+    "data_driven_themes": true,
+    "provenance_coverage_ratio": 1,
+    "direct_token_count": 61,
+    "inferred_token_count": 107,
+    "unclassified_token_count": 0,
+    "invalid_reference_count": 0,
+    "documentation_present": true,
+    "documented_group_count": 8,
+    "duplicated_documentation_value_count": 0
+  },
+  "findings": []
+}

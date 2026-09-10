@@ -1,0 +1,67 @@
+{
+  "evaluation_version": "ds-styling-core-v1",
+  "run_id": "workshop-claude-sonnet-5",
+  "evaluated_phase": "styling",
+  "implementation_model": "claude-sonnet-5",
+  "evaluator_model": "claude-sonnet-5",
+  "quality_score_5": 4.5,
+  "quality_score_100": 90,
+  "scores": {
+    "visual_fidelity": 4,
+    "token_theme_adherence": 5,
+    "structural_scope_preservation": 5,
+    "responsive_quality": 4,
+    "styling_modularity": 5,
+    "inspectability": 4
+  },
+  "visual_fidelity_confidence": "medium - no rendered Storybook/browser output exists in the run to inspect directly; assessment is based on DTCG token values (each carrying direct screen-path evidence), the resolved CSS custom properties in dist/design-system.css, and per-artifact CSS modules, cross-checked visually against references/workshop-registration/screens/*.png",
+  "complexity": {
+    "classification": "moderate",
+    "styling_file_count": 28,
+    "styling_loc": 1209,
+    "new_primitive_count": 3,
+    "new_dependency_count": 0
+  },
+  "ujg_contract": "PASS",
+  "metrics": {
+    "unsupported_reference_element_count": 0,
+    "raw_visual_value_leak_count": 0,
+    "hardcoded_theme_branch_count": 0,
+    "theme_specific_component_style_count": 0,
+    "theme_count": 2,
+    "unsupported_product_structure_count": 0,
+    "cross_artifact_composition_violation_count": 0,
+    "behavior_introduced_by_styling_count": 0,
+    "component_inventory_changed": false,
+    "template_inventory_changed": false,
+    "responsive_artifact_count": 8,
+    "desktop_only_assumption_count": 0,
+    "mobile_first_violation_count": 0,
+    "global_artifact_specific_selector_count": 0,
+    "misplaced_style_rule_count": 0,
+    "styling_specific_new_primitive_count": 3,
+    "duplicated_style_pattern_count": 0,
+    "styled_artifact_documentation_coverage_ratio": 1,
+    "theme_documentation_coverage_ratio": 1,
+    "responsive_documentation_coverage_ratio": 0.875,
+    "duplicated_documentation_style_value_count": 0
+  },
+  "findings": [
+    {
+      "severity": "LOW",
+      "summary": "EmailOfferMessage is one of eight templates whose module CSS carries real responsive behavior (@variant md padding change, @variant sm footer width change), but unlike the other seven responsive templates it has no mobile/desktop Storybook story variant, so its responsive behavior is not inspectable in the documentation surface.",
+      "evidence": [
+        "experiments/explicit-gated/runs/workshop-claude-sonnet-5/design-system/templates/EmailOfferMessage/EmailOfferMessage.module.css",
+        "experiments/explicit-gated/runs/workshop-claude-sonnet-5/design-system/templates/EmailOfferMessage/EmailOfferMessage.stories.tsx"
+      ]
+    },
+    {
+      "severity": "LOW",
+      "summary": "No rendered visual artifact (built Storybook, app screenshot, or component-explorer output) exists anywhere in the run to verify actual pixel-level rendering against the reference screens; visual_fidelity is scored from token/CSS inference only, which the rubric asks to be reported honestly rather than penalized further.",
+      "evidence": [
+        "experiments/explicit-gated/runs/workshop-claude-sonnet-5/design-system/dist/design-system.css",
+        "experiments/explicit-gated/runs/workshop-claude-sonnet-5/apps/ui/dist"
+      ]
+    }
+  ]
+}

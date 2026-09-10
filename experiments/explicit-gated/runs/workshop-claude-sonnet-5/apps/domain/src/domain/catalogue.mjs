@@ -8,7 +8,14 @@
  * a participant lands on correct on a fresh visit and on a reload.
  */
 
-import { alreadyRegisteredNotice, alreadyWaitlistedNotice, registrationClosedMessage, workshopDetail, workshopTeaser } from "./presentation.mjs";
+import {
+  alreadyRegisteredNotice,
+  alreadyWaitlistedNotice,
+  registrationClosedMessage,
+  waitlistedMessage,
+  workshopDetail,
+  workshopTeaser
+} from "./presentation.mjs";
 import { findParticipation, findWorkshop, listWorkshops } from "./repository.mjs";
 
 export const workshopViews = Object.freeze([
@@ -51,4 +58,18 @@ export function readWorkshopDetail(database, workshopId, participantId) {
     return { ...payload, view: "waitlistOpen" };
   }
   return { ...payload, view: "registrationClosed", status: registrationClosedMessage(workshop) };
+}
+
+/**
+ * A participant's standing on one workshop's waitlist. A participant who is
+ * told they were already on the list can carry on from here to the same
+ * waitlisted answer a fresh entry would have given them.
+ */
+export function readWaitlistStanding(database, workshopId, participantId) {
+  const workshop = findWorkshop(database, workshopId);
+  if (workshop === null) return { outcome: "unknownWorkshop" };
+
+  const participation = findParticipation(database, workshopId, participantId);
+  if (participation?.participation_status !== "waitlisted") return { outcome: "notWaitlisted" };
+  return { outcome: "waitlisted", id: workshop.id, status: waitlistedMessage(workshop, participation) };
 }

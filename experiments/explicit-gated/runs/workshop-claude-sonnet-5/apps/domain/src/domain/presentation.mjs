@@ -58,6 +58,27 @@ export function offerSummary(offer, workshop) {
   };
 }
 
+/**
+ * What a participant is shown to check over before their details are recorded.
+ * The workshop title comes from the catalogue rather than the submission, so a
+ * review always names the workshop the service is about to act on.
+ */
+export function registrationReview(workshop, details) {
+  return {
+    workshopTitle: workshop.title,
+    name: details.name,
+    email: details.email
+  };
+}
+
+export function waitlistReview(workshop, details) {
+  return {
+    workshopTitle: workshop.title,
+    name: details.name,
+    email: details.email
+  };
+}
+
 function participantDetails(workshop, participation) {
   return [
     { term: "Workshop", value: workshop.title },

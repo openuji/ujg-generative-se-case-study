@@ -1,10 +1,11 @@
 {
   "schema_version": 1,
   "run_id": "workshop-claude-sonnet-5",
-  "active_phase": "application",
+  "active_phase": null,
   "completed_phases": [
     "structure",
     "tokens",
-    "styling"
+    "styling",
+    "application"
   ]
 }

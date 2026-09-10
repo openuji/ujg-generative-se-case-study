@@ -1,0 +1,64 @@
+{
+  "evaluation_version": "application-realization-core-v1",
+  "run_id": "workshop-claude-sonnet-5",
+  "evaluated_phase": "application",
+  "implementation_model": "claude-sonnet-5",
+  "evaluator_model": "claude-sonnet-5",
+  "quality_score_5": 4.8333,
+  "quality_score_100": 96.67,
+  "scores": {
+    "manifest_realization_coverage": 5,
+    "ujg_behavioral_fidelity": 5,
+    "domain_integrity": 5,
+    "interface_design_system_integration": 5,
+    "source_of_truth_integrity": 4,
+    "verification_coverage": 5
+  },
+  "complexity": {
+    "classification": "heavy",
+    "implementation_file_count": 65,
+    "infrastructure_loc": 1841,
+    "new_dependency_count": 0
+  },
+  "metrics": {
+    "manifest_interface_count": 2,
+    "realized_interface_count": 2,
+    "selected_target_count": 2,
+    "missing_target_count": 0,
+    "modeled_branch_count": 22,
+    "verified_branch_count": 22,
+    "effect_invariant_violation_count": 0,
+    "design_system_integration_violation_count": 0,
+    "prohibited_projection_count": 0,
+    "identifier_leak_count": 0,
+    "verification_coverage_ratio": 1
+  },
+  "findings": [
+    {
+      "severity": "LOW",
+      "summary": "apps/ui/src/workshopService.ts hand-authors a full parallel set of TypeScript interfaces (RegistrationFormDocument, WorkshopDetailDocument, OfferSummaryDocument, WaitlistFormDocument, etc.) that mirror the shapes of the UJG's authored JSON Schema data contracts field-for-field. They carry no behavioral logic and are not tool-generated, but they are a second, hand-maintained description of the same wire shapes the schemas already define, which is exactly the kind of duplication source_of_truth_integrity asks to watch for. A schema/version drift between the two would not be caught by any check in the run.",
+      "evidence": [
+        "experiments/explicit-gated/runs/workshop-claude-sonnet-5/apps/ui/src/workshopService.ts",
+        "experiments/explicit-gated/runs/workshop-claude-sonnet-5/ujg/schemas/registration-form-data.schema.json",
+        "experiments/explicit-gated/runs/workshop-claude-sonnet-5/ujg/schemas/workshop-detail-data.schema.json"
+      ]
+    },
+    {
+      "severity": "LOW",
+      "summary": "The manifest's domain_engine.runtime.version (>=22.5, needed because src/persistence/database.mjs imports the node:sqlite DatabaseSync API) is not reflected anywhere in the realized package metadata: the workspace root package.json only declares engines.node >=22, and apps/domain/package.json declares no engines field at all, so a Node 22.0-22.4 install would pass every declared engine constraint yet fail at runtime.",
+      "evidence": [
+        "experiments/explicit-gated/runs/workshop-claude-sonnet-5/ujg-implementation.yaml",
+        "experiments/explicit-gated/runs/workshop-claude-sonnet-5/package.json",
+        "experiments/explicit-gated/runs/workshop-claude-sonnet-5/apps/domain/package.json"
+      ]
+    },
+    {
+      "severity": "LOW",
+      "summary": "joinWaitlist() has an 'unsupported' outcome (workshop still advertises an available place, or the participant already holds a confirmed place) that is not part of the UJG's modeled workshop-participation outcome space (waitlisted/confirmed) or any JourneyExit. It is inert to the visible UI (the screen simply reloads the workshop's current situation) and is exercised by tests, but it is an implementation-invented outcome sitting outside what the UJG names.",
+      "evidence": [
+        "experiments/explicit-gated/runs/workshop-claude-sonnet-5/apps/domain/src/domain/waitlist.mjs",
+        "experiments/explicit-gated/runs/workshop-claude-sonnet-5/apps/ui/src/screens/WorkshopScreen.tsx"
+      ]
+    }
+  ]
+}

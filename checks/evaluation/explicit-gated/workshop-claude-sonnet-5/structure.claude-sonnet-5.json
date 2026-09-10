@@ -1,0 +1,36 @@
+{
+  "evaluation_version": "ds-structure-core-v1",
+  "run_id": "workshop-claude-sonnet-5",
+  "evaluated_phase": "structure",
+  "implementation_model": "claude-sonnet-5",
+  "evaluator_model": "claude-sonnet-5",
+  "quality_score_5": 5,
+  "quality_score_100": 100,
+  "scores": {
+    "artifact_coverage": 5,
+    "composition_fidelity": 5,
+    "data_contract_fidelity": 5,
+    "identity_containment": 5,
+    "implementation_modularity": 5,
+    "storybook_inspectability": 5
+  },
+  "complexity": {
+    "classification": "moderate",
+    "implementation_file_count": 24,
+    "infrastructure_loc": 1115,
+    "new_dependency_count": 0
+  },
+  "metrics": {
+    "expected_component_count": 12,
+    "implemented_component_count": 12,
+    "expected_template_count": 9,
+    "implemented_template_count": 9,
+    "missing_story_count": 0,
+    "binding_mismatch_count": 0,
+    "composition_violation_count": 0,
+    "data_contract_violation_count": 0,
+    "identifier_leak_count": 0,
+    "interaction_story_coverage_ratio": 1
+  },
+  "findings": []
+}

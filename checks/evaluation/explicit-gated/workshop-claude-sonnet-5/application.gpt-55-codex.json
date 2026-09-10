@@ -1,0 +1,56 @@
+{
+  "evaluation_version": "application-realization-core-v1",
+  "run_id": "workshop-claude-sonnet-5",
+  "evaluated_phase": "application",
+  "implementation_model": "claude-sonnet-5",
+  "evaluator_model": "gpt-55-codex",
+  "quality_score_5": 4.4833,
+  "quality_score_100": 89.67,
+  "scores": {
+    "manifest_realization_coverage": 4.8,
+    "ujg_behavioral_fidelity": 4.6,
+    "domain_integrity": 4.7,
+    "interface_design_system_integration": 4.5,
+    "source_of_truth_integrity": 4.3,
+    "verification_coverage": 4
+  },
+  "complexity": {
+    "classification": "heavy",
+    "implementation_file_count": 44,
+    "infrastructure_loc": 3947,
+    "new_dependency_count": 4
+  },
+  "metrics": {
+    "manifest_interface_count": 2,
+    "realized_interface_count": 2,
+    "selected_target_count": 3,
+    "missing_target_count": 0,
+    "modeled_branch_count": 35,
+    "verified_branch_count": 30,
+    "effect_invariant_violation_count": 0,
+    "design_system_integration_violation_count": 0,
+    "prohibited_projection_count": 1,
+    "identifier_leak_count": 0,
+    "verification_coverage_ratio": 0.86
+  },
+  "findings": [
+    {
+      "severity": "MEDIUM",
+      "summary": "The selected browser interface has no maintained UI interaction tests or rendered evidence for client-owned journey continuations.",
+      "evidence": [
+        "experiments/explicit-gated/runs/workshop-claude-sonnet-5/apps/ui/package.json",
+        "experiments/explicit-gated/runs/workshop-claude-sonnet-5/apps/ui/src/screens/WorkshopScreen.tsx",
+        "experiments/explicit-gated/runs/workshop-claude-sonnet-5/apps/ui/src/screens/OfferedPlaceScreen.tsx"
+      ]
+    },
+    {
+      "severity": "LOW",
+      "summary": "The browser service client hand-maintains document and outcome types, creating a drift risk from the authored schemas and served API description.",
+      "evidence": [
+        "experiments/explicit-gated/runs/workshop-claude-sonnet-5/apps/ui/src/workshopService.ts",
+        "experiments/explicit-gated/runs/workshop-claude-sonnet-5/apps/domain/src/dataContracts.mjs",
+        "experiments/explicit-gated/runs/workshop-claude-sonnet-5/apps/domain/src/http/apiDescription.mjs"
+      ]
+    }
+  ]
+}

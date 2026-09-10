@@ -6,9 +6,31 @@
  */
 
 import { inWriteTransaction } from "../persistence/database.mjs";
-import { alreadyWaitlistedMessage, registrationClosedMessage, waitlistedMessage } from "./presentation.mjs";
+import {
+  alreadyWaitlistedMessage,
+  registrationClosedMessage,
+  waitlistReview,
+  waitlistedMessage
+} from "./presentation.mjs";
 import { findParticipation, findWorkshop, recordParticipation } from "./repository.mjs";
 import { checkWaitlistDetails } from "./validation.mjs";
+
+/**
+ * Checks submitted waitlist details and, when they hold up, produces the
+ * summary the participant reviews before the entry is recorded. Nothing is
+ * recorded here.
+ *
+ * Outcomes: `ready` with the review summary, `invalidDetails` with the same
+ * form carrying a message per field at fault, or `unknownWorkshop`.
+ */
+export function reviewWaitlistDetails({ database, workshopId, submitted }) {
+  const workshop = findWorkshop(database, workshopId);
+  if (workshop === null) return { outcome: "unknownWorkshop" };
+
+  const checked = checkWaitlistDetails(submitted);
+  if (!checked.valid) return { outcome: "invalidDetails", form: checked.form };
+  return { outcome: "ready", review: waitlistReview(workshop, checked.details) };
+}
 
 /**
  * Puts `participantId` on the waitlist for `workshopId`.
