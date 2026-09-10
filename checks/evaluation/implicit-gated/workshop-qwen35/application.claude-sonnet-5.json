@@ -1,0 +1,78 @@
+{
+  "evaluation_version": "application-realization-core-v1",
+  "run_id": "workshop-qwen35",
+  "evaluated_phase": "application",
+  "implementation_model": "qwen",
+  "evaluator_model": "claude-sonnet-5",
+  "quality_score_5": 0.3333,
+  "quality_score_100": 6.67,
+  "scores": {
+    "manifest_realization_coverage": 0,
+    "ujg_behavioral_fidelity": 1,
+    "domain_integrity": 1,
+    "interface_design_system_integration": 0,
+    "source_of_truth_integrity": 0,
+    "verification_coverage": 0
+  },
+  "complexity": {
+    "classification": "minimal",
+    "implementation_file_count": 2,
+    "infrastructure_loc": 445,
+    "new_dependency_count": 1
+  },
+  "metrics": {
+    "manifest_interface_count": 2,
+    "realized_interface_count": 0,
+    "selected_target_count": 2,
+    "missing_target_count": 2,
+    "modeled_branch_count": 35,
+    "verified_branch_count": 0,
+    "effect_invariant_violation_count": 1,
+    "design_system_integration_violation_count": 2,
+    "prohibited_projection_count": 2,
+    "identifier_leak_count": 2,
+    "verification_coverage_ratio": 0
+  },
+  "findings": [
+    {
+      "severity": "HIGH",
+      "summary": "The manifest declares domain_engine.runtime.entrypoint as src/main.mjs, but no such file exists — only apps/domain/src/domain.mjs is present, and nothing in the run wires it up as a runnable entrypoint.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-qwen35/ujg-implementation.yaml",
+        "experiments/implicit-gated/runs/workshop-qwen35/apps/domain/src/domain.mjs"
+      ]
+    },
+    {
+      "severity": "HIGH",
+      "summary": "Both manifest interfaces declare design_systems: [design-system], but no design-system exists anywhere in the run. apps/ui/src/app.mjs is a bare Express JSON API with no browser rendering, no React, and no client bootstrap file (no src/main.tsx/jsx, no createRoot/hydrateRoot) — the 'browser' interface kind is not actually realized.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-qwen35/ujg-implementation.yaml",
+        "experiments/implicit-gated/runs/workshop-qwen35/apps/ui/src/app.mjs"
+      ]
+    },
+    {
+      "severity": "HIGH",
+      "summary": "The domain engine's in-memory stores (this.workshops, this.participants, this.offeredPlaces) are declared empty in the constructor and are never populated by any bootstrap/fixture logic, despite the manifest declaring bootstrap: fixtures. As written, every domain operation would immediately fail with 'Workshop not found' / 'Participant not found' — the engine has no reachable happy path.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-qwen35/apps/domain/src/domain.mjs",
+        "experiments/implicit-gated/runs/workshop-qwen35/ujg-implementation.yaml"
+      ]
+    },
+    {
+      "severity": "MEDIUM",
+      "summary": "apps/domain/src/domain.mjs re-encodes the UJG's org.openuji.domain-model extension (entities, relationships, domainOperations, invariants, with matching labels/descriptions/pre/postconditions) as a hardcoded parallel JS catalog, duplicating the UJG instead of treating it as the sole semantic authority.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-qwen35/apps/domain/src/domain.mjs",
+        "experiments/implicit-gated/runs/workshop-qwen35/ujg/workshop-registration.ujg.jsonld"
+      ]
+    },
+    {
+      "severity": "MEDIUM",
+      "summary": "The email touchpoint (urn:ujg:touchpoint:email, delivery.adapter: fake-client) and the sqlite persistence / fake-auth-adapter adapters declared in the manifest have no realization anywhere in the run, and no test file of any kind exists to verify any modeled branch, effect, or invariant.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-qwen35/ujg-implementation.yaml",
+        "experiments/implicit-gated/runs/workshop-qwen35/"
+      ]
+    }
+  ]
+}

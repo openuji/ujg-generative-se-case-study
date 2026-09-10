@@ -1,0 +1,63 @@
+{
+  "evaluation_version": "token-foundation-core-v1",
+  "run_id": "workshop-gpt-55-codex",
+  "evaluated_phase": "tokens",
+  "implementation_model": "gpt-55-codex",
+  "evaluator_model": "claude-sonnet-5",
+  "quality_score_5": 4.6667,
+  "quality_score_100": 93.33,
+  "scores": {
+    "token_model_quality": 5,
+    "source_of_truth_integrity": 5,
+    "theme_portability": 5,
+    "traceability": 4,
+    "visual_foundation_fidelity": 4,
+    "inspectability": 5
+  },
+  "complexity": {
+    "classification": "minimal",
+    "implementation_file_count": 7,
+    "infrastructure_loc": 350,
+    "new_dependency_count": 0
+  },
+  "scope_preserved": "PASS",
+  "ujg_contract": "PASS",
+  "metrics": {
+    "total_token_count": 106,
+    "foundation_token_count": 50,
+    "semantic_token_count": 56,
+    "unresolved_alias_count": 0,
+    "invalid_token_count": 0,
+    "raw_value_leak_count": 0,
+    "parallel_token_catalog_count": 0,
+    "parallel_theme_registry_count": 0,
+    "theme_count": 2,
+    "hardcoded_theme_branch_count": 0,
+    "data_driven_themes": true,
+    "provenance_coverage_ratio": 0.5283,
+    "direct_token_count": 28,
+    "inferred_token_count": 28,
+    "unclassified_token_count": 50,
+    "invalid_reference_count": 0,
+    "documentation_present": true,
+    "documented_group_count": 4,
+    "duplicated_documentation_value_count": 0
+  },
+  "findings": [
+    {
+      "severity": "LOW",
+      "summary": "The shared foundation token source (colors, spacing, radii, typography scale) carries no org.openuji.visual-evidence $extensions provenance block, while both semantic sources do (direct for light, inferred for dark). Since the foundation palette is itself an important, screenshot-derived value set, its absence of any direct/inferred/unclassified classification is a traceability gap relative to the semantic layer.",
+      "evidence": [
+        "experiments/explicit-gated/runs/workshop-gpt-55-codex/design/tokens/workshop-foundation.tokens.json"
+      ]
+    },
+    {
+      "severity": "LOW",
+      "summary": "Provenance is attached once per semantic file (a single $extensions block covering the whole 'semantic' subtree) rather than per individual token, so per-token confidence cannot be distinguished within a theme; this is adequate but coarse-grained traceability.",
+      "evidence": [
+        "experiments/explicit-gated/runs/workshop-gpt-55-codex/design/tokens/workshop-light-semantic.tokens.json",
+        "experiments/explicit-gated/runs/workshop-gpt-55-codex/design/tokens/workshop-dark-semantic.tokens.json"
+      ]
+    }
+  ]
+}

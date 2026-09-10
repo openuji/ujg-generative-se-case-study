@@ -1,0 +1,68 @@
+{
+  "evaluation_version": "ds-structure-core-v1",
+  "run_id": "workshop-qwen35",
+  "evaluated_phase": "structure",
+  "implementation_model": "qwen",
+  "evaluator_model": "claude-sonnet-5",
+  "quality_score_5": 0,
+  "quality_score_100": 0,
+  "scores": {
+    "artifact_coverage": 0,
+    "composition_fidelity": 0,
+    "data_contract_fidelity": 0,
+    "identity_containment": 0,
+    "implementation_modularity": 0,
+    "storybook_inspectability": 0
+  },
+  "complexity": {
+    "classification": "minimal",
+    "implementation_file_count": 0,
+    "infrastructure_loc": 0,
+    "new_dependency_count": 0
+  },
+  "metrics": {
+    "expected_component_count": 12,
+    "implemented_component_count": 0,
+    "expected_template_count": 9,
+    "implemented_template_count": 0,
+    "missing_story_count": 21,
+    "binding_mismatch_count": 0,
+    "composition_violation_count": 0,
+    "data_contract_violation_count": 0,
+    "identifier_leak_count": 2,
+    "interaction_story_coverage_ratio": 0
+  },
+  "findings": [
+    {
+      "severity": "HIGH",
+      "summary": "No design-system directory exists anywhere in the run. The UJG models 12 Components and 9 Templates with Slots, SlotBindings, and SurfaceRealizations (org.openuji design-system nodes), but none of them have any implementation or colocated story.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-qwen35/ujg/workshop-registration.ujg.jsonld",
+        "experiments/implicit-gated/runs/workshop-qwen35/"
+      ]
+    },
+    {
+      "severity": "HIGH",
+      "summary": "No Storybook configuration or story files exist anywhere in the run (no .storybook/, no *.stories.* files), so no artifact is independently inspectable and no interaction story demonstrates modeled composition or schema-exact data binding.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-qwen35/",
+        "docs/skills/implicit-gated/ujg-to-design-system-realization/references/v1-stack.md"
+      ]
+    },
+    {
+      "severity": "MEDIUM",
+      "summary": "UJG-flavored identifiers leak into the one implementation file that touches presentation: apps/ui/src/app.mjs echoes UJG @type/operation vocabulary directly in API responses (e.g. type: 'composite-state', action: 'confirm-workshop-registration'/'join-workshop-waitlist'), outside any UJG/schema/bindings-manifest context.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-qwen35/apps/ui/src/app.mjs"
+      ]
+    },
+    {
+      "severity": "MEDIUM",
+      "summary": "No package.json, tsconfig.json, vite config, or React/Storybook/Tailwind dependency exists anywhere in the run, so the mandated design-system stack from the realization profile was never scaffolded, let alone populated.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-qwen35/",
+        "docs/skills/implicit-gated/ujg-to-design-system-realization/references/v1-stack.md"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "evaluation_version": "ds-styling-core-v1",
+  "run_id": "workshop-gpt-55-codex",
+  "evaluated_phase": "styling",
+  "implementation_model": "gpt-55-codex",
+  "evaluator_model": "claude-sonnet-5",
+  "quality_score_5": 4.1667,
+  "quality_score_100": 83.33,
+  "scores": {
+    "visual_fidelity": 4,
+    "token_theme_adherence": 4,
+    "structural_scope_preservation": 5,
+    "responsive_quality": 3,
+    "styling_modularity": 4,
+    "inspectability": 5
+  },
+  "visual_fidelity_confidence": "Assessed by comparing DTCG token values (resolved colors, spacing, radii) and component/template markup against three reference screenshots (workshops overview grid, registration-confirmed hero, cancel-registration dialog). No rendered build or screenshot of this run's own UI was available, so fidelity is inferred from source (token values, CSS module rules, component structure) rather than confirmed by direct visual comparison.",
+  "complexity": {
+    "classification": "moderate",
+    "styling_file_count": 23,
+    "styling_loc": 650,
+    "new_primitive_count": 0,
+    "new_dependency_count": 0
+  },
+  "ujg_contract": "PASS",
+  "metrics": {
+    "unsupported_reference_element_count": 0,
+    "raw_visual_value_leak_count": 8,
+    "hardcoded_theme_branch_count": 0,
+    "theme_specific_component_style_count": 0,
+    "theme_count": 2,
+    "unsupported_product_structure_count": 0,
+    "cross_artifact_composition_violation_count": 0,
+    "behavior_introduced_by_styling_count": 0,
+    "component_inventory_changed": false,
+    "template_inventory_changed": false,
+    "responsive_artifact_count": 2,
+    "desktop_only_assumption_count": 0,
+    "mobile_first_violation_count": 1,
+    "global_artifact_specific_selector_count": 0,
+    "misplaced_style_rule_count": 1,
+    "styling_specific_new_primitive_count": 0,
+    "duplicated_style_pattern_count": 0,
+    "styled_artifact_documentation_coverage_ratio": 1.0,
+    "theme_documentation_coverage_ratio": 1.0,
+    "responsive_documentation_coverage_ratio": 0.0,
+    "duplicated_documentation_style_value_count": 0
+  },
+  "findings": [
+    {
+      "severity": "MEDIUM",
+      "summary": "The application shell chrome (top bar, brand button, nav links, theme picker) hardcodes raw visual values instead of consuming the DTCG token pipeline used consistently everywhere inside design-system/ — e.g. 'border-radius: 8px' duplicates the value of foundation.radius.small without referencing it, alongside several literal rem-based paddings/gaps/font-sizes. Every design-system component and template file inspected uses var(--foundation-*)/var(--semantic-*) exclusively, so this is an inconsistency at the application boundary rather than within the design system itself.",
+      "evidence": [
+        "experiments/explicit-gated/runs/workshop-gpt-55-codex/apps/ui/src/styles.css"
+      ]
+    },
+    {
+      "severity": "LOW",
+      "summary": "The top bar's only breakpoint is a '@media (max-width: 760px)' override that collapses a wider 3-column grid down to a single column, which is a desktop-first pattern rather than mobile-first progressive enhancement. All design-system Templates instead use fluid, breakpoint-free techniques (CSS grid auto-fit, flex-wrap) that are correctly mobile-first.",
+      "evidence": [
+        "experiments/explicit-gated/runs/workshop-gpt-55-codex/apps/ui/src/styles.css"
+      ]
+    },
+    {
+      "severity": "LOW",
+      "summary": "No Storybook viewport/responsive documentation surface is configured, so responsive behavior of the fluid grid/flex layouts cannot be inspected across breakpoints inside Storybook itself, even though the underlying CSS techniques are reasonable.",
+      "evidence": [
+        "experiments/explicit-gated/runs/workshop-gpt-55-codex/design-system/.storybook/main.ts",
+        "experiments/explicit-gated/runs/workshop-gpt-55-codex/design-system/.storybook/preview.ts"
+      ]
+    }
+  ]
+}

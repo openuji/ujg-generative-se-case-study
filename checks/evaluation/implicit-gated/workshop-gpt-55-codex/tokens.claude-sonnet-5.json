@@ -1,0 +1,64 @@
+{
+  "evaluation_version": "token-foundation-core-v1",
+  "run_id": "workshop-gpt-55-codex",
+  "evaluated_phase": "tokens",
+  "implementation_model": "gpt-55-codex",
+  "evaluator_model": "claude-sonnet-5",
+  "quality_score_5": 3.3333,
+  "quality_score_100": 66.67,
+  "scores": {
+    "token_model_quality": 5,
+    "source_of_truth_integrity": 1,
+    "theme_portability": 3,
+    "traceability": 5,
+    "visual_foundation_fidelity": 4,
+    "inspectability": 2
+  },
+  "complexity": {
+    "classification": "minimal",
+    "implementation_file_count": 4,
+    "infrastructure_loc": 105,
+    "new_dependency_count": 0
+  },
+  "scope_preserved": "PASS",
+  "ujg_contract": "PASS",
+  "metrics": {
+    "total_token_count": 63,
+    "foundation_token_count": 31,
+    "semantic_token_count": 32,
+    "unresolved_alias_count": 0,
+    "invalid_token_count": 0,
+    "raw_value_leak_count": 56,
+    "parallel_token_catalog_count": 1,
+    "parallel_theme_registry_count": 0,
+    "theme_count": 2,
+    "hardcoded_theme_branch_count": 0,
+    "data_driven_themes": false,
+    "provenance_coverage_ratio": 1.0,
+    "direct_token_count": 16,
+    "inferred_token_count": 16,
+    "unclassified_token_count": 0,
+    "invalid_reference_count": 0,
+    "documentation_present": false,
+    "documented_group_count": 0,
+    "duplicated_documentation_value_count": null
+  },
+  "findings": [
+    {
+      "severity": "HIGH",
+      "summary": "The DTCG token sources (design/tokens/{shared,light,dark}.tokens.json) are correctly added to the run UJG as Theme/TokenSource nodes (verified byte-identical to the canonical UJG except for these additions), but the actual CSS the app and Storybook consume never derives from them. design-system/src/styles.css hand-declares 56 raw literal CSS custom-property values (hex colors, px spacing/radii, a box-shadow) under [data-theme=\"light\"]/[data-theme=\"dark\"] blocks. The resolver that would generate these values from the DTCG sources (design-system/src/theme/resolveTokens.mjs, which reads tokenSourceRefs via JSON.parse/readFile) is never imported or invoked anywhere in the run (no build step, script, or test references it), so it is dead code and the DTCG files have no effect on the rendered/styled output. This is a genuine parallel, independently-maintained token catalogue rather than a single durable owner.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-gpt-55-codex/design-system/src/styles.css",
+        "experiments/implicit-gated/runs/workshop-gpt-55-codex/design-system/src/theme/resolveTokens.mjs",
+        "experiments/implicit-gated/runs/workshop-gpt-55-codex/design/tokens/light.tokens.json"
+      ]
+    },
+    {
+      "severity": "MEDIUM",
+      "summary": "No canonical token/foundation documentation surface exists in Storybook. There is no dedicated Tokens/Foundations story and no docs addon (.storybook/main.ts declares addons: []); token groups are only inferable indirectly by browsing component stories with the light/dark toolbar toggle.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-gpt-55-codex/design-system/.storybook/main.ts"
+      ]
+    }
+  ]
+}

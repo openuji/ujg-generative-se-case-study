@@ -1,0 +1,79 @@
+{
+  "evaluation_version": "application-realization-core-v1",
+  "run_id": "workshop-gpt-55-codex",
+  "evaluated_phase": "application",
+  "implementation_model": "gpt-55-codex",
+  "evaluator_model": "claude-sonnet-5",
+  "quality_score_5": 1.5,
+  "quality_score_100": 30.0,
+  "scores": {
+    "manifest_realization_coverage": 1,
+    "ujg_behavioral_fidelity": 1,
+    "domain_integrity": 1,
+    "interface_design_system_integration": 3,
+    "source_of_truth_integrity": 1,
+    "verification_coverage": 2
+  },
+  "complexity": {
+    "classification": "moderate",
+    "implementation_file_count": 7,
+    "infrastructure_loc": 0,
+    "new_dependency_count": 0
+  },
+  "metrics": {
+    "manifest_interface_count": 2,
+    "realized_interface_count": 1,
+    "selected_target_count": 4,
+    "missing_target_count": 1,
+    "modeled_branch_count": 22,
+    "verified_branch_count": 11,
+    "effect_invariant_violation_count": 2,
+    "design_system_integration_violation_count": 1,
+    "prohibited_projection_count": 1,
+    "identifier_leak_count": 0,
+    "verification_coverage_ratio": 0.5
+  },
+  "findings": [
+    {
+      "severity": "HIGH",
+      "summary": "The manifest declares the workshop-app browser interface talks to the apps/domain engine over HTTP (transport.protocol: http, with an OpenAPI/swagger-ui documentation requirement), but no such wiring exists anywhere. apps/ui has no dependency on @codex/workshop-domain, contains no fetch/HTTP client, and no server exists anywhere in the run that exposes apps/domain over HTTP or serves the OpenAPI document. apps/ui/public/openapi.json is a static, unconsumed stub. Instead, apps/ui/src/workshopClient.ts is a completely independent, hand-written, in-memory reimplementation of registration/waitlist/offer logic with its own separate seed data (e.g. a 'sustainable-living-basics' workshop that does not exist in apps/domain's SQLite seed at all). The tested, transactional domain engine at apps/domain/src/main.mjs is never invoked by the actual running application.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-gpt-55-codex/apps/ui/src/workshopClient.ts",
+        "experiments/implicit-gated/runs/workshop-gpt-55-codex/apps/ui/src/App.tsx",
+        "experiments/implicit-gated/runs/workshop-gpt-55-codex/apps/domain/src/main.mjs",
+        "experiments/implicit-gated/runs/workshop-gpt-55-codex/ujg-implementation.yaml"
+      ]
+    },
+    {
+      "severity": "HIGH",
+      "summary": "Because the live UI runs against workshopClient.ts rather than apps/domain, the actually-deployed behavior loses per-participant identity: each Workshop object carries a single shared `participation` field mutated in place, with no participant/email key. This diverges from the modeled domain entities (urn:domain:entity:participant, urn:domain:relationship:workshop-participation-participant) under which participation must be tracked per participant. apps/domain/src/main.mjs implements this correctly (participations keyed by (workshop_slug, participant_email) with atomic BEGIN IMMEDIATE/COMMIT/ROLLBACK transactions), but those guarantees never take effect because that module is not the boundary the running app actually uses.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-gpt-55-codex/apps/ui/src/workshopClient.ts",
+        "experiments/implicit-gated/runs/workshop-gpt-55-codex/apps/domain/src/main.mjs"
+      ]
+    },
+    {
+      "severity": "MEDIUM",
+      "summary": "The manifest's identity adapter (adapters.identity: fake-auth-adapter) is not implemented anywhere in the run; no file references it or any authentication concept.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-gpt-55-codex/ujg-implementation.yaml"
+      ]
+    },
+    {
+      "severity": "MEDIUM",
+      "summary": "The email touchpoint's design-system bindings (EmailOfferMessage template, OfferedPlaceEmailContent/OfferResponseSummary/EmailLinkControl components) are fully built and tested in Storybook but never consumed by the application layer. apps/domain's renderOfferEmail() produces a plain string body, bypassing the selected design-system realization entirely for that interface.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-gpt-55-codex/apps/domain/src/main.mjs",
+        "experiments/implicit-gated/runs/workshop-gpt-55-codex/design-system/templates/EmailOfferMessage/EmailOfferMessage.tsx"
+      ]
+    },
+    {
+      "severity": "MEDIUM",
+      "summary": "tests/domain.behavior.test.mjs exercises only apps/domain (not the code path the live app runs) and covers roughly half of the modeled conditional transitions (11 of 22 UJG transitions carrying a conditionRef, by outcome). The offered-place-expired condition is never computed from expiresAt vs. the injected clock — 'expired'/'unavailable' outcomes are only exercised via pre-seeded fixture rows with a hardcoded status, so the actual time-based expiry rule is untested and unimplemented as live logic. The capacity-exhausted-while-availability-still-placeAvailable branch of confirmRegistration's OR condition, and the invalid-details rejection path through confirmRegistration/joinWaitlist, are also untested.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-gpt-55-codex/tests/domain.behavior.test.mjs",
+        "experiments/implicit-gated/runs/workshop-gpt-55-codex/apps/domain/src/main.mjs"
+      ]
+    }
+  ]
+}

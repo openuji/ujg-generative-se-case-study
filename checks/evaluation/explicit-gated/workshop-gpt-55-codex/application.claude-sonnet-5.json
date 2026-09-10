@@ -1,0 +1,76 @@
+{
+  "evaluation_version": "application-realization-core-v1",
+  "run_id": "workshop-gpt-55-codex",
+  "evaluated_phase": "application",
+  "implementation_model": "gpt-55-codex",
+  "evaluator_model": "claude-sonnet-5",
+  "quality_score_5": 3.3333,
+  "quality_score_100": 66.67,
+  "scores": {
+    "manifest_realization_coverage": 3,
+    "ujg_behavioral_fidelity": 4,
+    "domain_integrity": 2,
+    "interface_design_system_integration": 5,
+    "source_of_truth_integrity": 3,
+    "verification_coverage": 3
+  },
+  "complexity": {
+    "classification": "moderate",
+    "implementation_file_count": 9,
+    "infrastructure_loc": 1759,
+    "new_dependency_count": 0
+  },
+  "metrics": {
+    "manifest_interface_count": 2,
+    "realized_interface_count": 2,
+    "selected_target_count": 2,
+    "missing_target_count": 0,
+    "modeled_branch_count": 21,
+    "verified_branch_count": 14,
+    "effect_invariant_violation_count": 1,
+    "design_system_integration_violation_count": 0,
+    "prohibited_projection_count": 1,
+    "identifier_leak_count": 0,
+    "verification_coverage_ratio": 0.6667
+  },
+  "findings": [
+    {
+      "severity": "HIGH",
+      "summary": "The modeled domain invariant 'offered-place-intended-participant' (an offered place may be accepted or declined only by the participant it was offered to) is not enforced anywhere. acceptOffer(offerId) and declineOffer(offerId) never check the requesting caller's identity against offer.participantId, and the corresponding HTTP routes pass no participant/authorization context at all, so any caller who learns or guesses an offer id can accept or decline another participant's offer.",
+      "evidence": [
+        "experiments/explicit-gated/runs/workshop-gpt-55-codex/apps/domain/src/main.mjs"
+      ]
+    },
+    {
+      "severity": "MEDIUM",
+      "summary": "ujg-implementation.yaml declares adapters.identity = fake-auth-adapter, but no distinct identity/authentication adapter exists in the domain implementation. Participant identity is derived solely from a client-supplied x-participant-id header defaulting to a fixed id, with no adapter abstraction, verification, or binding to the modeled participant entity.",
+      "evidence": [
+        "experiments/explicit-gated/runs/workshop-gpt-55-codex/ujg-implementation.yaml",
+        "experiments/explicit-gated/runs/workshop-gpt-55-codex/apps/domain/src/main.mjs"
+      ]
+    },
+    {
+      "severity": "MEDIUM",
+      "summary": "The manifest requests transport documentation with ui: swagger-ui, but the /docs route serves a hand-rolled static HTML list of routes rather than an actual Swagger UI instance; no swagger-ui dependency or asset exists anywhere in the run.",
+      "evidence": [
+        "experiments/explicit-gated/runs/workshop-gpt-55-codex/ujg-implementation.yaml",
+        "experiments/explicit-gated/runs/workshop-gpt-55-codex/apps/domain/src/main.mjs"
+      ]
+    },
+    {
+      "severity": "MEDIUM",
+      "summary": "Maintained tests (test/application.test.mjs) call the domain store functions directly and never exercise the manifest-selected HTTP transport layer itself (route matching, headers, participant resolution, status codes), and no test covers the offered-place-intended-participant invariant that is in fact unenforced.",
+      "evidence": [
+        "experiments/explicit-gated/runs/workshop-gpt-55-codex/test/application.test.mjs",
+        "experiments/explicit-gated/runs/workshop-gpt-55-codex/apps/domain/src/main.mjs"
+      ]
+    },
+    {
+      "severity": "LOW",
+      "summary": "apps/ui/src/api.ts restates the referenced JSON Schemas' field shapes as hand-written TypeScript interfaces (RegistrationValues, WaitlistValues, StatusData, WorkshopDetail, OfferSummary, etc.) rather than deriving types from the schemas, creating a manually-synchronized parallel type source alongside the canonical schemas.",
+      "evidence": [
+        "experiments/explicit-gated/runs/workshop-gpt-55-codex/apps/ui/src/api.ts"
+      ]
+    }
+  ]
+}

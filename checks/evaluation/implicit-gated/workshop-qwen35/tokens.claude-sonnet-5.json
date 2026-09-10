@@ -1,0 +1,70 @@
+{
+  "evaluation_version": "token-foundation-core-v1",
+  "run_id": "workshop-qwen35",
+  "evaluated_phase": "tokens",
+  "implementation_model": "qwen",
+  "evaluator_model": "claude-sonnet-5",
+  "quality_score_5": 0,
+  "quality_score_100": 0,
+  "scores": {
+    "token_model_quality": 0,
+    "source_of_truth_integrity": 0,
+    "theme_portability": 0,
+    "traceability": 0,
+    "visual_foundation_fidelity": 0,
+    "inspectability": 0
+  },
+  "complexity": {
+    "classification": "minimal",
+    "implementation_file_count": 0,
+    "infrastructure_loc": 0,
+    "new_dependency_count": 0
+  },
+  "scope_preserved": "FAIL",
+  "ujg_contract": "NOT_APPLICABLE",
+  "metrics": {
+    "total_token_count": 0,
+    "foundation_token_count": 0,
+    "semantic_token_count": 0,
+    "unresolved_alias_count": 0,
+    "invalid_token_count": 0,
+    "raw_value_leak_count": 0,
+    "parallel_token_catalog_count": 0,
+    "parallel_theme_registry_count": 0,
+    "theme_count": 0,
+    "hardcoded_theme_branch_count": 0,
+    "data_driven_themes": null,
+    "provenance_coverage_ratio": null,
+    "direct_token_count": 0,
+    "inferred_token_count": 0,
+    "unclassified_token_count": 0,
+    "invalid_reference_count": 0,
+    "documentation_present": false,
+    "documented_group_count": 0,
+    "duplicated_documentation_value_count": 0
+  },
+  "findings": [
+    {
+      "severity": "HIGH",
+      "summary": "The run-local UJG contains zero Theme or TokenSource nodes anywhere in its node graph — the token phase's defining deliverable (Theme -> tokenSourceRefs -> TokenSource -> source -> DTCG manifest) was never produced.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-qwen35/ujg/workshop-registration.ujg.jsonld",
+        "docs/skills/implicit-gated/ujg-to-design-system-realization/references/v1-stack.md"
+      ]
+    },
+    {
+      "severity": "HIGH",
+      "summary": "No design/tokens directory, DTCG token source file, or any token-related artifact exists anywhere in the run.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-qwen35/"
+      ]
+    },
+    {
+      "severity": "MEDIUM",
+      "summary": "The run's own README.md describes a complete domain/UI architecture and claims the implementation 'follows the UJG full-application generation protocol', but never mentions token or theme work at all, consistent with that phase having been skipped entirely rather than attempted and falling short.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-qwen35/README.md"
+      ]
+    }
+  ]
+}

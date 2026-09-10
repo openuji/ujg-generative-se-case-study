@@ -1,0 +1,53 @@
+{
+  "evaluation_version": "ds-structure-core-v1",
+  "run_id": "workshop-gpt-55-codex",
+  "evaluated_phase": "structure",
+  "implementation_model": "gpt-55-codex",
+  "evaluator_model": "claude-sonnet-5",
+  "quality_score_5": 4.6667,
+  "quality_score_100": 93.33,
+  "scores": {
+    "artifact_coverage": 5,
+    "composition_fidelity": 4,
+    "data_contract_fidelity": 4,
+    "identity_containment": 5,
+    "implementation_modularity": 5,
+    "storybook_inspectability": 5
+  },
+  "complexity": {
+    "classification": "moderate",
+    "implementation_file_count": 31,
+    "infrastructure_loc": 274,
+    "new_dependency_count": 0
+  },
+  "metrics": {
+    "expected_component_count": 12,
+    "implemented_component_count": 12,
+    "expected_template_count": 9,
+    "implemented_template_count": 9,
+    "missing_story_count": 0,
+    "binding_mismatch_count": 0,
+    "composition_violation_count": 1,
+    "data_contract_violation_count": 0,
+    "identifier_leak_count": 0,
+    "interaction_story_coverage_ratio": 1.0
+  },
+  "findings": [
+    {
+      "severity": "LOW",
+      "summary": "WorkshopsOverviewList adds an optional `sidebar` slot that is not modeled anywhere in the UJG (Template urn:ujg:template:workshops-overview-list declares only the `overview-workshops` slotRef). All 8 other templates map their props 1:1 to modeled Slot names.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-gpt-55-codex/design-system/templates/WorkshopsOverviewList/WorkshopsOverviewList.tsx",
+        "experiments/implicit-gated/runs/workshop-gpt-55-codex/ujg/workshop-registration.ujg.jsonld"
+      ]
+    },
+    {
+      "severity": "LOW",
+      "summary": "design-system/src/types.ts is a hand-maintained TypeScript type layer whose shapes mirror the JSON Schemas field-for-field. It is not machine-generated and currently matches the schemas exactly, but it is a second, independently-maintained description of the same data contracts that could drift from the schemas over time.",
+      "evidence": [
+        "experiments/implicit-gated/runs/workshop-gpt-55-codex/design-system/src/types.ts",
+        "experiments/implicit-gated/runs/workshop-gpt-55-codex/ujg/schemas/registration-form-data.schema.json"
+      ]
+    }
+  ]
+}
