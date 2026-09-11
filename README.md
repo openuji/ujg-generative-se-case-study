@@ -62,7 +62,7 @@ pnpm validate:evaluation-result -- <run-name> <phase> --guidance <guidance>
 After all four results validate:
 
 ```bash
-pnpm validate:full-application-run -- <run-name> --guidance explicit-gated --phase complete
+pnpm validate:full-application-run -- <run-name> --guidance <guidance> --phase complete
 ```
 
 See `experiments/implicit-gated/README.md` and
